@@ -1,4 +1,3 @@
-<!-- 展示模板 -->
 <template>
 <div id='app' style="background-color:#eee;">
 
