@@ -13,7 +13,6 @@
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "vue": "^2.6.6",
-    "vue-axios": "^2.1.4",
     "vue-chartjs": "^3.4.2"
   },
   "devDependencies": {
@@ -24,29 +23,5 @@
     "eslint": "^5.8.0",
     "eslint-plugin-vue": "^5.0.0",
     "vue-template-compiler": "^2.5.21"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "rules": {},
-    "parserOptions": {
-      "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
-  ]
+  }
 }

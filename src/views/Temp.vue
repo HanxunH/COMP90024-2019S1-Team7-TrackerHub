@@ -20,7 +20,6 @@ export default {
 				method: 'GET', 
 				url: 'melbourneGeoInfo.json', 
 				data: {},
-				showLoading: true
 			}).then(res => {
         console.log(res)
 			}, error => {
