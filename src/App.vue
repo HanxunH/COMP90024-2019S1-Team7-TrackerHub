@@ -1,8 +1,8 @@
 <template>
-<div id='app' style="background-color:#eee;">
+<div id='app' style="background-color:#bbb;">
 
     <div class="mw-100 h-10" >
-      <div class="float-right" style="background-color:#eee;">
+      <div class="float-right">
         <b-button-group>
           <b-button>Button</b-button>
           <b-dropdown right text="Menu-1">
@@ -23,7 +23,7 @@
 
     <div id="map_canvas" style="height: 500px; width: 100%"></div>
 
-    <div class="container-fluid w-100 h-8 d-inline-block" style="z-index:0;background-color:#eee;">
+    <div class="container-fluid w-100 h-8 d-inline-block" style="z-index:0;background-color:#ccc;">
       <div class="row">
         <div class="col-lg-3"><Barchart/></div>
         <div class="col-lg-3"><Linechart/></div>
@@ -67,11 +67,199 @@ export default {
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
+        disableDefaultUI: true,
+        styles: [
+          {
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#212121"
+              }
+            ]
+          },
+          {
+            elementType: "labels.icon",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#212121"
+              }
+            ]
+          },
+          {
+            featureType: "administrative",
+            elementType: "geometry",
+            styler: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.country",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#9e9e9e"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.land_parcel",
+            stylers: [
+              {
+                visibility: "off"
+              }
+            ]
+          },
+          {
+            featureType: "administrative.locality",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#bdbdbd"
+              }
+            ]
+          },
+          {
+            featureType: "poi",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#181818"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#616161"
+              }
+            ]
+          },
+          {
+            featureType: "poi.park",
+            elementType: "labels.text.stroke",
+            stylers: [
+              {
+                color: "#1b1b1b"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "geometry.fill",
+            stylers: [
+              {
+                color: "#2c2c2c"
+              }
+            ]
+          },
+          {
+            featureType: "road",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#8a8a8a"
+              }
+            ]
+          },
+          {
+            featureType: "road.arterial",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#373737"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#3c3c3c"
+              }
+            ]
+          },
+          {
+            featureType: "road.highway.controlled_access",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#4e4e4e"
+              }
+            ]
+          },
+          {
+            featureType: "road.local",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#616161"
+              }
+            ]
+          },
+          {
+            featureType: "transit",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#757575"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "geometry",
+            stylers: [
+              {
+                color: "#000000"
+              }
+            ]
+          },
+          {
+            featureType: "water",
+            elementType: "labels.text.fill",
+            stylers: [
+              {
+                color: "#3d3d3d"
+              }
+            ]
+          }
+        ]
       });
+
       map.data.loadGeoJson('https://api.myjson.com/bins/udv2g');
       map.data.setStyle(function(feature) {
         var cartodb_id = feature.getProperty('cartodb_id');
-        var color = cartodb_id > 30 ? 'red' : 'blue';
+        var color = cartodb_id > 30 ? 'white' : 'gray';
         return {
           fillColor: color,
           strokeWeight: 1
