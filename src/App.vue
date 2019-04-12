@@ -1,6 +1,6 @@
 <template>
 <div id='app' style="background-color:#bbb;">
-
+  
     <div class="mw-100 h-10" >
       <div class="float-right">
         <b-button-group>
@@ -255,7 +255,7 @@ export default {
           }
         ]
       });
-
+      
       map.data.loadGeoJson('https://api.myjson.com/bins/udv2g');
       map.data.setStyle(function(feature) {
         var cartodb_id = feature.getProperty('cartodb_id');
@@ -265,8 +265,28 @@ export default {
           strokeWeight: 1
         };
       });
+
+      let infowindow = new google.maps.InfoWindow();
+
+      // mouse click event: show grid info
       map.data.addListener('click', function(event) {
-        map.data.overrideStyle(event.feature, {fillColor: 'red'});
+        let myHTML = event.feature.getProperty("name");
+        infowindow.setContent("<div style='width:150px; text-align: center;'>"+myHTML+"</div>");
+        //infowindow.setPosition(event.feature.getGeometry().getAt(0).getAt(0).getAt(0));
+        infowindow.setPosition(event.latLng)
+        //infowindow.setOptions({pixelOffset: new google.maps.Size(0,0)});
+        infowindow.open(map);
+      });  
+      
+      // mouse over event: highlight color
+      map.data.addListener('mouseover', function(event) {
+        map.data.overrideStyle(event.feature, {fillColor: 'black'});
+      });
+
+      // mouse our event: reset color/info-window
+      map.data.addListener('mouseout', function(event) {
+        map.data.revertStyle();
+        infowindow.close();
       });
     }
   }
