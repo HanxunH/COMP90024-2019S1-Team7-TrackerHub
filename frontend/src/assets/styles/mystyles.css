@@ -1,0 +1,21 @@
+.bg {
+  background: rgba(255,155,6, 100);
+  height: 100%;
+  overflow: auto;
+}
+.div {
+    background: url("./../../assets/images/group.png") repeat-x;
+    height: 800px;
+    margin-top: 10%;
+}
+.button {
+    position: absolute;
+    top: 40%;
+    right: 10%;
+    background: rgba(255,155,6, 100);
+    border: none;
+    border-radius: 6px;
+    font-size: 40px;
+    font-weight: bold;
+    position: fixed;
+}
