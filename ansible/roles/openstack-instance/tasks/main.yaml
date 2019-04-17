@@ -1,0 +1,20 @@
+# Create an instance on NeCTAR
+- name: Create an instance
+  os_server:
+    name: '{{ instance_name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ sg_names }}'
+    volumes: '{{ os_vol_ids }}'
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  register: os_instance
+
+
+- debug:
+    msg: "Instance {{ instance_name }} has been created. IP address is {{ os_instance.openstack.public_v4 }}"
+  when: os_instance.openstack is defined
