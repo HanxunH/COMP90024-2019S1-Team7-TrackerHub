@@ -5,7 +5,7 @@
 
 - name: Get image names and Ids
   set_fact:
-    images_facts: "{{ images_facts|default([]) + {'name': item.name, 'id': item.id} }}"
+    image_facts: "{{ image_facts|default([]) + [ {'name': item.name, 'id': item.id} ] }}"
   loop: '{{ openstack_image }}'
   when: item.name is defined
 

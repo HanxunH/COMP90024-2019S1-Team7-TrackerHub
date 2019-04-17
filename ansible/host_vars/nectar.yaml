@@ -3,30 +3,30 @@ availability_zone: melbourne-qh2-uom
 
 # Volume
 volumes:
-  - vol_name: vol-1
-    vol_size: 10
-  - vol_name: vol-2
-    vol_size: 10
+  - vol_name: test-vol-1
+    vol_size: 5
+  - vol_name: test-vol-2
+    vol_size: 5
 
 
 
 # Security group
-security_group:
-  - name: ssh
-    description: "security group for ssh"
-    protocal: tcp
+security_groups:
+  - name: test-ssh
+    description: "security group for SSH access"
+    protocol: tcp
     port_range_min: 22
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
-  - name: http
-    description: "security group for web page"
-    protocal: tcp
+  - name: test-http
+    description: "security group for HTTP"
+    protocol: tcp
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
 
 # Instance
-instance_name: ccc1
+instance_name: test
 instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
 instance_key_name: NectarGroup
 instance_flavor: uom.general.2c8g
