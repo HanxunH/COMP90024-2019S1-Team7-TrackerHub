@@ -5,8 +5,22 @@ import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import qs from 'qs'
+import VueRouter from 'vue-router'
+import Map from './views/Map.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+	{path: '/map', component: Map}
+]
+
+const router = new VueRouter({
+	routes,
+	mode: 'history'
+})
 
 Vue.use(BootstrapVue)
+
 
 Vue.config.productionTip = false
 axios.defaults.timeout = 5000
@@ -68,6 +82,7 @@ Vue.prototype.setTitle = function(title){
 
 const app = new Vue({
   el: '#app',
+  router,
   render: h => h(App)
 });
 app.$mount('#app');
