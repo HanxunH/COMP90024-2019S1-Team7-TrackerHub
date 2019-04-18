@@ -1,4 +1,6 @@
-# Show all available Openstack images
+#############################################
+#    Show all available Openstack images    #
+#############################################
 - name: Retrieve all availabile Openstack images
   os_image_facts:
 
