@@ -6,7 +6,9 @@
   roles:
     - role: openstack-common
     - role: openstack-images
-    - role: openstack-volume
+    # - role: openstack-volume
     - role: openstack-security-group
-    - role: openstack-instance
-    - role: openstack-volume-snapshot
+    # - role: openstack-instance
+    - role: create-frontend-instance
+    - role: create-backend-instance
+    # - role: openstack-volume-snapshot

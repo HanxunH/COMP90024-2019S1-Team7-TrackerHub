@@ -1,0 +1,18 @@
+# Create a backend instance
+- name: Create a backend instance
+  os_server:
+    name: '{{ backend_instance_name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ sg_names }}'
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  register: os_backend_instance
+
+- debug:
+    msg: "Front end Instance {{ backend_instance_name }} has been created. IP address is {{ os_backend_instance.openstack.public_v4 }}"
+  when: os_backend_instance.openstack is defined
