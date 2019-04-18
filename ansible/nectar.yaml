@@ -4,11 +4,10 @@
   gather_facts: true
 
   roles:
-    - role: openstack-common
-    - role: openstack-images
+    - role: common
+    - role: show-images
     # - role: openstack-volume
-    - role: openstack-security-group
-    # - role: openstack-instance
+    - role: create-security-groups
     - role: create-frontend-instance
     - role: create-backend-instance
     # - role: openstack-volume-snapshot

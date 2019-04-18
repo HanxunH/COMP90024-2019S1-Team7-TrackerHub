@@ -1,7 +1,12 @@
-# Common vars
+#############################################
+#              Common vars                  #
+#############################################
 availability_zone: melbourne-qh2-uom
 
-# Volume
+
+#############################################
+#                 Volume                    #
+#############################################
 volumes:
   - vol_name: test-vol-1
     vol_size: 5
@@ -9,27 +14,83 @@ volumes:
     vol_size: 5
 
 
+#############################################
+#             Security group                #
+#############################################
+frontend_sg_name: frontend-security-group
+backend_sg_name: backend-security-group
 
-# Security group
 security_groups:
-  - name: common-ssh
-    description: "security group for SSH access"
+  - name: '{{ frontend_sg_name }}'
+    description: "security group for frontend server"
+    rules: 
+      - name: 'for SSH'
+        protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
+        remote_ip_prefix: 0.0.0.0/0
+      - name: 'for HTTP'
+        protocol: tcp
+        port_range_min: 80
+        port_range_max: 80
+        remote_ip_prefix: 0.0.0.0/0
+      - name: 'for HTTPS'
+        protocol: tcp
+        port_range_min: 443
+        port_range_max: 443
+        remote_ip_prefix: 0.0.0.0/0
+  - name: '{{ backend_sg_name }}'
+    description: "security group for backend server"
+    rules:
+      - name: 'for SSH'
+        protocol: tcp
+        port_range_min: 22
+        port_range_max: 22
+        remote_ip_prefix: 0.0.0.0/0
+      - name: 'for TOMCAT'
+        protocol: tcp
+        port_range_min: 8080
+        port_range_max: 8080
+        remote_ip_prefix: 0.0.0.0/0
+      
+# TODO: 这一段应该是要删掉的!###################
+#       用security_groups里面的rules替换掉!!
+frontend_sg_rules:
+  - name: 'for SSH'
     protocol: tcp
     port_range_min: 22
     port_range_max: 22
     remote_ip_prefix: 0.0.0.0/0
-  - name: common-http
-    description: "security group for HTTP"
+  - name: 'for HTTP'
     protocol: tcp
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
+  - name: 'for HTTPS'
+    protocol: tcp
+    port_range_min: 443
+    port_range_max: 443
+    remote_ip_prefix: 0.0.0.0/0
+backend_sg_rules:
+  - name: 'for SSH'
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+  - name: 'for TOMCAT'
+    protocol: tcp
+    port_range_min: 8080
+    port_range_max: 8080
+    remote_ip_prefix: 0.0.0.0/0
+# TODO: 这一段应该是要删掉的！###################
 
-# Instance
-instance_name: test
-instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-instance_key_name: NectarGroup
-instance_flavor: uom.general.2c8g
 
-frontend_instance_name: frontend
-backend_instance_name: backend
+#############################################
+#                Instance                   #
+#############################################
+instance_flavor: uom.general.2c8g # 2 VCPUs & 8GB RAM
+instance_key_name: NectarGroup # ssh private key
+instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
+
+frontend_instance_name: frontend # Front end instance name
+backend_instance_name: backend # Back end instance name

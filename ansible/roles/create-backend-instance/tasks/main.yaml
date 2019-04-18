@@ -6,7 +6,7 @@
     key_name: '{{ instance_key_name }}'
     flavor: '{{ instance_flavor }}'
     availability_zone: '{{ availability_zone }}'
-    security_groups: '{{ sg_names }}'
+    security_groups: '{{ backend_sg_name }}'
     auto_floating_ip: yes
     wait: yes
     timeout: 600
