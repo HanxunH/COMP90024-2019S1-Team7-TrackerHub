@@ -24,10 +24,6 @@ security_groups:
     port_range_min: 80
     port_range_max: 80
     remote_ip_prefix: 0.0.0.0/0
-  - name: common-ping
-    description: "security group for ping"
-    protocol: icmp
-    remote_ip_prefix: 0.0.0.0/0
 
 # Instance
 instance_name: test
