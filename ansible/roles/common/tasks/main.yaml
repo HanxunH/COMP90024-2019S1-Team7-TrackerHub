@@ -1,4 +1,6 @@
-# Install dependencies on the host
+#############################################
+#     Install dependencies on the host      #
+#############################################
 - name: Install pip
   become: yes
   apt:

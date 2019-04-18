@@ -17,44 +17,24 @@ volumes:
 #############################################
 #             Security group                #
 #############################################
-frontend_sg_name: frontend-security-group
-backend_sg_name: backend-security-group
-
 security_groups:
   - name: '{{ frontend_sg_name }}'
     description: "security group for frontend server"
-    rules: 
-      - name: 'for SSH'
-        protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for HTTP'
-        protocol: tcp
-        port_range_min: 80
-        port_range_max: 80
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for HTTPS'
-        protocol: tcp
-        port_range_min: 443
-        port_range_max: 443
-        remote_ip_prefix: 0.0.0.0/0
   - name: '{{ backend_sg_name }}'
     description: "security group for backend server"
-    rules:
-      - name: 'for SSH'
-        protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for TOMCAT'
-        protocol: tcp
-        port_range_min: 8080
-        port_range_max: 8080
-        remote_ip_prefix: 0.0.0.0/0
-      
-# TODO: 这一段应该是要删掉的!###################
-#       用security_groups里面的rules替换掉!!
+  - name: '{{ spider_sg_name }}'
+    description: "security group for spider server"
+  - name: '{{ ml_sg_name }}'
+    description: "security group for machine learning server"
+  - name: '{{ db_sg_name }}'
+    description: "security group for database server"
+
+frontend_sg_name: frontend-security-group
+backend_sg_name: backend-security-group
+spider_sg_name: spider-security-group
+ml_sg_name: machine-learning-security-group
+db_sg_name: database-security-group
+
 frontend_sg_rules:
   - name: 'for SSH'
     protocol: tcp
@@ -82,7 +62,24 @@ backend_sg_rules:
     port_range_min: 8080
     port_range_max: 8080
     remote_ip_prefix: 0.0.0.0/0
-# TODO: 这一段应该是要删掉的！###################
+spider_sg_rules:
+  - name: 'for SSH'
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+ml_sg_rules:
+  - name: 'for SSH'
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
+db_sg_rules:
+  - name: 'for SSH'
+    protocol: tcp
+    port_range_min: 22
+    port_range_max: 22
+    remote_ip_prefix: 0.0.0.0/0
 
 
 #############################################
@@ -94,3 +91,6 @@ instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
 
 frontend_instance_name: frontend # Front end instance name
 backend_instance_name: backend # Back end instance name
+spider_instance_name: spider # Spider instance name
+ml_instance_name: ml # Machine learning instance name
+db_instance_name: db # Database instance name

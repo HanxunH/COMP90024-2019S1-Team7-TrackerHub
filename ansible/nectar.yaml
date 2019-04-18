@@ -8,6 +8,5 @@
     - role: show-images
     # - role: openstack-volume
     - role: create-security-groups
-    - role: create-frontend-instance
-    - role: create-backend-instance
+    - role: create-instances
     # - role: openstack-volume-snapshot
