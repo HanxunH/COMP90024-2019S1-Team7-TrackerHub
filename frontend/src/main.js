@@ -1,27 +1,13 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from './router'
 import config from './assets/js/config'
 import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import qs from 'qs'
-import VueRouter from 'vue-router'
-import Map from './views/Map.vue'
-
-Vue.use(VueRouter)
-
-const routes = [
-	{path: '/map', component: Map}
-	
-]
-
-const router = new VueRouter({
-	routes,
-	mode: 'history'
-})
 
 Vue.use(BootstrapVue)
-
 
 Vue.config.productionTip = false
 axios.defaults.timeout = 5000
@@ -79,6 +65,10 @@ Vue.prototype.siteUtils = utils
 
 Vue.prototype.setTitle = function(title){
 	document.title = title
+}
+
+Vue.prototype.goBack = function(){
+	window.history.length > 1 ? router.go(-1) : router.push('/')
 }
 
 const app = new Vue({
