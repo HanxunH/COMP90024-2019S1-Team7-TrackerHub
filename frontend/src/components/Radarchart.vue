@@ -1,3 +1,4 @@
+<script>
 import { Radar } from 'vue-chartjs'
  
 export default {
@@ -17,5 +18,4 @@ export default {
     })
   }
 }
-
-
+</script>
