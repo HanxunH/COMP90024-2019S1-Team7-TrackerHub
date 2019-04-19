@@ -12,6 +12,7 @@ Vue.use(VueRouter)
 
 const routes = [
 	{path: '/map', component: Map}
+	
 ]
 
 const router = new VueRouter({
