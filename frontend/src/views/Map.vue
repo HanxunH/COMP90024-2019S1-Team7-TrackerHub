@@ -1,7 +1,7 @@
 <template>
 <div id="gmap" style="background-color:#bbb;">
-    <div id="map_canvas" style="height: 500px; width: 100%" ></div>
-    <div class="container-fluid w-100 h-8 d-inline-block" style="z-index:0;background-color:#ccc;">
+    <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
+    <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
         <div class="col-lg-3"><Barchart/></div>
         <div class="col-lg-3"><Linechart/></div>
@@ -21,6 +21,7 @@ import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
+
 
 export default {
   name: 'gmap',
@@ -46,7 +47,7 @@ export default {
 
   methods: {
     mapBuild(){
-      var self = this;
+      let self = this;
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
@@ -56,8 +57,8 @@ export default {
       
       map.data.loadGeoJson('https://api.myjson.com/bins/udv2g');
       map.data.setStyle(function(feature) {
-        var cartodb_id = feature.getProperty('cartodb_id');
-        var color = cartodb_id > 30 ? 'white' : 'gray';
+        let cartodb_id = feature.getProperty('cartodb_id');
+        let color = cartodb_id > 30 ? 'white' : 'gray';
         return {
           fillColor: color,
           strokeWeight: 1
@@ -73,10 +74,10 @@ export default {
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4;
         self.pieData = [data1, data2, data3, data4]
         // init infowindow with customized view
-        var InfoWindow = Vue.extend(InfoWindowComponent);
+        let InfoWindow = Vue.extend(InfoWindowComponent);
 
         // send data to the view
-        var instance = new InfoWindow({
+        let instance = new InfoWindow({
           propsData: {
             name,
             pieData: self.pieData,

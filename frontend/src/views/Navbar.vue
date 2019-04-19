@@ -122,3 +122,12 @@ export default {
   }
 };
 </script>
+
+<style>
+.navbar {
+  background-color: rgb(0, 0, 0);
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+</style>
