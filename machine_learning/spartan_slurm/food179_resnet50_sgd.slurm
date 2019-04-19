@@ -46,9 +46,9 @@ module load Python/3.5.2-intel-2017.u2-GCC-5.4.0-CUDA9
 nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
-                            --train_batch_size 100  \
-                            --test_batch_size 200   \
-                            --num_epochs 500        \
+                            --train_batch_size 360  \
+                            --test_batch_size 800   \
+                            --num_epochs 310        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_food_179 \
                             --train_optimizer sgd   \
                             --model_type food179    \
