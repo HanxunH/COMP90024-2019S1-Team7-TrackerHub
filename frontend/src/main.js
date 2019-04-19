@@ -6,30 +6,11 @@ import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import qs from 'qs'
-<<<<<<< HEAD
-import VueRouter from 'vue-router'
-import Map from './views/Map.vue'
 import vueSmoothScroll from 'vue-smooth-scroll'
 
 Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)
-Vue.use(VueRouter)
 
-const routes = [
-	{path: '/map', component: Map}
-	
-]
-
-const router = new VueRouter({
-	routes,
-	mode: 'history'
-})
-
-=======
-
-Vue.use(BootstrapVue)
-
->>>>>>> bb7b7a418ef3104069dcfeabe599c1ffb62845c0
 Vue.config.productionTip = false
 axios.defaults.timeout = 5000
 // axios compatible with IE 8-9
