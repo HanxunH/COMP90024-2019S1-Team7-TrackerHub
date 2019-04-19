@@ -15,7 +15,8 @@
     "jquery": "^3.4.0",
     "vue": "^2.6.6",
     "vue-chartjs": "^3.4.2",
-    "vue-router": "^3.0.6"
+    "vue-router": "^3.0.6",
+    "vue-smooth-scroll": "^1.0.13"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",

@@ -7,7 +7,10 @@ import axios from 'axios'
 import qs from 'qs'
 import VueRouter from 'vue-router'
 import Map from './views/Map.vue'
+import vueSmoothScroll from 'vue-smooth-scroll'
 
+Vue.use(vueSmoothScroll)
+Vue.use(BootstrapVue)
 Vue.use(VueRouter)
 
 const routes = [
@@ -19,9 +22,6 @@ const router = new VueRouter({
 	routes,
 	mode: 'history'
 })
-
-Vue.use(BootstrapVue)
-
 
 Vue.config.productionTip = false
 axios.defaults.timeout = 5000
