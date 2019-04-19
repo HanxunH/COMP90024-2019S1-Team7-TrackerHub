@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-18T21:33:28+10:00
+# @Last modified time: 2019-04-19T21:48:15+10:00
 
 
 import os
@@ -114,6 +114,26 @@ def get_eval_accuracy(loader, shared_cnn):
     acc = acc_sum / total
     return acc.item()
 
+def get_eval_topn_accuracy(loader, shared_cnn, n=5):
+    shared_cnn.eval()
+    total = 0.
+    acc_sum = 0.
+    for (images, labels) in loader:
+        if args.cuda:
+            images = images.cuda(non_blocking=True)
+            labels = labels.cuda(non_blocking=True)
+        with torch.no_grad():
+            pred = shared_cnn(images)
+        total += pred.shape[0]
+        # https://discuss.pytorch.org/t/imagenet-example-accuracy-calculation/7840/4
+        _, pred = torch.topk(pred, n, dim=1, largest=True, sorted=True)
+        pred = pred.t()
+        correct = pred.eq(labels.view(1, -1).expand_as(pred))
+        acc_sum += correct[:n].view(-1).float().sum(0, keepdim=True)
+    acc = acc_sum / total
+    print(acc)
+    return acc.item()
+
 
 
 def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loaders=None):
@@ -170,7 +190,10 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                   data_loaders=data_loaders)
         test_loader = data_loaders['test_dataset']
         test_acc = get_eval_accuracy(loader=test_loader, shared_cnn=model)
+        test_acc_top5 = get_eval_topn_accuracy(loader=data_loaders['test_dataset'], shared_cnn=model)
+
         train_history_dict[epoch]['test_acc'] = test_acc
+        train_history_dict[epoch]['test_acc_top5'] = test_acc_top5
 
         filename = args.model_checkpoint_path
 
@@ -181,6 +204,7 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                       optimizer=optimizer,
                       test_acc=test_acc,
                       best_acc=best_acc,
+                      test_acc_top5=test_acc_top5,
                       filename=filename + '_best.pth')
 
         save_mode(epoch=epoch,
@@ -188,21 +212,26 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                   optimizer=optimizer,
                   test_acc=test_acc,
                   best_acc=best_acc,
+                  test_acc_top5=test_acc_top5,
                   filename=filename)
 
         print('Best Acc %5f' % (best_acc))
         print('Eval Acc %5f' % (test_acc))
+        print('Eval Acc Top5 %5f' % (test_acc_top5))
 
     return
 
 
-def save_mode(epoch=None, model=None, optimizer=None, test_acc=None, best_acc=None, filename=None):
+def save_mode(epoch=None, model=None, optimizer=None, test_acc=None, best_acc=None, test_acc_top5=None, filename=None):
     global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx
     state = {'epoch': epoch + 1,
              'args': args,
              'test_acc': test_acc,
              'best_acc': best_acc,
+             'test_acc_top5': test_acc_top5,
              'class_to_idx': class_to_idx,
+             'NORM_MEAN': NORM_MEAN,
+             'NORM_STD': NORM_STD,
              'train_history_dict': train_history_dict,
              'model_state_dict': model.state_dict(),
              'model_optimizer': optimizer.state_dict()}
@@ -226,11 +255,21 @@ def main():
         NORM_STD = FOOD179_STD
     elif args.model_type == 'nsfw':
         num_classes = 5
+        NORM_MEAN = NSFW_MEAN
+        NORM_STD = NSFW_STD
     else:
         raise('Not Implemented!')
 
-    if args.model_arc == 'resnet50':
+    if args.model_arc == 'resnet18':
+        coconut_model = model.resnet18(num_classes=num_classes)
+    elif args.model_arc == 'resnet34':
+        coconut_model = model.resnet34(num_classes=num_classes)
+    elif args.model_arc == 'resnet50':
         coconut_model = model.resnet50(num_classes=num_classes)
+    elif args.model_arc == 'resnet101':
+        coconut_model = model.resnet101(num_classes=num_classes)
+    elif args.model_arc == 'resnet152':
+        coconut_model = model.resnet152(num_classes=num_classes)
     else:
         raise('Not Implemented!')
 
