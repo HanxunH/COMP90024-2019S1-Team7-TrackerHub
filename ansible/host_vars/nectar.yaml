@@ -18,8 +18,8 @@ volumes:
 #             Security group                #
 #############################################
 security_groups:
-  - name: frontend-security-group
-    description: "security group for frontend server"
+  - name: web-security-group
+    description: "security group for web server"
     rules:
       - name: 'for SSH'
         protocol: tcp
@@ -35,14 +35,6 @@ security_groups:
         protocol: tcp
         port_range_min: 443
         port_range_max: 443
-        remote_ip_prefix: 0.0.0.0/0
-  - name: backend-security-group
-    description: "security group for backend server"
-    rules:
-      - name: 'for SSH'
-        protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
         remote_ip_prefix: 0.0.0.0/0
       - name: 'for TOMCAT'
         protocol: tcp
@@ -79,16 +71,11 @@ security_groups:
 #                Instance                   #
 #############################################
 instances:
-  - name: Frontend
+  - name: WebServer
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
     instance_key_name: NectarGroup # ssh private key
     instance_flavor: uom.general.2c8g # 2 VCPUs & 8GB RAM
-    security_groups: frontend-security-group
-  - name: Backend
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.general.2c8g
-    security_groups: backend-security-group
+    security_groups: web-security-group
   - name: Spider
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
     instance_key_name: NectarGroup
@@ -99,8 +86,8 @@ instances:
     instance_key_name: NectarGroup
     instance_flavor: uom.general.2c8g
     security_groups: machine-learning-security-group
-  # - name: Database
-  #   instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-  #   instance_key_name: NectarGroup
-  #   instance_flavor: uom.general.2c8g
-  #   security_groups: database-security-group
+  - name: Database
+    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
+    instance_key_name: NectarGroup
+    instance_flavor: uom.general.2c8g
+    security_groups: database-security-group
