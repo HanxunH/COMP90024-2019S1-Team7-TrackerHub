@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from './router'
 import config from './assets/js/config'
 import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import qs from 'qs'
+<<<<<<< HEAD
 import VueRouter from 'vue-router'
 import Map from './views/Map.vue'
 import vueSmoothScroll from 'vue-smooth-scroll'
@@ -23,6 +25,11 @@ const router = new VueRouter({
 	mode: 'history'
 })
 
+=======
+
+Vue.use(BootstrapVue)
+
+>>>>>>> bb7b7a418ef3104069dcfeabe599c1ffb62845c0
 Vue.config.productionTip = false
 axios.defaults.timeout = 5000
 // axios compatible with IE 8-9
@@ -79,6 +86,10 @@ Vue.prototype.siteUtils = utils
 
 Vue.prototype.setTitle = function(title){
 	document.title = title
+}
+
+Vue.prototype.goBack = function(){
+	window.history.length > 1 ? router.go(-1) : router.push('/')
 }
 
 const app = new Vue({
