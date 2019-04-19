@@ -8,57 +8,18 @@
     state: present
   loop: '{{ security_groups }}'
 
+- name: Create a list of security group names
+  set_fact:
+    sg_names: '{{ sg_names|default([]) + [item.name] }}'
+  loop: '{{ security_groups }}'
+
+- debug:
+    msg: "Security group(s) {{ sg_names }} has been created."
 
 #############################################
 #        Create security group rules        #
 #############################################
-# Front end
-- name: Create front end security group rule
-  os_security_group_rule:
-    security_group: '{{ frontend_sg_name }}'
-    protocol: '{{ item.protocol }}'
-    port_range_min: '{{ item.port_range_min }}'
-    port_range_max: '{{ item.port_range_max }}'
-    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
-    state: present
-  loop: '{{ frontend_sg_rules }}'
-# Back end
-- name: Create back end security group rule
-  os_security_group_rule:
-    security_group: '{{ backend_sg_name }}'
-    protocol: '{{ item.protocol }}'
-    port_range_min: '{{ item.port_range_min }}'
-    port_range_max: '{{ item.port_range_max }}'
-    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
-    state: present
-  loop: '{{ backend_sg_rules }}'
-# Spider
-- name: Create spider security group rule
-  os_security_group_rule:
-    security_group: '{{ backend_sg_name }}'
-    protocol: '{{ item.protocol }}'
-    port_range_min: '{{ item.port_range_min }}'
-    port_range_max: '{{ item.port_range_max }}'
-    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
-    state: present
-  loop: '{{ spider_sg_rules }}'
-# Machine Learning
-- name: Create machine learning security group rule
-  os_security_group_rule:
-    security_group: '{{ ml_sg_name }}'
-    protocol: '{{ item.protocol }}'
-    port_range_min: '{{ item.port_range_min }}'
-    port_range_max: '{{ item.port_range_max }}'
-    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
-    state: present
-  loop: '{{ ml_sg_rules }}'
-# Database
-- name: Create database security group rule
-  os_security_group_rule:
-    security_group: '{{ db_sg_name }}'
-    protocol: '{{ item.protocol }}'
-    port_range_min: '{{ item.port_range_min }}'
-    port_range_max: '{{ item.port_range_max }}'
-    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
-    state: present
-  loop: '{{ db_sg_rules }}'
+- include_tasks: inner.yaml
+  loop: '{{ security_groups }}'
+  loop_control:
+    loop_var: outer_item
