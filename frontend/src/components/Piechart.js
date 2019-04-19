@@ -6,7 +6,7 @@ export default {
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart({
-      labels: ['Teen','Big***','Japanese','Nurse'],
+      labels: ['Teen','Big','Japanese','Nurse'],
       datasets: [
         {
           label: 'PornHub Commits',
