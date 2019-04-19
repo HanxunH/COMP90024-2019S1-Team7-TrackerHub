@@ -1,3 +1,4 @@
+<script>
 import { Bar } from 'vue-chartjs'
  
 export default {
@@ -17,5 +18,4 @@ export default {
     })
   }
 }
-
-
+</script>

@@ -14,11 +14,11 @@
 
 
 <script>
-import Barchart from './../components/Barchart.js'
-import Linechart from './../components/Linechart.js'
-import Piechart from './../components/Piechart.js'
-import Radarchart from './../components/Radarchart.js'
-import {mapStyle} from './../assets/js/map-style.js'
+import Barchart from './../components/Barchart'
+import Linechart from './../components/Linechart'
+import Piechart from './../components/Piechart'
+import Radarchart from './../components/Radarchart'
+import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
 
@@ -33,6 +33,7 @@ export default {
 
   data() {
     return {
+      pieData: []
     }
   },
 
@@ -45,6 +46,7 @@ export default {
 
   methods: {
     mapBuild(){
+      var self = this;
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
@@ -69,7 +71,7 @@ export default {
         // prepare data
         let name = event.feature.getProperty("name");
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4;
-
+        self.pieData = [data1, data2, data3, data4]
         // init infowindow with customized view
         var InfoWindow = Vue.extend(InfoWindowComponent);
 
@@ -77,6 +79,7 @@ export default {
         var instance = new InfoWindow({
           propsData: {
             name,
+            pieData: self.pieData,
             data1,
             data2,
             data3,
