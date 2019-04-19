@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-19T21:48:15+10:00
+# @Last modified time: 2019-04-19T21:54:06+10:00
 
 
 import os
@@ -131,7 +131,6 @@ def get_eval_topn_accuracy(loader, shared_cnn, n=5):
         correct = pred.eq(labels.view(1, -1).expand_as(pred))
         acc_sum += correct[:n].view(-1).float().sum(0, keepdim=True)
     acc = acc_sum / total
-    print(acc)
     return acc.item()
 
 
