@@ -1,21 +1,273 @@
-.bg {
-  background: rgba(255,155,6, 100);
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,600,600italic,800,800italic");
+/*
+  CSS Reset
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+section.center {
+  text-align: center;
+}
+
+/* Wrapper */
+
+.wrapper {
+  padding: 6em 0 4em 0;
+}
+
+.wrapper>.inner {
+  width: 60em;
+  margin: 0 auto;
+}
+
+@media screen and (max-width: 1280px) {
+  .wrapper>.inner {
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .wrapper>.inner {
+    width: 100%;
+  }
+}
+
+/* Banner */
+
+#banner {
+  padding: 0;
+  background-image: -moz-linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/melbourne.jpg");
+  background-image: -webkit-linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/melbourne.jpg");
+  background-image: -ms-linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/melbourne.jpg");
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("../images/melbourne.jpg");
+  background-attachment: fixed;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align: center;
+}
+
+#banner {
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: -ms-flex;
+  display: flex;
+  -moz-flex-direction: column;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+  -ms-justify-content: center;
+  justify-content: center;
+  cursor: default;
+  height: 100vh;
+  min-height: 35em;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+}
+
+#banner div.logo {
+  background: url('../images/group_logo.png') center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  min-width: 5em;
+  height: 5em;
+  margin: 2em auto;
+  border-radius: 1em;
+}
+
+#banner p {
+  text-transform: uppercase;
+  color: #fff;
+  font-size: xx-large;
+  font-weight: bolder;
+  letter-spacing: 1px;
+}
+
+#banner p a {
+  color: inherit;
+}
+
+#banner .more {
+  -moz-transition: -moz-transform 0.75s ease, opacity 0.75s ease;
+  -webkit-transition: -webkit-transform 0.75s ease, opacity 0.75s ease;
+  -ms-transition: -ms-transform 0.75s ease, opacity 0.75s ease;
+  transition: transform 0.75s ease, opacity 0.75s ease;
+  -moz-transition-delay: 3.5s;
+  -webkit-transition-delay: 3.5s;
+  -ms-transition-delay: 3.5s;
+  transition-delay: 3.5s;
+  -moz-transform: translateY(0);
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  border: none;
+  bottom: 0;
+  color: inherit;
+  font-size: 0.8em;
+  height: 8.5em;
+  left: 50%;
+  letter-spacing: 0.225em;
+  margin-left: -8.5em;
+  opacity: 1;
+  outline: 0;
+  padding-left: 0.225em;
+  position: absolute;
+  text-align: center;
+  text-transform: uppercase;
+  width: 16em;
+  color: #fff;
+  z-index: 1;
+  animation: moreAnimation 2s infinite linear;
+  -webkit-animation: moreAnimation 2s infinite linear;
+}
+
+#banner .more:after {
+  background-image: url("../images/arrow.svg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  bottom: 4em;
+  content: "";
+  display: block;
+  height: 1.5em;
+  left: 50%;
+  margin: 0 0 0 -0.75em;
+  position: absolute;
+  width: 1.5em;
+}
+
+@keyframes moreAnimation {
+  0% {
+    transform: translate3d(0, -30%, 0);
+    opacity: 0;
+  }
+  30% {
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+  }
+  60% {
+    transform: translate3d(0, -10%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 20%, 0);
+    opacity: 0;
+  }
+}
+
+@-webkit-keyframes moreAnimation {
+  0% {
+    transform: translate3d(0, -30%, 0);
+    opacity: 0;
+  }
+  30% {
+    transform: translate3d(0, -25%, 0);
+    opacity: 0;
+  }
+  60% {
+    transform: translate3d(0, -10%, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(0, 20%, 0);
+    opacity: 0;
+  }
+}
+
+#banner:after {
+  pointer-events: none;
+  -moz-transition: opacity 3s ease-in-out;
+  -webkit-transition: opacity 3s ease-in-out;
+  -ms-transition: opacity 3s ease-in-out;
+  transition: opacity 3s ease-in-out;
+  -moz-transition-delay: 1.25s;
+  -webkit-transition-delay: 1.25s;
+  -ms-transition-delay: 1.25s;
+  transition-delay: 1.25s;
+  content: "";
+  background: #2e3842;
+  display: block;
+  width: 100%;
   height: 100%;
-  overflow: auto;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
 }
-.div {
-    background: url("./../../assets/images/group.png") repeat-x;
-    height: 800px;
-    margin-top: 10%;
+
+@media screen and (max-width: 736px) {
+  #banner {
+    padding: 7em 3em 5em 3em;
+    height: auto;
+    min-height: 0;
+  }
+  #banner h2 {
+    font-size: 1.25em;
+  }
+  #banner br {
+    display: none;
+  }
+  #banner .more {
+    display: none;
+  }
 }
-.button {
-    position: absolute;
-    top: 40%;
-    right: 10%;
-    background: rgba(255,155,6, 100);
-    border: none;
-    border-radius: 6px;
-    font-size: 40px;
-    font-weight: bold;
-    position: fixed;
+
+/*
+  Intro
+*/
+
+#intro {
+  background: #000;
+  color: #fff;
+  height: 80vh;
+  min-height: 35em;
+}
+
+#intro h2 {
+  font-size: 4em;
+  margin: 1em auto;
+}
+
+#intro p {
+  font-size: x-large;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+#intro .button {
+  cursor: pointer;
+}
+
+#intro .premium {
+  font-weight: 700;
+  border-radius: 6px;
+  background-color: rgb(255, 153, 0);
+  color: #000;
+  margin: 2em 35%;
+  padding: 1em;
+}
+
+#intro .premium:hover {
+  opacity: .9;
+}
+
+#intro .premium:active {
+  opacity: .7;
+}
+@media screen and (max-width: 736px) {
+  #intro .premium a {
+    font-size: medium;
+  }
 }
