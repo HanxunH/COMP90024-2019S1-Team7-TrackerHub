@@ -12,7 +12,18 @@
 * ~~Create Volume Snapshot~~
 
 ```
-./run-group-nectar.sh
+./launch-nectar-servers.sh
 ```
+### Edit inventory.ini
 
+According to debug message, add server IPs into /inventory/inventory.ini manually.
+
+### Deploy Applications
+
+* Install docker
+* ~~deploy applications for each server~~
+
+```
+./deploy-applications.sh
+```
 

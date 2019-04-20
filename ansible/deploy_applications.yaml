@@ -1,0 +1,15 @@
+- hosts: all
+  vars_files:
+    - host_vars/vars.yaml
+  gather_facts: true
+  roles:
+    - role: install-enviornments
+
+
+# - hosts: webserver
+#   vars_files:
+#     - host_vars/vars.yaml
+#   gather_facts: true
+#   roles:
+#     - role: config-webserver
+#     - role: deploy-applications

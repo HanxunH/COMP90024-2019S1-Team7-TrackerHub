@@ -1,4 +1,3 @@
-# Create volumes from vars
 - name: Create volume(s) on NeCTAR
   os_volume:
     display_name: '{{ item.vol_name }}'
@@ -9,8 +8,8 @@
     state: present
   loop: '{{ volumes }}'
   register: os_vol
+# Create volumes from vars
 
-  # Get a list of volume Ids from the return value of os_volume
 - name: Create a list of volume Ids
   set_fact:
     os_vol_ids: '{{ os_vol_ids|default([]) + [ item.id ] }}'
@@ -18,3 +17,4 @@
 
 - debug:
     msg: "Volume {{ os_vol_ids }} has been created."
+# Get a list of volume Ids from the return value of os_volume

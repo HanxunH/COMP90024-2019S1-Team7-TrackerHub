@@ -10,4 +10,24 @@
     wait: yes
     timeout: 600
     state: present
+  register: os_instance
   loop: '{{ instances }}'
+
+- name: set ip address to fact
+  set_fact:
+    ip_addresses: "{{ ip_addresses|default([]) + [ {'name': item.item.name, 'ip': item.openstack.public_v4} ] }}"
+  when: item.openstack is defined
+  loop: '{{ os_instance.results }}'
+
+- debug:
+    msg: "===== Fact <ip_addresses>: {{ ip_addresses }}"
+# ip_addresses = [ {'name':WebServer1,'ip':'123.456.45.12'}, {'name':WebServer2,'ip':'123.456.45.13'} ...... ]
+
+- name: set ip addresses to variables
+  set_fact:
+    '{{ item.name }}_ip': '{{ item.ip }}'
+  loop: '{{ ip_addresses }}'
+# WebServer1_ip = '123.456.45.12'
+# WebServer2_ip = '123.456.45.13'
+
+# Question: 如何把ip地址传给inventory?
