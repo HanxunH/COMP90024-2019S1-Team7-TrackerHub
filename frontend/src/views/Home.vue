@@ -9,16 +9,16 @@
           Assignment Two
         </p>
       </div>
-      <a href="#intro" class="more scrolly">Learn More</a>    
+      <a href="#intro" class="more">Learn More</a>    
     </section>
     <section id="intro" class="wrapper center">
       <div class="inner">
         <h2>Group Member</h2>
-        <p>Hanxun Huang - 000000</p>
+        <p>Hanxun Huang - 975781</p>
         <p>Haonan Chen - 000000</p>
         <p>Lihuan Zhang - 000000</p>
         <p>Xu Wang - 979895</p>
-        <p>Xu Y - 000000</p>
+        <p>Yang Xu - 000000</p>
         <p class="button premium" onclick="window.location.href='/map'">
           <a>Go Premium</a>
         </p>

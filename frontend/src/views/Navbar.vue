@@ -1,7 +1,13 @@
 <template>
   <header id="header" class="alt">
     <a id="logo" href="/"></a>
-    <nav id="nav"></nav>
+    <nav>
+      <ul>
+        <li v-if="this.$route.path == '/'">
+          <a href="/map" class="button premium"><span>Go Premium</span></a>
+        </li>
+      </ul>
+    </nav>
   </header>
 </template>
 
@@ -31,8 +37,20 @@
   top: 0;
   left: 3em;
 }
-
-/*
+#header.alt {
+  background: transparent;
+}
+#header.alt #logo {
+  opacity: 0;
+  pointer-events: none;
+}
+#header:not(.alt) .button.premium {
+  opacity: 0;
+  pointer-events: none;
+}
+#header .button {
+  cursor: pointer;
+}
 #header nav {
   height: inherit;
   line-height: inherit;
@@ -40,19 +58,16 @@
   right: 0;
   top: 0;
 }
-
 #header nav > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   white-space: nowrap;
 }
-
 #header nav > ul > li {
   display: inline-block;
   padding: 0;
 }
-
 #header nav > ul > li > a {
   border: 0;
   color: #fff;
@@ -62,72 +77,50 @@
   padding: 0 1.5em;
   text-transform: uppercase;
 }
-
-#header nav > ul > li > a.menuToggle {
-  outline: 0;
-  position: relative;
-}
-
-#header nav > ul > li > a.menuToggle:after {
-  background-image: url("../assets/images/bars.svg");
-  background-position: right center;
-  background-repeat: no-repeat;
-  content: "";
-  display: inline-block;
-  height: 3.75em;
-  vertical-align: top;
-  width: 2em;
-}
-
-@media screen and (max-width: 736px) {
-  #header nav > ul > li > a.menuToggle {
-    padding: 0 1.5em;
-  }
-  #header nav > ul > li > a.menuToggle span {
-    display: none;
-  }
-}
-
 @media screen and (max-width: 736px) {
   #header nav > ul > li > a {
     padding: 0 0 0 1.5em;
   }
 }
-
 #header nav > ul > li:first-child {
   margin-left: 0;
 }
-
-#header.alt {
-  background: transparent;
+#header .premium span {
+  background-color: rgb(255, 153, 0);
+  color: #000;
+  font-weight: 700;
+  padding: 1em;
+  border-radius: 6px;
 }
-
-#header.alt h1 {
-  pointer-events: none;
-  opacity: 0;
-} */
+#header a.premium {
+  text-decoration: none;
+}
+#header a.premium:hover {
+  opacity: .9;
+}
+#header a.premium:active {
+  opacity: .7;
+}
 </style>
-
 
 <script>
 export default {
   name: "Navbar",
   mounted() {
-    console.debug("| Header Mounted");
-    this.initHeader();
+    console.debug("| Header Mounted")
+    this.handleNavbar()
   },
   methods: {
-    initHeader() {
+    handleNavbar () {
+      const $header = document.getElementById('header')
+      window.onscroll = () => {
+        if(document.body.scrollTop==0&&document.documentElement.scrollTop==0) {
+          $header.classList.add('alt')
+        } else {
+          $header.classList.remove('alt')
+        }
+      }
     }
   }
 };
 </script>
-
-<style>
-.navbar {
-  background-color: rgb(0, 0, 0);
-  position: fixed;
-  top: 0;
-  width: 100%;
-}
-</style>
