@@ -9,7 +9,7 @@
           Assignment Two
         </p>
       </div>
-      <a href="#intro" class="more scrolly">Learn More</a>    
+      <a href="#intro" class="more">Learn More</a>    
     </section>
     <section id="intro" class="wrapper center">
       <div class="inner">
