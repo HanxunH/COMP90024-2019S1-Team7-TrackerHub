@@ -5,6 +5,9 @@ import { Line } from 'vue-chartjs'
 export default {
   name:"Linechart",
   extends: Line,
+  props: [
+    'data'
+  ],
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart({
