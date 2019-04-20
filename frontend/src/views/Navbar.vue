@@ -12,8 +12,6 @@
 </template>
 
 <style>
-@import '~bootstrap/dist/css/bootstrap.css';
-@import '~bootstrap-vue/dist/bootstrap-vue.css';
 #header {
   width: 100%;
   z-index: 10000;
@@ -105,11 +103,7 @@
 }
 </style>
 
-
 <script>
-import $ from 'jquery'
-import util from '../assets/js/utils.js'
-
 export default {
   name: "Navbar",
   mounted() {
