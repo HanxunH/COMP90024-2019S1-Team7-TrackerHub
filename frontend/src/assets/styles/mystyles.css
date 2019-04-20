@@ -10,6 +10,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font-size: 100%;
 }
 
+/* Basic */
+
 html {
   scroll-behavior: smooth;
 }
@@ -266,6 +268,7 @@ section.center {
 #intro .premium:active {
   opacity: .7;
 }
+
 @media screen and (max-width: 736px) {
   #intro .premium a {
     font-size: medium;
