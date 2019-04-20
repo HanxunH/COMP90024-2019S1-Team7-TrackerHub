@@ -59,35 +59,35 @@ export default {
   methods: {
     // ====================== Build Map ======================
     mapBuild(){
-      let self = this;
+      let self = this
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
         disableDefaultUI: true,
         styles: mapStyle
-      });
+      })
       
       // let mapData = getBarData()
-      map.data.loadGeoJson('https://api.myjson.com/bins/udv2g');
-      map.data.setStyle(function(feature) {
-        let cartodb_id = feature.getProperty('cartodb_id');
-        let color = cartodb_id > 30 ? 'white' : 'gray';
+      map.data.loadGeoJson('https://api.myjson.com/bins/udv2g')
+      map.data.setStyle((feature) => {
+        let cartodb_id = feature.getProperty('cartodb_id')
+        let color = cartodb_id > 30 ? 'white' : 'gray'
         return {
           fillColor: color,
           strokeWeight: 1
-        };
-      });
+        }
+      })
 
-      let infowindow = new google.maps.InfoWindow();
+      let infowindow = new google.maps.InfoWindow()
 
       // mouse click event: show grid info
-      map.data.addListener('click', function(event) {
+      map.data.addListener('click', (event) => {
         // prepare data
-        let name = event.feature.getProperty("name");
-        let data1 = 1, data2 = 2, data3 = 3, data4 = 4;
+        let name = event.feature.getProperty("name")
+        let data1 = 1, data2 = 2, data3 = 3, data4 = 4
         self.infoPieData = [data1, data2, data3, data4]
         // init infowindow with customized view
-        let InfoWindow = Vue.extend(InfoWindowComponent);
+        let InfoWindow = Vue.extend(InfoWindowComponent)
 
         // send data to the view
         let instance = new InfoWindow({
@@ -99,26 +99,26 @@ export default {
             data3,
             data4
           }
-        });
-        instance.$mount();
+        })
+        instance.$mount()
 
-        infowindow.setContent(instance.$el);
-        //infowindow.setPosition(event.feature.getGeometry().getAt(0).getAt(0).getAt(0));
+        infowindow.setContent(instance.$el)
+        //infowindow.setPosition(event.feature.getGeometry().getAt(0).getAt(0).getAt(0))
         infowindow.setPosition(event.latLng)
-        //infowindow.setOptions({pixelOffset: new google.maps.Size(0,0)});
-        infowindow.open(map);
-      });  
+        //infowindow.setOptions({pixelOffset: new google.maps.Size(0,0)})
+        infowindow.open(map)
+      })
       
       // mouse over event: highlight color
-      map.data.addListener('mouseover', function(event) {
-        map.data.overrideStyle(event.feature, {fillColor: 'black'});
-      });
+      map.data.addListener('mouseover', (event) => {
+        map.data.overrideStyle(event.feature, {fillColor: 'black'})
+      })
 
       // mouse our event: reset color/info-window
-      map.data.addListener('mouseout', function(event) {
-        map.data.revertStyle();
-        infowindow.close();
-      });
+      map.data.addListener('mouseout', (event) => {
+        map.data.revertStyle()
+        infowindow.close()
+      })
     },
 
     // ====================== Collect Data ======================
