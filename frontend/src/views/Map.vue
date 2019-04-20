@@ -3,10 +3,10 @@
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
-        <div class="col-lg-3"><Barchart/></div>
-        <div class="col-lg-3"><Linechart/></div>
-        <div class="col-lg-3"><Piechart/></div>
-        <div class="col-lg-3"><Radarchart/></div>
+        <div class="col-lg-3"><Barchart :data="this.barData"/></div>
+        <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
+        <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
+        <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
       </div>    
     </div>  
   </div>
@@ -34,18 +34,30 @@ export default {
 
   data() {
     return {
-      pieData: []
+      infoPieData: [],
+      pieData: [],
+      barData: [],
+      radarData: [],
+      lineData: []
     }
   },
 
   mounted () {
-     this.mapBuild()
+    this.mapBuild()
+
+    /* Get chart data through API cals
+    this.getBarData(),
+    this.getLineData(),
+    this.getRadarchartData()
+    */
   },
 
   created: function(){
+
   },
 
   methods: {
+    // ====================== Build Map ======================
     mapBuild(){
       let self = this;
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -55,6 +67,7 @@ export default {
         styles: mapStyle
       });
       
+      // let mapData = getBarData()
       map.data.loadGeoJson('https://api.myjson.com/bins/udv2g');
       map.data.setStyle(function(feature) {
         let cartodb_id = feature.getProperty('cartodb_id');
@@ -72,7 +85,7 @@ export default {
         // prepare data
         let name = event.feature.getProperty("name");
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4;
-        self.pieData = [data1, data2, data3, data4]
+        self.infoPieData = [data1, data2, data3, data4]
         // init infowindow with customized view
         let InfoWindow = Vue.extend(InfoWindowComponent);
 
@@ -80,7 +93,7 @@ export default {
         let instance = new InfoWindow({
           propsData: {
             name,
-            pieData: self.pieData,
+            infoPieData: self.infoPieData,
             data1,
             data2,
             data3,
@@ -106,7 +119,58 @@ export default {
         map.data.revertStyle();
         infowindow.close();
       });
-    }
+    },
+
+    // ====================== Collect Data ======================
+    /* ======= Get map data =======
+    getMapData(){
+    	axios
+        .get('http://domain/api/map/mapData.json')
+        .then(response => {
+          return response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    },
+    */
+    getBarData(){
+      let self = this
+    	axios
+        .get('http://domain/api/bar/barData.json')
+        .then(response => {
+          self.barData = response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    },
+    getLineData(){
+      let self = this
+    	axios
+        .get('http://domain/api/line/lineData.json')
+        .then(response => {
+          self.lineData = response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    },
+    getRadarchartData(){
+      let self = this
+    	axios
+        .get('http://domain/api/radar/radarData.json')
+        .then(response => {
+          self.radarData = response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+        })
+    }  
   }
 }
 </script>
