@@ -1,6 +1,9 @@
 <template>
-<div id="gmap" style="background-color:#bbb;">
+  <div id="gmap" style="background-color:#bbb;">
+    <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
+    <!-- Charts -->
+    <a class="anchor" id="anchor1"></a>
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
         <div class="col-lg-3"><Barchart :data="this.barData"/></div>
@@ -179,12 +182,18 @@ export default {
 <style>
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
-#map {
+#gmap {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+}
+a.anchor {
+    display: block;
+    position: relative;
+    top: -6em;
+    visibility: hidden;
 }
 </style>
