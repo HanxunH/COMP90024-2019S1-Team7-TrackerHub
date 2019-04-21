@@ -1,0 +1,28 @@
+- name: add proxy to enviroments
+  lineinfile:
+    line: "http_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nhttps_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nftp_proxy=\"http://wwwproxy.unimelb.edu.au:8000\""
+    dest: /etc/environment
+
+- name: make proxy available for current session
+  shell: echo 'ok'
+  environment:
+    http_proxy: http://wwwproxy.unimelb.edu.au:8000
+    https_proxy: http://wwwproxy.unimelb.edu.au:8000
+    ftp_proxy: http://wwwproxy.unimelb.edu.au:8000
+
+# add proxy configuration
+
+- name: Update apt
+  become: true
+  apt:
+    upgrade: yes
+    update_cache: yes
+# apt-get upgrade; apt-get update
+
+- name: install dependencies
+  become: yes
+  apt:
+    name: ['vim','docker.io','unzip']
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+# apt-get install vim, docker.io, unzip

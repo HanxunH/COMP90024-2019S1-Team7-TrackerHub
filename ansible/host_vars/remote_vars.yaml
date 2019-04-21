@@ -1,0 +1,24 @@
+# ngrok
+ngrok_auth_token: 6A539T2Atf4rMhwsjoiYV_4ffk8BeuDjJXwHJ2G4gk4
+ngrok_download: "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
+ngrok_path_download_tmp: "/tmp"
+ngrok_path_install: "/opt/ngrok"
+ngrok_path_bin: "/usr/bin/ngrok"
+ngrok_path_init: "/etc/init.d"
+ngrok_path_systemd: "/lib/systemd/system"
+ngrok_console_ui: "false"
+ngrok_region: "au"
+ngrok_tunnels:
+  - name: "SSH"
+    address: "localhost:22"
+    proto: "tcp"
+  - name: "HTTP"
+    address: "localhost:80"
+    proto: "http"
+
+ngrok_start_tunnel: "--all"
+ngrok_install_as_service: true  # creates init script
+ngrok_service_name: ngrok
+ngrok_daemon: "{{ ngrok_path_bin }}"
+ngrok_daemon_opts: "start {{ ngrok_start_tunnel }} --config /{{ ngrok_user }}/.ngrok2/ngrok.yml"
+ngrok_pidfile: "/var/run/ngrok.pid"

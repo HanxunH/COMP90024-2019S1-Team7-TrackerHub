@@ -1,6 +1,6 @@
 - hosts: localhost
   vars_files:
-    - host_vars/nectar.yaml
+    - host_vars/local_vars.yaml
   gather_facts: true
 
   roles:
@@ -9,4 +9,3 @@
     # - role: openstack-volume
     - role: create-security-groups
     - role: create-instances
-    # - role: openstack-volume-snapshot

@@ -2,17 +2,32 @@
 
 ## How to run
 
-### Run Group NeCTAR Configuration
+### 1.Copy Openstack Password
+
+```
+OGQzOTYwNmRhZjA2ZDY5
+```
+
+### 2.Run Group NeCTAR Configuration
 
 * Install Python, pip, openstacksdk
 * Show all images
 * ~~Create Volumes~~
 * Create Security Groups
 * Create Instances
-* ~~Create Volume Snapshot~~
 
 ```
-./run-group-nectar.sh
+./launch-nectar-servers.sh
 ```
 
+### 3.Deploy Applications
+
+* Network Penetration
+* Install docker
+* ~~Pull source code~~
+* ~~deploy applications for each server~~
+
+```
+./deploy-applications.sh
+```
 

@@ -3,7 +3,6 @@
 #############################################
 availability_zone: melbourne-qh2-uom
 
-
 #############################################
 #                 Volume                    #
 #############################################
@@ -74,20 +73,20 @@ instances:
   - name: WebServer
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
     instance_key_name: NectarGroup # ssh private key
-    instance_flavor: uom.general.2c8g # 2 VCPUs & 8GB RAM
+    instance_flavor: uom.mse.2c9g # 2 VCPUs & 8GB RAM
     security_groups: web-security-group
   - name: Spider
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
     instance_key_name: NectarGroup
-    instance_flavor: uom.general.2c8g
+    instance_flavor: uom.mse.2c9g
     security_groups: spider-security-group
   - name: MachineLearning
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
     instance_key_name: NectarGroup
-    instance_flavor: uom.general.2c8g
+    instance_flavor: uom.mse.2c9g
     security_groups: machine-learning-security-group
   - name: Database
     instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
     instance_key_name: NectarGroup
-    instance_flavor: uom.general.2c8g
+    instance_flavor: uom.mse.2c9g
     security_groups: database-security-group

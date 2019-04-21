@@ -1,0 +1,20 @@
+---
+- name: ngrok | create init script
+  template:
+    src: "service-init-script.j2"
+    dest: "{{ ngrok_path_init }}/{{ ngrok_service_name }}"
+    mode: 0755
+    force: no
+
+- name: ngrok | create systemd script
+  template:
+    src: "ngrok.service.j2"
+    dest: "{{ ngrok_path_systemd }}/{{ ngrok_service_name }}.service"
+    mode: 0644
+    force: no
+
+- name: ngrok | install and start service
+  service:
+    name: "{{ ngrok_service_name }}.service"
+    state: started
+    enabled: no

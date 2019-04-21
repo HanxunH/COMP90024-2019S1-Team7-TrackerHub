@@ -1,4 +1,3 @@
-# Create volume snapshot(s)
 - name: Create volume snapshot(s)
   os_volume_snapshot:
     state: present
@@ -9,3 +8,4 @@
     force: yes
     availability_zone: '{{ availability_zone }}'
   loop: '{{ volumes }}'
+# Create volume snapshot(s)
