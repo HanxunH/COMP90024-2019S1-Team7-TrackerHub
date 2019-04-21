@@ -1,6 +1,6 @@
 - hosts: localhost
   vars_files:
-    - host_vars/vars.yaml
+    - host_vars/local_vars.yaml
   gather_facts: true
 
   roles:

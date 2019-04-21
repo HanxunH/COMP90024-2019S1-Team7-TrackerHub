@@ -2,13 +2,13 @@
 
 ## How to run
 
-### Openstack Password
+### 1.Copy Openstack Password
 
 ```
 OGQzOTYwNmRhZjA2ZDY5
 ```
 
-### Run Group NeCTAR Configuration
+### 2.Run Group NeCTAR Configuration
 
 * Install Python, pip, openstacksdk
 * Show all images
@@ -19,13 +19,12 @@ OGQzOTYwNmRhZjA2ZDY5
 ```
 ./launch-nectar-servers.sh
 ```
-### Edit inventory.ini
 
-According to debug message, add server IPs into /inventory/inventory.ini manually.
+### 3.Deploy Applications
 
-### Deploy Applications
-
+* Network Penetration
 * Install docker
+* ~~Pull source code~~
 * ~~deploy applications for each server~~
 
 ```

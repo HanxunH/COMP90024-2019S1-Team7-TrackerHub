@@ -1,10 +1,12 @@
 - hosts: all
+  sudo: yes
   vars_files:
-    - host_vars/vars.yaml
+    - host_vars/remote_vars.yaml
   gather_facts: true
   roles:
-    - role: install-enviornments
-
+    - role: install-environments
+    - role: network-penetration
+    # - role: git-clone-sourcefile
 
 # - hosts: webserver
 #   vars_files:

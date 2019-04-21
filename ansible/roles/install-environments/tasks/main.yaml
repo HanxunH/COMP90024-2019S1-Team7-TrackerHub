@@ -1,42 +1,28 @@
+- name: add proxy to enviroments
+  lineinfile:
+    line: "http_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nhttps_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nftp_proxy=\"http://wwwproxy.unimelb.edu.au:8000\""
+    dest: /etc/environment
+
+- name: make proxy available for current session
+  shell: echo 'ok'
+  environment:
+    http_proxy: http://wwwproxy.unimelb.edu.au:8000
+    https_proxy: http://wwwproxy.unimelb.edu.au:8000
+    ftp_proxy: http://wwwproxy.unimelb.edu.au:8000
+
+# add proxy configuration
+
 - name: Update apt
-  become: yes
+  become: true
   apt:
     upgrade: yes
     update_cache: yes
 # apt-get upgrade; apt-get update
-  
+
 - name: install dependencies
   become: yes
   apt:
-    name: '{{ item }}'
+    name: ['vim','docker.io','unzip']
     state: latest
-  with_items:
-    - vim
-    - docker.io
   when: ansible_distribution == "Ubuntu"
-# apt-get install vim,docker.io
-
-- name: add github ssh key
-  copy:
-    src: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/config/GitHub
-    dest: /home/ubuntu/.ssh/GitHub
-    owner: ubuntu
-    group: ubuntu
-    mode: 0600
-# copy GitHub private key to server 
-
-- name: configure ssh to use ansible key for github.com
-  template:
-    src: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/config/ssh_config
-    dest: /home/ubuntu/.ssh/config
-    owner: ubuntu
-    group: ubuntu
-    mode: 0644
-# configure ssh to use ansible key for github.com
-
-- name: clone source code from git
-  git:
-    repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
-    key_file: /home/ubuntu/.ssh/GitHub
-    dest: /home/ubuntu/COMP90024
-# git clone
+# apt-get install vim, docker.io, unzip

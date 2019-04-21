@@ -1,0 +1,23 @@
+- name: ngrok | download
+  get_url:
+    url: "{{ ngrok_download }}"
+    dest: "{{ ngrok_path_download_tmp }}/ngrok.zip"
+
+- name: ngrok | unzip
+  unarchive:
+    src: "{{ ngrok_path_download_tmp }}/ngrok.zip"
+    dest: "{{ ngrok_path_download_tmp }}"
+    creates: "{{ ngrok_path_download_tmp }}/ngrok"
+    copy: no
+
+- name: ngrok | install binary
+  command: "mv ./ngrok {{ ngrok_path_bin }}"
+  args:
+    chdir: "{{ ngrok_path_download_tmp }}"
+    creates: "{{ ngrok_path_bin }}"
+
+- name: ngrok | set binary permissions
+  file:
+    path: "{{ ngrok_path_bin }}"
+    mode: 0755
+    state: file

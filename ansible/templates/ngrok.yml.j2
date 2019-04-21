@@ -1,0 +1,20 @@
+authtoken: "{{ ngrok_auth_token }}"
+console_ui: {{ ngrok_console_ui }}
+region: "{{ ngrok_region }}"
+tunnels:
+{% for tunnel in ngrok_tunnels %}
+  {{ tunnel.name }}:
+    proto: {{ tunnel.proto | default('http') }}
+{% if tunnel.hostname is defined %}
+    hostname: "{{ tunnel.hostname }}"
+{% elif tunnel.subdomain is defined %}
+    subdomain: "{{ tunnel.subdomain }}"
+{% endif %}
+    addr: "{{ tunnel.address }}"
+{% if tunnel.auth is defined %}
+    auth: "{{ tunnel.auth.username }}:{{ tunnel.auth.password }}"
+{% endif %}
+{% if tunnel.bind_tls is defined %}
+    bind_tls: {{ tunnel.bind_tls }}
+{% endif %}
+{% endfor %}

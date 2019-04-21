@@ -1,0 +1,17 @@
+[Unit]
+Description=Share local port(s) with ngrok
+After=syslog.target network.target
+
+[Service]
+PrivateTmp=true
+Type=simple
+Restart=always
+RestartSec=1min
+StandardOutput=null
+StandardError=null
+ExecStart=/usr/bin/ngrok start --config /home/ubuntu/.ngrok2/ngrok.service.yml --all
+ExecStop=/usr/bin/killall ngrok
+
+[Install]
+WantedBy=multi-user.target
+Alias=ngrok.service
