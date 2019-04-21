@@ -21,13 +21,14 @@
 
 - debug:
     msg: "===== Fact <ip_addresses>: {{ ip_addresses }}"
-# ip_addresses = [ {'name':WebServer1,'ip':'123.456.45.12'}, {'name':WebServer2,'ip':'123.456.45.13'} ...... ]
 
-- name: set ip addresses to variables
-  set_fact:
-    '{{ item.name }}_ip': '{{ item.ip }}'
+- name: Create inventory file
+  copy:
+    content: "[all:vars]\nansible_user=ubuntu\n"
+    dest: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini
+
+- name: set ip addresses to inventory file
+  lineinfile:
+    line: "[{{ item.name }}]\n{{ item.ip }}\n"
+    dest: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini
   loop: '{{ ip_addresses }}'
-# WebServer1_ip = '123.456.45.12'
-# WebServer2_ip = '123.456.45.13'
-
-# Question: 如何把ip地址传给inventory?

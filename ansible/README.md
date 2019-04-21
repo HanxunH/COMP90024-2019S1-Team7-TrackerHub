@@ -2,6 +2,12 @@
 
 ## How to run
 
+### Openstack Password
+
+```
+OGQzOTYwNmRhZjA2ZDY5
+```
+
 ### Run Group NeCTAR Configuration
 
 * Install Python, pip, openstacksdk
@@ -9,7 +15,6 @@
 * ~~Create Volumes~~
 * Create Security Groups
 * Create Instances
-* ~~Create Volume Snapshot~~
 
 ```
 ./launch-nectar-servers.sh
