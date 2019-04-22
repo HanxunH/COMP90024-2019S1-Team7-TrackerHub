@@ -1,43 +1,25 @@
 ---
-# - name: Uninstall old version of docker
-#   tags: 'docker'
-#   become: yes
-#   apt:
-#     name: ['docker','docker-engine','docker.io']
-#     state: absent
+- name: change docker proxy | step 1
+  command: mkdir /etc/systemd/system/docker.service.d
 
-- name: Install pip
-  become: yes
-  apt:
-    name: ['python-pip']
-    state: latest
-    update_cache: yes
-  when: ansible_distribution == "Ubuntu"
+- name: change docker proxy | step 2
+  copy:
+    content: "[Service]\nEnvironment=\"HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000\""
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
 
-- name: Update pip
-  become: yes
-  pip:
-    name: ['pip']
-    state: latest
+- name: change docker proxy | step 3
+  command: systemctl daemon-reload
 
-- name: Install docker-py
-  become: yes
-  pip:
-    name: ['docker-py']
-    state: latest
+- name: change docker proxy | step 4
+  command: systemctl restart docker
 
 - name: docker | build image
-  docker_image:
-    name: frontend
-    tag: v001
-    path: /home/ubuntu/COMP90024/frontend
-    state: present
+  command: docker build -t frontend:v1 /home/ubuntu/COMP90024/frontend
 
 - name: docker | run container
   docker:
-    name: frontend_site_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}}
-    image: "frontend:v001"
+    name: frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}}
+    image: "frontend:v1"
     state: reloaded
     publish_all_ports: yes
-
-  # {{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}}
+    # use_tls: encrypt

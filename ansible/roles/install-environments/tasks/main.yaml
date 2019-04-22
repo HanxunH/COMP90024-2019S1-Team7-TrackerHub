@@ -22,7 +22,7 @@
 - name: install dependencies
   become: yes
   apt:
-    name: ['vim','unzip','git']
+    name: ['vim','unzip','git', 'docker.io']
     state: latest
   when: ansible_distribution == "Ubuntu"
-# apt-get install vim, unzip, git
+# apt-get install vim, unzip, git, docker

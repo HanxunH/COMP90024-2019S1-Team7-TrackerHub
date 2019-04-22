@@ -18,7 +18,7 @@
 
 - name: clone source code from git
   git:
-    repo: https://{{ githubuser | urlencode }}:{{ githubpassword }}@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
+    repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
+    key_file: /home/ubuntu/.ssh/GitHub
     dest: /home/ubuntu/COMP90024
-# git clone through https
-# TODO: change it to ssh
+# git clone through ssh
