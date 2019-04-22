@@ -1,4 +1,5 @@
-- name: Create volume(s) on NeCTAR
+--- 
+- name: Create volume(s)
   os_volume:
     display_name: '{{ item.vol_name }}'
     size: '{{ item.vol_size }}'
@@ -17,4 +18,4 @@
 
 - debug:
     msg: "Volume {{ os_vol_ids }} has been created."
-# Get a list of volume Ids from the return value of os_volume
+ # Get a list of volume Ids from the return value of os_volume
