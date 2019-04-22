@@ -6,19 +6,12 @@
   roles:
     - role: install-environments
     - role: network-penetration
+    - role: git-clone-sourcefile
 
-- hosts: all
+- hosts: WebServer
+  sudo: yes
   vars_files:
     - host_vars/remote_vars.yaml
   gather_facts: true
   roles:
-    - role: git-clone-sourcefile
-
-
-# - hosts: WebServer
-#   vars_files:
-#     - host_vars/vars.yaml
-#   gather_facts: true
-#   roles:
-#     - role: config-webserver
-#     - role: deploy-applications
+    - role: deploy-webserver

@@ -6,6 +6,6 @@
   roles:
     - role: common
     - role: show-images
-    # - role: openstack-volume
+    - role: openstack-volume
     - role: create-security-groups
     - role: create-instances

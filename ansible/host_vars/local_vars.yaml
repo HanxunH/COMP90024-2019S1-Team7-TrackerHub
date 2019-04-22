@@ -1,16 +1,27 @@
+---
 #############################################
 #              Common vars                  #
 #############################################
 availability_zone: melbourne-qh2-uom
+instance_network: qh2-uom-internal
+instance_flavor: uom.mse.2c9g
+instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
+instance_key_name: NectarGroup # ssh private key
+
 
 #############################################
 #                 Volume                    #
 #############################################
 volumes:
-  - vol_name: test-vol-1
-    vol_size: 5
-  - vol_name: test-vol-2
-    vol_size: 5
+  - vol_name: volume_webserver
+    vol_size: 10
+  - vol_name: volume_spider
+    vol_size: 80
+  - vol_name: volume_db
+    vol_size: 80
+  - vol_name: volume_ml
+    vol_size: 80
+
 
 
 #############################################
@@ -71,22 +82,10 @@ security_groups:
 #############################################
 instances:
   - name: WebServer
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
-    instance_key_name: NectarGroup # ssh private key
-    instance_flavor: uom.mse.2c9g # 2 VCPUs & 8GB RAM
     security_groups: web-security-group
   - name: Spider
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: spider-security-group
   - name: MachineLearning
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: machine-learning-security-group
   - name: Database
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: database-security-group

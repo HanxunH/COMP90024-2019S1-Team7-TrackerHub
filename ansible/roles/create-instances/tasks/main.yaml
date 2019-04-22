@@ -1,11 +1,13 @@
+---
 - name: Create instances
   os_server:
     name: '{{ item.name }}'
-    image: '{{ item.instance_image }}'
-    key_name: '{{ item.instance_key_name }}'
-    flavor: '{{ item.instance_flavor }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ instance_flavor }}'
     availability_zone: '{{ availability_zone }}'
     security_groups: '{{ item.security_groups }}'
+    network: '{{ instance_network }}'
     auto_floating_ip: yes
     wait: yes
     timeout: 600
