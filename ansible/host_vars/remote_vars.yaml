@@ -22,3 +22,7 @@ ngrok_service_name: ngrok
 ngrok_daemon: "{{ ngrok_path_bin }}"
 ngrok_daemon_opts: "start {{ ngrok_start_tunnel }} --config /{{ ngrok_user }}/.ngrok2/ngrok.yml"
 ngrok_pidfile: "/var/run/ngrok.pid"
+
+## github account for private repo (require)
+githubuser: yourGitUsername
+githubpassword: yourGitPassword
