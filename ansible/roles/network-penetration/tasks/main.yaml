@@ -1,3 +1,4 @@
+---
 - name: ngrok | set user
   set_fact:
     ngrok_user: "{{ ansible_ssh_user }}"

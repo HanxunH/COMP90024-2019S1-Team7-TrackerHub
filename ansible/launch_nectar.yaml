@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   vars_files:
     - host_vars/local_vars.yaml

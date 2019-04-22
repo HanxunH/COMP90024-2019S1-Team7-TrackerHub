@@ -1,4 +1,8 @@
 ---
+- debug:
+    msg: "{{ item.volume_ids }}"
+  loop: '{{ instances }}'
+
 - name: Create instances
   os_server:
     name: '{{ item.name }}'
@@ -8,6 +12,7 @@
     availability_zone: '{{ availability_zone }}'
     security_groups: '{{ item.security_groups }}'
     network: '{{ instance_network }}'
+    volumes: "{{ item.volume_ids }}"
     auto_floating_ip: yes
     wait: yes
     timeout: 600

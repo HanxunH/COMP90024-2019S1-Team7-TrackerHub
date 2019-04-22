@@ -1,3 +1,4 @@
+---
 - name: add proxy to enviroments
   lineinfile:
     line: "http_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nhttps_proxy=\"http://wwwproxy.unimelb.edu.au:8000\"\nftp_proxy=\"http://wwwproxy.unimelb.edu.au:8000\""

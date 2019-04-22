@@ -1,25 +1,6 @@
 ---
-- name: change docker proxy | step 1
-  command: mkdir /etc/systemd/system/docker.service.d
-
-- name: change docker proxy | step 2
-  copy:
-    content: "[Service]\nEnvironment=\"HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000\""
-    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
-
-- name: change docker proxy | step 3
-  command: systemctl daemon-reload
-
-- name: change docker proxy | step 4
-  command: systemctl restart docker
-
 - name: docker | build image
   command: docker build -t frontend:v1 /home/ubuntu/COMP90024/frontend
 
 - name: docker | run container
-  docker:
-    name: frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}}
-    image: "frontend:v1"
-    state: reloaded
-    publish_all_ports: yes
-    # use_tls: encrypt
+  command: docker run -d -p 80:80 --name frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}} frontend:v1

@@ -1,0 +1,37 @@
+---
+- name: Create volume(s)
+  os_volume:
+    display_name: '{{ item.vol_name }}'
+    size: '{{ item.vol_size }}'
+    availability_zone: '{{ availability_zone }}'
+    wait: yes
+    timeout: 600
+    state: present
+  loop: '{{ outer_item.volumes }}'
+  register: os_vol
+
+- debug:
+    msg: "=== {{os_vol}}"
+
+- name: Create a list of volume Ids
+  set_fact:
+    WebServer_volumes: "{{ WebServer_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "WebServer"
+
+- name: Create a list of volume Ids
+  set_fact:
+    Spider_volumes: "{{ Spider_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "Spider"
+
+- name: Create a list of volume Ids
+  set_fact:
+    MachineLearning_volumes: "{{ MachineLearning_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "MachineLearning"
+- name: Create a list of volume Ids
+  set_fact:
+    Database_volumes: "{{ Database_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "Database"
