@@ -1,3 +1,4 @@
+---
 - name: ngrok | download
   get_url:
     url: "{{ ngrok_download }}"
@@ -21,3 +22,17 @@
     path: "{{ ngrok_path_bin }}"
     mode: 0755
     state: file
+
+- name: change docker proxy | step 1
+  command: mkdir /etc/systemd/system/docker.service.d
+
+- name: change docker proxy | step 2
+  copy:
+    content: "[Service]\nEnvironment=\"HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000\""
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+
+- name: change docker proxy | step 3
+  command: systemctl daemon-reload
+
+- name: change docker proxy | step 4
+  command: systemctl restart docker

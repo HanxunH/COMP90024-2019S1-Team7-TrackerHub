@@ -12,7 +12,7 @@ OGQzOTYwNmRhZjA2ZDY5
 
 * Install Python, pip, openstacksdk
 * Show all images
-* ~~Create Volumes~~
+* Create Volumes
 * Create Security Groups
 * Create Instances
 
@@ -24,7 +24,7 @@ OGQzOTYwNmRhZjA2ZDY5
 
 * Network Penetration
 * Install docker
-* ~~Pull source code~~
+* Pull source code
 * ~~deploy applications for each server~~
 
 ```

@@ -10,21 +10,6 @@ instance_key_name: NectarGroup # ssh private key
 
 
 #############################################
-#                 Volume                    #
-#############################################
-volumes:
-  - vol_name: volume_webserver
-    vol_size: 10
-  - vol_name: volume_spider
-    vol_size: 80
-  - vol_name: volume_db
-    vol_size: 80
-  - vol_name: volume_ml
-    vol_size: 80
-
-
-
-#############################################
 #             Security group                #
 #############################################
 security_groups:
@@ -83,9 +68,25 @@ security_groups:
 instances:
   - name: WebServer
     security_groups: web-security-group
+    volume_ids: '{{ WebServer_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_webserver
+        vol_size: 10
   - name: Spider
     security_groups: spider-security-group
+    volume_ids: '{{ Spider_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_spider
+        vol_size: 80
   - name: MachineLearning
     security_groups: machine-learning-security-group
+    volume_ids: '{{ MachineLearning_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_ml
+        vol_size: 80
   - name: Database
     security_groups: database-security-group
+    volume_ids: '{{ Database_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_db
+        vol_size: 80
