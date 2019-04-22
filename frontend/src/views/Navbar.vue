@@ -1,4 +1,5 @@
 <template>
+  <!-- Navbar -->
   <header id="header" class="alt">
     <a id="logo" href="/"></a>
     <nav>
@@ -6,7 +7,11 @@
         <li v-if="this.$route.path == '/'">
           <a href="/map" class="button premium"><span>Go Premium</span></a>
         </li>
-      </ul>
+        <li v-if="this.$route.path != '/'">
+          <a :href="this.info.href" :class="'button '+ [this.info.class]" @click="changeButton"><span>{{ this.info.buttonText }}</span></a>
+        </li>
+      </ul> 
+    
     </nav>
   </header>
 </template>
@@ -45,6 +50,10 @@
   pointer-events: none;
 }
 #header:not(.alt) .button.premium {
+  opacity: 0;
+  pointer-events: none;
+}
+#header.alt .button.map {
   opacity: 0;
   pointer-events: none;
 }
@@ -101,11 +110,36 @@
 #header a.premium:active {
   opacity: .7;
 }
+#header .map span {
+  background-color: rgb(255, 153, 0);
+  color: #000;
+  font-weight: 700;
+  padding: 1em;
+  border-radius: 6px;
+}
+#header a.map {
+  text-decoration: none;
+}
+#header a.map:hover {
+  opacity: .9;
+}
+#header a.map:active {
+  opacity: .7;
+}
 </style>
 
 <script>
 export default {
   name: "Navbar",
+    data () {
+    return {
+      info: {
+        href: "#anchor1",
+        class: "premium",
+        buttonText: "View statistics"
+      }
+    }
+  },
   mounted() {
     console.debug("| Header Mounted")
     this.handleNavbar()
@@ -119,6 +153,22 @@ export default {
         } else {
           $header.classList.remove('alt')
         }
+      }
+    },
+
+    changeButton () {
+      if (this.info.href == "#anchor1") {
+        setTimeout(() => {
+          this.info.href = "#gmap"
+          this.info.class = "map"
+          this.info.buttonText = "View Map"
+        },500)
+      } else {
+        setTimeout(() => {
+          this.info.href = "#anchor1"
+          this.info.class = "premium"
+          this.info.buttonText = "View statistics"
+        },100)
       }
     }
   }

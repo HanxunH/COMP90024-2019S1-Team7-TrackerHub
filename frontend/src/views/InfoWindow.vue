@@ -1,10 +1,10 @@
 <template>
-    <div style="height:300px; weight:250px; min-width:250px; text-align:center;">
-        <h4>{{name}}</h4>
-        <Piechart
-            :data="pieData"
-        />
-    </div>
+  <div style="height:300px; weight:250px; min-width:250px; text-align:center;">
+    <h4>{{name}}</h4>
+    <Piechart
+        :data="this.infoPieData"
+    />
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
     name: 'infowindow',
     props: [
         'name',
-        'pieData',
+        'infoPieData',
     ],
     components: {
         Piechart

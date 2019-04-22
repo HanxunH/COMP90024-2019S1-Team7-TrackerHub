@@ -4,6 +4,9 @@ import { Bar } from 'vue-chartjs'
 export default {
   name:"Barchart",
   extends: Bar,
+  props: [
+    'data'
+  ],
   mounted () {
     // Overwriting base render method with actual data.
     this.renderChart({
