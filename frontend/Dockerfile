@@ -1,6 +1,9 @@
 # create image based on node from dockerhub
 FROM node:lts-alpine as node
 
+# add npm proxy
+RUN npm config set https-proxy http://wwwproxy.unimelb.edu.au:8000
+
 # create a dir where app will run
 RUN mkdir -p /usr/src/ng-app
 
