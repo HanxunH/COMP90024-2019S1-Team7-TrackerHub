@@ -28,7 +28,7 @@
 
 - name: change docker proxy | step 2
   copy:
-    content: "[Service]\nEnvironment=\"HTTP_PROXY=http://wwwproxy.unimelb.edu.au:8000\""
+    content: "[Service]\nEnvironment=\"HTTP_PROXY={{ proxy_address }}\""
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
 
 - name: change docker proxy | step 3

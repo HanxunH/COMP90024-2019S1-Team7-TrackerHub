@@ -32,10 +32,10 @@
 - name: Create inventory file
   copy:
     content: "[all:vars]\nansible_user=ubuntu\n\n"
-    dest: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini
+    dest: "{{project_working_directory}}/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini"
 
 - name: set ip addresses to inventory file
   lineinfile:
     line: "[{{ item.name }}]\n{{ item.ip }}\n"
-    dest: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini
+    dest: "{{project_working_directory}}/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini"
   loop: '{{ ip_addresses }}'

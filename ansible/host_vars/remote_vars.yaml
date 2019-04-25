@@ -1,4 +1,8 @@
 ---
+# Common
+project_working_directory: /home/xuwang/CCC-COMP90024
+proxy_address: http://wwwproxy.unimelb.edu.au:8000
+
 # ngrok
 ngrok_auth_token: 6A539T2Atf4rMhwsjoiYV_4ffk8BeuDjJXwHJ2G4gk4
 ngrok_download: "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
@@ -16,7 +20,7 @@ ngrok_tunnels:
   - name: "HTTP"
     address: "localhost:80"
     proto: "http"
-
+# need premium ngrok account with personalized hostname address
 ngrok_start_tunnel: "--all"
 ngrok_install_as_service: true  # creates init script
 ngrok_service_name: ngrok
