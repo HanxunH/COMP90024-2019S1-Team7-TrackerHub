@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-18T23:02:20+10:00
+# @Last modified time: 2019-04-19T22:57:38+10:00
 
 import torch
 import torch.nn as nn
@@ -40,8 +40,17 @@ class coconut_inference():
             self.std = NSFW_STD
         else:
             raise('Not Implemented!')
-        if self.model_args.model_arc == 'resnet50':
+
+        if self.model_args.model_arc == 'resnet18':
+            self.model = model.resnet18(num_classes=self.num_classes)
+        elif self.model_args.model_arc == 'resnet34':
+            self.model = model.resnet34(num_classes=self.num_classes)
+        elif self.model_args.model_arc == 'resnet50':
             self.model = model.resnet50(num_classes=self.num_classes)
+        elif self.model_args.model_arc == 'resnet101':
+            self.model = model.resnet101(num_classes=self.num_classes)
+        elif self.model_args.model_arc == 'resnet152':
+            self.model = model.resnet152(num_classes=self.num_classes)
         else:
             raise('Not Implemented!')
 
@@ -110,10 +119,10 @@ class coconut_inference():
         return rs
 
 
-coconut = coconut_inference(model_checkpoint_file_path='checkpoints/food179_resnet50_sgd.pth_best.pth')
-rs = coconut.inference(image_path='/Users/hanxunhuang/Data/food179/processed_images/croissant/1204.jpg', num_of_perdict=5)
-for item in rs:
-    print(item)
-
-for i, item in enumerate(coconut.model_idx_to_class):
-    print(coconut.model_idx_to_class[item])
+# coconut = coconut_inference(model_checkpoint_file_path='checkpoints/nsfw_resnet101_adabound.pth_best.pth')
+# rs = coconut.inference(image_path='/Users/hanxunhuang/Desktop/15a20007a7b576765fd4.jpeg', num_of_perdict=5)
+# for item in rs:
+#     print(item)
+#
+# for i, item in enumerate(coconut.model_idx_to_class):
+#     print(coconut.model_idx_to_class[item])

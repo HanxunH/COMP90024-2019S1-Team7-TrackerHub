@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:p100:1
 
 # The name of the job:
-#SBATCH --job-name="food179"
+#SBATCH --job-name="food179-50"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"
@@ -50,7 +50,7 @@ python3 -u coconut_train.py --cuda  \
                             --start_from_begining   \
                             --train_batch_size 100  \
                             --test_batch_size 200   \
-                            --num_epochs 500        \
+                            --num_epochs 310        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_food_179 \
                             --train_optimizer sgd   \
                             --model_type food179    \
