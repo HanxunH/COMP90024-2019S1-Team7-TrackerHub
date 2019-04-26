@@ -60,6 +60,11 @@ security_groups:
         port_range_min: 22
         port_range_max: 22
         remote_ip_prefix: 0.0.0.0/0
+      - name: 'for couchDB'
+        protocol: tcp
+        port_range_min: 3001
+        port_range_max: 3003
+        remote_ip_prefix: 0.0.0.0/0
 
 
 #############################################
@@ -88,5 +93,15 @@ instances:
     security_groups: database-security-group
     volume_ids: '{{ Database_volumes|default([]) }}'
     volumes:
-      - vol_name: volume_db
-        vol_size: 180
+      - vol_name: volume_db1
+        vol_size: 60
+        device: /dev/vdb
+        mountpoint: /data1
+      - vol_name: volume_db2
+        vol_size: 60
+        device: /dev/vdc
+        mountpoint: /data2
+      - vol_name: volume_db3
+        vol_size: 60
+        device: /dev/vdd
+        mountpoint: /data3
