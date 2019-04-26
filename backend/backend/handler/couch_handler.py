@@ -20,7 +20,13 @@ class CouchDbHandler(object):
             print(e)
             self.database = self.server.create(database)
 
+    def save(self):
+        pass
+
     def create(self):
+        pass
+
+    def upload(self):
         pass
 
     def query(self):
