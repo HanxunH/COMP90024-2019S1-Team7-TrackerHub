@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-19T21:54:06+10:00
+# @Last modified time: 2019-04-26T22:36:46+10:00
 
 
 import os
@@ -269,6 +269,8 @@ def main():
         coconut_model = model.resnet101(num_classes=num_classes)
     elif args.model_arc == 'resnet152':
         coconut_model = model.resnet152(num_classes=num_classes)
+    elif args.model_arc == 'mobilenet':
+        coconut_model = model.MobileNetV2(n_class=num_classes, input_size=256)
     else:
         raise('Not Implemented!')
 
@@ -279,6 +281,9 @@ def main():
         print("CUDA Enabled")
         print('Total of %d GPU available' % (torch.cuda.device_count()))
 
+    model_parameters = filter(lambda p: p.requires_grad, coconut_model.parameters())
+    params = sum([np.prod(p.size()) for p in model_parameters])
+    print('Total of %d parameters' %(params))
     # Build Training
     start_epoch = 0
     best_acc = 0

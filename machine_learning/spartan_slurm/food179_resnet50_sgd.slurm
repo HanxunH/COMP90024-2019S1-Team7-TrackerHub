@@ -4,7 +4,7 @@
 # Multithreaded (SMP) job: must run on one node and the cloud partition
 #SBATCH --nodes 1
 #SBATCH --partition gpgpu
-#SBATCH --gres=gpu:p100:1
+#SBATCH --gres=gpu:p100:4
 
 # The name of the job:
 #SBATCH --job-name="food179-50"
