@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:p100:1
 
 # The name of the job:
-#SBATCH --job-name="nsfw"
+#SBATCH --job-name="nsfw50"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"

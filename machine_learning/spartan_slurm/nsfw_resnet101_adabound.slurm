@@ -7,7 +7,7 @@
 #SBATCH --gres=gpu:p100:1
 
 # The name of the job:
-#SBATCH --job-name="nsfw"
+#SBATCH --job-name="nsfw101"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"
@@ -48,7 +48,7 @@ nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
                             --train_batch_size 200  \
-                            --test_batch_size 450   \
+                            --test_batch_size 400   \
                             --num_epochs 310        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
                             --train_optimizer adabound   \
