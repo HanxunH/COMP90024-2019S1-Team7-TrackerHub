@@ -49,12 +49,7 @@ class ObjectStorageHandler(object):
             logging.error('Object Storage File [%s] Not Found', file_name)
             return None
 
-        params = resp[0]
-
         file = BytesIO(resp[-1])
-        if params['content-type'] == 'image/jpeg':
-            picture = (Image.open(file)).convert('RGB')
-            return picture
         return file
 
     def delete_container(self):

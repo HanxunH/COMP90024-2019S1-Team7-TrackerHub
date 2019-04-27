@@ -3,7 +3,7 @@
 import logging
 import ujson
 
-from django.http import HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden
 
 from backend.common.config import HTTP_X_API_KEY, API_KEY, ErrorCode, ErrorMsg
 
@@ -24,8 +24,12 @@ def check_api_key(func):
         else:
             logging.warning('Unpermitted Access To \'%s\'', request.path_info)
             resp = init_http_unauthorized('Unpermitted Access To \'%s\'' % request.path_info)
-            return HttpResponseForbidden(ujson.dumps(resp), content_type='application/json')
+            return make_json_response(HttpResponseForbidden, resp)
     return wrapper
+
+
+def make_json_response(func=HttpResponse, resp=None):
+    return func(ujson.dumps(resp), content_type='application/json')
 
 
 def init_http_response(err_code, err_msg):
