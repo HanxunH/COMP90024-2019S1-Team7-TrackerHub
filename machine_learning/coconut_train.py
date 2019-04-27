@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-19T21:54:06+10:00
+# @Last modified time: 2019-04-27T20:34:47+10:00
 
 
 import os
@@ -187,6 +187,8 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                   model=model,
                   optimizer=optimizer,
                   data_loaders=data_loaders)
+        scheduler.step()
+        
         test_loader = data_loaders['test_dataset']
         test_acc = get_eval_accuracy(loader=test_loader, shared_cnn=model)
         test_acc_top5 = get_eval_topn_accuracy(loader=data_loaders['test_dataset'], shared_cnn=model)
@@ -269,6 +271,8 @@ def main():
         coconut_model = model.resnet101(num_classes=num_classes)
     elif args.model_arc == 'resnet152':
         coconut_model = model.resnet152(num_classes=num_classes)
+    elif args.model_arc == 'mobilenet':
+        coconut_model = model.MobileNetV2(n_class=num_classes, input_size=256)
     else:
         raise('Not Implemented!')
 
@@ -279,6 +283,9 @@ def main():
         print("CUDA Enabled")
         print('Total of %d GPU available' % (torch.cuda.device_count()))
 
+    model_parameters = filter(lambda p: p.requires_grad, coconut_model.parameters())
+    params = sum([np.prod(p.size()) for p in model_parameters])
+    print('Total of %d parameters' %(params))
     # Build Training
     start_epoch = 0
     best_acc = 0
@@ -314,6 +321,7 @@ def main():
     train_ops(start_epoch=start_epoch,
               model=coconut_model,
               optimizer=optimizer,
+              scheduler=scheduler,
               data_loaders=data_loaders,
               best_acc=best_acc)
 

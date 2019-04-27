@@ -4,10 +4,10 @@
 # Multithreaded (SMP) job: must run on one node and the cloud partition
 #SBATCH --nodes 1
 #SBATCH --partition gpgpu
-#SBATCH --gres=gpu:p100:1
+#SBATCH --gres=gpu:p100:4
 
 # The name of the job:
-#SBATCH --job-name="food179-101"
+#SBATCH --job-name="food179"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"
@@ -47,9 +47,9 @@ module load Python/3.5.2-intel-2017.u2-GCC-5.4.0-CUDA9
 nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
-                            --train_batch_size 80  \
-                            --test_batch_size 150   \
-                            --num_epochs 310        \
+                            --train_batch_size 200  \
+                            --test_batch_size 400   \
+                            --num_epochs 400        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_food_179 \
                             --train_optimizer adabound   \
                             --model_type food179    \
