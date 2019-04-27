@@ -4,10 +4,10 @@
 # Multithreaded (SMP) job: must run on one node and the cloud partition
 #SBATCH --nodes 1
 #SBATCH --partition gpgpu
-#SBATCH --gres=gpu:p100:1
+#SBATCH --gres=gpu:p100:4
 
 # The name of the job:
-#SBATCH --job-name="nsfw101"
+#SBATCH --job-name="nsfw"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"
@@ -49,7 +49,7 @@ nvidia-smi
 python3 -u coconut_train.py --cuda  \
                             --train_batch_size 200  \
                             --test_batch_size 400   \
-                            --num_epochs 310        \
+                            --num_epochs 400        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
                             --train_optimizer adabound   \
                             --model_type nsfw    \

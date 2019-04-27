@@ -4,10 +4,10 @@
 # Multithreaded (SMP) job: must run on one node and the cloud partition
 #SBATCH --nodes 1
 #SBATCH --partition gpgpu
-#SBATCH --gres=gpu:p100:1
+#SBATCH --gres=gpu:p100:4
 
 # The name of the job:
-#SBATCH --job-name="food179-50"
+#SBATCH --job-name="nsfw"
 
 # The project ID which this job should run under:
 #SBATCH --account="punim0784"
@@ -17,7 +17,7 @@
 #SBATCH --cpus-per-task=12
 
 # The amount of memory in megabytes per process in the job:
-#SBATCH --mem=64G
+#SBATCH --mem=32G
 
 # Send yourself an email when the job:
 #SBATCH --mail-type=FAIL
@@ -30,7 +30,7 @@
 #SBATCH --mail-user=hanxunh@student.unimelb.edu.au
 
 # The maximum running time of the job in days-hours:mins:sec
-#SBATCH --time 23:59:00
+#SBATCH --time 48:00:00
 
 # check that the script is launched with sbatch
 if [ "x$SLURM_JOB_ID" == "x" ]; then
@@ -47,12 +47,13 @@ module load Python/3.5.2-intel-2017.u2-GCC-5.4.0-CUDA9
 nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
-                            --train_batch_size 300  \
-                            --test_batch_size 600   \
-                            --num_epochs 310        \
-                            --train_data_dir /data/cephfs/punim0784/comp90024_p2_food_179 \
+                            --start_from_begining   \
+                            --train_batch_size 200  \
+                            --test_batch_size 400   \
+                            --num_epochs 400        \
+                            --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
                             --train_optimizer sgd   \
-                            --model_type food179    \
-                            --model_arc octave_resnet50    \
-                            --model_checkpoint_path checkpoints/food179_octave_resnet50_sgd.pth \
-                            >> logs/food179_octave_resnet50.log
+                            --model_type nsfw    \
+                            --model_arc resnet101    \
+                            --model_checkpoint_path checkpoints/nsfw_resnet101_sgd.pth \
+                            >> logs/nsfw_resnet101_sgd.log
