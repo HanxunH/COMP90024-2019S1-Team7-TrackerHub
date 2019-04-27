@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-19T22:57:38+10:00
+# @Last modified time: 2019-04-27T20:16:05+10:00
 
 import torch
 import torch.nn as nn
@@ -51,6 +51,8 @@ class coconut_inference():
             self.model = model.resnet101(num_classes=self.num_classes)
         elif self.model_args.model_arc == 'resnet152':
             self.model = model.resnet152(num_classes=self.num_classes)
+        elif self.model_args.model_arc == 'mobilenet':
+            self.model = model.MobileNetV2(n_class=self.num_classes, input_size=256)
         else:
             raise('Not Implemented!')
 
@@ -59,11 +61,21 @@ class coconut_inference():
         self.model_epoch = self.checkpoint['epoch']
         self.model_test_acc = self.checkpoint['test_acc']
         self.model_best_acc = self.checkpoint['best_acc']
+        self.model_test_acc_top5 = self.checkpoint['test_acc_top5']
         self.model_class_to_idx = self.checkpoint['class_to_idx']
         self.model_idx_to_class = {v: k for k, v in self.model_class_to_idx.items()}
         self.model_train_history_dict = self.checkpoint['train_history_dict']
         self.model.eval()
 
+        return
+
+    def print_model_details(self):
+        display = 'model_arc: ' + self.model_args.model_arc + \
+                  '\nmodel_type: ' + self.model_args.model_type + \
+                  '\ntest_acc: %.4f' % (self.model_test_acc) + \
+                  '\tbest_acc: %.4f' % (self.model_best_acc) + \
+                  '\ttest_acc_top5: %.4f' % (self.model_test_acc_top5) + '\n'
+        print(display)
         return
 
     def reformat_Image(self, ImageFilePath):
@@ -120,6 +132,7 @@ class coconut_inference():
 
 
 # coconut = coconut_inference(model_checkpoint_file_path='checkpoints/nsfw_resnet101_adabound.pth_best.pth')
+# coconut.print_model_details()
 # rs = coconut.inference(image_path='/Users/hanxunhuang/Desktop/15a20007a7b576765fd4.jpeg', num_of_perdict=5)
 # for item in rs:
 #     print(item)
