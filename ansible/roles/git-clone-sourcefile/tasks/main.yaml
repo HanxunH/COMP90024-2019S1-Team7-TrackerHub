@@ -1,7 +1,7 @@
 ---
 - name: add github ssh key
   copy:
-    src: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/config/GitHub
+    src: "{{project_working_directory}}/COMP90024-2019S1-Team7/config/GitHub"
     dest: /home/ubuntu/.ssh/GitHub
     owner: ubuntu
     group: ubuntu
@@ -10,7 +10,7 @@
 
 - name: configure ssh to use ansible key for github.com
   template:
-    src: /home/xuwang/CCC-COMP90024/COMP90024-2019S1-Team7/config/ssh_config
+    src: "{{project_working_directory}}/COMP90024-2019S1-Team7/config/ssh_config"
     dest: /home/ubuntu/.ssh/config
     owner: ubuntu
     group: ubuntu

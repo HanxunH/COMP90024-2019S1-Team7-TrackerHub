@@ -11,26 +11,27 @@
   register: os_vol
 
 - debug:
-    msg: "=== {{os_vol}}"
+    msg: "Volumes {{os_vol}} has been created."
 
-- name: Create a list of volume Ids
+- name: Create a list of volume Ids | WebServer
   set_fact:
     WebServer_volumes: "{{ WebServer_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
   when: outer_item.name == "WebServer"
 
-- name: Create a list of volume Ids
+- name: Create a list of volume Ids | Spider
   set_fact:
     Spider_volumes: "{{ Spider_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
   when: outer_item.name == "Spider"
 
-- name: Create a list of volume Ids
+- name: Create a list of volume Ids | Machine Learning
   set_fact:
     MachineLearning_volumes: "{{ MachineLearning_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
   when: outer_item.name == "MachineLearning"
-- name: Create a list of volume Ids
+
+- name: Create a list of volume Ids | Database
   set_fact:
     Database_volumes: "{{ Database_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
