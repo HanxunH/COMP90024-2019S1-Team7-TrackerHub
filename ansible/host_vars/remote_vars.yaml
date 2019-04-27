@@ -27,3 +27,30 @@ ngrok_service_name: ngrok
 ngrok_daemon: "{{ ngrok_path_bin }}"
 ngrok_daemon_opts: "start {{ ngrok_start_tunnel }} --config /{{ ngrok_user }}/.ngrok2/ngrok.yml"
 ngrok_pidfile: "/var/run/ngrok.pid"
+
+# CouchDB
+couchdb_version: 2.3.0
+databases:
+  - name: couchdb1
+    volume: /data1
+    port: 3001
+  - name: couchdb2
+    volume: /data2
+    port: 3002
+  - name: couchdb3
+    volume: /data3
+    port: 3003
+
+volumes:
+  - vol_name: volume_db1
+    vol_size: 60
+    device: /dev/vdb
+    mountpoint: /data1
+  - vol_name: volume_db2
+    vol_size: 60
+    device: /dev/vdc
+    mountpoint: /data2
+  - vol_name: volume_db3
+    vol_size: 60
+    device: /dev/vdd
+    mountpoint: /data3

@@ -8,8 +8,6 @@
     - role: network-penetration
     - role: git-clone-sourcefile
 
-# ============== 以上都成功 ================== 
- 
 - hosts: WebServer
   become: yes
   vars_files:
@@ -17,12 +15,15 @@
   gather_facts: true
   roles:
     - role: deploy-webserver
+    # backend
 
 - hosts: Database
   become: yes
   vars_files:
+    - host_vars/local_vars.yaml
     - host_vars/remote_vars.yaml
   gather_facts: true
   roles:
-    # - role: mount-volume
+    - role: mount-volume
     - role: deploy-dbserver
+# ============== 以上都成功 ================== 
