@@ -22,6 +22,16 @@ def tweet_pic_router(request, resource=None, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
+@require_http_methods(['POST', 'GET'])
+@check_api_key
+def tweet_router(request, resource=None, *args, **kwargs):
+    if request.method == 'POST':
+        return tweet_post(request)
+    elif request.method == 'GET' and resource:
+        return tweet_get(request, resource)
+    return HttpResponseNotAllowed()
+
+
 def tweet_pic_post(request):
     file = request.FILES.get('file', None)
     if not file:
@@ -68,5 +78,9 @@ def tweet_pic_get(request, resource):
     return FileResponse(picture, filename=resource, content_type='image/jpeg')
 
 
-def tweet_storage(request):
+def tweet_post(request):
+    pass
+
+
+def tweet_get(request, resource):
     pass
