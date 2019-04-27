@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+from enum import Enum
+
+HTTP_X_API_KEY = 'HTTP_X_API_KEY'
+API_KEY = '227415ba68c811e9b1a48c8590c7151e'
+
 COUCHDB_URL = 'http://172.26.37.220:{}/'
 COUCHDB_PORTS = [3001, 3002, 3003]
 COUCHDB_DB = 'twitter'
@@ -12,3 +17,15 @@ OS_TENANT_ID = 'unimelb-comp90024-group-7'
 OS_USERNAME = 'lihuan.zhang@student.unimelb.edu.au'
 OS_PASSWORD = 'NjNkMjk0Y2Y0MGYwYjlj'
 OS_VERSION = '3'
+
+
+class ErrorCode(Enum):
+    success = 0
+    not_found = 1
+    unauthorized = 2
+
+
+class ErrorMsg(Enum):
+    success = 'success'
+    not_found = 'resource not found'
+    unauthorized = 'unauthorized access'

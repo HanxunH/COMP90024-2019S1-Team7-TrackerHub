@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from swiftclient import client, exceptions
+from swiftclient import client
+from swiftclient.exceptions import ClientException
 from PIL import Image
 from io import BytesIO
+import logging
 
 from backend.common.config import *
 
@@ -22,7 +24,7 @@ class ObjectStorageHandler(object):
     def check_exist_or_create(self):
         try:
             self.swift.get_container(self.container_name)
-        except exceptions.ClientException:
+        except ClientException:
             self.swift.put_container(self.container_name)
 
     def findall(self):
@@ -41,13 +43,18 @@ class ObjectStorageHandler(object):
         return self.swift.delete_object(container=self.container_name, obj=file_name)
 
     def download(self, file_name):
-        resp = list(self.swift.get_object(container=self.container_name, obj=file_name))
+        try:
+            resp = list(self.swift.get_object(container=self.container_name, obj=file_name))
+        except ClientException:
+            logging.error('Object Storage File [%s] Not Found', file_name)
+            return None
+
         params = resp[0]
 
         file = BytesIO(resp[-1])
         if params['content-type'] == 'image/jpeg':
-            image = (Image.open(file)).convert('RGB')
-            return image
+            picture = (Image.open(file)).convert('RGB')
+            return picture
         return file
 
     def delete_container(self):
