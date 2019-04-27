@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-26T22:36:46+10:00
+# @Last modified time: 2019-04-27T20:34:47+10:00
 
 
 import os
@@ -187,6 +187,8 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                   model=model,
                   optimizer=optimizer,
                   data_loaders=data_loaders)
+        scheduler.step()
+        
         test_loader = data_loaders['test_dataset']
         test_acc = get_eval_accuracy(loader=test_loader, shared_cnn=model)
         test_acc_top5 = get_eval_topn_accuracy(loader=data_loaders['test_dataset'], shared_cnn=model)
@@ -319,6 +321,7 @@ def main():
     train_ops(start_epoch=start_epoch,
               model=coconut_model,
               optimizer=optimizer,
+              scheduler=scheduler,
               data_loaders=data_loaders,
               best_acc=best_acc)
 
