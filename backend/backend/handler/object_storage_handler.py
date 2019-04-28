@@ -9,6 +9,9 @@ import logging
 from backend.common.config import *
 
 
+logger = logging.getLogger('django.debug')
+
+
 class ObjectStorageHandler(object):
     swift = None
     container_name = None
@@ -20,6 +23,7 @@ class ObjectStorageHandler(object):
         self.container_name = container_name
         self.container_url = '{}/{}/'.format(object_storage_url, container_name)
         self.check_exist_or_create()
+        logger.debug('Object Storage Connected Success: %s' % self.container_url)
 
     def check_exist_or_create(self):
         try:
@@ -46,7 +50,7 @@ class ObjectStorageHandler(object):
         try:
             resp = list(self.swift.get_object(container=self.container_name, obj=file_name))
         except ClientException:
-            logging.error('Object Storage File [%s] Not Found', file_name)
+            logger.error('Object Storage File [%s] Not Found', file_name)
             return None
 
         file = BytesIO(resp[-1])
