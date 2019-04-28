@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-27T20:16:05+10:00
+# @Last modified time: 2019-04-28T20:12:38+10:00
 
 import torch
 import torch.nn as nn
@@ -72,6 +72,7 @@ class coconut_inference():
     def print_model_details(self):
         display = 'model_arc: ' + self.model_args.model_arc + \
                   '\nmodel_type: ' + self.model_args.model_type + \
+                  '\ntrain_optimizer: ' + self.model_args.train_optimizer + \
                   '\ntest_acc: %.4f' % (self.model_test_acc) + \
                   '\tbest_acc: %.4f' % (self.model_best_acc) + \
                   '\ttest_acc_top5: %.4f' % (self.model_test_acc_top5) + '\n'
