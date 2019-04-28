@@ -16,54 +16,34 @@ security_groups:
   - name: web-security-group
     description: "security group for web server"
     rules:
-      - name: 'for SSH'
+      - name: 'Any'
         protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for HTTP'
-        protocol: tcp
-        port_range_min: 80
-        port_range_max: 80
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for HTTPS'
-        protocol: tcp
-        port_range_min: 443
-        port_range_max: 443
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for TOMCAT'
-        protocol: tcp
-        port_range_min: 8080
-        port_range_max: 8090
+        port_range_min: 1
+        port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
   - name: spider-security-group
     description: "security group for spider server"
     rules:
-      - name: 'for SSH'
+      - name: 'Any'
         protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
+        port_range_min: 1
+        port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
   - name: machine-learning-security-group
     description: "security group for machine learning server"
     rules:
-      - name: 'for SSH'
+      - name: 'Any'
         protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
+        port_range_min: 1
+        port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
   - name: database-security-group
     description: "security group for database server"
     rules:
-      - name: 'for SSH'
+      - name: 'Any'
         protocol: tcp
-        port_range_min: 22
-        port_range_max: 22
-        remote_ip_prefix: 0.0.0.0/0
-      - name: 'for couchDB'
-        protocol: tcp
-        port_range_min: 8001
-        port_range_max: 8003
+        port_range_min: 1
+        port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
 
 
@@ -71,37 +51,35 @@ security_groups:
 #                Instance                   #
 #############################################
 instances:
-  - name: WebServer
-    security_groups: web-security-group
-    volume_ids: '{{ WebServer_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_webserver
-        vol_size: 10
-  - name: Spider
-    security_groups: spider-security-group
-    volume_ids: '{{ Spider_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_spider
-        vol_size: 10
-  - name: MachineLearning
-    security_groups: machine-learning-security-group
-    volume_ids: '{{ MachineLearning_volumes|default([]) }}'
-    volumes:
-      - vol_name: volume_ml
-        vol_size: 50
   - name: Database
     security_groups: database-security-group
     volume_ids: '{{ Database_volumes|default([]) }}'
     volumes:
       - vol_name: volume_db1
-        vol_size: 60
+        vol_size: 80
         device: /dev/vdb
-        mountpoint: /data1
+        mountpoint: /data
+  - name: WebServer
+    security_groups: web-security-group
+    volume_ids: '{{ WebServer_volumes|default([]) }}'
+    volumes:
       - vol_name: volume_db2
-        vol_size: 60
-        device: /dev/vdc
-        mountpoint: /data2
+        vol_size: 80
+        device: /dev/vdb
+        mountpoint: /data
+  - name: Spider
+    security_groups: spider-security-group
+    volume_ids: '{{ Spider_volumes|default([]) }}'
+    volumes:
       - vol_name: volume_db3
-        vol_size: 60
-        device: /dev/vdd
-        mountpoint: /data3
+        vol_size: 80
+        device: /dev/vdb
+        mountpoint: /data
+  - name: MachineLearning
+    security_groups: machine-learning-security-group
+    volume_ids: '{{ MachineLearning_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_ml
+        vol_size: 10
+        device: /dev/vdb
+        mountpoint: /data
