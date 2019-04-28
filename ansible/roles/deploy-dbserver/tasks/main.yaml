@@ -14,4 +14,4 @@
 # sudo mkfs.xfs /dev/vdb
 # sudo mkdir /data
 # sudo mount -t auto /dev/vdb /data
-# sudo docker run -d -p 3001:5984 --name couchdb1 -v /data couchdb:2.3.0
+# sudo docker run -d -p 8001:5984 --name couchdb1 -v /data couchdb:2.3.0
