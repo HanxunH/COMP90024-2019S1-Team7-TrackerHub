@@ -33,13 +33,13 @@ couchdb_version: 2.3.0
 databases:
   - name: couchdb1
     volume: /data1
-    port: 3001
+    port: 8001
   - name: couchdb2
     volume: /data2
-    port: 3002
+    port: 8002
   - name: couchdb3
     volume: /data3
-    port: 3003
+    port: 8003
 
 volumes:
   - vol_name: volume_db1
