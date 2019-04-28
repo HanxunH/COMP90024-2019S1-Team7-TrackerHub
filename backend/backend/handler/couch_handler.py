@@ -23,7 +23,6 @@ class CouchDbHandler(object):
         except Exception:
             logger.debug('CouchDB Connected Failed: %s@%s:%s' % (username, domain, ports.__str__()))
             return
-            # raise ConnectionRefusedError
 
         try:
             self.database = self.server[database]
@@ -36,7 +35,7 @@ class CouchDbHandler(object):
 
     def create(self, doc):
         resp = self.database.update(doc)
-        print(resp)
+        return resp
 
     def update(self):
         pass
@@ -76,4 +75,4 @@ if __name__ == '__main__':
     couch_db_handler = GetCouchDbHandlers.get_couch_db_handler(COUCHDB_DB)
     print(couch_db_handler)
     if couch_db_handler:
-        couch_db_handler.create(document)
+        print(couch_db_handler.create(document))
