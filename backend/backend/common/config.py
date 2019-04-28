@@ -5,8 +5,11 @@ from enum import Enum
 HTTP_X_API_KEY = 'HTTP_X_API_KEY'
 API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 
-COUCHDB_URL = 'http://172.26.37.220:{}/'
-COUCHDB_PORTS = [3001, 3002, 3003]
+COUCHDB_URL = 'http://{}:{}@{}:{}/'
+COUCHDB_DOMAIN = '172.26.37.178'
+COUCHDB_USERNAME = 'admin'
+COUCHDB_PASSWORD = 'admin'
+COUCHDB_PORTS = [8001, 8002, 8003]
 COUCHDB_DB = 'twitter'
 
 OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc/'

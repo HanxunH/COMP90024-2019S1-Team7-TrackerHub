@@ -7,6 +7,7 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFou
 from django.views.decorators.http import require_http_methods
 
 from backend.handler.object_storage_handler import object_storage_handler
+from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import init_http_not_found, init_http_success, check_api_key, make_json_response
 
 

@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import couchdb
+import logging
 
-from backend.common.config import COUCHDB_URL, COUCHDB_PORTS, COUCHDB_DB
+from backend.common.config import *
+
+
+logger = logging.getLogger('django.debug')
 
 
 class CouchDbHandler(object):
@@ -11,22 +15,30 @@ class CouchDbHandler(object):
     server = None
     database = None
 
-    def __init__(self, database, url=COUCHDB_URL, ports=COUCHDB_PORTS):
+    def __init__(self, database, url=COUCHDB_URL, username=COUCHDB_USERNAME, password=COUCHDB_PASSWORD,
+                 domain=COUCHDB_DOMAIN, ports=COUCHDB_PORTS):
         self.load_balance_counter = 0
-        self.server = couchdb.Server(url.format(ports[self.load_balance_counter % len(COUCHDB_PORTS)]))
+        try:
+            self.server = couchdb.Server(url.format(username, password, domain, ports[self.load_balance_counter % len(COUCHDB_PORTS)]))
+        except Exception:
+            logger.debug('CouchDB Connected Failed: %s@%s:%s' % (username, domain, ports.__str__()))
+            return
+            # raise ConnectionRefusedError
+
         try:
             self.database = self.server[database]
-        except Exception as e:
-            print(e)
+        except Exception:
             self.database = self.server.create(database)
+        logger.debug('CouchDB Connected Success: %s@%s:%s Collection Used: %s' % (username, domain, ports.__str__(), database))
 
     def save(self):
         pass
 
-    def create(self):
-        pass
+    def create(self, doc):
+        resp = self.database.update(doc)
+        print(resp)
 
-    def upload(self):
+    def update(self):
         pass
 
     def query(self):
@@ -36,4 +48,32 @@ class CouchDbHandler(object):
         pass
 
 
-couch_db_handler = CouchDbHandler(COUCHDB_DB)
+class GetCouchDbHandlers(object):
+    couch_db_handler = dict()
+
+    @classmethod
+    def get_couch_db_handler(cls, database):
+        if database not in cls.couch_db_handler:
+            try:
+                cls.couch_db_handler.update({database: CouchDbHandler(COUCHDB_DB)})
+            except Exception:
+                logger.debug('CouchDB Connected Failed! Database: %s' % database)
+                cls.couch_db_handler.update({database: None})
+        return cls.couch_db_handler[database]
+
+
+couch_db_handler = GetCouchDbHandlers.get_couch_db_handler(COUCHDB_DB)
+
+
+if __name__ == '__main__':
+    document = [dict(
+        flag='test',
+        index='test1',
+    ), dict(
+        flag='nottest',
+        index='hello',
+    )]
+    couch_db_handler = GetCouchDbHandlers.get_couch_db_handler(COUCHDB_DB)
+    print(couch_db_handler)
+    if couch_db_handler:
+        couch_db_handler.create(document)
