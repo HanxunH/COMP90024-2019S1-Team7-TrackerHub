@@ -33,9 +33,9 @@
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="renderFood()">Food</b-dropdown-item>
-            <b-dropdown-item href="#" @click="renderPorn()">Porn</b-dropdown-item>
-            <b-dropdown-item href="#" @click="renderFoodAndPorn()">Food and Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="renderMap('food')">Food</b-dropdown-item>
+            <b-dropdown-item href="#" @click="renderMap('porn')">Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="renderMap('foodPorn')">Food and Porn</b-dropdown-item>
           </b-dropdown>
         </div>
         <div class="col-md-2">
@@ -81,7 +81,8 @@ export default {
       options: {
         format: 'DD/MM/YYYY',
         useCurrent: false,
-      }   
+      },
+      melb_geo: ''
     }
   },
 
@@ -164,34 +165,31 @@ export default {
       })
     },
 
-    // ====================== Collect Data ======================
-    /* ======= Get map data =======
-    getMapData(){
-    	axios
-        .get('http://domain/api/map/mapData.json')
+    // ====================== Get Chart Data =====================
+    renderMap(tag) {
+      let self = this
+      console.log(self.start_time)
+      console.log(self.end_time)
+      console.log(tag)
+
+      /* get data from server
+      axios
+        .get(`http://domain/api/map/mapData${tag}`,{
+          params:{
+            start_time: self.start_time,
+            end_time: self.end_time
+          }
+        })
         .then(response => {
-          return response.data
+          self.melb_geo = response.melb_geo
         })
         .catch(error => {
           console.log(error)
           this.errored = true
-        })
-    },
-    */
+      })
+      */
 
-    // ====================== Get Chart Data =====================
-    renderFood() {
-      let self = this
-      console.log(this.start_time)
-      console.log(this.end_time)
-      console.log('food')
-    },
-
-    renderPorn() {
-
-    },
-    
-    renderFoodAndPorn() {
+      // re-render the map here
 
     },
 
@@ -199,7 +197,12 @@ export default {
     getBarData(){
       let self = this
     	axios
-        .get('http://domain/api/bar/barData.json')
+        .get('http://domain/api/bar/barData',{
+          params:{
+            start_time: self.start_time,
+            end_time: self.end_time
+          }
+        })
         .then(response => {
           self.barData = response.data
         })
@@ -211,7 +214,7 @@ export default {
     getLineData(){
       let self = this
     	axios
-        .get('http://domain/api/line/lineData.json')
+        .get('http://domain/api/line/lineData')
         .then(response => {
           self.lineData = response.data
         })
@@ -223,7 +226,7 @@ export default {
     getRadarchartData(){
       let self = this
     	axios
-        .get('http://domain/api/radar/radarData.json')
+        .get('http://domain/api/radar/radarData')
         .then(response => {
           self.radarData = response.data
         })
