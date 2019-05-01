@@ -1,7 +1,13 @@
 <template>
   <div id="gmap" style="background-color:#bbb;">
+
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
+
+    <!-- Div on top of the map -->
+    <div id="onmap">        
+    </div>
+    
     <!-- Charts -->
     <a class="anchor" id="anchor1"></a>
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
@@ -12,6 +18,31 @@
         <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
       </div>    
     </div>  
+
+    <!-- Tool Navbar -->
+    <nav class="navbar fixed-bottom navbar-light">
+      <div class="row">
+        <div class="col-md-3">
+          <date-picker v-model="start_time" :config="options"></date-picker>
+        </div>
+        <div class="col-md-1">
+          <a class="navbar-brand">To</a>
+        </div>
+        <div class="col-md-3">
+          <date-picker v-model="end_time" :config="options"></date-picker>
+        </div>
+        <div class="col-md-2">
+          <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
+            <b-dropdown-item href="#" @click="renderFood()">Food</b-dropdown-item>
+            <b-dropdown-item href="#" @click="renderPorn()">Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="renderFoodAndPorn()">Food and Porn</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+    </nav>
+
   </div>
 </template>
 
@@ -24,7 +55,9 @@ import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
-
+import 'bootstrap/dist/css/bootstrap.css';
+import datePicker from 'vue-bootstrap-datetimepicker';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 export default {
   name: 'gmap',
@@ -33,6 +66,7 @@ export default {
     Piechart,
     Linechart,
     Barchart,
+    datePicker
   },
 
   data() {
@@ -41,7 +75,13 @@ export default {
       pieData: [],
       barData: [],
       radarData: [],
-      lineData: []
+      lineData: [],
+      start_time: new Date(),
+      end_time: new Date(),
+      options: {
+        format: 'DD/MM/YYYY',
+        useCurrent: false,
+      }   
     }
   },
 
@@ -138,6 +178,24 @@ export default {
         })
     },
     */
+
+    // ====================== Get Chart Data =====================
+    renderFood() {
+      let self = this
+      console.log(this.start_time)
+      console.log(this.end_time)
+      console.log('food')
+    },
+
+    renderPorn() {
+
+    },
+    
+    renderFoodAndPorn() {
+
+    },
+
+    // ====================== Get Chart Data =====================
     getBarData(){
       let self = this
     	axios
@@ -189,6 +247,13 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+  position: relative;
+}
+#onmap {
+  position: absolute; 
+  top: 100px; 
+  left: 100px; 
+  z-index: 20099; 
 }
 a.anchor {
     display: block;
