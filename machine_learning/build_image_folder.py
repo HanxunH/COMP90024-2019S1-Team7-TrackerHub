@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: build_image_folder.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-17T22:45:28+10:00
+# @Last modified time: 2019-05-01T23:17:31+10:00
 
 
 
@@ -17,11 +17,43 @@ from PIL import Image
 from glob import glob
 
 FROM_TARGET_DIR = '/Users/hanxunhuang/Data/nsfw'
-PROCESS_DIR = '/Users/hanxunhuang/Data/nsfw_processed'
-TO_TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_nsfw'
+PROCESS_DIR = '/Users/hanxunhuang/Data/nsfw'
+TO_TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3'
 CHANNEL_NUM = 3
 TEST_PERCENTAGE = 0.2
 target_image_size = 256
+
+# Update datasets
+def update_nsfw():
+    source_path = "/Users/hanxunhuang/Downloads/Chrome/test"
+    image_file_path_list = []
+    # for id in os.listdir(source_path):
+    #     id_path = source_path + '/' + id
+    for image_name in os.listdir(source_path):
+        image_file_path = source_path + '/' + image_name
+        image_file_path_list.append(image_file_path)
+
+    test_count = 0
+    train_file_path_list = []
+    test_file_path_list = []
+
+    while test_count < len(image_file_path_list) * TEST_PERCENTAGE:
+        target_file_index = random.randint(0, len(image_file_path_list)-1)
+        target_file_path = image_file_path_list[target_file_index]
+        if target_file_path not in test_file_path_list:
+            test_file_path_list.append(target_file_path)
+            test_count = test_count + 1
+
+    target_test_dir = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/test/neutral'
+    target_train_dir = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/train/neutral'
+
+    train_file_path_list = [item for item in image_file_path_list if item not in test_file_path_list]
+    print(len(train_file_path_list)+ len(test_file_path_list))
+    print(len(image_file_path_list))
+
+    move_list_of_file_to_dir(train_file_path_list, target_train_dir)
+    move_list_of_file_to_dir(test_file_path_list, target_test_dir)
+    return
 
 # Helper Function that resize image to 256, add black padding
 def reformat_Image(ImageFilePath):
@@ -105,14 +137,14 @@ def process_files():
                 continue
 
     # validations
-    print("-" * 80)
-    for id_folder in id_path_list:
-        original_id_path = FROM_TARGET_DIR + '/' + id_folder
-        processed_id_path = PROCESS_DIR + '/' + id_folder
-        for image_name in os.listdir(original_id_path):
-            if not image_name.startswith('.') and image_name not in os.listdir(processed_id_path):
-                print(original_id_path + '/' + image_name)
-                raise('After Process Inconsistent image!')
+    # print("-" * 80)
+    # for id_folder in id_path_list:
+    #     original_id_path = FROM_TARGET_DIR + '/' + id_folder
+    #     processed_id_path = PROCESS_DIR + '/' + id_folder
+    #     for image_name in os.listdir(original_id_path):
+    #         if not image_name.startswith('.') and image_name not in os.listdir(processed_id_path):
+    #             print(original_id_path + '/' + image_name)
+    #             raise('After Process Inconsistent image!')
     print('Valid!')
 
 
@@ -214,9 +246,10 @@ def build_image_foler():
 def main():
     # process_files()
     # build_image_foler()
-    rgb_mean, rgb_std = cal_dir_stat(root=PROCESS_DIR)
-    print('rgb_mean: %s' % (str(rgb_mean)))
-    print('rgb_std: %s' % (str(rgb_std)))
+    # update_nsfw()
+    # rgb_mean, rgb_std = cal_dir_stat(root=PROCESS_DIR)
+    # print('rgb_mean: %s' % (str(rgb_mean)))
+    # print('rgb_std: %s' % (str(rgb_std)))
 
     return
 
@@ -227,3 +260,5 @@ if __name__ == '__main__':
 # Food179 STD [0.31260642838369135, 0.29686785305034863, 0.28606165329199507]
 # NSFW    Mean [0.4192032458303017, 0.3620132191886713, 0.3345888229001102]
 # NSFW    STD [0.36833108995020036, 0.33885012952633026, 0.32902284057603554]
+# New_NSFW Mean [0.42449722977772864, 0.36894542373962763, 0.34294638334018696]
+# New_NSFW STD [0.37195855638311753, 0.3443887116244747, 0.3354943737634228]
