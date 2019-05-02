@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from django.urls import path, re_path
 from backend.api.views.tweets import tweet_router

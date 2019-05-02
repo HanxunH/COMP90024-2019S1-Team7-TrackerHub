@@ -1,11 +1,10 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import logging
 import ujson
 import json
 import datetime
 
-import django.utils.timezone
 from django.http import HttpResponse, HttpResponseForbidden
 
 from backend.common.config import HTTP_X_API_KEY, API_KEY, ErrorCode, ErrorMsg
