@@ -18,6 +18,10 @@
 #   roles:
 #     - role: docker-swarm-add-worker
 # ============== 以上都成功 ================== 
+- hosts: dbServers
+  roles:
+    - role: couchdb-cluster
+
 
 # - hosts: Database
 #   become: yes

@@ -1,0 +1,51 @@
+version: "3"
+services:
+  couchdb1:
+    image: "couchdb:2.3.0"
+    restart: always
+    ports:
+      - "5984:5984"
+      - "5986:5986"
+      - "4369:4369"
+      - "9100-9200:9100-9200"
+    links:
+      - couch_slave1
+      - couch_slave2
+    volumes:
+      - /data:/opt/couchdb/data
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+    networks:
+      couchdb_nw:
+        ipv4_address: 172.26.37.203
+  couchdb2:
+    image: "couchdb:2.3.0"
+    restart: always
+    ports:
+      - "15984:5984"
+    volumes:
+      - /data:/opt/couchdb/data
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+    networks:
+      couchdb_nw:
+        ipv4_address: 172.26.37.171
+  couchdb3:
+    image: "couchdb:2.3.0"
+    restart: always
+    ports:
+      - "25984:5984"
+    volumes:
+      - /data:/opt/couchdb/data
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=admin
+    networks:
+      couchdb_nw:
+        ipv4_address: 172.26.37.162
+
+networks:
+  couchdb_nw:
+    driver: overlay

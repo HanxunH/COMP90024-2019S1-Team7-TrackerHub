@@ -1,0 +1,13 @@
+#!/bin/bash
+export size=1
+export user=admin
+export pass=admin
+declare -a conts=(`docker ps --all | grep couchdb | cut -f1 -d' ' | xargs -n${size} -d'\n'`)
+
+for (( i=0; i<${size}; i++ )); do
+    docker exec ${conts[${i}]} \
+      bash -c "echo \"-setcookie couchdb_cluster\" >> /opt/couchdb/etc/vm.args"
+    docker exec ${conts[${i}]} \
+      bash -c "echo \"-name couchdb@{{ ansible_host }}\" >> /opt/couchdb/etc/vm.args"
+done
+
