@@ -12,7 +12,7 @@ COUCHDB_PASSWORD = 'admin'
 COUCHDB_PORTS = [8001, 8002, 8003]
 COUCHDB_DB = 'twitter'
 
-OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc/'
+OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_CONTAINER = 'twitter_pic'
 
 OS_AUTH_URL = 'https://keystone.rc.nectar.org.au:5000'
