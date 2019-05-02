@@ -1,45 +1,41 @@
 ---
-- name: copy docker-compose file to server
+- name: Check folders
+  become: yes
+  stat:
+    path: '{{ couchdb_config_path }}'
+  register: couchdb_dir
+
+- name: Create directory
+  become: yes
+  file:
+    path: '{{ couchdb_config_path }}'
+    recurse: yes
+    state: directory
+  when: couchdb_dir.stat.exists == false
+
+- name: copy docker config file to server | step 1
+  become: yes
   template:
-    src: docker-compose.yaml.j2
-    dest: /home/ubuntu/docker-compose.yaml
+    src: vm.args.j2
+    dest: '{{ couchdb_config_path }}/vm.args'
     owner: ubuntu
     group: ubuntu
+    force: no
 
-- debug:
-#    msg: "{{ hostvars[groups[ansible_hostname][0]] }}"
-    msg: "{{ ansible_host }}"
-#    msg: "{{hostvars}}"
-
-- name: stop running containers
+- name: copy docker config file to server | step 2
   become: yes
-  command: docker stack rm clusterdb
-  ignore_errors: true
-
-- name: wait for containers to stop
-  pause: seconds=5
-
-- name: deploy docker containers
-  become: yes
-  command: docker stack deploy --compose-file docker-compose.yaml clusterdb
-  ignore_errors: true
-
-- name: copy cluster shell script to server
   template:
-    src: run-couchdb-cluster.sh.j2
-    dest: /home/ubuntu/run-couchdb-cluster.sh
+    src: default.ini.j2
+    dest: '{{ couchdb_config_path }}/default.ini'
     owner: ubuntu
     group: ubuntu
-    mode: '0755'
+    force: no
 
-- name: run script
+- name: copy docker config file to server | step 3
   become: yes
-  shell: /home/ubuntu/run-couchdb-cluster.sh
-
-- name: restart couchdb containers
-  become: yes
-  shell: |
-    docker service update --force clusterdb_couchdb1
-    docker service update --force clusterdb_couchdb2
-    docker service update --force clusterdb_couchdb3
-- pause: seconds=5
+  template:
+    src: docker.ini.j2
+    dest: '{{ couchdb_config_path }}/docker.ini'
+    owner: ubuntu
+    group: ubuntu
+    force: no

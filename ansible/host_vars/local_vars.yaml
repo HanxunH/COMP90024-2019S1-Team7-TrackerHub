@@ -13,32 +13,32 @@ project_working_directory: /home/xuwang/CCC-COMP90024
 #             Security group                #
 #############################################
 security_groups:
-  - name: web-security-group
-    description: "security group for web server"
+  - name: instance2-security-group
+    description: "security group for instance2 server"
     rules:
       - name: 'Any'
         protocol: tcp
         port_range_min: 1
         port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
-  - name: spider-security-group
-    description: "security group for spider server"
+  - name: instance3-security-group
+    description: "security group for instance3 server"
     rules:
       - name: 'Any'
         protocol: tcp
         port_range_min: 1
         port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
-  - name: machine-learning-security-group
-    description: "security group for machine learning server"
+  - name: instance4-security-group
+    description: "security group for instance4 server"
     rules:
       - name: 'Any'
         protocol: tcp
         port_range_min: 1
         port_range_max: 65535
         remote_ip_prefix: 0.0.0.0/0
-  - name: database-security-group
-    description: "security group for database server"
+  - name: instance1-security-group
+    description: "security group for instance1 server"
     rules:
       - name: 'Any'
         protocol: tcp
@@ -51,33 +51,33 @@ security_groups:
 #                Instance                   #
 #############################################
 instances:
-  - name: Database
-    security_groups: database-security-group
-    volume_ids: '{{ Database_volumes|default([]) }}'
+  - name: instance1
+    security_groups: instance1-security-group
+    volume_ids: '{{ instance1_volumes|default([]) }}'
     volumes:
       - vol_name: volume_db1
         vol_size: 80
         device: /dev/vdb
         mountpoint: /data
-  - name: WebServer
-    security_groups: web-security-group
-    volume_ids: '{{ WebServer_volumes|default([]) }}'
+  - name: instance2
+    security_groups: instance2-security-group
+    volume_ids: '{{ instance2_volumes|default([]) }}'
     volumes:
       - vol_name: volume_db2
         vol_size: 80
         device: /dev/vdb
         mountpoint: /data
-  - name: Spider
-    security_groups: spider-security-group
-    volume_ids: '{{ Spider_volumes|default([]) }}'
+  - name: instance3
+    security_groups: instance3-security-group
+    volume_ids: '{{ instance3_volumes|default([]) }}'
     volumes:
       - vol_name: volume_db3
         vol_size: 80
         device: /dev/vdb
         mountpoint: /data
-  - name: MachineLearning
-    security_groups: machine-learning-security-group
-    volume_ids: '{{ MachineLearning_volumes|default([]) }}'
+  - name: instance4
+    security_groups: instance4-security-group
+    volume_ids: '{{ instance4_volumes|default([]) }}'
     volumes:
       - vol_name: volume_ml
         vol_size: 10
