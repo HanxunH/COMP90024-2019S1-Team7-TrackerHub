@@ -7,13 +7,18 @@ from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFou
 from django.views.decorators.http import require_http_methods
 
 from backend.handler.object_storage_handler import object_storage_handler
-from backend.handler.couch_handler import couch_db_handler
+# from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import init_http_not_found, init_http_success, check_api_key, make_json_response
 
 
 @require_http_methods(['POST', 'GET'])
 @check_api_key
-def tweet_pic_router(request, resource=None, *args, **kwargs):
+def tweet_pic_router(request, *args, **kwargs):
+    resource = None
+    for arg in args:
+        if isinstance(arg, dict):
+            resource = arg.get('resource', None)
+
     if request.method == 'POST':
         return tweet_pic_post(request)
     elif request.method == 'GET' and resource:
@@ -40,12 +45,12 @@ def tweet_pic_post(request):
         return make_json_response(HttpResponseNotFound, resp)
 
     uid = uuid()
-    file_name = ''.join(uid.__str__().split('-'))
-    object_storage_handler.upload(file_name + '.jpg', file)
+    pic_id = ''.join(uid.__str__().split('-'))
+    object_storage_handler.upload(pic_id + '.jpg', file)
 
     resp = init_http_success()
     resp['data'].update(dict(
-        filename=file_name
+        pic_id=pic_id
     ))
 
     return make_json_response(HttpResponse, resp)
@@ -58,18 +63,16 @@ def tweet_pic_list(request):
             return s['name'].strip('.jpg')
 
     files = object_storage_handler.findall()
-    files = map(process, files)
+    pic_ids = map(process, files)
 
     resp = init_http_success()
     resp['data'].update(dict(
-        pics=files
+        pic_ids=pic_ids
     ))
     return make_json_response(HttpResponse, resp)
 
 
 def tweet_pic_get(request, resource):
-    if isinstance(resource, tuple):
-        resource = resource[0]
     resource = resource if '.jpg' in resource else resource + '.jpg'
 
     picture = object_storage_handler.download(resource)
