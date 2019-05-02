@@ -30,27 +30,13 @@ ngrok_pidfile: "/var/run/ngrok.pid"
 
 # CouchDB
 couchdb_version: 2.3.0
-databases:
-  - name: couchdb1
-    volume: /data1
-    port: 8001
-  - name: couchdb2
-    volume: /data2
-    port: 8002
-  - name: couchdb3
-    volume: /data3
-    port: 8003
-
-volumes:
-  - vol_name: volume_db1
-    vol_size: 60
-    device: /dev/vdb
-    mountpoint: /data1
-  - vol_name: volume_db2
-    vol_size: 60
-    device: /dev/vdc
-    mountpoint: /data2
-  - vol_name: volume_db3
-    vol_size: 60
-    device: /dev/vdd
-    mountpoint: /data3
+# databases:
+#   - name: couchdb1
+#     volume: /data
+#     port: 8001
+#   - name: couchdb2
+#     volume: /data
+#     port: 8002
+#   - name: couchdb3
+#     volume: /data
+#     port: 8003

@@ -1,0 +1,28 @@
+---
+- name: Check if Swarm has already been Initialized
+  become: yes
+  shell: docker node ls
+  register: swarm_status
+  ignore_errors: true
+  tags: swarm
+
+- name: Initialize Docker Swarm
+  become: yes
+  shell: >
+        docker swarm init
+        --advertise-addr={{ hostvars[inventory_hostname]['ansible_default_ipv4']['address'] }}:2377
+  when: swarm_status.rc != 0
+  run_once: true
+  tags: swarm
+
+- name: Get the Manager join-token
+  become: yes
+  shell: docker swarm join-token --quiet manager
+  register: manager_token
+  tags: swarm
+
+- name: Get the worker join-token
+  become: yes
+  shell: docker swarm join-token --quiet worker
+  register: worker_token
+  tags: swarm

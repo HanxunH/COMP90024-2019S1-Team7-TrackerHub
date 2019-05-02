@@ -1,0 +1,8 @@
+---
+- debug:
+    msg: "{{ hostvars }}"
+
+- name: Add Workers to the Swarm
+  become: yes
+  shell: "docker swarm join --token {{ hostvars['172.26.37.203']['worker_token']['stdout'] }} {{ hostvars['172.26.37.203']['ansible_default_ipv4']['address'] }}:2377"
+  tags: swarm
