@@ -25,7 +25,9 @@
 - name: install dependencies
   become: yes
   apt:
-    name: ['vim','unzip','git', 'docker.io']
+    name: ['vim','unzip','git','xfsprogs','python-pip','apt-transport-https','ca-certificates','curl','python-setuptools','software-properties-common']
     state: latest
-  when: ansible_distribution == "Ubuntu"
-# apt-get install vim, unzip, git, docker
+    install_recommends: no
+    update_cache: yes
+
+- include_tasks: docker.yaml

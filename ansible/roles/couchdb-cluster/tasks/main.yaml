@@ -1,0 +1,45 @@
+---
+- name: copy docker-compose file to server
+  template:
+    src: docker-compose.yaml.j2
+    dest: /home/ubuntu/docker-compose.yaml
+    owner: ubuntu
+    group: ubuntu
+
+- debug:
+#    msg: "{{ hostvars[groups[ansible_hostname][0]] }}"
+    msg: "{{ ansible_host }}"
+#    msg: "{{hostvars}}"
+
+- name: stop running containers
+  become: yes
+  command: docker stack rm clusterdb
+  ignore_errors: true
+
+- name: wait for containers to stop
+  pause: seconds=5
+
+- name: deploy docker containers
+  become: yes
+  command: docker stack deploy --compose-file docker-compose.yaml clusterdb
+  ignore_errors: true
+
+- name: copy cluster shell script to server
+  template:
+    src: run-couchdb-cluster.sh.j2
+    dest: /home/ubuntu/run-couchdb-cluster.sh
+    owner: ubuntu
+    group: ubuntu
+    mode: '0755'
+
+- name: run script
+  become: yes
+  shell: /home/ubuntu/run-couchdb-cluster.sh
+
+- name: restart couchdb containers
+  become: yes
+  shell: |
+    docker service update --force clusterdb_couchdb1
+    docker service update --force clusterdb_couchdb2
+    docker service update --force clusterdb_couchdb3
+- pause: seconds=5
