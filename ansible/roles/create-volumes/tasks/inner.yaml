@@ -13,26 +13,26 @@
 - debug:
     msg: "Volumes {{os_vol}} has been created."
 
-- name: Create a list of volume Ids | WebServer
+- name: Create a list of volume Ids | instance2
   set_fact:
-    WebServer_volumes: "{{ WebServer_volumes|default([]) + [ item.id ] }}"
+    instance2_volumes: "{{ instance2_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
-  when: outer_item.name == "WebServer"
+  when: outer_item.name == "instance2"
 
-- name: Create a list of volume Ids | Spider
+- name: Create a list of volume Ids | instance3
   set_fact:
-    Spider_volumes: "{{ Spider_volumes|default([]) + [ item.id ] }}"
+    instance3_volumes: "{{ instance3_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
-  when: outer_item.name == "Spider"
+  when: outer_item.name == "instance3"
 
-- name: Create a list of volume Ids | Machine Learning
+- name: Create a list of volume Ids | instance4
   set_fact:
-    MachineLearning_volumes: "{{ MachineLearning_volumes|default([]) + [ item.id ] }}"
+    instance4_volumes: "{{ instance4_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
-  when: outer_item.name == "MachineLearning"
+  when: outer_item.name == "instance4"
 
-- name: Create a list of volume Ids | Database
+- name: Create a list of volume Ids | instance1
   set_fact:
-    Database_volumes: "{{ Database_volumes|default([]) + [ item.id ] }}"
+    instance1_volumes: "{{ instance1_volumes|default([]) + [ item.id ] }}"
   loop: "{{ os_vol.results }}"
-  when: outer_item.name == "Database"
+  when: outer_item.name == "instance1"
