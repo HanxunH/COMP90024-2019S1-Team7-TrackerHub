@@ -1,7 +1,26 @@
 <template>
-  <div id="gmap" style="background-color:#bbb;">
+  <div id="gmap">
+
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
+
+    <!-- Div on top of the map -->
+    <div id="onmap">    
+      <div class="container mt-3">
+        <h2>User Track</h2>
+        <p>Track user by user ID:</p>
+        <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
+        <div id="myDIV" class="mt-3">
+          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Food</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['porn'])">Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Food and Porn</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <p></p>
+      </div>    
+    </div>
+    
     <!-- Charts -->
     <a class="anchor" id="anchor1"></a>
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
@@ -12,6 +31,31 @@
         <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
       </div>    
     </div>  
+
+    <!-- Tool Navbar -->
+    <nav class="navbar fixed-bottom navbar-light">
+      <div class="row">
+        <div class="col-md-3">
+          <date-picker v-model="start_time" :config="options"></date-picker>
+        </div>
+        <div class="col-md-1">
+          <a class="navbar-brand">To</a>
+        </div>
+        <div class="col-md-3">
+          <date-picker v-model="end_time" :config="options"></date-picker>
+        </div>
+        <div class="col-md-2">
+          <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
+            <b-dropdown-item href="#" @click="mapBuildTime(['food'])">Food</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Food and Porn</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <div class="col-md-2">
+        </div>
+      </div>
+    </nav>
+
   </div>
 </template>
 
@@ -24,7 +68,9 @@ import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
-
+import 'bootstrap/dist/css/bootstrap.css';
+import datePicker from 'vue-bootstrap-datetimepicker';
+import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
 export default {
   name: 'gmap',
@@ -33,6 +79,7 @@ export default {
     Piechart,
     Linechart,
     Barchart,
+    datePicker
   },
 
   data() {
@@ -41,7 +88,16 @@ export default {
       pieData: [],
       barData: [],
       radarData: [],
-      lineData: []
+      lineData: [],
+      start_time: new Date(),
+      end_time: new Date(),
+      user_id: '',
+      options: {
+        format: 'DD/MM/YYYY',
+        useCurrent: false,
+      },
+      melb_geo: 'https://api.myjson.com/bins/udv2g',
+      API_KEY: '227415ba68c811e9b1a48c8590c7151e'
     }
   },
 
@@ -71,7 +127,7 @@ export default {
       })
       
       // let mapData = getBarData()
-      map.data.loadGeoJson('https://api.myjson.com/bins/udv2g')
+      map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
         let color = cartodb_id > 30 ? 'white' : 'gray'
@@ -124,56 +180,95 @@ export default {
       })
     },
 
-    // ====================== Collect Data ======================
-    /* ======= Get map data =======
-    getMapData(){
-    	axios
-        .get('http://domain/api/map/mapData.json')
-        .then(response => {
-          return response.data
-        })
-        .catch(error => {
-          console.log(error)
-          this.errored = true
-        })
-    },
-    */
-    getBarData(){
+    // ====================== Get Map/Chart Data =====================
+    mapBuildTime(tag) {
       let self = this
-    	axios
-        .get('http://domain/api/bar/barData.json')
+      console.log(self.start_time)
+      console.log(self.end_time)
+      console.log(tag)
+
+      /* get data from server
+      axios
+        .get(`http://172.0.0.1:8080/api/statistics/time/`,{
+          params:{
+            start_time: self.start_time,
+            end_time: self.end_time,
+            tags: tag
+          }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': self.API_KEY
+          }
+        })
         .then(response => {
-          self.barData = response.data
+          self.melb_geo = response.data.melb_geo
+          self.barData = response.data.barData
+          self.lineData = response.data.lineData
+          self.radarData = response.data.radarData
         })
         .catch(error => {
           console.log(error)
           this.errored = true
-        })
+      })
+      */
+
+      // re-render the map here
+      // this.mapBuild()
     },
-    getLineData(){
+
+    mapBuildTrack(tag){
       let self = this
-    	axios
-        .get('http://domain/api/line/lineData.json')
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.8136, lng: 144.9631},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
+
+      let path = [{lat: -37.8136, lng: 144.9631},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}]
+      let time = new Date()
+      let img = ''
+      let tags = []
+      /* get data from server
+      axios
+        .get(`http://172.0.0.1:8080/api/statistics/track/:user_id/`,{
+          params:{
+            user_id: self.user_id
+          }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': self.API_KEY
+          }
+        })
         .then(response => {
-          self.lineData = response.data
+          path = response.data.geo
+          time = response.data.time
+          img = response.data.img
+          tags = response.data.tags
         })
         .catch(error => {
           console.log(error)
           this.errored = true
-        })
-    },
-    getRadarchartData(){
-      let self = this
-    	axios
-        .get('http://domain/api/radar/radarData.json')
-        .then(response => {
-          self.radarData = response.data
-        })
-        .catch(error => {
-          console.log(error)
-          this.errored = true
-        })
-    }  
+      })
+      */
+
+      let trackPath = new google.maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+
+      trackPath.setMap(map);
+    }
   }
 }
 </script>
@@ -189,11 +284,21 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 0px;
+  background-color:#bbb;
+  position: relative;
+}
+#onmap {
+  background-color:rgb(255, 153, 0);
+  position: absolute; 
+  top: 100px; 
+  right: 20px; 
+  z-index: 20099; 
+  border-radius: 25px;
 }
 a.anchor {
-    display: block;
-    position: relative;
-    top: -6em;
-    visibility: hidden;
+  display: block;
+  position: relative;
+  top: -6em;
+  visibility: hidden;
 }
 </style>

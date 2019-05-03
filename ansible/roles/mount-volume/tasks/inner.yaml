@@ -1,0 +1,37 @@
+---
+- name: Make file system
+  become: yes
+  filesystem:
+    fstype: xfs
+    dev: "{{ item.device }}"
+  when: item.device is defined
+  loop: "{{ outer_item.volumes }}"
+
+- name: Check folders
+  become: yes
+  stat:
+    path: "{{ item.mountpoint }}"
+  register: directory_stats
+  loop: "{{ outer_item.volumes }}"
+
+- debug:
+    msg: "| directory_stats ==> {{ directory_stats }}"
+
+- name: Create directory
+  become: yes
+  file:
+    path: "{{ item.item.mountpoint }}"
+    recurse: yes
+    state: directory
+  when: item.stat.exists == false
+  loop: "{{ directory_stats.results }}"
+
+- name: Mount device
+  become: yes
+  mount:
+    path: "{{ item.mountpoint }}"
+    src: "{{ item.device }}"
+    fstype: xfs
+    state: mounted
+  when: item.device is defined
+  loop: "{{ outer_item.volumes }}"
