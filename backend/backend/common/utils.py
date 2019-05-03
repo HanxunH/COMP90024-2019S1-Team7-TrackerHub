@@ -1,11 +1,22 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 import logging
 import ujson
+import json
+import datetime
 
 from django.http import HttpResponse, HttpResponseForbidden
 
 from backend.common.config import HTTP_X_API_KEY, API_KEY, ErrorCode, ErrorMsg
+
+
+class DateTimeEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, datetime.date):
+            return obj.strftime('%Y-%m-%d')
+        return json.JSONEncoder.default(self, obj)
 
 
 def make_dict(keys, kwargs):

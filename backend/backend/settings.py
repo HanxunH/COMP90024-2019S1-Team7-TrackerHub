@@ -1,3 +1,4 @@
+# coding: utf-8
 """
 Django settings for backend project.
 
@@ -28,7 +29,7 @@ SECRET_KEY = 'jva^mj%e9u_l&@1j04c*=v3k_!c#kg$u7cf2zl@jj6&k-mg*hf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

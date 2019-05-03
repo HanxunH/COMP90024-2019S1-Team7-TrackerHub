@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
 from enum import Enum
 
@@ -6,13 +6,15 @@ HTTP_X_API_KEY = 'HTTP_X_API_KEY'
 API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 
 COUCHDB_URL = 'http://{}:{}@{}:{}/'
-COUCHDB_DOMAIN = '172.26.37.178'
+COUCHDB_DOMAIN = '172.26.37.225'
 COUCHDB_USERNAME = 'admin'
-COUCHDB_PASSWORD = 'admin'
-COUCHDB_PORTS = [8001, 8002, 8003]
-COUCHDB_DB = 'twitter'
+COUCHDB_PASSWORD = 'password'
+COUCHDB_PORTS = 5984
+COUCHDB_TWEET_DB = 'origin_tweet'
+COUCHDB_TRACK_DB = 'track'
+COUCHDB_TIME_DB = 'time_{}_{}_{}_{}_{}'
 
-OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc/'
+OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_CONTAINER = 'twitter_pic'
 
 OS_AUTH_URL = 'https://keystone.rc.nectar.org.au:5000'
