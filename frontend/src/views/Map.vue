@@ -18,7 +18,19 @@
           </b-dropdown>
         </div>
         <p></p>
-      </div>    
+      </div> 
+        <div class="container mt-3">
+        <p>Track random number of users:</p>
+        <input class="form-control" v-model="number" type="number" placeholder="Search..">
+        <div id="myDIV2" class="mt-3">
+          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food'])">Food</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['porn'])">Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food','porn'])">Food and Porn</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <p></p>
+      </div>     
     </div>
     
     <!-- Charts -->
@@ -92,12 +104,13 @@ export default {
       start_time: new Date(),
       end_time: new Date(),
       user_id: '',
+      number: 1,
       options: {
         format: 'DD/MM/YYYY',
         useCurrent: false,
       },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
-      API_KEY: '227415ba68c811e9b1a48c8590c7151e'
+      API_KEY: '227415ba68c811e9b1a48c8590c7151e',
     }
   },
 
@@ -236,9 +249,11 @@ export default {
       let tags = []
       /* get data from server
       axios
-        .get(`http://172.0.0.1:8080/api/statistics/track/:user_id/`,{
+        .get(`http://172.0.0.1:8080/api/statistics/track/${self.user_id}/`,{
           params:{
-            user_id: self.user_id
+            start_time: self.start_time,
+            end_time: self.end_time,
+            tags: tag
           }
         },
         {
@@ -248,10 +263,10 @@ export default {
           }
         })
         .then(response => {
-          path = response.data.geo
-          time = response.data.time
-          img = response.data.img
-          tags = response.data.tags
+          path = response.data.user_id.geo
+          time = response.data.user_id.time
+          img = response.data.user_id.img
+          tags = response.data.user_id.tags
         })
         .catch(error => {
           console.log(error)
@@ -268,6 +283,55 @@ export default {
       });
 
       trackPath.setMap(map);
+    },
+
+    mapBuildTrackN(tag){
+      let self = this
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.8136, lng: 144.9631},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
+
+      let path = [{lat: -37.8136, lng: 144.9631},
+          {lat: 21.291, lng: -157.821},
+          {lat: -18.142, lng: 178.431},
+          {lat: -27.467, lng: 153.027}]
+
+      let users = {}
+
+      /* get data from server
+      axios
+        .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
+          params:{
+            start_time: self.start_time,
+            end_time: self.end_time,
+            tags: tag
+          }
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-KEY': self.API_KEY
+          }
+        })
+        .then(response => {
+          users = response.data
+        })
+        .catch(error => {
+          console.log(error)
+          this.errored = true
+      })
+      */
+
+      let trackPath = new google.maps.Polyline({
+        path: path,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
     }
   }
 }
