@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 # coding: utf-8
-=======
-# -*- coding: utf-8 -*-
->>>>>>> 3c6c8c4c49a9fdd2dc9cf68e8934b6ec9de41269
 
 from uuid import uuid1 as uuid
 
