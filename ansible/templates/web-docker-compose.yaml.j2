@@ -1,0 +1,22 @@
+version: '3'
+services:
+  frontend_nginx:
+    container_name: frontend_nginx
+    image: nginx:stable-alpine
+    volumes:
+      - frontend_production_code:/usr/share/nginx/html
+      - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports: 
+      - "80:80"
+      - "443:443"
+    restart: always
+    links:
+      - frontend_production_code
+  frontend_production_code:
+    container_name: frontend_production_code
+    build: {{remote_working_directory}}/frontend
+    volumes:
+      - frontend_production_code:/usr/src/ng-app/dist/
+
+volumes:
+  frontend_production_code:
