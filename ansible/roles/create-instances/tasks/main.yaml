@@ -27,11 +27,11 @@
   loop: '{{ os_instance.results }}'
 
 - debug:
-    msg: "===== Fact <ip_addresses>: {{ ip_addresses }}"
+    msg: "| ip_addresses ==> {{ ip_addresses }}"
 
 - name: Create inventory file
   copy:
-    content: "[all:vars]\nansible_user=ubuntu\n\n"
+    content: "[all:vars]\nansible_user=ubuntu\n\n[dbServers:children]\ndbMaster\ndbSlave\n\n[dbMaster:children]\ninstance1\n\n[dbSlave:children]\ninstance2\ninstance3\n\n"
     dest: "{{project_working_directory}}/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini"
 
 - name: set ip addresses to inventory file

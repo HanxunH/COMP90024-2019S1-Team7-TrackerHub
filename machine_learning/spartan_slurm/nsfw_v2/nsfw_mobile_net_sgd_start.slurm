@@ -30,7 +30,7 @@
 #SBATCH --mail-user=hanxunh@student.unimelb.edu.au
 
 # The maximum running time of the job in days-hours:mins:sec
-#SBATCH --time 23:59:00
+#SBATCH --time 47:59:00
 
 # check that the script is launched with sbatch
 if [ "x$SLURM_JOB_ID" == "x" ]; then
@@ -48,12 +48,12 @@ nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
                             --start_from_begining   \
-                            --train_batch_size 500  \
-                            --test_batch_size 1000   \
+                            --train_batch_size 200  \
+                            --test_batch_size 400   \
                             --num_epochs 400        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
                             --train_optimizer sgd   \
                             --model_type nsfw    \
                             --model_arc mobilenet    \
-                            --model_checkpoint_path checkpoints/nsfw_mobilenet_sgd.pth \
+                            --model_checkpoint_path checkpoints/nsfw_mobilenet_sgd_v2.pth \
                             >> logs/nsfw_mobilenet_sgd.log

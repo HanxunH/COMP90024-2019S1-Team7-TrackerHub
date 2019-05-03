@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-29T00:27:24+10:00
+# @Last modified time: 2019-05-01T15:23:32+10:00
 
 import torch
 import torch.nn as nn
@@ -12,12 +12,6 @@ import requests
 from torchvision import transforms
 from PIL import Image
 from io import BytesIO
-
-# Static Vars
-FOOD179_MEAN = [0.48369651859332485, 0.39450415872995226, 0.30613956430808564]
-FOOD179_STD = [0.31260642838369135, 0.29686785305034863, 0.28606165329199507]
-NSFW_MEAN = [0.4192032458303017, 0.3620132191886713, 0.3345888229001102]
-NSFW_STD = [0.36833108995020036, 0.33885012952633026, 0.32902284057603554]
 
 class coconut_inference():
     def __init__(self, model_checkpoint_file_path=None, cpu_mode=True):
@@ -34,25 +28,21 @@ class coconut_inference():
         self.num_classes = None
         if self.model_args.model_type == 'food179':
             self.num_classes = 179
-            self.mean = FOOD179_MEAN
-            self.std = FOOD179_STD
         elif self.model_args.model_type == 'nsfw':
             self.num_classes = 5
-            self.mean = NSFW_MEAN
-            self.std = NSFW_STD
         else:
             raise('Not Implemented!')
 
         if self.model_args.model_arc == 'resnet18':
-            self.model = model.resnet18(num_classes=self.num_classes)
+            self.model = model.resnet18(num_classes=self.num_classes, zero_init_residual=True)
         elif self.model_args.model_arc == 'resnet34':
-            self.model = model.resnet34(num_classes=self.num_classes)
+            self.model = model.resnet34(num_classes=self.num_classes, zero_init_residual=True)
         elif self.model_args.model_arc == 'resnet50':
-            self.model = model.resnet50(num_classes=self.num_classes)
+            self.model = model.resnet50(num_classes=self.num_classes, zero_init_residual=True)
         elif self.model_args.model_arc == 'resnet101':
-            self.model = model.resnet101(num_classes=self.num_classes)
+            self.model = model.resnet101(num_classes=self.num_classes, zero_init_residual=True)
         elif self.model_args.model_arc == 'resnet152':
-            self.model = model.resnet152(num_classes=self.num_classes)
+            self.model = model.resnet152(num_classes=self.num_classes, zero_init_residual=True)
         elif self.model_args.model_arc == 'mobilenet':
             self.model = model.MobileNetV2(n_class=self.num_classes, input_size=256)
         else:
@@ -67,6 +57,8 @@ class coconut_inference():
         self.model_class_to_idx = self.checkpoint['class_to_idx']
         self.model_idx_to_class = {v: k for k, v in self.model_class_to_idx.items()}
         self.model_train_history_dict = self.checkpoint['train_history_dict']
+        self.mean = self.checkpoint['NORM_MEAN']
+        self.std = self.checkpoint['NORM_STD']
         self.model.eval()
 
         return

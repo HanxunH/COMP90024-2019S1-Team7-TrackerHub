@@ -48,12 +48,12 @@ nvidia-smi
 
 python3 -u coconut_train.py --cuda  \
                             --start_from_begining   \
-                            --train_batch_size 200  \
-                            --test_batch_size 400   \
+                            --train_batch_size 60  \
+                            --test_batch_size 140   \
                             --num_epochs 400        \
-                            --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
-                            --train_optimizer sgd   \
+                            --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw_v3 \
+                            --train_optimizer adabound   \
                             --model_type nsfw    \
                             --model_arc resnet101    \
-                            --model_checkpoint_path checkpoints/nsfw_resnet101_sgd.pth \
-                            >> logs/nsfw_resnet101_sgd.log
+                            --model_checkpoint_path checkpoints/nsfw_resnet101_adabound_v3.pth \
+                            >> logs/nsfw_resnet101_adabound_v3.log

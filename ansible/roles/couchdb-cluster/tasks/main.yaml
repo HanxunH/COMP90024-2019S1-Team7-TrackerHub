@@ -1,0 +1,41 @@
+---
+- name: Check folders
+  become: yes
+  stat:
+    path: '{{ couchdb_config_path }}'
+  register: couchdb_dir
+
+- name: Create directory
+  become: yes
+  file:
+    path: '{{ couchdb_config_path }}'
+    recurse: yes
+    state: directory
+  when: couchdb_dir.stat.exists == false
+
+- name: copy docker config file to server | step 1
+  become: yes
+  template:
+    src: vm.args.j2
+    dest: '{{ couchdb_config_path }}/vm.args'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
+- name: copy docker config file to server | step 2
+  become: yes
+  template:
+    src: default.ini.j2
+    dest: '{{ couchdb_config_path }}/default.ini'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
+- name: copy docker config file to server | step 3
+  become: yes
+  template:
+    src: docker.ini.j2
+    dest: '{{ couchdb_config_path }}/docker.ini'
+    owner: ubuntu
+    group: ubuntu
+    force: no
