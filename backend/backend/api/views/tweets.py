@@ -2,6 +2,7 @@
 
 import ujson
 import math
+import logging
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
 from django.views.decorators.http import require_http_methods
@@ -13,6 +14,7 @@ from backend.common.config import COUCHDB_TWEET_DB, COUCHDB_TRACK_DB, COUCHDB_TI
 
 
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+logger = logging.getLogger('django.debug')
 
 
 @require_http_methods(['POST', 'GET'])
@@ -30,11 +32,17 @@ def tweet_post(request):
         keys = ['id', 'text', 'image_urls', 'img_id', 'geo', 'date', 'user', 'hashtag']
         tweet = make_dict(keys, ujson.loads(request.body))
     except Exception as e:
-        print(e)
-        resp = init_http_not_found('Not Sufficient Attributes')
+        logger.debug('Insufficient Attributes [%s]' % request.path)
+        resp = init_http_not_found('Insufficient Attributes')
         return make_json_response(HttpResponseNotFound, resp)
 
-    utc_tweet_time = timezone.datetime.strptime(tweet['date'], '%Y-%m-%d %H:%M:%S%z').astimezone(timezone.utc)
+    try:
+        utc_tweet_time = timezone.datetime.strptime(tweet['date'], '%Y-%m-%d %H:%M:%S%z').astimezone(timezone.utc)
+    except Exception as e:
+        logger.debug('Error Datetime Format [%s]' % tweet['date'])
+        resp = init_http_not_found('Error Datetime Format, follow \'%Y-%m-%d %H:%M:%S%z\'')
+        return make_json_response(HttpResponseNotFound, resp)
+    
     tweet.update(dict(
         _id=tweet['id'],
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
