@@ -48,7 +48,7 @@ def tweet_post(request):
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
         process=0,
         tags=[],
-        last_update=timezone.datetime.utcnow().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+        last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     ))
     tweet.pop('id')
 
