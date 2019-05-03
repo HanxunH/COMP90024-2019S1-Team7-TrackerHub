@@ -23,10 +23,4 @@ COPY . /usr/src/ng-app
 RUN npm run build -- --prod
 
 # set port
-EXPOSE 80
-
-# create image based on the official nginx and host the vue application
-FROM nginx:stable-alpine as nginx
-COPY --from=node /usr/src/ng-app/dist/ /usr/share/nginx/html
-COPY ./nginx.conf /etc/nginx/conf.d/default.conf
-CMD [ "nginx", "-g", "daemon off;" ]
+EXPOSE 80 443

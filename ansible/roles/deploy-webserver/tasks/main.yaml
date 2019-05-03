@@ -1,6 +1,24 @@
 ---
-- name: docker | build image
-  command: docker build -t frontend:v1 /home/ubuntu/COMP90024/frontend
+# - name: docker | build image
+#   become: yes
+#   command: docker build -t frontend:v1 /home/ubuntu/COMP90024/frontend
 
-- name: docker | run container
-  command: docker run -d -p 80:80 --name frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}} frontend:v1
+# - name: docker | run container
+#   become: yes
+#   command: docker run -d -p 80:80 --name frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}} frontend:v1
+
+- name: docker compose down
+  become: yes
+  command: docker-compose down
+
+- name: copy compose file to server
+  become: yes
+  template:
+    src: web-docker-compose.yaml.j2
+    dest: '/home/ubuntu/docker-compose.yaml'
+    owner: ubuntu
+    group: ubuntu
+
+- name: start docker-compose
+  become: yes
+  command: docker-compose up -d
