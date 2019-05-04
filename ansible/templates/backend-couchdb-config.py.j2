@@ -1,47 +1,23 @@
-# -*- coding: utf-8 -*-
+# coding: utf-8
 
-DOCKER_DOMAIN = {
-    'instance1': dict(
-        domain='{{ hostvars[ansible_host].groups.instance1[0] }}',
-        port=8866
-    ),
-    'instance2': dict(
-        domain='{{ hostvars[ansible_host].groups.instance2[0] }}',
-        port=8866
-    ),
-    'instance3': dict(
-        domain='{{ hostvars[ansible_host].groups.instance3[0] }}',
-        port=8866
-    ),
-}
+HTTP_X_API_KEY = 'HTTP_X_API_KEY'
+API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 
-COUCH_DB_PORTS = {
-    '5984/tcp': 5984,
-    '5896/tcp': 5986,
-    '4369/tcp': 4369,
-    '9100/tcp': 9100,
-}
+COUCHDB_URL = 'http://{}:{}@{}:{}/'
+COUCHDB_DOMAIN = '{{ ansible_host }}'
+COUCHDB_USERNAME = 'admin'
+COUCHDB_PASSWORD = 'password'
+COUCHDB_PORTS = 5984
+COUCHDB_TWEET_DB = 'origin_tweet'
+COUCHDB_TRACK_DB = 'track'
+COUCHDB_TIME_DB = 'time_{}_{}_{}_{}_{}'
 
-COUCH_DB_VOLUMES = {
-    '{{ couchdb_config_path }}/docker.ini': {'bind': '/opt/couchdb/etc/local.d/docker.ini', 'mode': 'rw'},
-    '{{ couchdb_config_path }}/vm.args': {'bind': '/opt/couchdb/etc/vm.args', 'mode': 'rw'},
-    '{{ couchdb_config_path }}/default.ini': {'bind': '/opt/couchdb/etc/default.ini', 'mode': 'rw'},
-    '/data/': {'bind': '/opt/couchdb/data', 'mode': 'rw'}
-}
+OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
+OBJECT_STORAGE_PREURL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
+OBJECT_STORAGE_CONTAINER = 'twitter_pic'
 
-COUCH_DB_USER = 'GROUP7'
-COUCH_DB_PASSWORD = 'group7'
-COUCH_DB_ENV = ['COUCHDB_USER={}'.format(COUCH_DB_USER), 'COUCHDB_PASSWORD={}'.format(COUCH_DB_PASSWORD)]
-
-DJANGO_PORTS = {
-    '8080/tcp': 8080,
-    '80/tcp': 8081,
-}
-
-DJANGO_VOLUMES = {
-    '{{ remote_working_directory }}/backend/': {'bind': ''}
-}
-
-NGINX_PORTS = {
-    '80/tcp': 8088
-}
+OS_AUTH_URL = 'https://keystone.rc.nectar.org.au:5000'
+OS_TENANT_ID = 'unimelb-comp90024-group-7'
+OS_USERNAME = 'lihuan.zhang@student.unimelb.edu.au'
+OS_PASSWORD = 'NjNkMjk0Y2Y0MGYwYjlj'
+OS_VERSION = '3'
