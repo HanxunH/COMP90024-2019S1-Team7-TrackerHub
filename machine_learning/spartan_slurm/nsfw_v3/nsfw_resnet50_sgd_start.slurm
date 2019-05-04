@@ -48,7 +48,7 @@ nvidia-smi
 
 python3 -u coconut_train.py --cuda \
                             --start_from_begining   \
-                            --train_batch_size 100  \
+                            --train_batch_size 90  \
                             --test_batch_size 250   \
                             --num_epochs 400        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw_v3 \

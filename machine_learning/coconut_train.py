@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-01T15:11:30+10:00
+# @Last modified time: 2019-05-04T18:55:31+10:00
 
 
 import os
@@ -60,7 +60,7 @@ def load_datasets():
 
     train_transform = transforms.Compose([
         transforms.RandomHorizontalFlip(),
-        transforms.RandomCrop(256),
+        transforms.RandomCrop(256, padding=1),
         transforms.ToTensor(),
         normalize])
 
@@ -229,7 +229,6 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
         print('Best Acc %5f' % (best_acc))
         print('Eval Acc %5f' % (test_acc))
         print('Eval Acc Top5 %5f' % (test_acc_top5))
-        data_loaders = load_datasets()
 
     return
 
