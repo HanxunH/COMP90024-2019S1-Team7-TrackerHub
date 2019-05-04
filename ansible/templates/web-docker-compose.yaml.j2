@@ -26,7 +26,7 @@ services:
     restart: always
     networks:
       backend_nw:
-        ipv4_address: 172.17.0.2
+        ipv4_address: 172.20.0.2
   backend_nginx:
     container_name: backend_nginx
     build: {{remote_working_directory}}/backend/nginx
@@ -39,7 +39,7 @@ services:
     restart: always
     networks:
       backend_nw:
-        ipv4_address: 172.17.0.3
+        ipv4_address: 172.20.0.3
 
 volumes:
   frontend_production_code:
@@ -49,4 +49,4 @@ networks:
     driver: bridge
     ipam:
       config:
-        - subnet: 172.17.0.0/16
+        - subnet: 172.20.0.0/16
