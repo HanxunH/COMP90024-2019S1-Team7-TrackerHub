@@ -1,5 +1,10 @@
 version: '3'
 services:
+  frontend_production_code:
+    container_name: frontend_production_code
+    build: {{remote_working_directory}}/frontend
+    volumes:
+      - frontend_production_code:/usr/src/ng-app/dist/
   frontend:
     container_name: frontend
     image: nginx:stable-alpine
@@ -14,12 +19,8 @@ services:
     networks:
       web_nw:
         ipv4_address: 172.20.0.2
-  frontend_production_code:
-    container_name: frontend_production_code
-    build: {{remote_working_directory}}/frontend
-    volumes:
-      - frontend_production_code:/usr/src/ng-app/dist/
   backend:
+    container_name: backend
     build: {{remote_working_directory}}/backend
     ports:
       - "8080:8080"
