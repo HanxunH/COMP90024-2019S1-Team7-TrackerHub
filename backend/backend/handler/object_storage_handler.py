@@ -25,6 +25,10 @@ class ObjectStorageHandler(object):
         self.check_exist_or_create()
         logger.debug('Object Storage Connected Success: %s' % self.container_url)
 
+    def reconnect(self):
+        del self.swift
+        self.__init__(self.container_name)
+
     def check_exist_or_create(self):
         try:
             self.swift.get_container(self.container_name)
@@ -58,6 +62,9 @@ class ObjectStorageHandler(object):
 
     def delete_container(self):
         return self.swift.delete_container(container=self.container_name)
+
+
+object_storage_handler = ObjectStorageHandler(OBJECT_STORAGE_CONTAINER)
 
 
 if __name__ == '__main__':
