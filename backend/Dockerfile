@@ -1,20 +1,12 @@
-FROM ubuntu:16.04
+FROM python:3.7.3
 
 ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
 ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
-
-RUN apt-get -y update
-
-RUN apt-get install -y software-properties-common
-RUN add-apt-repository ppa:deadsnakes/ppa
-RUN apt-get -y update
-
-RUN apt-get install -y python3.7 python3-pip
-RUN pip3 install --upgrade pip
+ENV PYTHONUNBUFFERED 1
 
 RUN mkdir /code
 WORKDIR /code
 ADD . /code
-RUN pip3 install -r requirement.txt
+RUN pip install -r requirement.txt
 EXPOSE 8080
-CMD [ "python3.7","manage.py","runserver","0.0.0.0:8080" ]
+CMD [ "python","manage.py","runserver","0.0.0.0:8080" ]
