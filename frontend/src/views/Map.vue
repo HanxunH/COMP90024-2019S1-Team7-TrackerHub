@@ -96,7 +96,6 @@ export default {
 
   data() {
     return {
-      infoPieData: [],
       pieData: [],
       barData: [],
       radarData: [],
@@ -196,9 +195,9 @@ export default {
         let name = event.feature.getProperty("name")
         // let total = event.feature.getProperty("total")
         // let tag = event.feature.getProperty("tag")
-
+        // set all chart data here
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4
-        self.infoPieData = [data1, data2, data3, data4]
+        let infoPieData = [data1, data2, data3, data4]
         // init infowindow with customized view
         let InfoWindow = Vue.extend(InfoWindowComponent)
 
@@ -206,11 +205,7 @@ export default {
         let instance = new InfoWindow({
           propsData: {
             name,
-            infoPieData: self.infoPieData,
-            data1,
-            data2,
-            data3,
-            data4
+            infoPieData: infoPieData,
           }
         })
         instance.$mount()
@@ -256,8 +251,7 @@ export default {
           }
         })
         .then(response => (
-          console.log(response.data.data),
-          self.melb_geo = response.data.data.melb_geo,
+          self.melb_geo = response.data.melb_geo,
           console.log(self.melb_geo)
         ))
         .catch(error => {
@@ -277,6 +271,8 @@ export default {
         disableDefaultUI: true,
         styles: mapStyle
       })
+      let infowindow = new google.maps.InfoWindow()
+      let marker
 
       let path = [{lat: -37.8136, lng: 144.9631},
           {lat: 21.291, lng: -157.821},
@@ -301,10 +297,15 @@ export default {
           }
         })
         .then(response => {
-          path = response.data.data.user_id.geo
-          time = response.data.data.user_id.time
-          img = response.data.data.user_id.img
-          tags = response.data.data.user_id.tags
+          // for (let point in response.data.(self.user_id)) {
+          //   path.push({lat:point.geo[0], lng:point.geo[1]})
+          //   marker = new google.maps.Marker({
+          //     position: {lat:point.geo[0], lng:point.geo[1]},
+          //     map: map,
+          //     icon: point.img
+          //     title: point.time+" "+point.tags
+          //   })
+          // }
         })
         .catch(error => {
           console.log(error)
@@ -336,8 +337,6 @@ export default {
           {lat: -18.142, lng: 178.431},
           {lat: -27.467, lng: 153.027}]
 
-      let users = {}
-
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
           data:{
@@ -353,7 +352,17 @@ export default {
           }
         })
         .then(response => {
-          users = response.data.data
+        // for (let user in response.data) {
+        //   for (let point in user){
+        //     path.push({lat:point.geo[0], lng:point.geo[1]})
+        //     marker = new google.maps.Marker({
+        //       position: {lat:point.geo[0], lng:point.geo[1]},
+        //       map: map,
+        //       icon: point.img
+        //       title: point.time+" "+point.tags
+        //     })
+        //   }
+        // }
         })
         .catch(error => {
           console.log(error)
