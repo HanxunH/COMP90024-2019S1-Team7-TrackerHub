@@ -138,11 +138,20 @@ export default {
         disableDefaultUI: true,
         styles: mapStyle
       })
+      let infowindow = new google.maps.InfoWindow()
+      let marker, i
+      let markers = []
+      let locations = []
       
-      // let mapData = getBarData()
+      // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
+        // let total = feature.getProperty("total")
+        // let details = feature.getProperty('detail')
+        // for (let detail in details) {
+        //   locations.push([detail.tag,detail.coordinates[0],detail.coordinates[1]]) 
+        // }
         let color = cartodb_id > 30 ? 'white' : 'gray'
         return {
           fillColor: color,
@@ -150,12 +159,44 @@ export default {
         }
       })
 
-      let infowindow = new google.maps.InfoWindow()
+      /*
+      // set marks on the map
+      for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]), 
+          map: map,
+          visible: true, // or false. Whatever you need.
+          icon: locations[i][3],
+          zIndex: 10,
+          visible: false
+        });
+        // Open marker on mouseover
+        google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+          return function() {
+            infowindow.setContent(locations[i][0])
+            infowindow.open(map, marker)
+          }
+        })(marker, i))
+        markers.push(marker) // save all markers
+      }
+
+      // Change markers on zoom
+      google.maps.event.addListener(map, 'zoom_changed', function() {
+          var zoom = map.getZoom();
+          // iterate over markers and call setVisible
+          for (i = 0; i < locations.length; i++) {
+              markers[i].setVisible(zoom >= 15);
+          }
+      });
+      */
 
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
         // prepare data
         let name = event.feature.getProperty("name")
+        // let total = event.feature.getProperty("total")
+        // let tag = event.feature.getProperty("tag")
+
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4
         self.infoPieData = [data1, data2, data3, data4]
         // init infowindow with customized view
@@ -199,11 +240,10 @@ export default {
       console.log(self.start_time)
       console.log(self.end_time)
       console.log(tag)
-
-      /* get data from server
-      axios
+      
+      this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
-          params:{
+          data:{
             start_time: self.start_time,
             end_time: self.end_time,
             tags: tag
@@ -215,20 +255,18 @@ export default {
             'X-API-KEY': self.API_KEY
           }
         })
-        .then(response => {
-          self.melb_geo = response.data.melb_geo
-          self.barData = response.data.barData
-          self.lineData = response.data.lineData
-          self.radarData = response.data.radarData
-        })
+        .then(response => (
+          console.log(response.data.data),
+          self.melb_geo = response.data.data.melb_geo,
+          console.log(self.melb_geo)
+        ))
         .catch(error => {
           console.log(error)
           this.errored = true
       })
-      */
 
       // re-render the map here
-      // this.mapBuild()
+       this.mapBuild()
     },
 
     mapBuildTrack(tag){
@@ -247,10 +285,10 @@ export default {
       let time = new Date()
       let img = ''
       let tags = []
-      /* get data from server
-      axios
+
+      this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/${self.user_id}/`,{
-          params:{
+          data:{
             start_time: self.start_time,
             end_time: self.end_time,
             tags: tag
@@ -263,16 +301,15 @@ export default {
           }
         })
         .then(response => {
-          path = response.data.user_id.geo
-          time = response.data.user_id.time
-          img = response.data.user_id.img
-          tags = response.data.user_id.tags
+          path = response.data.data.user_id.geo
+          time = response.data.data.user_id.time
+          img = response.data.data.user_id.img
+          tags = response.data.data.user_id.tags
         })
         .catch(error => {
           console.log(error)
           this.errored = true
       })
-      */
 
       let trackPath = new google.maps.Polyline({
         path: path,
@@ -301,10 +338,9 @@ export default {
 
       let users = {}
 
-      /* get data from server
-      axios
+      this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
-          params:{
+          data:{
             start_time: self.start_time,
             end_time: self.end_time,
             tags: tag
@@ -317,13 +353,12 @@ export default {
           }
         })
         .then(response => {
-          users = response.data
+          users = response.data.data
         })
         .catch(error => {
           console.log(error)
           this.errored = true
       })
-      */
 
       let trackPath = new google.maps.Polyline({
         path: path,
