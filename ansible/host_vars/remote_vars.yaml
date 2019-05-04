@@ -49,4 +49,3 @@ enable_docker_remote_control: true
 #############################################
 #                 Backend                   #
 #############################################
-backend_config_path: /home/ubuntu/backend_config
