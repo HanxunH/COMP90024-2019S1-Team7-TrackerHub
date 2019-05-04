@@ -24,17 +24,16 @@ services:
     volumes:
       - {{remote_working_directory}}/backend:/code
     restart: always
-#    command: python3.7 manage.py runserver 0.0.0.0:8080
-#  backend_nginx:
-#    container_name: backend_nginx
-#    build: {{remote_working_directory}}/backend/nginx
-#    ports:
-#      - "8081:8081"
-#    links:
-#      - backend
-#    depends_on:
-#      - backend
-#    restart: always
+ backend_nginx:
+   container_name: backend_nginx
+   build: {{remote_working_directory}}/backend/nginx
+   ports:
+     - "8081:8081"
+   links:
+     - backend
+   depends_on:
+     - backend
+   restart: always
 
 volumes:
   frontend_production_code:
