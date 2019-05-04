@@ -1,0 +1,40 @@
+version: '3'
+services:
+  frontend_nginx:
+    container_name: frontend_nginx
+    image: nginx:stable-alpine
+    volumes:
+      - frontend_production_code:/usr/share/nginx/html
+      - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports: 
+      - "80:80"
+      - "443:443"
+    restart: always
+    links:
+      - frontend_production_code
+  frontend_production_code:
+    container_name: frontend_production_code
+    build: {{remote_working_directory}}/frontend
+    volumes:
+      - frontend_production_code:/usr/src/ng-app/dist/
+  backend:
+    build: {{remote_working_directory}}/backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - {{remote_working_directory}}/backend:/code
+    restart: always
+#    command: python3.7 manage.py runserver 0.0.0.0:8080
+#  backend_nginx:
+#    container_name: backend_nginx
+#    build: {{remote_working_directory}}/backend/nginx
+#    ports:
+#      - "8081:8081"
+#    links:
+#      - backend
+#    depends_on:
+#      - backend
+#    restart: always
+
+volumes:
+  frontend_production_code:

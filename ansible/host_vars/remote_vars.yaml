@@ -4,6 +4,7 @@
 #############################################
 project_working_directory: /home/xuwang/CCC-COMP90024
 proxy_address: http://wwwproxy.unimelb.edu.au:8000
+remote_working_directory: /home/ubuntu/COMP90024
 
 #############################################
 #                   ngrok                   #
@@ -44,3 +45,7 @@ cluster_communication_port_max: 9102
 #                  Docker                   #
 #############################################
 enable_docker_remote_control: true
+
+#############################################
+#                 Backend                   #
+#############################################
