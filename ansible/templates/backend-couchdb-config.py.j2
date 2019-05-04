@@ -1,0 +1,47 @@
+# -*- coding: utf-8 -*-
+
+DOCKER_DOMAIN = {
+    'instance1': dict(
+        domain='{{ hostvars[ansible_host].groups.instance1[0] }}',
+        port=8866
+    ),
+    'instance2': dict(
+        domain='{{ hostvars[ansible_host].groups.instance2[0] }}',
+        port=8866
+    ),
+    'instance3': dict(
+        domain='{{ hostvars[ansible_host].groups.instance3[0] }}',
+        port=8866
+    ),
+}
+
+COUCH_DB_PORTS = {
+    '5984/tcp': 5984,
+    '5896/tcp': 5986,
+    '4369/tcp': 4369,
+    '9100/tcp': 9100,
+}
+
+COUCH_DB_VOLUMES = {
+    '{{ couchdb_config_path }}/docker.ini': {'bind': '/opt/couchdb/etc/local.d/docker.ini', 'mode': 'rw'},
+    '{{ couchdb_config_path }}/vm.args': {'bind': '/opt/couchdb/etc/vm.args', 'mode': 'rw'},
+    '{{ couchdb_config_path }}/default.ini': {'bind': '/opt/couchdb/etc/default.ini', 'mode': 'rw'},
+    '/data/': {'bind': '/opt/couchdb/data', 'mode': 'rw'}
+}
+
+COUCH_DB_USER = 'GROUP7'
+COUCH_DB_PASSWORD = 'group7'
+COUCH_DB_ENV = ['COUCHDB_USER={}'.format(COUCH_DB_USER), 'COUCHDB_PASSWORD={}'.format(COUCH_DB_PASSWORD)]
+
+DJANGO_PORTS = {
+    '8080/tcp': 8080,
+    '80/tcp': 8081,
+}
+
+DJANGO_VOLUMES = {
+    '{{ remote_working_directory }}/backend/': {'bind': ''}
+}
+
+NGINX_PORTS = {
+    '80/tcp': 8088
+}

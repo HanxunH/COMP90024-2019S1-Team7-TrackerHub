@@ -7,6 +7,14 @@
     owner: ubuntu
     group: ubuntu
 
+- name: generate backend configuration for couchdb
+  template:
+    src: backend-couchdb-config.py.j2
+    dest: '{{ remote_working_directory }}/backend/backend/config/config.py'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
 - name: docker compose down
   become: yes
   command: docker-compose down
