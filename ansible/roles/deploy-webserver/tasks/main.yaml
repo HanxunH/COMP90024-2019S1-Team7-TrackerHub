@@ -3,6 +3,14 @@
   become: yes
   command: docker-compose down
 
+- name: copy nginx config to server
+  become: yes
+  template:
+    src: web-nginx.conf.j2
+    dest: '{{remote_working_directory}}/config/webserver_nginx/nginx.conf'
+    owner: ubuntu
+    group: ubuntu
+
 - name: copy compose file to server
   become: yes
   template:
@@ -10,6 +18,10 @@
     dest: '/home/ubuntu/docker-compose.yaml'
     owner: ubuntu
     group: ubuntu
+
+- name: rebuild docker-compose
+  become: yes
+  command: docker-compose build
 
 - name: start docker-compose
   become: yes

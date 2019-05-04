@@ -31,7 +31,7 @@ http {
 
     server {
         listen         80; 
-        server_name    172.26.37.225
+        server_name    {{ ansible_host }};
         charset UTF-8;
         access_log      /var/log/nginx/myweb_access.log;
         error_log       /var/log/nginx/myweb_error.log;
