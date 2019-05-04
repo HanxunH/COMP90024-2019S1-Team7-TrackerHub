@@ -17,3 +17,4 @@ WORKDIR /code
 ADD . /code
 RUN pip3 install -r requirement.txt
 EXPOSE 8080
+CMD [ "python3.7","manage.py","runserver","0.0.0.0:8080" ]
