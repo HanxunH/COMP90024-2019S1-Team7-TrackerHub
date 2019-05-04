@@ -17,7 +17,7 @@
 #SBATCH --cpus-per-task=12
 
 # The amount of memory in megabytes per process in the job:
-#SBATCH --mem=32G
+#SBATCH --mem=64G
 
 # Send yourself an email when the job:
 #SBATCH --mail-type=FAIL
@@ -30,7 +30,7 @@
 #SBATCH --mail-user=hanxunh@student.unimelb.edu.au
 
 # The maximum running time of the job in days-hours:mins:sec
-#SBATCH --time 48:00:00
+#SBATCH --time 47:59:00
 
 # check that the script is launched with sbatch
 if [ "x$SLURM_JOB_ID" == "x" ]; then
@@ -46,13 +46,14 @@ cd /data/cephfs/punim0784/COMP90024-2019S1-Team7/machine_learning
 module load Python/3.5.2-intel-2017.u2-GCC-5.4.0-CUDA9
 nvidia-smi
 
-python3 -u coconut_train.py --cuda  \
-                            --train_batch_size 200  \
-                            --test_batch_size 400   \
+python3 -u coconut_train.py --cuda \
+                            --start_from_begining   \
+                            --train_batch_size 150  \
+                            --test_batch_size 300   \
                             --num_epochs 400        \
                             --train_data_dir /data/cephfs/punim0784/comp90024_p2_nsfw \
-                            --train_optimizer adabound   \
+                            --train_optimizer sgd   \
                             --model_type nsfw    \
-                            --model_arc resnet101    \
-                            --model_checkpoint_path checkpoints/nsfw_resnet101_adabound.pth \
-                            >> logs/nsfw_resnet101_adabound.log
+                            --model_arc resnet50    \
+                            --model_checkpoint_path checkpoints/nsfw_resnet50_sgd_v2.pth \
+                            >> logs/nsfw_resnet50_sgd_v2.log

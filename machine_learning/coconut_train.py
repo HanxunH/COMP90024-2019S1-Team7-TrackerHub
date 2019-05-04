@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_train.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-04-27T20:34:47+10:00
+# @Last modified time: 2019-05-01T15:11:30+10:00
 
 
 import os
@@ -41,14 +41,15 @@ args = parser.parse_args()
 # Static Vars
 FOOD179_MEAN = [0.48369651859332485, 0.39450415872995226, 0.30613956430808564]
 FOOD179_STD = [0.31260642838369135, 0.29686785305034863, 0.28606165329199507]
-NSFW_MEAN = [0.4192032458303017, 0.3620132191886713, 0.3345888229001102]
-NSFW_STD = [0.36833108995020036, 0.33885012952633026, 0.32902284057603554]
+NSFW_MEAN = [0.42449722977772864, 0.36894542373962763, 0.34294638334018696]
+NSFW_STD = [0.37195855638311753, 0.3443887116244747, 0.3354943737634228]
 
 # Global Vars
 NORM_MEAN = None
 NORM_STD = None
 coconut_model = None
 train_history_dict = {}
+global_steps_train_history_dict = {}
 class_to_idx = None
 
 def load_datasets():
@@ -59,10 +60,12 @@ def load_datasets():
 
     train_transform = transforms.Compose([
         transforms.RandomHorizontalFlip(),
+        transforms.RandomCrop(256),
         transforms.ToTensor(),
         normalize])
 
     test_transform = transforms.Compose([
+        transforms.RandomCrop(256),
         transforms.ToTensor(),
         normalize])
 
@@ -135,8 +138,8 @@ def get_eval_topn_accuracy(loader, shared_cnn, n=5):
 
 
 
-def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loaders=None):
-    global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx
+def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loaders=None, global_steps=0):
+    global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx, global_steps_train_history_dict
 
     model.train()
     train_acc_meter = AverageMeter()
@@ -148,7 +151,6 @@ def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loade
         if args.cuda:
             images = images.cuda(non_blocking=True)
             labels = labels.cuda(non_blocking=True)
-
         model.zero_grad()
         pred = model(images)
         loss = nn.CrossEntropyLoss()(pred, labels)
@@ -162,9 +164,10 @@ def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loade
         loss_meter.update(loss.item())
 
         end = time.time()
-
+        global_steps_train_history_dict[global_steps] = {}
         learning_rate = optimizer.param_groups[0]['lr']
         display = 'epoch=' + str(epoch) + \
+                  '\tglobal_steps=' + str(global_steps) +\
                   '\tch_step=' + str(i) + \
                   '\tloss=%.5f' % (loss_meter.avg) + \
                   '\tlr=%.5f' % (learning_rate) + \
@@ -172,23 +175,28 @@ def train_cnn(epoch=None, model=None, optimizer=None, scheduler=None, data_loade
                   '\tacc_avg=%.4f' % (train_acc_meter.avg) + \
                   '\ttime=%.2fit/s' % (1. / (end - start))
         print(display)
+        global_steps_train_history_dict[global_steps] = {}
+        global_steps_train_history_dict['train_loss'] = loss_meter.avg
+        global_steps_train_history_dict['train_acc'] = train_acc_meter.avg
+        global_steps = global_steps + 1
 
     train_history_dict[epoch]['train_loss'] = loss_meter.avg
     train_history_dict[epoch]['train_acc'] = train_acc_meter.avg
+    return global_steps
 
 
-
-def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data_loaders=None, best_acc=None):
+def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data_loaders=None, best_acc=None, global_steps=0):
     global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx
 
     for epoch in range(start_epoch, args.num_epochs):
         train_history_dict[epoch] = {}
-        train_cnn(epoch=epoch,
-                  model=model,
-                  optimizer=optimizer,
-                  data_loaders=data_loaders)
+        global_steps = train_cnn(epoch=epoch,
+                                 model=model,
+                                 optimizer=optimizer,
+                                 data_loaders=data_loaders,
+                                 global_steps=global_steps)
         scheduler.step()
-        
+
         test_loader = data_loaders['test_dataset']
         test_acc = get_eval_accuracy(loader=test_loader, shared_cnn=model)
         test_acc_top5 = get_eval_topn_accuracy(loader=data_loaders['test_dataset'], shared_cnn=model)
@@ -206,6 +214,7 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                       test_acc=test_acc,
                       best_acc=best_acc,
                       test_acc_top5=test_acc_top5,
+                      global_steps=global_steps,
                       filename=filename + '_best.pth')
 
         save_mode(epoch=epoch,
@@ -214,17 +223,19 @@ def train_ops(start_epoch=None, model=None, optimizer=None, scheduler=None, data
                   test_acc=test_acc,
                   best_acc=best_acc,
                   test_acc_top5=test_acc_top5,
+                  global_steps=global_steps,
                   filename=filename)
 
         print('Best Acc %5f' % (best_acc))
         print('Eval Acc %5f' % (test_acc))
         print('Eval Acc Top5 %5f' % (test_acc_top5))
+        data_loaders = load_datasets()
 
     return
 
 
-def save_mode(epoch=None, model=None, optimizer=None, test_acc=None, best_acc=None, test_acc_top5=None, filename=None):
-    global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx
+def save_mode(epoch=None, model=None, optimizer=None, test_acc=None, best_acc=None, test_acc_top5=None, filename=None, global_steps=0):
+    global NORM_MEAN, NORM_STD, coconut_model, train_history_dict, class_to_idx, global_steps_train_history_dict
     state = {'epoch': epoch + 1,
              'args': args,
              'test_acc': test_acc,
@@ -233,7 +244,9 @@ def save_mode(epoch=None, model=None, optimizer=None, test_acc=None, best_acc=No
              'class_to_idx': class_to_idx,
              'NORM_MEAN': NORM_MEAN,
              'NORM_STD': NORM_STD,
+             'global_steps': global_steps,
              'train_history_dict': train_history_dict,
+             'global_steps_train_history_dict': global_steps_train_history_dict,
              'model_state_dict': model.state_dict(),
              'model_optimizer': optimizer.state_dict()}
     torch.save(state, filename)
@@ -262,15 +275,15 @@ def main():
         raise('Not Implemented!')
 
     if args.model_arc == 'resnet18':
-        coconut_model = model.resnet18(num_classes=num_classes)
+        coconut_model = model.resnet18(num_classes=num_classes, zero_init_residual=True)
     elif args.model_arc == 'resnet34':
-        coconut_model = model.resnet34(num_classes=num_classes)
+        coconut_model = model.resnet34(num_classes=num_classes, zero_init_residual=True)
     elif args.model_arc == 'resnet50':
-        coconut_model = model.resnet50(num_classes=num_classes)
+        coconut_model = model.resnet50(num_classes=num_classes, zero_init_residual=True)
     elif args.model_arc == 'resnet101':
-        coconut_model = model.resnet101(num_classes=num_classes)
+        coconut_model = model.resnet101(num_classes=num_classes, zero_init_residual=True)
     elif args.model_arc == 'resnet152':
-        coconut_model = model.resnet152(num_classes=num_classes)
+        coconut_model = model.resnet152(num_classes=num_classes, zero_init_residual=True)
     elif args.model_arc == 'mobilenet':
         coconut_model = model.MobileNetV2(n_class=num_classes, input_size=256)
     else:
@@ -281,7 +294,12 @@ def main():
         coconut_model = coconut_model.cuda()
         torch.backends.benchmark = True
         print("CUDA Enabled")
-        print('Total of %d GPU available' % (torch.cuda.device_count()))
+        gpu_count = torch.cuda.device_count()
+        print('Total of %d GPU available' % (gpu_count))
+        args.train_batch_size = args.train_batch_size * gpu_count
+        args.test_batch_size = args.test_batch_size * gpu_count
+        print('args.train_batch_size: %d' % (args.train_batch_size))
+        print('args.test_batch_size: %d' % (args.test_batch_size))
 
     model_parameters = filter(lambda p: p.requires_grad, coconut_model.parameters())
     params = sum([np.prod(p.size()) for p in model_parameters])
@@ -302,6 +320,7 @@ def main():
         optimizer = adabound.AdaBound(coconut_model.parameters(), lr=1e-3, final_lr=0.1)
         scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=150, gamma=0.1, last_epoch=-1)
 
+    global_steps = 0
     if not args.start_from_begining:
         filename = args.model_checkpoint_path
         if args.load_gpu_model_on_cpu:
@@ -315,6 +334,7 @@ def main():
         train_history_dict = checkpoint['train_history_dict']
         scheduler.optimizer = optimizer  # Not sure if this actually works
         start_epoch = checkpoint['epoch']
+        global_steps = checkpoint['global_steps']
         print(filename + ' loaded!')
 
     data_loaders = load_datasets()
@@ -323,7 +343,8 @@ def main():
               optimizer=optimizer,
               scheduler=scheduler,
               data_loaders=data_loaders,
-              best_acc=best_acc)
+              best_acc=best_acc,
+              global_steps=global_steps)
 
 if __name__ == "__main__":
     main()

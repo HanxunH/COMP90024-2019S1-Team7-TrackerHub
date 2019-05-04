@@ -13,66 +13,58 @@ class CouchDbHandler(object):
 
     load_balance_counter = None
     server = None
-    database = None
+    database = dict()
+    status = True
 
-    def __init__(self, database, url=COUCHDB_URL, username=COUCHDB_USERNAME, password=COUCHDB_PASSWORD,
+    def __init__(self, url=COUCHDB_URL, username=COUCHDB_USERNAME, password=COUCHDB_PASSWORD,
                  domain=COUCHDB_DOMAIN, ports=COUCHDB_PORTS):
         self.load_balance_counter = 0
+        self.domain = domain
+        self.ports = ports.__str__()
+
         try:
-            self.server = couchdb.Server(url.format(username, password, domain, ports[self.load_balance_counter % len(COUCHDB_PORTS)]))
+            self.server = couchdb.Server(url.format(username, password, domain, ports))
+            logger.debug('CouchDB Connected Success: %s@%s:%s' % (username, domain, ports.__str__()))
         except Exception:
             logger.debug('CouchDB Connected Failed: %s@%s:%s' % (username, domain, ports.__str__()))
-            return
+            self.status = False
+
+    def get_database(self, _database):
+        if not self.status:
+            return None
+
+        if _database in self.database:
+            return self.database[_database]
 
         try:
-            self.database = self.server[database]
+            self.database.update({
+                _database: self.server[_database]
+            })
         except Exception:
-            self.database = self.server.create(database)
-        logger.debug('CouchDB Connected Success: %s@%s:%s Collection Used: %s' % (username, domain, ports.__str__(), database))
-
-    def save(self):
-        pass
-
-    def create(self, doc):
-        resp = self.database.update(doc)
-        return resp
-
-    def update(self):
-        pass
-
-    def query(self):
-        pass
-
-    def delete(self):
-        pass
+            self.database.update({
+                _database: self.server.create(_database)
+            })
+            logger.debug('CouchDB Database %s Created Success: %s:%s' % (_database, self.domain, self.ports))
+        return self.database[_database]
 
 
-class GetCouchDbHandlers(object):
-    couch_db_handler = dict()
-
-    @classmethod
-    def get_couch_db_handler(cls, database):
-        if database not in cls.couch_db_handler:
-            try:
-                cls.couch_db_handler.update({database: CouchDbHandler(COUCHDB_DB)})
-            except Exception:
-                logger.debug('CouchDB Connected Failed! Database: %s' % database)
-                cls.couch_db_handler.update({database: None})
-        return cls.couch_db_handler[database]
-
-
-couch_db_handler = GetCouchDbHandlers.get_couch_db_handler(COUCHDB_DB)
-
+couch_db_handler = CouchDbHandler()
 
 if __name__ == '__main__':
-    document = [dict(
-        flag='test',
-        index='test1',
-    ), dict(
-        flag='nottest',
-        index='hello',
-    )]
-    couch_db_handler = GetCouchDbHandlers.get_couch_db_handler(COUCHDB_DB)
-    print(couch_db_handler)
-    if couch_db_handler:
-        print(couch_db_handler.create(document))
+    tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+    test_tweet = {
+            "id": "1123034108672659456",
+            "link": "https://twitter.com/kimberleerose10/status/1123034108672659456",
+            "user": "kimberleerose10",
+            "text": "pic.twitter.com/nE8LJSTRqR",
+            "date": "2019-04-30 01:19:31+00:00",
+            "hashtags": "",
+            "geo": "",
+            "urls": "",
+            "image_urls": [
+                "https://pbs.twimg.com/media/D5XRjxZVUAAc0zH.jpg"
+            ]
+        }
+
+    print(tweet_database.name)
+    tweet_database.save(test_tweet)

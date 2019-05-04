@@ -1,9 +1,14 @@
 ---
-# Common
+#############################################
+#                  Common                   #
+#############################################
 project_working_directory: /home/xuwang/CCC-COMP90024
 proxy_address: http://wwwproxy.unimelb.edu.au:8000
+remote_working_directory: /home/ubuntu/COMP90024
 
-# ngrok
+#############################################
+#                   ngrok                   #
+#############################################
 ngrok_auth_token: 6A539T2Atf4rMhwsjoiYV_4ffk8BeuDjJXwHJ2G4gk4
 ngrok_download: "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-amd64.zip"
 ngrok_path_download_tmp: "/tmp"
@@ -14,9 +19,6 @@ ngrok_path_systemd: "/lib/systemd/system"
 ngrok_console_ui: "false"
 ngrok_region: "au"
 ngrok_tunnels:
-  - name: "SSH"
-    address: "localhost:22"
-    proto: "tcp"
   - name: "HTTP"
     address: "localhost:80"
     proto: "http"
@@ -28,29 +30,22 @@ ngrok_daemon: "{{ ngrok_path_bin }}"
 ngrok_daemon_opts: "start {{ ngrok_start_tunnel }} --config /{{ ngrok_user }}/.ngrok2/ngrok.yml"
 ngrok_pidfile: "/var/run/ngrok.pid"
 
-# CouchDB
+#############################################
+#                 CouchDB                   #
+#############################################
 couchdb_version: 2.3.0
-databases:
-  - name: couchdb1
-    volume: /data1
-    port: 8001
-  - name: couchdb2
-    volume: /data2
-    port: 8002
-  - name: couchdb3
-    volume: /data3
-    port: 8003
+couchdb_config_path: /home/ubuntu/couchdb/etc
+couchdb_share: 4
+couchdb_replica: 3
+cluster_cookie: 'hello'
+cluster_communication_port_min: 9100
+cluster_communication_port_max: 9102
 
-volumes:
-  - vol_name: volume_db1
-    vol_size: 60
-    device: /dev/vdb
-    mountpoint: /data1
-  - vol_name: volume_db2
-    vol_size: 60
-    device: /dev/vdc
-    mountpoint: /data2
-  - vol_name: volume_db3
-    vol_size: 60
-    device: /dev/vdd
-    mountpoint: /data3
+#############################################
+#                  Docker                   #
+#############################################
+enable_docker_remote_control: true
+
+#############################################
+#                 Backend                   #
+#############################################
