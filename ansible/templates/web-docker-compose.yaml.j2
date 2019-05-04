@@ -18,7 +18,7 @@ services:
         ipv4_address: 172.20.0.2
   nginx_proxy:
     container_name: nginx_proxy
-    build: {{remote_working_directory}}/backend/nginx
+    build: {{remote_working_directory}}/config/webserver_nginx
     volumes:
       - frontend_production_code:/usr/share/nginx/html
       - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
