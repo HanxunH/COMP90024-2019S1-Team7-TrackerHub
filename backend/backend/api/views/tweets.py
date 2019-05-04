@@ -46,11 +46,15 @@ def tweet_untrained_router(request, *args, **kwargs):
 
 def tweet_post(request):
     try:
-        keys = ['id', 'text', 'image_urls', 'img_id', 'geo', 'date', 'user', 'hashtags']
+        keys = ['id', 'text', 'img_id', 'geo', 'date', 'user', 'hashtags']
         tweet = make_dict(keys, ujson.loads(request.body))
     except Exception as e:
         logger.debug('Insufficient Attributes [%s] %s' % (request.path, e))
         resp = init_http_not_found('Insufficient Attributes')
+        return make_json_response(HttpResponseBadRequest, resp)
+
+    if not isinstance(tweet['geo'], list) or not isinstance(tweet['hashtags'], list or not isinstance(tweet['img_id'], list)):
+        resp = init_http_not_found('geo, hashtags, img_id must be LIST!')
         return make_json_response(HttpResponseBadRequest, resp)
 
     try:

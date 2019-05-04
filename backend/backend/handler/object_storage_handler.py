@@ -19,7 +19,7 @@ class ObjectStorageHandler(object):
     def __init__(self, container_name, object_storage_url=OBJECT_STORAGE_URL, authurl=OS_AUTH_URL, user=OS_USERNAME,
                  key=OS_PASSWORD, tenant_name=OS_TENANT_ID, auth_version=OS_VERSION):
         self.swift = client.Connection(authurl=authurl, preauthurl=OBJECT_STORAGE_PREURL, user=user, key=key,
-                                       tenant_name=tenant_name, auth_version=auth_version, retries=1, timeout=1)
+                                       tenant_name=tenant_name, auth_version=auth_version, retries=1, timeout=10)
         self.container_name = container_name
         self.container_url = '{}/{}/'.format(object_storage_url, container_name)
         self.check_exist_or_create()

@@ -1,3 +1,16 @@
-from django.db import models
+# -*- coding: utf-8 -*-
 
-# Create your models here.
+from django.db import models
+from couchdb.mapping import Document, TextField, IntegerField, DateTimeField, ListField, DateTimeField
+
+
+class Tweet(Document):
+    user = TextField()
+    text = TextField()
+    process = IntegerField()
+    img_id = ListField(TextField)
+    geo = ListField(TextField)
+    hashtags = ListField(TextField)
+    tags = ListField(TextField)
+    date = DateTimeField()
+    last_update = DateTimeField()
