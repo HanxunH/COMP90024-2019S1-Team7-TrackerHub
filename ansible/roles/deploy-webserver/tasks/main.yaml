@@ -1,0 +1,6 @@
+---
+- name: docker | build image
+  command: docker build -t frontend:v1 /home/ubuntu/COMP90024/frontend
+
+- name: docker | run container
+  command: docker run -d -p 80:80 --name frontend_{{lookup('pipe', 'date "+%Y%m%d%H%M%S"')}} frontend:v1

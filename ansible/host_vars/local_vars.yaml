@@ -1,17 +1,13 @@
+---
 #############################################
 #              Common vars                  #
 #############################################
 availability_zone: melbourne-qh2-uom
-
-#############################################
-#                 Volume                    #
-#############################################
-volumes:
-  - vol_name: test-vol-1
-    vol_size: 5
-  - vol_name: test-vol-2
-    vol_size: 5
-
+instance_network: qh2-uom-internal
+instance_flavor: uom.mse.2c9g
+instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
+instance_key_name: NectarGroup # ssh private key
+project_working_directory: /home/xuwang/CCC-COMP90024
 
 #############################################
 #             Security group                #
@@ -38,7 +34,7 @@ security_groups:
       - name: 'for TOMCAT'
         protocol: tcp
         port_range_min: 8080
-        port_range_max: 8080
+        port_range_max: 8090
         remote_ip_prefix: 0.0.0.0/0
   - name: spider-security-group
     description: "security group for spider server"
@@ -64,6 +60,11 @@ security_groups:
         port_range_min: 22
         port_range_max: 22
         remote_ip_prefix: 0.0.0.0/0
+      - name: 'for couchDB'
+        protocol: tcp
+        port_range_min: 8001
+        port_range_max: 8003
+        remote_ip_prefix: 0.0.0.0/0
 
 
 #############################################
@@ -71,22 +72,36 @@ security_groups:
 #############################################
 instances:
   - name: WebServer
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5 # Ubuntu 16.04
-    instance_key_name: NectarGroup # ssh private key
-    instance_flavor: uom.mse.2c9g # 2 VCPUs & 8GB RAM
     security_groups: web-security-group
+    volume_ids: '{{ WebServer_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_webserver
+        vol_size: 10
   - name: Spider
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: spider-security-group
+    volume_ids: '{{ Spider_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_spider
+        vol_size: 10
   - name: MachineLearning
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: machine-learning-security-group
+    volume_ids: '{{ MachineLearning_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_ml
+        vol_size: 50
   - name: Database
-    instance_image: 0a2bac09-8beb-464a-9cbc-6adf4dfcd5e5
-    instance_key_name: NectarGroup
-    instance_flavor: uom.mse.2c9g
     security_groups: database-security-group
+    volume_ids: '{{ Database_volumes|default([]) }}'
+    volumes:
+      - vol_name: volume_db1
+        vol_size: 60
+        device: /dev/vdb
+        mountpoint: /data1
+      - vol_name: volume_db2
+        vol_size: 60
+        device: /dev/vdc
+        mountpoint: /data2
+      - vol_name: volume_db3
+        vol_size: 60
+        device: /dev/vdd
+        mountpoint: /data3

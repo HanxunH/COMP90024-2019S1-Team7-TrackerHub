@@ -1,0 +1,40 @@
+---
+- name: install xfsprogs
+  become: yes
+  apt:
+    name: ['xfsprogs']
+    state: latest
+  when: ansible_distribution == "Ubuntu"
+
+- name: Make file system
+  filesystem:
+    fstype: xfs
+    dev: "{{ item.device }}"
+  when: item.device is defined
+  loop: "{{ volumes }}"
+
+- name: Check folders
+  stat:
+    path: "{{ item.mountpoint }}"
+  register: directory_stats
+  loop: "{{ volumes }}"
+
+- debug:
+    msg: "====== {{ directory_stats }}"
+
+- name: Create directory
+  file:
+    path: "{{ item.item.mountpoint }}"
+    recurse: yes
+    state: directory
+  when: item.stat.exists == false
+  loop: "{{ directory_stats.results }}"
+
+- name: Mount device
+  mount:
+    path: "{{ item.mountpoint }}"
+    src: "{{ item.device }}"
+    fstype: xfs
+    state: mounted
+  when: item.device is defined
+  loop: "{{ volumes }}"

@@ -1,3 +1,4 @@
+---
 - hosts: localhost
   vars_files:
     - host_vars/local_vars.yaml
@@ -6,6 +7,6 @@
   roles:
     - role: common
     - role: show-images
-    # - role: openstack-volume
+    - role: create-volumes
     - role: create-security-groups
     - role: create-instances

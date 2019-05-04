@@ -1,0 +1,17 @@
+---
+- name: couchdb | pull docker image
+  command: docker pull couchdb:2.3.0
+
+- name: couchdb | run containers
+  command: |
+    docker run -d
+    -p {{ item.port }}:5984
+    -v {{ item.volume }}
+    --name {{ item.name }}
+    couchdb:{{ couchdb_version }}
+  loop: '{{ databases }}'
+
+# sudo mkfs.xfs /dev/vdb
+# sudo mkdir /data
+# sudo mount -t auto /dev/vdb /data
+# sudo docker run -d -p 8001:5984 --name couchdb1 -v /data couchdb:2.3.0
