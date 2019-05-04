@@ -1,5 +1,8 @@
 FROM ubuntu:16.04
- 
+
+ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
+ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
+
 RUN apt-get -y update
 
 RUN apt-get install software-properties-common
