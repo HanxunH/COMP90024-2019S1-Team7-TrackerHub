@@ -28,6 +28,8 @@ services:
   backend_nginx:
     container_name: backend_nginx
     build: {{remote_working_directory}}/backend/nginx
+    volumes:
+      - {{remote_working_directory}}/backend:/code
     ports:
       - "8081:8081"
     links:
