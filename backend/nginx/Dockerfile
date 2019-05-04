@@ -1,3 +1,3 @@
 FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 5000
+EXPOSE 8000
