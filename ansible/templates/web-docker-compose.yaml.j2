@@ -5,20 +5,6 @@ services:
     build: {{remote_working_directory}}/frontend
     volumes:
       - frontend_production_code:/usr/src/ng-app/dist/
-  frontend:
-    container_name: frontend
-    image: nginx:stable-alpine
-    volumes:
-      - frontend_production_code:/usr/share/nginx/html
-      - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
-    ports: 
-      - "8000:8000"
-    restart: always
-    links:
-      - frontend_production_code
-    networks:
-      web_nw:
-        ipv4_address: 172.20.0.2
   backend:
     container_name: backend
     build: {{remote_working_directory}}/backend
@@ -29,22 +15,24 @@ services:
     restart: always
     networks:
       web_nw:
-        ipv4_address: 172.20.0.3
+        ipv4_address: 172.20.0.2
   nginx_proxy:
     container_name: nginx_proxy
     build: {{remote_working_directory}}/backend/nginx
+    volumes:
+      - frontend_production_code:/usr/share/nginx/html
+      - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     links:
       - backend
-      - frontend
+      - frontend_production_code
     depends_on:
       - backend
-      - frontend
     restart: always
     networks:
       web_nw:
-        ipv4_address: 172.20.0.4
+        ipv4_address: 172.20.0.3
 
 volumes:
   frontend_production_code:
