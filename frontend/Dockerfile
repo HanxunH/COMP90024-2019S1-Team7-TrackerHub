@@ -23,4 +23,4 @@ COPY . /usr/src/ng-app
 RUN npm run build -- --prod
 
 # set port
-EXPOSE 80 443
+EXPOSE 5000
