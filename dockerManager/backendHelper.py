@@ -28,17 +28,13 @@ def upload_tweet(tweet):
         'x-api-key': '227415ba68c811e9b1a48c8590c7151e',
         'Content-Type': 'application/json'
     }
-    resp = requests.post(url=url, json=tweet, headers=headers)
+    resp = requests.post(url=url, data=tweet, headers=headers)
     return resp
 
 
 def test():
     resp = requests.get('https://abs.twimg.com/emoji/v2/72x72/1f40d.png')
     pic = resp.content
-    # with open('img.png', 'wb') as f:
-    #     f.write(pic)
-    # pic = open('img.png', 'rb')
-    print(pic)
     resp = upload_pic(pic)
     print(resp.status_code, resp.content)
 
@@ -46,4 +42,4 @@ def test():
 if __name__ == '__main__':
     while True:
         test()
-        time.sleep(1)
+        time.sleep(15)

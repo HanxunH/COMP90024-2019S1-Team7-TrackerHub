@@ -5,10 +5,10 @@ import ujson
 import json
 import datetime
 
-import django.utils.timezone
 from django.http import HttpResponse, HttpResponseForbidden
 
-from backend.common.config import HTTP_X_API_KEY, API_KEY, ErrorCode, ErrorMsg
+from backend.common.config import ErrorCode, ErrorMsg
+from backend.config.config import HTTP_X_API_KEY, API_KEY
 
 
 class DateTimeEncoder(json.JSONEncoder):
