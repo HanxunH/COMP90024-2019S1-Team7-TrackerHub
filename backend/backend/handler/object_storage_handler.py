@@ -41,7 +41,7 @@ class ObjectStorageHandler(object):
         return [item for item in items if name in item['name']]
 
     def upload(self, file_name, file):
-        return self.swift.put_object(container=self.container_name, obj=file_name, contents=file)
+        return self.swift.put_object(container=self.container_name, obj=file_name, contents=file, verify=False)
 
     def delete(self, file_name):
         return self.swift.delete_object(container=self.container_name, obj=file_name)
