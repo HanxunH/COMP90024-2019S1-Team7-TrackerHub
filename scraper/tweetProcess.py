@@ -59,6 +59,10 @@ def getBinaryImage(image, original):
 
 def reformat_Image(img):
 
+	if img.mode != "RGB":
+
+		img = img.convert("RGB")
+
 	img_size = img.size
 	width = img_size[0]
 	height = img_size[1]
@@ -73,7 +77,7 @@ def reformat_Image(img):
 	else:
 		new_img = img
 
-	result = img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
+	result = new_img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
 	return result
 
 

@@ -2,7 +2,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 import json
-from untitled import postRequest, reformat_Image, getBinaryImage
+from helper import postRequest, reformat_Image, getBinaryImage
 from api_requirements import DOMAIN, API_KEY, API_PORT
 from PIL import Image
 from io import BytesIO
