@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T18:53:47+10:00
+# @Last modified time: 2019-05-05T19:06:18+10:00
 import argparse
 import logging
 import io
@@ -92,8 +92,8 @@ class coconut_image_recong:
 
     def set_logger(self):
         logger_level = logging.INFO
-        self.logger = logging.getLogger('Coconut Image Recong')
-        formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        self.logger = logging.getLogger('Main')
+        formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s - %(funcName)s(): %(message)s')
 
         # create file handler which logs even debug messages
         fh = logging.FileHandler(self.log_file_path)
@@ -123,7 +123,7 @@ class coconut_image_recong:
             response = requests.get(request_url, headers=headers)
             if response.status_code != requests.codes.ok:
                 self.logger.error(response.status_code)
-                self.logger.error(response.text)
+                self.logger.error(response.content)
                 return
             return response
         except Exception as error:
@@ -136,8 +136,9 @@ class coconut_image_recong:
             response = requests.post(request_url, headers=headers, json=payload)
             if response.status_code != requests.codes.ok:
                 self.logger.error(response.status_code)
-                self.logger.error(response.text)
-                return response
+                self.logger.error(response.content)
+                return
+            return response
         except Exception as error:
             self.logger.error(error)
         return
@@ -148,7 +149,7 @@ class coconut_image_recong:
         response = self.api_get(request_url)
         if response is not None:
             try:
-                return json.loads(response.text)
+                return json.loads(response.content)
             except Exception as error:
                 self.logger.error(error)
         return None
@@ -249,9 +250,10 @@ class coconut_image_recong:
         request_url = self.request_server_url + self.trained_tweet_api
         response = self.api_post(request_url, payload)
         if response:
-            response = json.loads(response.text)
-            if 'data' in response and 'updated' in response['data'] and len(response['data']['updated']) > 0 :
-                self.logger.info('Uploaded %d tweets result' % (len(response['data']['updated'])))
+            response = json.loads(response.content)
+            self.logger.debug(response)
+            if 'data' in response and len(response['data']) > 0 :
+                self.logger.info('Uploaded %d tweets result' % (len(response['data'])))
             else:
                 self.logger.error('Someting went wrong with upload result')
         else:
