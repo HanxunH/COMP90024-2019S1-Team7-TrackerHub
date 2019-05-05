@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import logging
 from uuid import uuid1 as uuid
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
@@ -7,6 +8,9 @@ from django.views.decorators.http import require_http_methods
 
 from backend.handler.object_storage_handler import object_storage_handler
 from backend.common.utils import init_http_not_found, init_http_success, check_api_key, make_json_response
+
+
+logger = logging.getLogger('django.debug')
 
 
 @require_http_methods(['POST', 'GET'])
@@ -27,14 +31,25 @@ def tweet_pic_router(request, *args, **kwargs):
 
 
 def tweet_pic_post(request):
-    file = request.FILES.get('file', None)
+    try:
+        file = request.FILES.get('file', None)
+    except Exception as e:
+        file = None
+        logger.debug('No Attached File %s', e)
+
     if not file:
         resp = init_http_not_found('No Attach File')
         return make_json_response(HttpResponseNotFound, resp)
 
     uid = uuid()
     pic_id = ''.join(uid.__str__().split('-'))
-    object_storage_handler.upload(pic_id + '.jpg', file)
+
+    try:
+        object_storage_handler.upload(pic_id + '.jpg', file)
+    except Exception as e:
+        print(e)
+        object_storage_handler.reconnect()
+        object_storage_handler.upload(pic_id + '.jpg', file)
 
     resp = init_http_success()
     resp['data'].update(dict(
@@ -50,7 +65,13 @@ def tweet_pic_list(request):
         if 'name' in s:
             return s['name'].strip('.jpg')
 
-    files = object_storage_handler.findall()
+    try:
+        files = object_storage_handler.findall()
+    except Exception as e:
+        print(e)
+        object_storage_handler.reconnect()
+        files = object_storage_handler.findall()
+
     pic_ids = map(process, files)
 
     resp = init_http_success()
@@ -63,7 +84,12 @@ def tweet_pic_list(request):
 def tweet_pic_get(request, resource):
     resource = resource if '.jpg' in resource else resource + '.jpg'
 
-    picture = object_storage_handler.download(resource)
+    try:
+        picture = object_storage_handler.download(resource)
+    except Exception as e:
+        object_storage_handler.reconnect()
+        picture = object_storage_handler.download(resource)
+
     if not picture:
         resp = init_http_not_found('Object Storage Resource %s Not Found' % resource)
         return make_json_response(HttpResponseNotFound, resp)
