@@ -29,13 +29,12 @@ COUCH_DB_VOLUMES = {
     '/data/': {'bind': '/opt/couchdb/data', 'mode': 'rw'}
 }
 
-COUCH_DB_USER = 'GROUP7'
-COUCH_DB_PASSWORD = 'group7'
+COUCH_DB_USER = 'admin'
+COUCH_DB_PASSWORD = 'password'
 COUCH_DB_ENV = ['COUCHDB_USER={}'.format(COUCH_DB_USER), 'COUCHDB_PASSWORD={}'.format(COUCH_DB_PASSWORD)]
 
 DJANGO_PORTS = {
-    '8080/tcp': 8080,
-    '80/tcp': 8081,
+    '8080/tcp': 8080
 }
 
 DJANGO_VOLUMES = {
