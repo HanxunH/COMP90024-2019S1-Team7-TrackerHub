@@ -7,6 +7,6 @@ RUN mkdir /workspace
 WORKDIR /workspace
 ADD ../ /workspace
 
-RUN pip install -r requirements.txt
+RUN pip install -r GetResearchData/requirements.txt
 
 CMD [ "python", "./getResearchData.py" ]
