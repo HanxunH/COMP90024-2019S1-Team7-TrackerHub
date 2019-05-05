@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-01T15:23:32+10:00
+# @Last modified time: 2019-05-05T15:48:08+10:00
 
 import torch
 import torch.nn as nn
@@ -70,13 +70,14 @@ class coconut_inference():
                   '\ntest_acc: %.4f' % (self.model_test_acc) + \
                   '\tbest_acc: %.4f' % (self.model_best_acc) + \
                   '\ttest_acc_top5: %.4f' % (self.model_test_acc_top5) + '\n'
-        print(display)
-        return
+        return display
 
-    def reformat_Image(self, image_file_path, is_url_image=False):
+    def reformat_Image(self, image_file_path, is_url_image=False, is_img_data=False):
         if is_url_image:
             response = requests.get(image_file_path)
             image = Image.open(BytesIO(response.content))
+        elif is_img_data:
+            image = image_file_path
         else:
             image = Image.open(image_file_path, 'r')
         image_size = image.size
@@ -98,8 +99,8 @@ class coconut_inference():
         # print("%s has been resized to %s" % (ImageFilePath, str(img.size)))
         return img
 
-    def load_image(self, image_path=None, is_url_image=False):
-        image = self.reformat_Image(image_path, is_url_image=is_url_image)
+    def load_image(self, image_path=None, is_url_image=False, is_img_data=False):
+        image = self.reformat_Image(image_path, is_url_image=is_url_image, is_img_data=is_img_data)
         normalize = transforms.Normalize(mean=self.mean, std=self.std)
         loader = transforms.Compose([transforms.ToTensor(), normalize])
         image = loader(image).float()
@@ -107,10 +108,10 @@ class coconut_inference():
         image = image.unsqueeze(0)
         return image
 
-    def inference(self, image_path=None, num_of_perdict=1, is_url_image=False):
+    def inference(self, image_path=None, num_of_perdict=1, is_url_image=False, is_img_data=False):
         if image_path == None:
             raise("Image does not exist!")
-        target_image = self.load_image(image_path, is_url_image=is_url_image)
+        target_image = self.load_image(image_path, is_url_image=is_url_image, is_img_data=is_img_data)
         pred = self.model(target_image)
         softmax = torch.nn.Softmax(dim=1)
         probabilities = softmax(pred)
@@ -125,7 +126,7 @@ class coconut_inference():
             score = score_list[index]
             class_id = class_id_list[index]
             # print(self.model_idx_to_class[class_id], class_id, score)
-            rs.append((self.model_idx_to_class[class_id], score))
+            rs.append((self.model_idx_to_class[class_id], score, class_id))
 
         return rs
 

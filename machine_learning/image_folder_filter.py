@@ -6,10 +6,11 @@ import os
 from PIL import Image
 
 # REMOVE THIS FILE FROM ALL DIRS
-TARGET_IMAGE_FILE_PATH = '/Users/hanxunhuang/Data/nsfw/sexy/0A18yhC.jpg'
-TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/train'
+TARGET_IMAGE_FILE_PATH = '/Users/hanxunhuang/Desktop/0NG83qv.jpg'
+TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_food179_v3/train'
 original = cv2.imread(TARGET_IMAGE_FILE_PATH)
-target_image_size = 256
+TARGET_IMAGE_SIZE = 256
+MAX_TARGET_IMAGE_SIZE = 512
 
 def mse(imageA, imageB):
 	# the 'Mean Squared Error' between the two images is the
@@ -22,7 +23,7 @@ def mse(imageA, imageB):
 	return err
 
 # Helper Function that resize image to 256, add black padding
-def reformat_Image(ImageFilePath):
+def reformat_Image(ImageFilePath, target_image_size=TARGET_IMAGE_SIZE):
     image = Image.open(ImageFilePath, 'r')
     image_size = image.size
     width = image_size[0]
@@ -43,25 +44,43 @@ def reformat_Image(ImageFilePath):
     # print("%s has been resized to %s" % (ImageFilePath, str(img.size)))
     return img
 
+def check_duplicate():
+	target_dir = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/train/porn'
+	source_dir = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/train/neutral'
+	target_dir_file_list = []
+	source_dir_file_list = []
+	for image_file in os.listdir(source_dir):
+		source_dir_file_list.append(image_file)
+
+	for image_file in os.listdir(target_dir):
+		if image_file in source_dir_file_list:
+			path = target_dir + '/' + image_file
+			print('Duplicate removed :%s' %(path))
+			os.remove(path)
+
 # Check Image Files
 def check_files_larger_than_required(image_file_path):
 	image = Image.open(image_file_path, 'r')
-	if image.size[0] < target_image_size or image.size[1] < target_image_size:
-		print('Original Image Size: %s, %s' % (str(image.size), image_file_path))
+	if image.size[0] < TARGET_IMAGE_SIZE or image.size[1] < TARGET_IMAGE_SIZE:
+		old_size = image.size
 		image = reformat_Image(image_file_path)
 		image.save(image_file_path)
-		print('New Image Size: %s, %s' % (str(image.size), image_file_path))
+		print('O Size: %s, N Size: %s, %s' % (str(old_size), str(image.size), image_file_path))
 
+	if image.size[0] > MAX_TARGET_IMAGE_SIZE or image.size[1] > MAX_TARGET_IMAGE_SIZE:
+		old_size = image.size
+		image = reformat_Image(image_file_path, target_image_size=MAX_TARGET_IMAGE_SIZE)
+		image.save(image_file_path)
+		print('O Size: %s, N Size: %s, %s' % (str(old_size), str(image.size), image_file_path))
 
 def compare_image(image_file_path):
 	target = cv2.imread(image_file_path)
-	if target is None:
-		os.remove(image_file_path)
-		print('Image Cannot open removed!: %s' %(image_file_path))
-		return
-	if target.size != original.size:
-		return
-
+	# if target is None:
+	# 	os.remove(image_file_path)
+	# 	print('Image Cannot open removed!: %s' %(image_file_path))
+	# 	return
+	# if target.size != original.size:
+	# 	return
 	try:
 		if target is None or mse(target, original) == 0:
 			os.remove(image_file_path)
@@ -73,7 +92,7 @@ def compare_image(image_file_path):
 	return
 
 
-
+# check_duplicate()
 
 comm = MPI.COMM_WORLD
 size = comm.Get_size()
@@ -106,4 +125,8 @@ for image_file_path in image_path_list:
 	if image_file_path.startswith('.'):
 		continue
 	# compare_image(image_file_path)
-	check_files_larger_than_required(image_file_path)
+	try:
+		check_files_larger_than_required(image_file_path)
+	except:
+		print('cannot open: %s' %(image_file_path))
+		os.remove(image_file_path)
