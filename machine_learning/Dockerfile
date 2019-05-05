@@ -7,3 +7,5 @@ RUN mkdir /workspace
 WORKDIR /workspace
 ADD . /workspace
 RUN pip install -r requirements.txt
+
+CMD [ "python","coconut_image_recong.py","--load_with_config" ]
