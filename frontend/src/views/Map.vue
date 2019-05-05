@@ -12,9 +12,9 @@
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['Gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['Lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food179'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['nsfw'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -24,9 +24,9 @@
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['Gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['Lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food179'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['nsfw'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -60,9 +60,9 @@
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['Gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['Lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['food179'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['nsfw'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <div class="col-md-2">
