@@ -427,7 +427,7 @@ export default {
   position: absolute; 
   top: 100px; 
   right: 20px; 
-  z-index: 20099; 
+  z-index: 9999; 
   border-radius: 25px;
 }
 a.anchor {
