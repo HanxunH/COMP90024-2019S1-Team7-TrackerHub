@@ -12,9 +12,9 @@
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Food</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['porn'])">Porn</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Food and Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['Gluttony'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['Lust'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -24,9 +24,9 @@
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food'])">Food</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['porn'])">Porn</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food','porn'])">Food and Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['Gluttony'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['Lust'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -60,9 +60,9 @@
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['food'])">Food</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Porn</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Food and Porn</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['Gluttony'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['Lust'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['Gluttony','Lust'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <div class="col-md-2">
@@ -132,7 +132,7 @@ export default {
   },
 
   methods: {
-    // ====================== Build Map ======================
+    // ========================== Build Map ====================================================
     mapBuild(){
       let self = this
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -149,6 +149,7 @@ export default {
       self.barDataLabel.length=0
       self.barData.length=0
 
+      // ======================== Setup each region/ Collect bar data ==========================
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
@@ -167,20 +168,23 @@ export default {
         }
       })
 
+      // setup bar data
       self.barDatacollection = {
           labels: self.barDataLabel,
           datasets: [
             {
               label: 'Data One',
-              backgroundColor: '#f87979',
+              backgroundColor: '#ff9900',
               data: self.barData
             }, {
               label: 'Data Two',
-              backgroundColor: '#087979',
+              backgroundColor: '#000000',
               data: self.barData
             }
           ]
       }
+
+      //======================== Setup each mark ==========================
       /*
       // set marks on the map
       for (i = 0; i < locations.length; i++) {  
@@ -419,7 +423,7 @@ export default {
   position: relative;
 }
 #onmap {
-  background-color:rgb(255, 153, 0);
+  background-color:#ff9900;
   position: absolute; 
   top: 100px; 
   right: 20px; 
