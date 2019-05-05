@@ -1,12 +1,12 @@
 ---
-- name: clone source code from git
-  git:
-    repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
-    key_file: /home/ubuntu/.ssh/GitHub
-    dest: '{{ remote_working_directory }}'
+# - name: clone source code from git
+#   git:
+#     repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
+#     key_file: /home/ubuntu/.ssh/GitHub
+#     dest: '{{ remote_working_directory }}'
 
-# - name: pull latest code from git
-#   command: chdir={{ remote_working_directory }} git pull
+- name: pull latest code from git
+  command: chdir={{ remote_working_directory }} git pull
 
 - name: copy compose file to server
   template:
