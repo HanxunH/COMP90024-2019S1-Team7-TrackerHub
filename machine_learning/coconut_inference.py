@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T15:48:08+10:00
+# @Last modified time: 2019-05-06T00:11:58+10:00
 
 import torch
 import torch.nn as nn
@@ -80,6 +80,10 @@ class coconut_inference():
             image = image_file_path
         else:
             image = Image.open(image_file_path, 'r')
+
+        if image.mode != 'RGB':
+            image = image.convert('RGB')
+
         image_size = image.size
         width = image_size[0]
         height = image_size[1]
@@ -132,6 +136,9 @@ class coconut_inference():
 
 
 # coconut = coconut_inference(model_checkpoint_file_path='checkpoints/nsfw_resnet101_adabound.pth_best.pth')
+# png = '/Users/hanxunhuang/Desktop/download.png'
+# jpg = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3/train/drawings/0aTr7ly.jpg'
+# img = coconut.reformat_Image(image_file_path=png)
 # coconut.print_model_details()
 # rs = coconut.inference(image_path='http://pbs.twimg.com/media/D5PeSHgU0AAzy_G.jpg', num_of_perdict=5, is_url_image=True)
 # for item in rs:
