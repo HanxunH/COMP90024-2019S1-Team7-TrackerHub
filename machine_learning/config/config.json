@@ -8,5 +8,5 @@
   "food179_checkpoints": "checkpoints/food179_resnet101_sgd.pth_best.pth",
   "nsfw_checkpoints": "checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth",
   "server_rest_time": 30,
-  "batch_size": 20
+  "batch_size": 100
 }

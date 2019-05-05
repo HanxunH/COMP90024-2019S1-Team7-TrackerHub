@@ -8,7 +8,6 @@ from api_requirements import DOMAIN, API_KEY, API_PORT
 from requests.auth import HTTPBasicAuth
 from PIL import Image
 from io import BytesIO
-import ast
 
 
 TARGET_IMG_SIZE = 256
@@ -59,13 +58,20 @@ def getBinaryImage(image, original):
 
 def reformat_Image(img):
 
+	if img.mode != "RGB":
+
+		img = img.convert("RGB")
+
 	img_size = img.size
 	width = img_size[0]
 	height = img_size[1]
 
 	if(width != height):
 		bigside = width if width > height else height
-		background = Image.new('RGB', (bigside,bigside), (0,0,0))
+		if img.format == "png":
+			background = Image.new('RGBA', (bigside,bigside), (0,0,0))
+		else:
+			background = Image.new('RGB', (bigside,bigside), (0,0,0))
 		offset = (int(round(((bigside - width) / 2), 0)), int(round(((bigside - height) / 2), 0)))
 		background.paste(img, offset)
 		new_img = background
@@ -73,7 +79,7 @@ def reformat_Image(img):
 	else:
 		new_img = img
 
-	result = img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
+	result = new_img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
 	return result
 
 
@@ -116,8 +122,8 @@ def processTweet(tweet):
 				response = postRequest(DOMAIN, API_KEY, API_PORT["upload_pic"]["Port"], API_PORT["upload_pic"]["Header"], pair, "image")
 
 				response = response.content.decode("utf-8")
-				response = ast.literal_eval(response)
-				image_ids.append(response["data"]["pic_id"])
+				returnMsg = json.loads(response)
+				image_ids.append(returnMsg["data"]["pic_id"])
 
 
 			except Exception as e:

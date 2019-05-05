@@ -13,7 +13,7 @@ from io import BytesIO
 
 TARGET_IMG_SIZE = 256
 
-def postRequest(domain, api_key, port, header, info, string):
+def postRequest(domain, api_key, port, header, info, string, file):
 
 	url = domain + port
 	auth = HTTPBasicAuth('apikey', api_key)
@@ -23,16 +23,20 @@ def postRequest(domain, api_key, port, header, info, string):
 		if string == "tweet":
 			req = requests.post(url, headers=header , auth=auth, data=info)
 			print("tweet being uploaded... {}".format(req.status_code))
+			file.write("tweet being uploaded... {}".format(req.status_code))
 
 		elif string =="image":
 			req = requests.post(url, headers=header , auth=auth, files=info)
 			print("image being uploaded... {}".format(req.status_code))
+			file.write("image being uploaded... {}".format(req.status_code))
 
 		
 
 	except Exception as e:
 		print(e)
 		print("Some bad things happen" )
+		file.write(str(e))
+		file.write("Some bad things happen")
 
 	return req
 
@@ -65,7 +69,10 @@ def reformat_Image(img):
 
 	if(width != height):
 		bigside = width if width > height else height
-		background = Image.new('RGB', (bigside,bigside), (0,0,0))
+		if img.format == "png":
+			background = Image.new('RGBA', (bigside,bigside), (0,0,0))
+		else:
+			background = Image.new('RGB', (bigside,bigside), (0,0,0))
 		offset = (int(round(((bigside - width) / 2), 0)), int(round(((bigside - height) / 2), 0)))
 		background.paste(img, offset)
 		new_img = background
@@ -73,7 +80,7 @@ def reformat_Image(img):
 	else:
 		new_img = img
 
-	result = img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
+	result = new_img.resize((TARGET_IMG_SIZE , TARGET_IMG_SIZE))
 	return result
 
 
@@ -116,7 +123,7 @@ def processTweet(tweet):
 				response = postRequest(DOMAIN, API_KEY, API_PORT["upload_pic"]["Port"], API_PORT["upload_pic"]["Header"], pair, "image")
 
 				response = response.content.decode("utf-8")
-				returnMsg = json.loads(response.text)
+				returnMsg = json.loads(response)
 				image_ids.append(returnMsg["data"]["pic_id"])
 
 

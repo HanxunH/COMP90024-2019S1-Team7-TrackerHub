@@ -1,15 +1,12 @@
-FROM python:3
+FROM python:3.7.3
 
-ADD getResearchData.py /
-ADD untitled.py /
-ADD api_requirements.py /
+ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
+ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
 
+RUN mkdir /workspace
+WORKDIR /workspace
+ADD . /workspace
 
-RUN pip install GetOldTweets3
-RUN pip install bs4
-RUN pip install requests
-RUN pip install requests.auth
-RUN pip install pillow
-RUN pip install datetime
+RUN pip install -r requirements.txt
 
-CMD [ "python3", "./getResearchData.py" ]
+CMD [ "python", "./getResearchData.py"]

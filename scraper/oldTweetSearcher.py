@@ -16,11 +16,11 @@ comm_rank = comm.Get_rank()
 if comm_rank == 0 :
 # use GotOldTweets to scrape past tweets without limit of time
 # The scraper gets the tweets from locations within 50 miles from Melbourne Central
-	tweetCriteria = got.manager.TweetCriteria().setNear('-37.80811,144.96071').setWithin('50mi')\
-                                           .setSince("2018-06-01")\
-                                           .setUntil("2018-12-31")\
-                                           .setMaxTweets(50000)
-# 
+	tweetCriteria = got.manager.TweetCriteria().setUsername("GOLDFINGERS_AUS")\
+                                           .setSince("2017-06-01")\
+                                           .setUntil("2017-07-31")\
+                                           .setMaxTweets(5)
+# .setNear('-37.80811,144.96071').setWithin('50mi')\
 # .setUsername("GOLDFINGERS_AUS")\
 
 # tweetlist is a list of Tweet objects defined by the library GotOldTweets
