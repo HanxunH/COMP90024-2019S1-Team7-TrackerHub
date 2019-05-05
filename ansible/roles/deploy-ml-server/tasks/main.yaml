@@ -72,10 +72,6 @@
   become: yes
   command: docker-compose down
 
-- name: rebuild docker-compose
-  become: yes
-  command: docker-compose build
-
 - name: start docker-compose
   become: yes
-  command: docker-compose up -d
+  command: docker-compose up --force-recreate  -d
