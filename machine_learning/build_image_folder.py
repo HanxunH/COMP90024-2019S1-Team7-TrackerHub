@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: build_image_folder.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-01T23:17:31+10:00
+# @Last modified time: 2019-05-03T23:39:47+10:00
 
 
 
@@ -17,8 +17,8 @@ from PIL import Image
 from glob import glob
 
 FROM_TARGET_DIR = '/Users/hanxunhuang/Data/nsfw'
-PROCESS_DIR = '/Users/hanxunhuang/Data/nsfw'
-TO_TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_nsfw_v3'
+PROCESS_DIR = '/Users/hanxunhuang/Data/food179/images'
+TO_TARGET_DIR = '/Users/hanxunhuang/Data/comp90024_p2_food179_v3'
 CHANNEL_NUM = 3
 TEST_PERCENTAGE = 0.2
 target_image_size = 256
@@ -245,7 +245,7 @@ def build_image_foler():
 
 def main():
     # process_files()
-    # build_image_foler()
+    build_image_foler()
     # update_nsfw()
     # rgb_mean, rgb_std = cal_dir_stat(root=PROCESS_DIR)
     # print('rgb_mean: %s' % (str(rgb_mean)))
@@ -260,5 +260,3 @@ if __name__ == '__main__':
 # Food179 STD [0.31260642838369135, 0.29686785305034863, 0.28606165329199507]
 # NSFW    Mean [0.4192032458303017, 0.3620132191886713, 0.3345888229001102]
 # NSFW    STD [0.36833108995020036, 0.33885012952633026, 0.32902284057603554]
-# New_NSFW Mean [0.42449722977772864, 0.36894542373962763, 0.34294638334018696]
-# New_NSFW STD [0.37195855638311753, 0.3443887116244747, 0.3354943737634228]

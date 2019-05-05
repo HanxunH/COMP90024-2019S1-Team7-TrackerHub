@@ -1,0 +1,12 @@
+{
+  "server_address" : "172.26.38.1",
+  "server_port" : 8080,
+  "trained_tweet_api" : "/api/tweet/trained/",
+  "untrained_tweet_api": "/api/tweet/untrained/",
+  "pic_tweet_api": "/api/tweet/pic/",
+  "log_file_path": "logs/coconut_image_recong.log",
+  "food179_checkpoints": "checkpoints/food179_resnet101_sgd.pth_best.pth",
+  "nsfw_checkpoints": "checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth",
+  "server_rest_time": 30,
+  "batch_size": 20
+}

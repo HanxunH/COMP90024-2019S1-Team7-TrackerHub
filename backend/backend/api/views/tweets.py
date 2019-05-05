@@ -1,12 +1,12 @@
 # coding: utf-8
 
 import ujson
-import math
 import logging
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
 from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response
@@ -32,42 +32,35 @@ def tweet_post(request):
         keys = ['id', 'text', 'image_urls', 'img_id', 'geo', 'date', 'user', 'hashtag']
         tweet = make_dict(keys, ujson.loads(request.body))
     except Exception as e:
-        logger.debug('Insufficient Attributes [%s]' % request.path)
+        logger.debug('Insufficient Attributes [%s] %s' % (request.path, e))
         resp = init_http_not_found('Insufficient Attributes')
         return make_json_response(HttpResponseNotFound, resp)
 
     try:
-        utc_tweet_time = timezone.datetime.strptime(tweet['date'], '%Y-%m-%d %H:%M:%S%z').astimezone(timezone.utc)
+        utc_tweet_time = parse_datetime(tweet['date']).astimezone(timezone.utc)
     except Exception as e:
-        logger.debug('Error Datetime Format [%s]' % tweet['date'])
+        logger.debug('Error Datetime Format [%s], %s' % (tweet['date'], e))
         resp = init_http_not_found('Error Datetime Format, follow \'%Y-%m-%d %H:%M:%S%z\'')
         return make_json_response(HttpResponseNotFound, resp)
     
     tweet.update(dict(
         _id=tweet['id'],
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
+        process=0,
         tags=[],
-        last_update=timezone.datetime.utcnow().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+        last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     ))
     tweet.pop('id')
-    time_tweet_record = dict(
-        _id=tweet['_id']
-    )
-    minute = math.floor(utc_tweet_time.minute / 15) * 15
-    time_couch_db = couch_db_handler.get_database(COUCHDB_TIME_DB.format(utc_tweet_time.year, utc_tweet_time.month,
-                                                                         utc_tweet_time.day, utc_tweet_time.hour,
-                                                                         minute))
+
     try:
-        id, rev = tweet_couch_db.save(tweet)
-        time_couch_db.save(time_tweet_record)
+        tweet_id, rev = tweet_couch_db.save(tweet)
     except Exception as e:
-        print(e)
         resp = init_http_not_found('Tweet Existed')
         return make_json_response(HttpResponseNotFound, resp)
 
     resp = init_http_success()
     resp['data'].update(dict(
-        id=id,
+        id=tweet_id,
         rev=rev
     ))
     return make_json_response(HttpResponse, resp)

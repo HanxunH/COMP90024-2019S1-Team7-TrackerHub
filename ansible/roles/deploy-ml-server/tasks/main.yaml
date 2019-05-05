@@ -1,0 +1,81 @@
+---
+- name: pull latest code from git
+  command: chdir={{ remote_working_directory }} git pull
+
+- name: Check folders
+  stat:
+    path: '{{ remote_working_directory }}/machine_learning/config'
+  register: ml_conf_dir
+
+- name: Create directory
+  file:
+    path: '{{ remote_working_directory }}/machine_learning/config'
+    recurse: yes
+    state: directory
+  when: ml_conf_dir.stat.exists == false
+
+- name: copy machine learning config file to server
+  template:
+    src: ml-config.json.j2
+    dest: '{{ remote_working_directory }}/machine_learning/config/config.json'
+    owner: ubuntu
+    group: ubuntu
+
+- name: Check folders
+  stat:
+    path: '{{ remote_working_directory }}/machine_learning/logs'
+  register: ml_logs_dir
+
+- name: Create directory
+  file:
+    path: '{{ remote_working_directory }}/machine_learning/logs'
+    recurse: yes
+    state: directory
+  when: ml_logs_dir.stat.exists == false
+
+- name: Check folders
+  stat:
+    path: '{{ remote_working_directory }}/machine_learning/checkpoints'
+  register: ml_checkpoints_dir
+
+- name: Create directory
+  file:
+    path: '{{ remote_working_directory }}/machine_learning/checkpoints'
+    recurse: yes
+    state: directory
+  when: ml_checkpoints_dir.stat.exists == false
+
+- name: copy ml modal to server | step 1
+  copy:
+    src: "{{project_working_directory}}/COMP90024-2019S1-Team7/machine_learning/checkpoints/food179_resnet101_sgd.pth_best.pth"
+    dest: '{{ remote_working_directory }}/machine_learning/checkpoints/food179_resnet101_sgd.pth_best.pth'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
+- name: copy ml modal to server | step 2
+  copy:
+    src: "{{project_working_directory}}/COMP90024-2019S1-Team7/machine_learning/checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth"
+    dest: '{{ remote_working_directory }}/machine_learning/checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
+- name: copy compose file to server
+  template:
+    src: ml-docker-compose.yaml.j2
+    dest: '/home/ubuntu/docker-compose.yaml'
+    owner: ubuntu
+    group: ubuntu
+
+- name: docker compose down
+  become: yes
+  command: docker-compose down
+
+- name: rebuild docker-compose
+  become: yes
+  command: docker-compose build
+
+- name: start docker-compose
+  become: yes
+  command: docker-compose up -d
