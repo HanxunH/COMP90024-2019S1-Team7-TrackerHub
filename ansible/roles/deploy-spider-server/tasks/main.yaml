@@ -1,0 +1,18 @@
+---
+- name: pull latest code from git
+  command: chdir={{ remote_working_directory }} git pull
+
+- name: copy compose file to server
+  template:
+    src: spider-docker-compose.yaml.j2
+    dest: '/home/ubuntu/docker-compose.yaml'
+    owner: ubuntu
+    group: ubuntu
+
+- name: docker compose down
+  become: yes
+  command: docker-compose down
+
+- name: start docker-compose
+  become: yes
+  command: docker-compose up --force-recreate  -d
