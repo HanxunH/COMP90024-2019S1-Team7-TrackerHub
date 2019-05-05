@@ -37,11 +37,13 @@
     <a class="anchor" id="anchor1"></a>
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
-        <div class="col-lg-3"><Barchart :data="this.barData"/></div>
+        <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
+      </div>   
+      <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
         <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
-      </div>    
+      </div> 
     </div>  
 
     <!-- Tool Navbar -->
@@ -98,8 +100,10 @@ export default {
     return {
       pieData: [],
       barData: [],
+      barDataLabel: [],
       radarData: [],
       lineData: [],
+      barDatacollection: null,
       start_time: new Date(),
       end_time: new Date(),
       user_id: '',
@@ -141,11 +145,16 @@ export default {
       let marker, i
       let markers = []
       let locations = []
-      
+      console.log(self.barData)
+      self.barDataLabel.length=0
+      self.barData.length=0
+
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
+        self.barDataLabel.push(feature.getProperty('name'))
+        self.barData.push(cartodb_id)
         // let total = feature.getProperty("total")
         // let details = feature.getProperty('detail')
         // for (let detail in details) {
@@ -158,6 +167,20 @@ export default {
         }
       })
 
+      self.barDatacollection = {
+          labels: self.barDataLabel,
+          datasets: [
+            {
+              label: 'Data One',
+              backgroundColor: '#f87979',
+              data: self.barData
+            }, {
+              label: 'Data Two',
+              backgroundColor: '#087979',
+              data: self.barData
+            }
+          ]
+      }
       /*
       // set marks on the map
       for (i = 0; i < locations.length; i++) {  
