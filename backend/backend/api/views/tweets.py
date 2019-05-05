@@ -150,24 +150,27 @@ def tweet_untrained_get(request, resource=100):
 
 def tweet_trained_post(request):
     results = ujson.loads(request.body)
-    updated = dict(updated=[])
+    updated = dict()
 
     for result in results:
         try:
             _tweet = tweet_couch_db.get(id=result)
             tweet = dict([(k, v) for k, v in _tweet.items() if k not in ('_id', '_rev')])
-            tweet['tags'].update(results[result]['tags'])
-            tweet['model'] = results[result]['model']
             tweet.update(dict(
                 _id=_tweet.id,
                 _rev=_tweet.rev
             ))
+
+            tweet['tags'].update(results[result]['tags'])
+            tweet['model'] = results[result]['model']
             _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-            tweet['ml_updated'] = _now
-            tweet['last_updated'] = _now
+            tweet['ml_update'] = _now
+            tweet['last_update'] = _now
             tweet['process'] = tweet['process'] + 1
             tweet_couch_db.save(tweet)
-            updated['updated'].append(tweet.id)
+
+            updated['updated'].update({tweet['id']: tweet['ml_updated']})
+
         except Exception as e:
             resp = init_http_bad_request('Tweet Attribute Required')
             resp['data'] = updated
@@ -195,7 +198,7 @@ def tweet_untrained_text_get(request, resource=100):
         resp['data'].update({
             tweet.id: dict(
                 text=tweet.get('text'),
-                tags=tweet.get('tags').get('text', None),
+                tags=tweet.get('tags').get('text', {}),
             )
         })
     return make_json_response(HttpResponse, resp)
@@ -206,18 +209,45 @@ def tweet_trained_text_get(request):
 
 
 def tweet_trained_text_post(request):
-    pass
+    results = ujson.loads(request.body)
+    updated = dict()
 
+    for result in results:
+        try:
+            _tweet = tweet_couch_db.get(id=result)
+            tweet = dict([(k, v) for k, v in _tweet.items() if k not in ('_id', '_rev')])
+            tweet.update(dict(
+                _id=_tweet.id,
+                _rev=_tweet.rev
+            ))
+
+            tweet['tags'].update(results[result]['tags'])
+            _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+            tweet['text_update'] = _now
+            tweet['last_update'] = _now
+            tweet['process_text'] = tweet['process_text'] + 1
+            tweet_couch_db.save(tweet)
+
+            updated['updated'].update({tweet['id']: tweet['text_updated']})
+
+        except Exception as e:
+            resp = init_http_bad_request('Tweet Attribute Required')
+            resp['data'] = updated
+            return make_json_response(HttpResponseBadRequest, resp)
+
+    resp = init_http_success()
+    resp['data'] = updated
+    return make_json_response(HttpResponse, resp)
 
 
 if __name__ == '__main__':
     mango = {
         'selector': {
-            'text_updated': {
+            'text_update': {
                 '$exists': False
             }
         },
-        'limit': 10000
+        'limit': 15000
     }
     tweets = tweet_couch_db.find(mango)
     for tweet in tweets:
@@ -226,9 +256,16 @@ if __name__ == '__main__':
         newTweet.update(dict(
             _id=tweet.id,
             _rev=tweet.rev,
-            text_updated='',
-            ml_updated='',
+            text_update=newTweet.get('text_updated', ''),
+            ml_update=newTweet.get('lm_updated', ''),
+            last_update=newTweet.get('last_updated', newTweet.get('last_update'))
         ))
+        if 'text_updated' in newTweet:
+            newTweet.pop('text_updated')
+        if 'ml_updated' in newTweet:
+            newTweet.pop('ml_updated')
+        if 'last_updated' in newTweet:
+            newTweet.pop('last_updated')
         print(newTweet)
         # tweet_couch_db.delete(newTweet)
         tweet_couch_db.save(newTweet)
