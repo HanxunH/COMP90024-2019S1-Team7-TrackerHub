@@ -11,7 +11,7 @@ from django.utils.dateparse import parse_datetime
 from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, check_api_key, make_json_response
 from backend.config.config import COUCHDB_TWEET_DB
-from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO
+from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
 
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 logger = logging.getLogger('django.debug')
@@ -50,16 +50,26 @@ def tweet_trained_text_router(request, resource=None, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_router(request, *args, **kwargs):
+    resource = None
+    for arg in args:
+        if isinstance(arg, dict):
+            resource = arg.get('resource', None)
+
     if request.method == 'GET':
-        return tweet_untrained_get(request)
+        return tweet_untrained_get(request, resource)
     return HttpResponseNotAllowed()
 
 
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_text_router(request, *args, **kwargs):
+    resource = None
+    for arg in args:
+        if isinstance(arg, dict):
+            resource = arg.get('resource', None)
+
     if request.method == 'GET':
-        return tweet_untrained_text_get(request)
+        return tweet_untrained_text_get(request, resource)
     return HttpResponseNotAllowed()
 
 
@@ -171,9 +181,24 @@ def tweet_trained_post(request):
 def tweet_trained_get(request):
     params = ujson.loads(request.body)
 
-    
+
 def tweet_untrained_text_get(request, resource=100):
-    pass
+    try:
+        tweets = tweet_couch_db.find(TRAINING_UNTRAINED_TEXT_MANGO(resource))
+    except Exception as e:
+        logger.error('Query Untrained Tweet Fail! %s', e)
+        resp = init_http_not_found('Query Untrained Tweet Fail!')
+        make_json_response(HttpResponseBadRequest, resp)
+
+    resp = init_http_success()
+    for tweet in tweets:
+        resp['data'].update({
+            tweet.id: dict(
+                text=tweet.get('text'),
+                tags=tweet.get('tags').get('text', None),
+            )
+        })
+    return make_json_response(HttpResponse, resp)
 
 
 def tweet_trained_text_get(request):

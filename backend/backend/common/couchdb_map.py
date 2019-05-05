@@ -31,3 +31,13 @@ def TRAINING_UNTRAINED_MANGO(limit=100):
         'limit': limit
     }
 
+
+def TRAINING_UNTRAINED_TEXT_MANGO(limit=100):
+    return {
+        'selector': {
+            'process_text': 0,
+        },
+        'fields': ['_id', 'text', 'tags'],
+        'limit': limit
+    }
+
