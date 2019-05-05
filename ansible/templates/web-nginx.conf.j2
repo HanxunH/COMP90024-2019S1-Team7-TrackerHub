@@ -31,17 +31,17 @@ http {
 
     server {
         listen         80; 
-        server_name    127.0.0.1 
+        server_name    {{ ansible_host }};
         charset UTF-8;
         access_log      /var/log/nginx/myweb_access.log;
         error_log       /var/log/nginx/myweb_error.log;
 
-        location / {
-            proxy_pass http://172.20.0.2:5000;
+        location / { 
+            proxy_pass http://172.20.0.3/;
         }
 
         location /api { 
-            proxy_pass http://172.20.0.3:8080;
+            proxy_pass http://172.20.0.2:8080/api;
         }
 
     }

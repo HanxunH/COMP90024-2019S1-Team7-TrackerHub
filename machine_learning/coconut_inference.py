@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-01T15:23:32+10:00
+# @Last modified time: 2019-05-04T18:45:50+10:00
 
 import torch
 import torch.nn as nn
@@ -125,7 +125,7 @@ class coconut_inference():
             score = score_list[index]
             class_id = class_id_list[index]
             # print(self.model_idx_to_class[class_id], class_id, score)
-            rs.append((self.model_idx_to_class[class_id], score))
+            rs.append((self.model_idx_to_class[class_id], score, class_id))
 
         return rs
 
