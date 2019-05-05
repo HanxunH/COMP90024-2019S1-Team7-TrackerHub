@@ -8,6 +8,7 @@ from backend.api.views.tweet_pics import tweet_pic_router
 urlpatterns = [
     path('tweet/pic/<str:resource>/', tweet_pic_router),
     path('tweet/pic/', tweet_pic_router),
+    path('tweet/untrained/<int:resource>/', tweet_untrained_router),
     path('tweet/untrained/', tweet_untrained_router),
     path('tweet/trained/', tweet_trained_router),
     path('tweet/', tweet_router),

@@ -11,6 +11,7 @@ from django.utils.dateparse import parse_datetime
 from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response
 from backend.config.config import COUCHDB_TWEET_DB
+from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO
 
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 logger = logging.getLogger('django.debug')
@@ -28,11 +29,11 @@ def tweet_router(request, resource=None, *args, **kwargs):
 
 @require_http_methods(['POST', 'GET'])
 @check_api_key
-def tweet_trained_router(request, *args, **kwargs):
+def tweet_trained_router(request, resource=None, *args, **kwargs):
     if request.method == 'POST':
         return tweet_trained_post(request)
     elif request.method == 'GET':
-        return tweet_trained_get(request)
+        return tweet_trained_get(request, resource)
     return HttpResponseNotAllowed()
 
 
@@ -71,6 +72,7 @@ def tweet_post(request):
         _id=tweet['id'],
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
         process=0,
+        model={},
         tags=[],
         last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     ))
@@ -101,11 +103,24 @@ def tweet_get(request, resource):
     pass
 
 
-def tweet_untrained_get(request):
-    mango = {
+def tweet_untrained_get(request, resource=100):
+    try:
+        tweets = tweet_couch_db.find(TRAINING_UNTRAINED_MANGO(resource))
+    except Exception as e:
+        logger.error('Query Untrained Tweet Fail! %s', e)
+        resp = init_http_not_found('Query Untrained Tweet Fail!')
+        make_json_response(HttpResponseBadRequest, resp)
 
-    }
-    pass
+    resp = init_http_success()
+    for tweet in tweets:
+        resp['data'].update({
+            tweet.id: dict(
+                img_id=tweet.get('img_id'),
+                tags=tweet.get('tags'),
+                model=tweet.get('model', {})
+            )
+        })
+    return make_json_response(HttpResponse, resp)
 
 
 def tweet_trained_post(request):
@@ -114,3 +129,7 @@ def tweet_trained_post(request):
 
 def tweet_trained_get(requset):
     pass
+
+
+if __name__ == '__main__':
+    tweet_untrained_get(None)

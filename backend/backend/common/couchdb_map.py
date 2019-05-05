@@ -16,3 +16,18 @@ TRACK_USER_MAP = '''
             }
         }
     '''
+
+
+def TRAINING_UNTRAINED_MANGO(limit=100):
+    return {
+        'selector': {
+            'process': 0,
+            '$not': {
+                'img_id': []
+            }
+        },
+        'fields': ['_id', 'img_id', 'tags', 'model'],
+        'use_index': 'json:process',
+        'limit': limit
+    }
+
