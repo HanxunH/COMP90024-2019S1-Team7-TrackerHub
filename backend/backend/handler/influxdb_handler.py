@@ -2,10 +2,13 @@
 
 from influxdb import client
 
+from backend.config.config import *
+
 
 class InfluxDBHandler(object):
 
-    def __init__(self, host='172.26.38.11', port=8086, username='admin', password='password', database='api_log'):
+    def __init__(self, host=INFLUXDB_DOMAIN, port=INFLUXDB_PORT, username=INFLUXDB_USERNAME, password=INFLUXDB_PASSWORD,
+                 database=INFLUXDB_DATABASE):
         self.client = client.InfluxDBClient(host=host, port=port, username=username, password=password)
         if database in self.list_database():
             self.client.switch_database(database)
@@ -13,15 +16,31 @@ class InfluxDBHandler(object):
             self.client.create_database(database)
             self.client.switch_database(database)
 
-    def emit(self, api, method, count, prefix=None, func='log'):
-        data = [{
-            'measurement': 'api/tweet/pic',
-            'tags': {'method': 'GET'},
+    def emit_one_record(self, data):
+        return self.client.write_points([data])
+
+    def make_point(self, key, action=None, method=None, error=None, prefix='', msg=None, value=1, **kwargs):
+        point = {
+            'measurement': prefix + '.' + key if prefix != '' else key,
+            'tags': {},
             'fields': {
-                'count': 1
+                'value': value
             }
-        }]
-        self.client.write_points(data)
+        }
+        if action:
+            point['tags'].update(dict(action=action))
+        if method:
+            point['tags'].update(dict(method=method))
+        if error:
+            point['tags'].update(dict(error=error))
+        if msg:
+            point['fields'].update(dict(msg=msg))
+        if value == 0:
+            point['fields'].pop('value')
+        if kwargs:
+            for key in kwargs:
+                point['fields'].update({key: kwargs[key]})
+        return self.emit_one_record(point)
 
     def list_database(self):
         return self.client.get_list_database()
@@ -29,8 +48,8 @@ class InfluxDBHandler(object):
 
 influxdb_handler = InfluxDBHandler()
 
-
 if __name__ == '__main__':
     # data = 'api/tweet/pic,method=POST,1'
     # influxdb_handler.list_database()
-    influxdb_handler.emit('api/tweet/pic/', 'POST', 1)
+    point = influxdb_handler.make_point('api/tweet/pic/', error=400, msg='not found')
+    influxdb_handler.emit_one_record(point)

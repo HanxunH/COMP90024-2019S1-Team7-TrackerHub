@@ -9,10 +9,12 @@ from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
 from backend.handler.couch_handler import couch_db_handler
-from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, check_api_key, make_json_response
-from backend.config.config import COUCHDB_TWEET_DB
-from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
 from backend.handler.object_storage_handler import object_storage_handler
+from backend.handler.influxdb_handler import influxdb_handler
+from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, \
+    check_api_key, make_json_response
+from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
+from backend.config.config import COUCHDB_TWEET_DB
 
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 logger = logging.getLogger('django.debug')
@@ -79,17 +81,21 @@ def tweet_post(request):
         keys = ['id', 'text', 'img_id', 'geo', 'date', 'user', 'hashtags']
         tweet = make_dict(keys, ujson.loads(request.body))
     except Exception as e:
+        influxdb_handler.make_point(key='api/tweet/', method='POST', error=400, prefix='API', msg='error attribute')
         logger.debug('Insufficient Attributes [%s] %s' % (request.path, e))
         resp = init_http_not_found('Insufficient Attributes')
         return make_json_response(HttpResponseBadRequest, resp)
 
-    if not isinstance(tweet['geo'], list) or not isinstance(tweet['hashtags'], list or not isinstance(tweet['img_id'], list)):
+    if not isinstance(tweet['geo'], list) or not isinstance(tweet['hashtags'],
+                                                            list or not isinstance(tweet['img_id'], list)):
+        influxdb_handler.make_point(key='api/tweet/', method='POST', error=400, prefix='API', msg='error geo/img_id')
         resp = init_http_not_found('geo, hashtags, img_id must be LIST!')
         return make_json_response(HttpResponseBadRequest, resp)
 
     try:
         utc_tweet_time = parse_datetime(tweet['date']).astimezone(timezone.utc)
     except Exception as e:
+        influxdb_handler.make_point(key='api/tweet/', method='POST', error=400, prefix='API', msg='error format time')
         logger.debug('Error Datetime Format [%s], %s' % (tweet['date'], e))
         resp = init_http_not_found('Error Datetime Format, follow \'%Y-%m-%d %H:%M:%S%z\'')
         return make_json_response(HttpResponseBadRequest, resp)
@@ -111,6 +117,7 @@ def tweet_post(request):
     try:
         tweet_id, rev = tweet_couch_db.save(tweet)
     except Exception as e:
+        influxdb_handler.make_point(key='api/tweet/', method='POST', error=400, prefix='API', msg='existed')
         resp = init_http_not_found('Tweet Existed')
         return make_json_response(HttpResponseBadRequest, resp)
 
@@ -119,6 +126,7 @@ def tweet_post(request):
         id=tweet_id,
         rev=rev
     ))
+    influxdb_handler.make_point(key='api/tweet/', method='POST', error='success', prefix='API')
     return make_json_response(HttpResponse, resp)
 
 
@@ -133,6 +141,7 @@ def tweet_untrained_get(request, resource=100):
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_MANGO(resource))
     except Exception as e:
+        influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error=400, prefix='API')
         logger.error('Query Untrained Tweet Fail! %s', e)
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
@@ -146,6 +155,7 @@ def tweet_untrained_get(request, resource=100):
                 model=tweet.get('model', {})
             )
         })
+    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=resource)
     return make_json_response(HttpResponse, resp)
 
 
@@ -173,12 +183,17 @@ def tweet_trained_post(request):
             updated.update({tweet['_id']: tweet['ml_update']})
 
         except Exception as e:
+            influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error=400, prefix='API')
+            influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
+                                        tweet=len(updated))
             resp = init_http_bad_request('Tweet Attribute Required %s', e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
     resp = init_http_success()
     resp['data'] = updated
+    influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
+                                tweet=len(updated))
     return make_json_response(HttpResponse, resp)
 
 
@@ -190,6 +205,7 @@ def tweet_untrained_text_get(request, resource=100):
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_TEXT_MANGO(resource))
     except Exception as e:
+        influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error=400, prefix='API')
         logger.error('Query Untrained Tweet Fail! %s', e)
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
@@ -202,6 +218,8 @@ def tweet_untrained_text_get(request, resource=100):
                 tags=tweet.get('tags').get('text', {}),
             )
         })
+    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API',
+                                tweet=resource)
     return make_json_response(HttpResponse, resp)
 
 
@@ -232,12 +250,17 @@ def tweet_trained_text_post(request):
             updated.update({tweet['_id']: tweet['text_update']})
 
         except Exception as e:
+            influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error=400, prefix='API')
+            influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
+                                        tweet=len(updated))
             resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
     resp = init_http_success()
     resp['data'] = updated
+    influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
+                                tweet=len(updated))
     return make_json_response(HttpResponse, resp)
 
 

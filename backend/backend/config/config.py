@@ -21,3 +21,9 @@ OS_TENANT_ID = 'unimelb-comp90024-group-7'
 OS_USERNAME = 'lihuan.zhang@student.unimelb.edu.au'
 OS_PASSWORD = 'NjNkMjk0Y2Y0MGYwYjlj'
 OS_VERSION = '3'
+
+INFLUXDB_DOMAIN = '172.26.38.11'
+INFLUXDB_PORT = 8086
+INFLUXDB_USERNAME = 'admin'
+INFLUXDB_PASSWORD = 'password'
+INFLUXDB_DATABASE = 'backend'
