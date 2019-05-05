@@ -14,6 +14,18 @@
     owner: ubuntu
     group: ubuntu
 
+- name: Check folder
+  stat:
+    path: '{{ remote_working_directory }}/backend/backend/config/'
+  register: backend_conf_dir
+r
+- name: Create directory
+  file:
+    path: '{{ remote_working_directory }}/backend/backend/config/'
+    recurse: yes
+    state: directory
+  when: backend_conf_dir.stat.exists == false
+
 - name: generate backend configuration for couchdb
   template:
     src: backend-couchdb-config.py.j2
