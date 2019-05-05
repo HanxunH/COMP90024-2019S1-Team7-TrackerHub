@@ -149,7 +149,23 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'debug',
-        }
+        },
+        # 'default': {
+        #     'level': 'DEBUG',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': '/home/ubuntu/log/all.log',
+        #     'maxBytes': 1024*1024*5,
+        #     'backupCount': 5,
+        #     'formatter': 'debug',
+        # },
+        # 'error': {
+        #     'level': 'ERROR',
+        #     'class': 'logging.handlers.RotatingFileHandler',
+        #     'filename': '/home/ubuntu/log/error.log',
+        #     'maxBytes': 1024 * 1024 * 5,
+        #     'backupCount': 5,
+        #     'formatter': 'debug',
+        # },
     },
     'loggers': {
         'django.debug': {
@@ -157,6 +173,11 @@ LOGGING = {
             'propagate': True,
             'level': 'DEBUG',
         },
+        # 'server.debug': {
+        #     'handlers': ['default', 'debug.console'],
+        #     'propagate': True,
+        #     'level': 'DEBUG',
+        # },
     }
 }
 

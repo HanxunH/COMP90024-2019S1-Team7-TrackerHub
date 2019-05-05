@@ -3,13 +3,13 @@
 import ujson
 import logging
 
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
 from backend.handler.couch_handler import couch_db_handler
-from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response
+from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, check_api_key, make_json_response
 from backend.config.config import COUCHDB_TWEET_DB
 from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO
 
@@ -73,7 +73,7 @@ def tweet_post(request):
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
         process=0,
         model={},
-        tags=[],
+        tags={},
         last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     ))
     tweet.pop('id')
@@ -93,13 +93,9 @@ def tweet_post(request):
 
 
 def tweet_get(request, resource):
-    map_fun = '''function(doc) {
-        if (doc.process == 0) {
-            emit(doc);
-        }
-    }
-    '''
-    tweet_couch_db.query(map_fun,)
+    key = ['']
+    params = ujson.loads(request.body)
+
     pass
 
 
@@ -124,12 +120,56 @@ def tweet_untrained_get(request, resource=100):
 
 
 def tweet_trained_post(request):
-    pass
+    results = ujson.loads(request.body)
+    updated = dict(updated=[])
+
+    for result in results:
+        try:
+            _tweet = tweet_couch_db.get(id=result)
+            tweet = dict([(k, v) for k, v in _tweet.items() if k not in ('_id', '_rev')])
+            tweet['tags'] = results[result]['tags']
+            tweet['model'] = results[result]['model']
+            tweet.update(dict(
+                _id=_tweet.id,
+                _rev=_tweet.rev
+            ))
+            tweet['last_update'] = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+            tweet['process'] = tweet['process'] + 1
+            tweet_couch_db.save(tweet)
+            updated['updated'].append(tweet.id)
+        except Exception as e:
+            resp = init_http_bad_request('Tweet Attribute Required')
+            resp['data'] = updated
+            return make_json_response(HttpResponseBadRequest, resp)
+
+    resp = init_http_success()
+    resp['data'] = updated
+    return make_json_response(HttpResponse, resp)
 
 
-def tweet_trained_get(requset):
-    pass
+def tweet_trained_get(request):
+    params = ujson.loads(request.body)
+
 
 
 if __name__ == '__main__':
-    tweet_untrained_get(None)
+    # mango = {
+    #     'selector': {
+    #         'tags': []
+    #     },
+    #     'limit': 10000
+    # }
+    # tweets = tweet_couch_db.find(mango)
+    # for tweet in tweets:
+    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
+    #     print(newTweet)
+    #     newTweet.update(dict(
+    #         _id=tweet.id,
+    #         _rev=tweet.rev
+    #     ))
+    #     newTweet['tags'] = {}
+    #     print(newTweet)
+    #     # tweet_couch_db.delete(newTweet)
+    #     tweet_couch_db.save(newTweet)
+    # tweet_couch_db.compact()
+    pass

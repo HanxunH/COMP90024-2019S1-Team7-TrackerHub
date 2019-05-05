@@ -64,6 +64,12 @@ def init_http_not_found(err_msg=None):
     return init_http_response(ErrorCode.not_found.value, err_msg)
 
 
+def init_http_bad_request(err_msg=None):
+    if not err_msg:
+        return init_http_response(ErrorCode.bad_request.value, ErrorMsg.not_found.value)
+    return init_http_response(ErrorCode.bad_request.value, err_msg)
+
+
 def init_http_unauthorized(err_msg=None):
     if not err_msg:
         return init_http_response(ErrorCode.unauthorized.value, ErrorMsg.unauthorized.value)
