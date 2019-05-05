@@ -40,7 +40,7 @@ def uploadImg(link,file):
 
 
 num = 0
-file = open（"log.txt","w"）
+file = open("log.txt","w")
 while num<TOTALSIZE:
 
 	num = num + BATCHSIZE
