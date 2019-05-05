@@ -1,12 +1,17 @@
 ---
+- name: pull latest code from git
+  git:
+    repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
+    key_file: /home/ubuntu/.ssh/GitHub
+    update: yes
+    dest: '{{ remote_working_directory }}'
+
 - name: Check folders
-  become: yes
   stat:
     path: '{{ remote_working_directory }}/machine_learning/config'
   register: ml_conf_dir
 
 - name: Create directory
-  become: yes
   file:
     path: '{{ remote_working_directory }}/machine_learning/config'
     recurse: yes
@@ -14,22 +19,18 @@
   when: ml_conf_dir.stat.exists == false
 
 - name: copy machine learning config file to server
-  become: yes
   template:
     src: ml-config.json.j2
-    dest: '{{ couchdb_config_path }}/config.json'
+    dest: '{{ remote_working_directory }}/machine_learning/config/config.json'
     owner: ubuntu
     group: ubuntu
-    force: no
 
 - name: Check folders
-  become: yes
   stat:
     path: '{{ remote_working_directory }}/machine_learning/logs'
   register: ml_logs_dir
 
 - name: Create directory
-  become: yes
   file:
     path: '{{ remote_working_directory }}/machine_learning/logs'
     recurse: yes
@@ -37,13 +38,11 @@
   when: ml_logs_dir.stat.exists == false
 
 - name: Check folders
-  become: yes
   stat:
     path: '{{ remote_working_directory }}/machine_learning/checkpoints'
   register: ml_checkpoints_dir
 
 - name: Create directory
-  become: yes
   file:
     path: '{{ remote_working_directory }}/machine_learning/checkpoints'
     recurse: yes
@@ -56,6 +55,7 @@
     dest: '{{ remote_working_directory }}/machine_learning/checkpoints/food179_resnet101_sgd.pth_best.pth'
     owner: ubuntu
     group: ubuntu
+    force: no
 
 - name: copy ml modal to server | step 2
   copy:
@@ -63,9 +63,9 @@
     dest: '{{ remote_working_directory }}/machine_learning/checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth'
     owner: ubuntu
     group: ubuntu
+    force: no
 
 - name: copy compose file to server
-  become: yes
   template:
     src: ml-docker-compose.yaml.j2
     dest: '/home/ubuntu/docker-compose.yaml'
