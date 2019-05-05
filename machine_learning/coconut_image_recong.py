@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T19:44:00+10:00
+# @Last modified time: 2019-05-05T23:47:18+10:00
 import argparse
 import logging
 import io
@@ -271,7 +271,7 @@ class coconut_image_recong:
                     self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
                     time.sleep(self.server_rest_time*60)
             # Avoid too much request Sleep for 30 second
-            self.logger.info('Avoid too much request Sleep for 10 Second')
+            self.logger.info('Avoid too much request Sleep for 10 Seconds')
             time.sleep(10)
         return
 
