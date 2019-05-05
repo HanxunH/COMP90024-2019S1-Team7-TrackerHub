@@ -63,7 +63,10 @@ def tweet_post(request):
         logger.debug('Error Datetime Format [%s], %s' % (tweet['date'], e))
         resp = init_http_not_found('Error Datetime Format, follow \'%Y-%m-%d %H:%M:%S%z\'')
         return make_json_response(HttpResponseBadRequest, resp)
-    
+
+    if tweet['geo'] == ['']:
+        tweet['geo'] = []
+
     tweet.update(dict(
         _id=tweet['id'],
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
@@ -99,6 +102,9 @@ def tweet_get(request, resource):
 
 
 def tweet_untrained_get(request):
+    mango = {
+
+    }
     pass
 
 
