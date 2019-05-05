@@ -8,7 +8,6 @@ from api_requirements import DOMAIN, API_KEY, API_PORT
 from requests.auth import HTTPBasicAuth
 from PIL import Image
 from io import BytesIO
-import ast
 
 
 TARGET_IMG_SIZE = 256
@@ -120,8 +119,8 @@ def processTweet(tweet):
 				response = postRequest(DOMAIN, API_KEY, API_PORT["upload_pic"]["Port"], API_PORT["upload_pic"]["Header"], pair, "image")
 
 				response = response.content.decode("utf-8")
-				response = ast.literal_eval(response)
-				image_ids.append(response["data"]["pic_id"])
+				returnMsg = json.loads(response.text)
+				image_ids.append(returnMsg["data"]["pic_id"])
 
 
 			except Exception as e:
