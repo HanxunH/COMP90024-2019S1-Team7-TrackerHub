@@ -19,7 +19,7 @@ class ObjectStorageHandler(object):
     def __init__(self, container_name, object_storage_url=OBJECT_STORAGE_URL, authurl=OS_AUTH_URL, user=OS_USERNAME,
                  key=OS_PASSWORD, tenant_name=OS_TENANT_ID, auth_version=OS_VERSION):
         self.swift = client.Connection(authurl=authurl, preauthurl=OBJECT_STORAGE_PREURL, user=user, key=key,
-                                       tenant_name=tenant_name, auth_version=auth_version, retries=1, timeout=1)
+                                       tenant_name=tenant_name, auth_version=auth_version, retries=3, timeout=5)
         self.container_name = container_name
         self.container_url = '{}/{}/'.format(object_storage_url, container_name)
         self.check_exist_or_create()
@@ -60,15 +60,15 @@ class ObjectStorageHandler(object):
         file = BytesIO(resp[-1])
         return file
 
-    # def remove_all(self):
-    #     for pic in self.findall():
-    #         print('OS DELETE: %s' % pic['name'])
-    #         try:
-    #             self.delete(pic['name'])
-    #         except Exception as e:
-    #             print(e)
-    #             continue
-    #     logger.debug('All Files in Object Storage Removed')
+    def remove_all(self):
+        for pic in self.findall():
+            print('OS DELETE: %s' % pic['name'])
+            try:
+                self.delete(pic['name'])
+            except Exception as e:
+                print(e)
+                continue
+        logger.debug('All Files in Object Storage Removed')
 
     def delete_container(self):
         return self.swift.delete_container(container=self.container_name)
@@ -78,6 +78,7 @@ object_storage_handler = ObjectStorageHandler(OBJECT_STORAGE_CONTAINER)
 
 
 if __name__ == '__main__':
+    # object_storage_handler.remove_all()
     pass
 
 

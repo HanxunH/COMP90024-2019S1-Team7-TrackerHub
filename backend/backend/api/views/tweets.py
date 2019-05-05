@@ -12,6 +12,7 @@ from backend.handler.couch_handler import couch_db_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, check_api_key, make_json_response
 from backend.config.config import COUCHDB_TWEET_DB
 from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
+from backend.handler.object_storage_handler import object_storage_handler
 
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 logger = logging.getLogger('django.debug')
@@ -241,33 +242,60 @@ def tweet_trained_text_post(request):
 
 
 if __name__ == '__main__':
+    # mango = {
+    #     'selector': {
+    #         'text_update': {
+    #             '$exists': False
+    #         }
+    #     },
+    #     'limit': 15000
+    # }
+    # tweets = tweet_couch_db.find(mango)
+    # for tweet in tweets:
+    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
+    #     print(newTweet)
+    #     newTweet.update(dict(
+    #         _id=tweet.id,
+    #         _rev=tweet.rev,
+    #         text_update=newTweet.get('text_updated', ''),
+    #         ml_update=newTweet.get('lm_updated', ''),
+    #         last_update=newTweet.get('last_updated', newTweet.get('last_update'))
+    #     ))
+    #     if 'text_updated' in newTweet:
+    #         newTweet.pop('text_updated')
+    #     if 'ml_updated' in newTweet:
+    #         newTweet.pop('ml_updated')
+    #     if 'last_updated' in newTweet:
+    #         newTweet.pop('last_updated')
+    #     print(newTweet)
+    #     # tweet_couch_db.delete(newTweet)
+    #     tweet_couch_db.save(newTweet)
+    # tweet_couch_db.compact()
+    # pass
     mango = {
         'selector': {
-            'text_update': {
-                '$exists': False
+            'img_id': {
+                '$ne': []
             }
         },
-        'limit': 15000
+        'limit': 10000
     }
     tweets = tweet_couch_db.find(mango)
     for tweet in tweets:
         newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-        print(newTweet)
         newTweet.update(dict(
             _id=tweet.id,
             _rev=tweet.rev,
-            text_update=newTweet.get('text_updated', ''),
-            ml_update=newTweet.get('lm_updated', ''),
-            last_update=newTweet.get('last_updated', newTweet.get('last_update'))
         ))
-        if 'text_updated' in newTweet:
-            newTweet.pop('text_updated')
-        if 'ml_updated' in newTweet:
-            newTweet.pop('ml_updated')
-        if 'last_updated' in newTweet:
-            newTweet.pop('last_updated')
         print(newTweet)
-        # tweet_couch_db.delete(newTweet)
-        tweet_couch_db.save(newTweet)
-    tweet_couch_db.compact()
-    pass
+        for img in newTweet['img_id']:
+            try:
+                picture = object_storage_handler.download(img)
+            except Exception as e:
+                object_storage_handler.reconnect()
+                picture = object_storage_handler.download(img)
+
+            if not picture:
+                newTweet['img_id'].remove(img)
+        print(newTweet)
+        # tweet_couch_db.save(newTweet)
