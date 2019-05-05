@@ -5,8 +5,8 @@ ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
 
 RUN mkdir /workspace
 WORKDIR /workspace
-ADD ../ /workspace
+ADD . /workspace
 
-RUN pip install -r GetResearchData/requirements.txt
+RUN pip install -r requirements.txt
 
 CMD [ "python", "./getResearchData.py" ]
