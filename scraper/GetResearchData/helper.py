@@ -23,20 +23,20 @@ def postRequest(domain, api_key, port, header, info, string, file):
 		if string == "tweet":
 			req = requests.post(url, headers=header , auth=auth, data=info)
 			print("tweet being uploaded... {}".format(req.status_code))
-			file.write("tweet being uploaded... {}".format(req.status_code))
+			file.write("tweet being uploaded... {}\n".format(req.status_code))
 
 		elif string =="image":
 			req = requests.post(url, headers=header , auth=auth, files=info)
 			print("image being uploaded... {}".format(req.status_code))
-			file.write("image being uploaded... {}".format(req.status_code))
+			file.write("image being uploaded... {}\n".format(req.status_code))
 
 		
 
 	except Exception as e:
 		print(e)
 		print("Some bad things happen" )
-		file.write(str(e))
-		file.write("Some bad things happen")
+		file.write(str(e) + "\n")
+		file.write("Some bad things happen\n")
 
 	return req
 

@@ -1,10 +1,10 @@
 version: '3'
 services:
-  frontend_production_code:
-    container_name: frontend_production_code
+  frontend_prod_code:
+    container_name: frontend_prod_code
     build: {{remote_working_directory}}/frontend
     volumes:
-      - frontend_production_code:/usr/src/ng-app/dist/
+      - frontend_prod_code:/usr/src/ng-app/dist/
   backend:
     container_name: backend
     build: {{remote_working_directory}}/backend
@@ -20,13 +20,13 @@ services:
     container_name: nginx_proxy
     build: {{remote_working_directory}}/config/webserver_nginx
     volumes:
-      - frontend_production_code:/usr/share/nginx/html
+      - frontend_prod_code:/usr/share/nginx/html
       - {{ remote_working_directory }}/frontend/nginx.conf:/etc/nginx/conf.d/default.conf
     ports:
       - "80:80"
     links:
       - backend
-      - frontend_production_code
+      - frontend_prod_code
     depends_on:
       - backend
     restart: always
@@ -35,7 +35,7 @@ services:
         ipv4_address: 172.20.0.3
 
 volumes:
-  frontend_production_code:
+  frontend_prod_code:
 
 networks:
   web_nw:

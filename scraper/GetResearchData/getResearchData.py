@@ -10,8 +10,8 @@ from datetime import datetime
 
 url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
 BATCHSIZE = 10
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2018,1,1]",'end_key':"[\"melbourne\",2018,12,31]", "limit": str(BATCHSIZE)}
-TOTALSIZE = 10
+params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2016,1,1]",'end_key':"[\"melbourne\",2016,12,31]", "limit": str(BATCHSIZE)}
+TOTALSIZE = 100
 
 
 def uploadImg(link,file):
@@ -31,8 +31,8 @@ def uploadImg(link,file):
 
 		print(e)
 		print("Cannot upload img or Cannot link to img")
-		file.write(str(e))
-		file.write("Cannot upload img or Cannot link to img")
+		file.write(str(e) + "\n")
+		file.write("Cannot upload img or Cannot link to img\n")
 		return "none"
 
 
@@ -112,8 +112,8 @@ while num<TOTALSIZE:
 
 			print(e)
 			print("Cannot upload a well-formatted tweet to couchDB")
-			file.write(str(e))
-			file.write("Cannot upload a well-formatted tweet to couchDB")
+			file.write(str(e) + "\n")
+			file.write("Cannot upload a well-formatted tweet to couchDB\n")
 
 
 file.close()
