@@ -37,11 +37,29 @@ def tweet_trained_router(request, resource=None, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
+@require_http_methods(['POST', 'GET'])
+@check_api_key
+def tweet_trained_text_router(request, resource=None, *args, **kwargs):
+    if request.method == 'POST':
+        return tweet_trained_text_post(request)
+    elif request.method == 'GET':
+        return tweet_trained_text_get(request, resource)
+    return HttpResponseNotAllowed()
+
+
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_router(request, *args, **kwargs):
     if request.method == 'GET':
         return tweet_untrained_get(request)
+    return HttpResponseNotAllowed()
+
+
+@require_http_methods(['GET'])
+@check_api_key
+def tweet_untrained_text_router(request, *args, **kwargs):
+    if request.method == 'GET':
+        return tweet_untrained_text_get(request)
     return HttpResponseNotAllowed()
 
 
@@ -72,6 +90,7 @@ def tweet_post(request):
         _id=tweet['id'],
         date=utc_tweet_time.strftime('%Y-%m-%d %H:%M:%S%z'),
         process=0,
+        process_text=0,
         model={},
         tags={},
         last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
@@ -127,13 +146,15 @@ def tweet_trained_post(request):
         try:
             _tweet = tweet_couch_db.get(id=result)
             tweet = dict([(k, v) for k, v in _tweet.items() if k not in ('_id', '_rev')])
-            tweet['tags'] = results[result]['tags']
+            tweet['tags'].update(results[result]['tags'])
             tweet['model'] = results[result]['model']
             tweet.update(dict(
                 _id=_tweet.id,
                 _rev=_tweet.rev
             ))
-            tweet['last_update'] = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+            _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+            tweet['ml_updated'] = _now
+            tweet['last_updated'] = _now
             tweet['process'] = tweet['process'] + 1
             tweet_couch_db.save(tweet)
             updated['updated'].append(tweet.id)
@@ -150,26 +171,41 @@ def tweet_trained_post(request):
 def tweet_trained_get(request):
     params = ujson.loads(request.body)
 
+    
+def tweet_untrained_text_get(request, resource=100):
+    pass
+
+
+def tweet_trained_text_get(request):
+    pass
+
+
+def tweet_trained_text_post(request):
+    pass
+
 
 
 if __name__ == '__main__':
-    # mango = {
-    #     'selector': {
-    #         'tags': []
-    #     },
-    #     'limit': 10000
-    # }
-    # tweets = tweet_couch_db.find(mango)
-    # for tweet in tweets:
-    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-    #     print(newTweet)
-    #     newTweet.update(dict(
-    #         _id=tweet.id,
-    #         _rev=tweet.rev
-    #     ))
-    #     newTweet['tags'] = {}
-    #     print(newTweet)
-    #     # tweet_couch_db.delete(newTweet)
-    #     tweet_couch_db.save(newTweet)
-    # tweet_couch_db.compact()
+    mango = {
+        'selector': {
+            'text_updated': {
+                '$exists': False
+            }
+        },
+        'limit': 10000
+    }
+    tweets = tweet_couch_db.find(mango)
+    for tweet in tweets:
+        newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
+        print(newTweet)
+        newTweet.update(dict(
+            _id=tweet.id,
+            _rev=tweet.rev,
+            text_updated='',
+            ml_updated='',
+        ))
+        print(newTweet)
+        # tweet_couch_db.delete(newTweet)
+        tweet_couch_db.save(newTweet)
+    tweet_couch_db.compact()
     pass

@@ -2,6 +2,7 @@
 
 import logging
 import ujson
+# from shapely.geometry import shape, point
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
 from django.views.decorators.http import require_http_methods
