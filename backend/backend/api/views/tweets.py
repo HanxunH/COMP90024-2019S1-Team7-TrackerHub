@@ -50,10 +50,10 @@ def tweet_trained_text_router(request, resource=None, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_router(request, *args, **kwargs):
-    resource = None
+    resource = 100
     for arg in args:
         if isinstance(arg, dict):
-            resource = arg.get('resource', None)
+            resource = arg.get('resource', 100)
 
     if request.method == 'GET':
         return tweet_untrained_get(request, resource)
@@ -63,10 +63,10 @@ def tweet_untrained_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_text_router(request, *args, **kwargs):
-    resource = None
+    resource = 100
     for arg in args:
         if isinstance(arg, dict):
-            resource = arg.get('resource', None)
+            resource = arg.get('resource', 100)
 
     if request.method == 'GET':
         return tweet_untrained_text_get(request, resource)
