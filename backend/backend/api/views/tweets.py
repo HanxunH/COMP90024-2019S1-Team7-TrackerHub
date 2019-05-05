@@ -169,10 +169,10 @@ def tweet_trained_post(request):
             tweet['process'] = tweet['process'] + 1
             tweet_couch_db.save(tweet)
 
-            updated['updated'].update({tweet['id']: tweet['ml_updated']})
+            updated.update({tweet['_id']: tweet['ml_update']})
 
         except Exception as e:
-            resp = init_http_bad_request('Tweet Attribute Required')
+            resp = init_http_bad_request('Tweet Attribute Required %s', e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
@@ -205,7 +205,7 @@ def tweet_untrained_text_get(request, resource=100):
 
 
 def tweet_trained_text_get(request):
-    pass
+    params = ujson.loads(request.body)
 
 
 def tweet_trained_text_post(request):
@@ -228,10 +228,10 @@ def tweet_trained_text_post(request):
             tweet['process_text'] = tweet['process_text'] + 1
             tweet_couch_db.save(tweet)
 
-            updated['updated'].update({tweet['id']: tweet['text_updated']})
+            updated.update({tweet['_id']: tweet['text_update']})
 
         except Exception as e:
-            resp = init_http_bad_request('Tweet Attribute Required')
+            resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
