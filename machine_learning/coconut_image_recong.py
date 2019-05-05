@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T19:06:18+10:00
+# @Last modified time: 2019-05-05T19:44:00+10:00
 import argparse
 import logging
 import io
@@ -264,14 +264,15 @@ class coconut_image_recong:
         while True:
             self.logger.info('Requesting tweets, batch_size %d' % (self.batch_size))
             target_tweets_json = self.request_tweets()
+            self.logger.debug(target_tweets_json)
             if target_tweets_json is not None:
                 response = self.process_tweets_json(target_tweets_json)
                 if response is not None and not response:
                     self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
                     time.sleep(self.server_rest_time*60)
             # Avoid too much request Sleep for 30 second
-            self.logger.info('Avoid too much request Sleep for 30 second')
-            time.sleep(30)
+            self.logger.info('Avoid too much request Sleep for 10 Second')
+            time.sleep(10)
         return
 
 if __name__ == "__main__":
