@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import App from './App.vue'
+import router from './router'
 import config from './assets/js/config'
 import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
 import qs from 'qs'
+import vueSmoothScroll from 'vue-smooth-scroll'
 
+Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
@@ -66,8 +69,13 @@ Vue.prototype.setTitle = function(title){
 	document.title = title
 }
 
+Vue.prototype.goBack = function(){
+	window.history.length > 1 ? router.go(-1) : router.push('/')
+}
+
 const app = new Vue({
   el: '#app',
+  router,
   render: h => h(App)
 });
 app.$mount('#app');

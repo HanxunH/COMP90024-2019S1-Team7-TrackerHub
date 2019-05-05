@@ -1,0 +1,55 @@
+---
+- name: ngrok | set user
+  set_fact:
+    ngrok_user: "{{ ansible_ssh_user }}"
+  when: ngrok_user is not defined
+
+- name: ngrok | check for existing ngrok binary
+  stat: "path={{ ngrok_path_bin }}"
+  register: ngrok_bin
+
+- include: install.yaml
+  when: not ngrok_bin.stat.exists
+
+- name: Check folders
+  become: yes
+  stat:
+    path: '/etc/systemd/system/docker.service.d'
+  register: docker_service_dir
+
+- name: Create directory
+  become: yes
+  file:
+    path: '/etc/systemd/system/docker.service.d'
+    recurse: yes
+    state: directory
+  when: docker_service_dir.stat.exists == false
+
+- name: change docker proxy | step 2
+  become: yes
+  copy:
+    content: "[Service]\nEnvironment=\"HTTP_PROXY={{ proxy_address }}\""
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+
+- name: change docker proxy | step 3
+  become: yes
+  template:
+    src: "docker.service.j2"
+    dest: "/lib/systemd/system/docker.service"
+    owner: root
+    group: root
+    force: yes
+
+- name: change docker proxy | step 4
+  become: yes
+  command: systemctl daemon-reload
+
+- name: change docker proxy | step 5
+  become: yes
+  command: systemctl restart docker
+
+- include: configure-tunnels.yaml
+  when: ngrok_tunnels | length > 0
+
+- include: service.yaml
+  when: ngrok_install_as_service and ngrok_tunnels | length > 0

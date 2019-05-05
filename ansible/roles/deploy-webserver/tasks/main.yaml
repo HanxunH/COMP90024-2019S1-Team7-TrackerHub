@@ -1,0 +1,43 @@
+---
+- name: pull latest code from git
+  git:
+    repo: ssh://git@github.com/HanxunHuangLemonBear/COMP90024-2019S1-Team7.git
+    key_file: /home/ubuntu/.ssh/GitHub
+    update: yes
+    dest: '{{ remote_working_directory }}'
+
+- name: copy compose file to server
+  become: yes
+  template:
+    src: web-docker-compose.yaml.j2
+    dest: '/home/ubuntu/docker-compose.yaml'
+    owner: ubuntu
+    group: ubuntu
+
+- name: generate backend configuration for couchdb
+  template:
+    src: backend-couchdb-config.py.j2
+    dest: '{{ remote_working_directory }}/backend/backend/config/config.py'
+    owner: ubuntu
+    group: ubuntu
+    force: no
+
+- name: docker compose down
+  become: yes
+  command: docker-compose down
+
+- name: copy nginx config to server
+  become: yes
+  template:
+    src: web-nginx.conf.j2
+    dest: '{{remote_working_directory}}/config/webserver_nginx/nginx.conf'
+    owner: ubuntu
+    group: ubuntu
+
+- name: rebuild docker-compose
+  become: yes
+  command: docker-compose build
+
+- name: start docker-compose
+  become: yes
+  command: docker-compose up -d

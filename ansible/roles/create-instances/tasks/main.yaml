@@ -1,0 +1,41 @@
+---
+- debug:
+    msg: "{{ item.volume_ids }}"
+  loop: '{{ instances }}'
+
+- name: Create instances
+  os_server:
+    name: '{{ item.name }}'
+    image: '{{ instance_image }}'
+    key_name: '{{ instance_key_name }}'
+    flavor: '{{ instance_flavor }}'
+    availability_zone: '{{ availability_zone }}'
+    security_groups: '{{ item.security_groups }}'
+    network: '{{ instance_network }}'
+    volumes: "{{ item.volume_ids }}"
+    auto_floating_ip: yes
+    wait: yes
+    timeout: 600
+    state: present
+  register: os_instance
+  loop: '{{ instances }}'
+
+- name: set ip address to fact
+  set_fact:
+    ip_addresses: "{{ ip_addresses|default([]) + [ {'name': item.item.name, 'ip': item.openstack.public_v4} ] }}"
+  when: item.openstack is defined
+  loop: '{{ os_instance.results }}'
+
+- debug:
+    msg: "| ip_addresses ==> {{ ip_addresses }}"
+
+- name: Create inventory file
+  copy:
+    content: "[all:vars]\nansible_user=ubuntu\n\n[dbServers:children]\ndbMaster\ndbSlave\n\n[dbMaster:children]\ninstance1\n\n[dbSlave:children]\ninstance2\ninstance3\n\n"
+    dest: "{{project_working_directory}}/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini"
+
+- name: set ip addresses to inventory file
+  lineinfile:
+    line: "[{{ item.name }}]\n{{ item.ip }}\n"
+    dest: "{{project_working_directory}}/COMP90024-2019S1-Team7/ansible/inventory/hosts.ini"
+  loop: '{{ ip_addresses }}'

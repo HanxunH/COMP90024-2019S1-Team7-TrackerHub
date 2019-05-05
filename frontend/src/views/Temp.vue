@@ -1,11 +1,14 @@
 <style lang="less" scoped="scoped">
 @import '../assets/css/common.less';
 </style>
+
+
 <template>
 	<div class="page-index">
 		
 	</div>
 </template>
+
 
 <script>
 export default {

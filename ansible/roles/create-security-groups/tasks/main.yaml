@@ -1,0 +1,26 @@
+---
+#############################################
+#          Create a security group          #
+#############################################
+- name: Create a security group
+  os_security_group:
+    name: '{{ item.name }}'
+    description: '{{ item.description }}'
+    state: present
+  loop: '{{ security_groups }}'
+
+- name: Create a list of security group names
+  set_fact:
+    sg_names: '{{ sg_names|default([]) + [item.name] }}'
+  loop: '{{ security_groups }}'
+
+- debug:
+    msg: "Security group(s) {{ sg_names }} has been created."
+
+#############################################
+#        Create security group rules        #
+#############################################
+- include_tasks: inner.yaml
+  loop: '{{ security_groups }}'
+  loop_control:
+    loop_var: outer_item

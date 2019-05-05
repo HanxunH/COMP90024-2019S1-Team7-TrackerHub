@@ -1,0 +1,5 @@
+---
+- include_tasks: inner.yaml
+  loop: '{{ instances }}'
+  loop_control:
+    loop_var: outer_item

@@ -1,0 +1,38 @@
+---
+- name: Create volume(s)
+  os_volume:
+    display_name: '{{ item.vol_name }}'
+    size: '{{ item.vol_size }}'
+    availability_zone: '{{ availability_zone }}'
+    wait: yes
+    timeout: 600
+    state: present
+  loop: '{{ outer_item.volumes }}'
+  register: os_vol
+
+- debug:
+    msg: "Volumes {{os_vol}} has been created."
+
+- name: Create a list of volume Ids | instance2
+  set_fact:
+    instance2_volumes: "{{ instance2_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "instance2"
+
+- name: Create a list of volume Ids | instance3
+  set_fact:
+    instance3_volumes: "{{ instance3_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "instance3"
+
+- name: Create a list of volume Ids | instance4
+  set_fact:
+    instance4_volumes: "{{ instance4_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "instance4"
+
+- name: Create a list of volume Ids | instance1
+  set_fact:
+    instance1_volumes: "{{ instance1_volumes|default([]) + [ item.id ] }}"
+  loop: "{{ os_vol.results }}"
+  when: outer_item.name == "instance1"

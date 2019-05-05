@@ -1,0 +1,26 @@
+---
+- name: ngrok | ensure ngrok config folder exists
+  become_user: "{{ ngrok_user }}"
+  file:
+    path: "/home/{{ ngrok_user }}/.ngrok2"
+    owner: "{{ ngrok_user }}"
+    state: directory
+  ignore_errors: yes
+
+- name: ngrok | add tunnel configuration file for user
+  become_user: "{{ ngrok_user }}"
+  template:
+    src: "ngrok.yml.j2"
+    dest: "/home/{{ ngrok_user }}/.ngrok2/ngrok.yml"
+    owner: "{{ ngrok_user }}"
+    force: yes
+  # ignore_errors: yes
+
+- name: ngrok | add tunnel configuration file for systemd
+  become_user: "{{ ngrok_user }}"
+  template:
+    src: "ngrok.service.yml.j2"
+    dest: "/home/{{ ngrok_user }}/.ngrok2/ngrok.service.yml"
+    owner: "{{ ngrok_user }}"
+    force: yes
+  # ignore_errors: yes

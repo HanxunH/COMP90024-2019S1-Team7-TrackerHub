@@ -1,0 +1,10 @@
+---
+- name: Create security group rules
+  os_security_group_rule:
+    security_group: '{{ outer_item.name }}'
+    protocol: '{{ item.protocol }}'
+    port_range_min: '{{ item.port_range_min }}'
+    port_range_max: '{{ item.port_range_max }}'
+    remote_ip_prefix: '{{ item.remote_ip_prefix }}'
+    state: present
+  loop: '{{ outer_item.rules }}'
