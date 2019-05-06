@@ -190,7 +190,7 @@ def tweet_trained_post(request):
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error=400, prefix='API')
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
                                         tweet=len(updated))
-            resp = init_http_bad_request('Tweet Attribute Required %s', e)
+            resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
