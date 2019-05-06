@@ -10,7 +10,7 @@ from datetime import datetime
 
 url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
 BATCHSIZE = 1000
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]", "limit": str(BATCHSIZE)}
+params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]","skip": "0", "limit": str(BATCHSIZE)}
 TOTALSIZE = 2500000
 
 
