@@ -148,6 +148,7 @@ def tweet_untrained_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
+    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -157,7 +158,8 @@ def tweet_untrained_get(request, resource=100):
                 model=tweet.get('model', {})
             )
         })
-    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=resource)
+        count += 1;
+    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=count)
     return make_json_response(HttpResponse, resp)
 
 
@@ -214,6 +216,7 @@ def tweet_untrained_text_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
+    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -222,8 +225,8 @@ def tweet_untrained_text_get(request, resource=100):
                 tags=tweet.get('tags').get('text', {}),
             )
         })
-    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API',
-                                tweet=resource)
+        count += 1
+    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API', tweet=count)
     return make_json_response(HttpResponse, resp)
 
 
@@ -301,14 +304,25 @@ if __name__ == '__main__':
     #     tweet_couch_db.save(newTweet)
     # tweet_couch_db.compact()
     # pass
+    import datetime
+    import pytz
+
     mango = {
         'selector': {
-            '$not': {
-                'text_update': '$exists'
+            'img_id': {
+                '$ne': []
+            },
+            'last_update': {
+                '$lt': (datetime.datetime.now().astimezone(pytz.utc) - datetime.timedelta(minutes=60)).strftime('%Y-%m-%d %H:%M:%S%z')
+            },
+            'process': {
+                '$eq': 0
             }
         },
-        'limit': 10000
+        'limit': 400000,
+        # 'skip': 1000,
     }
+
     tweets = tweet_couch_db.find(mango)
     for tweet in tweets:
         newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
@@ -316,15 +330,15 @@ if __name__ == '__main__':
             _id=tweet.id,
             _rev=tweet.rev,
         ))
-        print(newTweet)
         for img in newTweet['img_id']:
             try:
-                picture = object_storage_handler.download(img)
+                picture = object_storage_handler.download(img + '.jpg')
             except Exception as e:
                 object_storage_handler.reconnect()
-                picture = object_storage_handler.download(img)
+                picture = object_storage_handler.download(img + '.jpg')
 
             if not picture:
                 newTweet['img_id'].remove(img)
-        print(newTweet)
-        # tweet_couch_db.save(newTweet)
+        newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+        tweet_couch_db.save(newTweet)
+    tweet_couch_db.compact()

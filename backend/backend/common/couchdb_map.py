@@ -38,6 +38,60 @@ def TRAINING_UNTRAINED_TEXT_MANGO(limit=100):
             'process_text': 0,
         },
         'fields': ['_id', 'text', 'tags'],
+        'use_index': 'json:process-text-index',
         'limit': limit
     }
 
+
+def STATISTICS_TIME_MANGO(start_time=None, end_time=None, porn=None, food=None):
+    mango = {
+        'selector': {
+            'date': {
+                '$gt': start_time,
+                '$lt': end_time
+            },
+            '$or': [
+                {
+                    'tags': {
+
+                    }
+                }
+            ]
+        }
+    }
+
+
+    mango = {
+        'selector': {
+            '$or': [{
+                '$and': [
+                    {
+                        'tags': {
+                            '$ne': {}
+                        }
+                    },
+                    {
+                        'tags': {
+                            'netural'
+                        }
+                    }
+                ],
+                'tags': {
+                    '$ne': {}
+                }}, {
+                'geo': {
+                    '$ne': []
+            }}]
+        },
+        'fields': ['_id', 'text', 'tags'],
+        'limit': 100,
+        'use_index': 'json:date-index'
+    }
+    if start_time or end_time:
+        mango['selector'].update({'date': {}})
+    if start_time:
+        mango['selector']['date'].update({'$gt': start_time})
+    if end_time:
+        mango['selector']['date'].update({'$lt': end_time})
+    if porn or food:
+        mango['selector'].update('tags')

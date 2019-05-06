@@ -2,13 +2,16 @@
 
 import logging
 import ujson
-# from shapely.geometry import shape, point
+from shapely.geometry import shape, point
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
 from django.views.decorators.http import require_http_methods
 from django.utils.dateparse import parse_datetime
+from django.utils import timezone
 
 from backend.handler.couch_handler import CouchDbHandler
+from backend.handler.influxdb_handler import influxdb_handler
+from backend.common.couchdb_map import STATISTICS_TIME_MANGO
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response
 from backend.config.config import COUCHDB_TWEET_DB
 
@@ -43,9 +46,11 @@ def statistics_time_get(request):
     content = make_dict(key, content)
 
     if 'start_time' in content:
-        start_time = parse_datetime(content['start_time'])
+        start_time = parse_datetime(content['start_time']).astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
     if 'end_time' in content:
-        end_time = parse_datetime(content['end_time'])
+        end_time = parse_datetime(content['end_time']).astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+
+
 
 
 def upload_statistics_file():
