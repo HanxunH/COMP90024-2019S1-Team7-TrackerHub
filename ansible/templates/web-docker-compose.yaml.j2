@@ -16,6 +16,16 @@ services:
     links:
       - frontend_production_code_{{ lookup('pipe', 'date +%Y-%m-%d-%M-%S') }}
     restart: always
+    networks:
+      web_nw:
+        ipv4_address: 172.20.0.3
    
 volumes:
   frontend_production_code_{{ lookup('pipe', 'date +%Y-%m-%d-%M-%S') }}:
+
+networks:
+  web_nw:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
