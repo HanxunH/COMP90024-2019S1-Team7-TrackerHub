@@ -49,14 +49,14 @@
     <!-- Tool Navbar -->
     <nav class="navbar fixed-bottom navbar-light">
       <div class="row">
-        <div class="col-md-3">
-          <date-picker v-model="start_time" :config="options"></date-picker>
+        <div class="col-md-4">
+          <datetime v-model="start_time" :type="'datetime'" :title="'Select your start time'"></datetime>
         </div>
         <div class="col-md-1">
           <a class="navbar-brand">To</a>
         </div>
-        <div class="col-md-3">
-          <date-picker v-model="end_time" :config="options"></date-picker>
+        <div class="col-md-4">
+          <datetime v-model="end_time" :type="'datetime'" :title="'Select your end time'"></datetime>
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
@@ -83,8 +83,8 @@ import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.css';
-import datePicker from 'vue-bootstrap-datetimepicker';
-import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
+import {Datetime} from 'vue-datetime'
+import 'vue-datetime/dist/vue-datetime.css'
 
 export default {
   name: 'gmap',
@@ -93,7 +93,7 @@ export default {
     Piechart,
     Linechart,
     Barchart,
-    datePicker
+    datetime: Datetime
   },
 
   data() {
@@ -104,8 +104,8 @@ export default {
       radarData: [],
       lineData: [],
       barDatacollection: null,
-      start_time: new Date(),
-      end_time: new Date(),
+      start_time: new Date().toString(),
+      end_time: new Date().toString(),
       user_id: '',
       number: 1,
       options: {
@@ -259,15 +259,17 @@ export default {
     // ====================== Get Map/Chart Data =====================
     mapBuildTime(tag) {
       let self = this
-      console.log(self.toISOLocal(self.start_time))
-      console.log(self.toISOLocal(self.end_time))
+      let sDate = new Date(self.start_time)
+      let eDate = new Date(self.end_time)
+      console.log(self.toISOLocal(sDate).replace(/T/g, " "))
+      console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
       
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
           data:{
-            start_time: self.toISOLocal(self.start_time),
-            end_time: self.toISOLocal(self.end_time),
+            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
+            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
             tags: tag
           }
         },
@@ -308,12 +310,14 @@ export default {
       let time = new Date()
       let img = ''
       let tags = []
+      let sDate = new Date(self.start_time)
+      let eDate = new Date(self.end_time)
 
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/${self.user_id}/`,{
           data:{
-            start_time: self.toISOLocal(self.start_time),
-            end_time: self.toISOLocal(self.end_time),
+            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
+            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
             tags: tag
           }
         },
@@ -364,11 +368,14 @@ export default {
           {lat: -18.142, lng: 178.431},
           {lat: -27.467, lng: 153.027}]
 
+      let sDate = new Date(self.start_time)
+      let eDate = new Date(self.end_time)
+
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
           data:{
-            start_time: self.toISOLocal(self.start_time),
-            end_time: self.toISOLocal(self.end_time),
+            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
+            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
             tags: tag
           }
         },
@@ -406,9 +413,9 @@ export default {
     },
 
     toISOLocal(d) {
-      var z = n => (n<10? '0':'')+n;
-      var off = d.getTimezoneOffset();
-      var sign = off < 0? '+' : '-';
+      let z = n => (n<10? '0':'')+n;
+      let off = d.getTimezoneOffset();
+      let sign = off < 0? '+' : '-';
       off = Math.abs(off);
 
       return d.getFullYear() + '-' + z(d.getMonth()+1) + '-' +
