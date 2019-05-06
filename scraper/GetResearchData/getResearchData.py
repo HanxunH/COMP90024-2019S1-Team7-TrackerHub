@@ -43,13 +43,19 @@ num = 0
 file = open("log.txt","w")
 while num<TOTALSIZE:
 
-	num = num + BATCHSIZE
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
+	print(message)
+
+	num = num + BATCHSIZE
+	
+	temp = num
+	params['skip'] = str(temp)
 	# Message to dict
-	dataset = message.json() 
+	dataset = message.json()
+
 	# retrive all tweets
 	tweetlst = dataset["rows"]
-
+	print(str(num) + "Tweets scraped")
 	for tweet in tweetlst:
 
 
