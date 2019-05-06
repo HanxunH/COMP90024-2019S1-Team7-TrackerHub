@@ -184,6 +184,23 @@ export default {
           ]
       }
 
+      let myFoodMark = {lat: -37.8036, lng: 144.9631}
+      let foodMark = new google.maps.Marker({
+        position: myFoodMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Food!',
+        icon: 'http://i64.tinypic.com/egzm07.png'
+      })
+
+      let myLustMark = {lat: -37.8136, lng: 144.9631}
+      let lustMark = new google.maps.Marker({
+        position: myLustMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Lust!',
+        icon: 'http://i68.tinypic.com/2rdfbsx.png'
+      })
       //======================== Setup each mark ==========================
       /*
       // set marks on the map
