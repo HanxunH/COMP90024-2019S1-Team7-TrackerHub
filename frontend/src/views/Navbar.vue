@@ -8,10 +8,12 @@
           <a href="/map" class="button premium"><span>Go Premium</span></a>
         </li>
         <li v-if="this.$route.path != '/'">
+          <a href="http://172.26.38.11:3000/d/ji261NiWz/api-monitor?orgId=1&kiosk" target="_blank" :class="'button '+ [this.info.class]"><span>Dashboard</span></a>
+        </li>
+        <li v-if="this.$route.path != '/'">
           <a :href="this.info.href" :class="'button '+ [this.info.class]" @click="changeButton"><span>{{ this.info.buttonText }}</span></a>
         </li>
-      </ul> 
-    
+      </ul>
     </nav>
   </header>
 </template>

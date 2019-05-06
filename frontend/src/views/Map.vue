@@ -12,9 +12,9 @@
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food179'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['nsfw'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['porn'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -24,9 +24,9 @@
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food179'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['nsfw'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['porn'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -38,7 +38,11 @@
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
-      </div>   
+      </div>
+      <div class="row">
+        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/fZ6poDmZk/instance-resource?orgId=1&from=now-30m&to=now-10s&refresh=5s&kiosk" target="_blank">API Monitor</b-button></div>
+        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/ji261NiWz/api-monitor?orgId=1&kiosk" target="_blank">Instance Monitor</b-button></div>
+      </div> 
       <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
@@ -60,9 +64,9 @@
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" size="sm" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['food179'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['nsfw'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['food'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <div class="col-md-2">
@@ -154,8 +158,12 @@ export default {
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
-        self.barDataLabel.push(feature.getProperty('name'))
-        self.barData.push(cartodb_id)
+        let name = feature.getProperty('name')
+        if (!self.barDataLabel.includes(name)){
+          self.barDataLabel.push(name)
+          self.barData.push(cartodb_id)
+        }
+       
         // let total = feature.getProperty("total")
         // let details = feature.getProperty('detail')
         // for (let detail in details) {
