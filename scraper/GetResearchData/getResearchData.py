@@ -10,21 +10,20 @@ from datetime import datetime
 import argparse
 
 parser = argparse.ArgumentParser(description='COMP90024 Project Scrape Research Data')
-parser.add_argument('--batch', type=int, default=10)
-parser.add_argument('--total', type=int, default=100)
-parser.add_argument('--url', type=str, default="http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary")
-parser.add_argument('--startdate', type=str, default="[\"melbourne\",2017,1,1]")
-parser.add_argument('--enddate', type=str, default="[\"melbourne\",2017,12,31]")
-parser.add_argument('--filename', type=str, default="log.txt")
+parser.add_argument('--batch', type=int, default=1000)
+parser.add_argument('--total', type=int, default=10000)
+parser.add_argument('--startDate', type=str, default='[\"melbourne\",2016,1,1]')
+parser.add_argument('--endDate', type=str, default='[\"melbourne\",2016,12,31]')
+parser.add_argument('--url', type=str, default='http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary')
+parser.add_argument('--filename', type=str, default='log.txt')
 args = parser.parse_args()
 
 url = args.url
 BATCHSIZE = args.batch
-params={'include_docs':'true','reduce':'false','start_key':args.startdate,'end_key':args.enddate,"skip": "0", "limit": str(BATCHSIZE)}
+params={'include_docs':'true','reduce':'false','start_key':args.startDate,'end_key':args.endDate,"skip": "0", "limit": str(BATCHSIZE)}
 TOTALSIZE = args.total
 
-
-def uploadImg(link,file):
+def uploadImg(link, file):
 
 	try: 
 		image = requests.get(link)
@@ -54,7 +53,7 @@ file = open(args.filename,"w")
 while num<TOTALSIZE:
 
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
-	print(message)
+
 
 	num = num + BATCHSIZE
 	
@@ -122,8 +121,7 @@ while num<TOTALSIZE:
 
 
 			tweetJson = json.dumps(dataDict) 
-			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet", file)
-
+			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet" , file)
 
 		except Exception as e:
 
@@ -131,6 +129,5 @@ while num<TOTALSIZE:
 			print("Cannot upload a well-formatted tweet to couchDB")
 			file.write(str(e) + "\n")
 			file.write("Cannot upload a well-formatted tweet to couchDB\n")
-
 
 file.close()

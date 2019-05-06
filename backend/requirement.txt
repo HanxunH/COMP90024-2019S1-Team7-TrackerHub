@@ -5,6 +5,7 @@ CouchDB==1.2
 debtcollector==1.21.0
 Django==2.2
 idna==2.8
+influxdb==5.2.2
 iso8601==0.1.12
 keystoneauth1==3.14.0
 msgpack==0.6.1
@@ -18,12 +19,14 @@ oslo.utils==3.40.3
 pbr==5.1.3
 Pillow==6.0.0
 pyparsing==2.4.0
+python-dateutil==2.8.0
 python-keystoneclient==3.19.0
 python-swiftclient==3.7.0
 pytz==2019.1
 PyYAML==5.1
 requests==2.21.0
 rfc3986==1.3.1
+Shapely==1.6.4.post2
 six==1.12.0
 sqlparse==0.3.0
 stevedore==1.30.1
