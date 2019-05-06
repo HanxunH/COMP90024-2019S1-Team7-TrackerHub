@@ -5,17 +5,6 @@ services:
     build: {{remote_working_directory}}/frontend
     volumes:
       - frontend_production_code_{{ lookup('pipe', 'date +%Y-%m-%d-%M-%S') }}:/usr/src/ng-app/dist/
-  backend:
-    container_name: backend
-    build: {{remote_working_directory}}/backend
-    ports:
-      - "8080:8080"
-    volumes:
-      - {{remote_working_directory}}/backend:/code
-    restart: always
-    networks:
-      web_nw:
-        ipv4_address: 172.20.0.2
   nginx_proxy:
     container_name: nginx_proxy
     build: {{remote_working_directory}}/config/webserver_nginx
@@ -25,21 +14,8 @@ services:
     ports:
       - "80:80"
     links:
-      - backend
       - frontend_production_code_{{ lookup('pipe', 'date +%Y-%m-%d-%M-%S') }}
-    depends_on:
-      - backend
     restart: always
-    networks:
-      web_nw:
-        ipv4_address: 172.20.0.3
-
+   
 volumes:
   frontend_production_code_{{ lookup('pipe', 'date +%Y-%m-%d-%M-%S') }}:
-
-networks:
-  web_nw:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.20.0.0/16
