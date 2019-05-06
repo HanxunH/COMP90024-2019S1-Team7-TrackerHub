@@ -53,13 +53,13 @@
           <datetime v-model="start_time" :type="'datetime'" :title="'Select your start time'"></datetime>
         </div>
         <div class="col-md-1">
-          <a class="navbar-brand">To</a>
+          <a class="navbar-brand font-weight-bold text-white">To</a>
         </div>
         <div class="col-md-4">
           <datetime v-model="end_time" :type="'datetime'" :title="'Select your end time'"></datetime>
         </div>
         <div class="col-md-2">
-          <b-dropdown id="dropdown-dropup" split split-href="#foo/bar" dropup text="Sins" class="m-md">
+          <b-dropdown id="dropdown-dropup" size="sm" split split-href="#foo/bar" dropup text="Sins" class="m-md">
             <b-dropdown-item href="#" @click="mapBuildTime(['food179'])">Gluttony</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTime(['nsfw'])">Lust</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTime(['food179','nsfw'])">Gluttony and Lust</b-dropdown-item>
