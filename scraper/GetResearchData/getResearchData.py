@@ -7,14 +7,23 @@ from api_requirements import DOMAIN, API_KEY, API_PORT
 from PIL import Image
 from io import BytesIO
 from datetime import datetime
+import argparse
 
-url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
-BATCHSIZE = 10
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2018,1,1]",'end_key':"[\"melbourne\",2018,12,31]", "limit": str(BATCHSIZE)}
-TOTALSIZE = 10
+parser = argparse.ArgumentParser(description='COMP90024 Project Scrape Research Data')
+parser.add_argument('--batch', type=int, default=1000)
+parser.add_argument('--total', type=int, default=250000)
+parser.add_argument('--startDate', type=str, default='[\"melbourne\",2017,1,1]')
+parser.add_argument('--endDate', type=str, default='[\"melbourne\",2017,6,31]')
+parser.add_argument('--url', type=str, default='http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary')
+parser.add_argument('--filename', type=str, default='log.txt')
+args = parser.parse_args()
 
+url = args.url
+BATCHSIZE = args.batch
+params={'include_docs':'true','reduce':'false','start_key':args.startDate,'end_key':args.endDate,"skip": "0", "limit": str(BATCHSIZE)}
+TOTALSIZE = args.total
 
-def uploadImg(link,file):
+def uploadImg(link, file):
 
 	try: 
 		image = requests.get(link)
@@ -31,8 +40,8 @@ def uploadImg(link,file):
 
 		print(e)
 		print("Cannot upload img or Cannot link to img")
-		file.write(str(e))
-		file.write("Cannot upload img or Cannot link to img")
+		file.write(str(e) + "\n")
+		file.write("Cannot upload img or Cannot link to img\n")
 		return "none"
 
 
@@ -40,16 +49,23 @@ def uploadImg(link,file):
 
 
 num = 0
-file = open("log.txt","w")
+file = open(args.filename,"w")
 while num<TOTALSIZE:
 
-	num = num + BATCHSIZE
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
+
+
+	num = num + BATCHSIZE
+	
+	temp = num
+	params['skip'] = str(temp)
 	# Message to dict
-	dataset = message.json() 
+	dataset = message.json()
+
 	# retrive all tweets
 	tweetlst = dataset["rows"]
-
+	print(str(num) + "Tweets scraped")
+	file.write(str(num) + "Tweets scraped\n")
 	for tweet in tweetlst:
 
 
@@ -105,15 +121,13 @@ while num<TOTALSIZE:
 
 
 			tweetJson = json.dumps(dataDict) 
-			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet", file)
-
+			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet" , file)
 
 		except Exception as e:
 
 			print(e)
 			print("Cannot upload a well-formatted tweet to couchDB")
-			file.write(str(e))
-			file.write("Cannot upload a well-formatted tweet to couchDB")
-
+			file.write(str(e) + "\n")
+			file.write("Cannot upload a well-formatted tweet to couchDB\n")
 
 file.close()
