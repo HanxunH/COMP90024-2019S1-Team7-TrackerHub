@@ -44,5 +44,12 @@ http {
             proxy_pass http://172.20.0.2:8080/api;
         }
 
+        location /dashboard1 { 
+            proxy_pass http://172.26.38.11:3000;
+        }
+
+        location /dashboard2 { 
+            proxy_pass http://172.26.38.11:8082;
+        }
     }
 }
