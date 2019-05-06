@@ -7,11 +7,21 @@ from api_requirements import DOMAIN, API_KEY, API_PORT
 from PIL import Image
 from io import BytesIO
 from datetime import datetime
+import argparse
 
-url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
-BATCHSIZE = 1000
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]","skip": "0", "limit": str(BATCHSIZE)}
-TOTALSIZE = 2500000
+parser = argparse.ArgumentParser(description='COMP90024 Project Scrape Research Data')
+parser.add_argument('--batch', type=int, default=10)
+parser.add_argument('--total', type=int, default=100)
+parser.add_argument('--url', type=str, default="http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary")
+parser.add_argument('--startdate', type=str, default="[\"melbourne\",2017,1,1]")
+parser.add_argument('--enddate', type=str, default="[\"melbourne\",2017,12,31]")
+parser.add_argument('--filename', type=str, default="log.txt")
+args = parser.parse_args()
+
+url = args.url
+BATCHSIZE = args.batch
+params={'include_docs':'true','reduce':'false','start_key':args.startdate,'end_key':args.enddate,"skip": "0", "limit": str(BATCHSIZE)}
+TOTALSIZE = args.total
 
 
 def uploadImg(link,file):
@@ -40,7 +50,7 @@ def uploadImg(link,file):
 
 
 num = 0
-file = open("log.txt","w")
+file = open(args.filename,"w")
 while num<TOTALSIZE:
 
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
@@ -56,6 +66,7 @@ while num<TOTALSIZE:
 	# retrive all tweets
 	tweetlst = dataset["rows"]
 	print(str(num) + "Tweets scraped")
+	file.write(str(num) + "Tweets scraped\n")
 	for tweet in tweetlst:
 
 

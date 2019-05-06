@@ -152,7 +152,7 @@ def processTweet(tweet):
 
 
 	responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet")
-	# print(responseJson.content)
+
 
 
 
