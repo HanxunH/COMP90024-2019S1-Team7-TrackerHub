@@ -9,9 +9,11 @@ from io import BytesIO
 from datetime import datetime
 
 url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
+
 BATCHSIZE = 1000
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]", "limit": str(BATCHSIZE)}
+params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]","skip": "0", "limit": str(BATCHSIZE)}
 TOTALSIZE = 2500000
+
 
 
 def uploadImg(link,file):
@@ -43,13 +45,19 @@ num = 0
 file = open("log.txt","w")
 while num<TOTALSIZE:
 
-	num = num + BATCHSIZE
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
+	print(message)
+
+	num = num + BATCHSIZE
+	
+	temp = num
+	params['skip'] = str(temp)
 	# Message to dict
-	dataset = message.json() 
+	dataset = message.json()
+
 	# retrive all tweets
 	tweetlst = dataset["rows"]
-
+	print(str(num) + "Tweets scraped")
 	for tweet in tweetlst:
 
 
