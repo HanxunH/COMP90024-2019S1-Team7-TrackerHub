@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T23:47:18+10:00
+# @Last modified time: 2019-05-06T17:03:08+10:00
 import argparse
 import logging
 import io
@@ -213,6 +213,7 @@ class coconut_image_recong:
 
             nsfw_rs_dict = self.process_list_rs_to_dict(nsfw_rs)
             food179_rs_dict = self.process_list_rs_to_dict(food179_rs)
+
             result_payload = {
                 'tags':{
                     'nsfw' : nsfw_rs_dict,

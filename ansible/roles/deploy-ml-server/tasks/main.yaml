@@ -46,6 +46,7 @@
   when: ml_checkpoints_dir.stat.exists == false
 
 - name: copy ml modal to server | step 1
+  ignore_errors: true
   copy:
     src: "{{project_working_directory}}/COMP90024-2019S1-Team7/machine_learning/checkpoints/food179_resnet101_sgd.pth_best.pth"
     dest: '{{ remote_working_directory }}/machine_learning/checkpoints/food179_resnet101_sgd.pth_best.pth'
@@ -54,6 +55,7 @@
     force: no
 
 - name: copy ml modal to server | step 2
+  ignore_errors: true
   copy:
     src: "{{project_working_directory}}/COMP90024-2019S1-Team7/machine_learning/checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth"
     dest: '{{ remote_working_directory }}/machine_learning/checkpoints/nsfw_resnet101_sgd_v3.pth_best.pth'
@@ -68,18 +70,10 @@
     owner: ubuntu
     group: ubuntu
 
-- name: docker compose down
+- name: stop docker-compose
   become: yes
   command: docker-compose down --rmi all
 
-- name: docker compose rm -f
-  become: yes
-  command: docker-compose rm -f
-
-- name: docker compose pull
-  become: yes
-  command: docker-compose pull
-
 - name: start docker-compose
   become: yes
-  command: docker-compose up --build -d
+  command: docker-compose up --force-recreate -d
