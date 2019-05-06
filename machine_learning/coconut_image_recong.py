@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-05T23:47:18+10:00
+# @Last modified time: 2019-05-06T13:42:29+10:00
 import argparse
 import logging
 import io
@@ -213,6 +213,11 @@ class coconut_image_recong:
 
             nsfw_rs_dict = self.process_list_rs_to_dict(nsfw_rs)
             food179_rs_dict = self.process_list_rs_to_dict(food179_rs)
+
+            # Handle Special Char in food179
+            if 'gyūdon' in food179_rs_dict:
+                food179_rs_dict['gyudon'] = food179_rs_dict.pop('gyūdon')
+                print('gyudon',food179_rs_dict['gyudon'])
             result_payload = {
                 'tags':{
                     'nsfw' : nsfw_rs_dict,
