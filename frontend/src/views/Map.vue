@@ -259,15 +259,15 @@ export default {
     // ====================== Get Map/Chart Data =====================
     mapBuildTime(tag) {
       let self = this
-      console.log(self.start_time)
-      console.log(self.end_time)
+      console.log(self.toISOLocal(self.start_time))
+      console.log(self.toISOLocal(self.end_time))
       console.log(tag)
       
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
           data:{
-            start_time: self.start_time,
-            end_time: self.end_time,
+            start_time: self.toISOLocal(self.start_time),
+            end_time: self.toISOLocal(self.end_time),
             tags: tag
           }
         },
@@ -312,8 +312,8 @@ export default {
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/${self.user_id}/`,{
           data:{
-            start_time: self.start_time,
-            end_time: self.end_time,
+            start_time: self.toISOLocal(self.start_time),
+            end_time: self.toISOLocal(self.end_time),
             tags: tag
           }
         },
@@ -367,8 +367,8 @@ export default {
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
           data:{
-            start_time: self.start_time,
-            end_time: self.end_time,
+            start_time: self.toISOLocal(self.start_time),
+            end_time: self.toISOLocal(self.end_time),
             tags: tag
           }
         },
@@ -403,6 +403,17 @@ export default {
         strokeOpacity: 1.0,
         strokeWeight: 2
       });
+    },
+
+    toISOLocal(d) {
+      var z = n => (n<10? '0':'')+n;
+      var off = d.getTimezoneOffset();
+      var sign = off < 0? '+' : '-';
+      off = Math.abs(off);
+
+      return d.getFullYear() + '-' + z(d.getMonth()+1) + '-' +
+            z(d.getDate()) + 'T' + z(d.getHours()) + ':'  + z(d.getMinutes()) + 
+            ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
     }
   }
 }
