@@ -110,7 +110,9 @@ def tweet_post(request):
         process_text=0,
         model={},
         tags={},
-        last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+        last_update=timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z'),
+        text_update='',
+        ml_update=''
     ))
     tweet.pop('id')
 
@@ -175,9 +177,11 @@ def tweet_trained_post(request):
             tweet['tags'].update(results[result]['tags'])
             tweet['model'] = results[result]['model']
             _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-            tweet['ml_update'] = _now
-            tweet['last_update'] = _now
-            tweet['process'] = tweet['process'] + 1
+            tweet.update(dict(
+                ml_update=_now,
+                last_update=_now,
+                process=tweet['process'] + 1
+            ))
             tweet_couch_db.save(tweet)
 
             updated.update({tweet['_id']: tweet['ml_update']})
@@ -242,9 +246,11 @@ def tweet_trained_text_post(request):
 
             tweet['tags'].update(results[result]['tags'])
             _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-            tweet['text_update'] = _now
-            tweet['last_update'] = _now
-            tweet['process_text'] = tweet['process_text'] + 1
+            tweet.update(dict(
+                text_update=_now,
+                last_update=_now,
+                process_text=tweet['process_text'] + 1
+            ))
             tweet_couch_db.save(tweet)
 
             updated.update({tweet['_id']: tweet['text_update']})
@@ -297,8 +303,8 @@ if __name__ == '__main__':
     # pass
     mango = {
         'selector': {
-            'img_id': {
-                '$ne': []
+            '$not': {
+                'text_update': '$exists'
             }
         },
         'limit': 10000
