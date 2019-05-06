@@ -10,18 +10,18 @@ from datetime import datetime
 
 url = "http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary"
 BATCHSIZE = 1000
-params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2018,1,1]",'end_key':"[\"melbourne\",2018,12,31]", "limit": str(BATCHSIZE)}
-TOTALSIZE = 300000
+params={'include_docs':'true','reduce':'false','start_key':"[\"melbourne\",2017,1,1]",'end_key':"[\"melbourne\",2017,12,31]","skip": "0", "limit": str(BATCHSIZE)}
+TOTALSIZE = 2500000
 
 
-def uploadImg(link):
+def uploadImg(link,file):
 
 	try: 
 		image = requests.get(link)
 		img = Image.open(BytesIO(image.content))
 		resize_img = reformat_Image(img)
 		pair = {"file": getBinaryImage(resize_img, img)}
-		response = postRequest(DOMAIN, API_KEY, API_PORT["upload_pic"]["Port"], API_PORT["upload_pic"]["Header"], pair, "image")
+		response = postRequest(DOMAIN, API_KEY, API_PORT["upload_pic"]["Port"], API_PORT["upload_pic"]["Header"], pair, "image", file)
 		returnMsg = json.loads(response.text)
 		return returnMsg["data"]["pic_id"]
 
@@ -31,6 +31,8 @@ def uploadImg(link):
 
 		print(e)
 		print("Cannot upload img or Cannot link to img")
+		file.write(str(e) + "\n")
+		file.write("Cannot upload img or Cannot link to img\n")
 		return "none"
 
 
@@ -38,16 +40,22 @@ def uploadImg(link):
 
 
 num = 0
-
+file = open("log.txt","w")
 while num<TOTALSIZE:
 
-	num = num + BATCHSIZE
 	message=requests.get(url,params,auth=('readonly', 'ween7ighai9gahR6'))
+	print(message)
+
+	num = num + BATCHSIZE
+	
+	temp = num
+	params['skip'] = str(temp)
 	# Message to dict
-	dataset = message.json() 
+	dataset = message.json()
+
 	# retrive all tweets
 	tweetlst = dataset["rows"]
-
+	print(str(num) + "Tweets scraped")
 	for tweet in tweetlst:
 
 
@@ -94,7 +102,7 @@ while num<TOTALSIZE:
 				for item in tweet["doc"]["entities"]["media"]:
 	
 					if item["media_url_https"] != None:
-						return_id = uploadImg(item["media_url_https"])
+						return_id = uploadImg(item["media_url_https"], file)
 
 						if return_id != "none":
 							dataDict["img_id"].append(return_id)
@@ -103,16 +111,15 @@ while num<TOTALSIZE:
 
 
 			tweetJson = json.dumps(dataDict) 
-			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet")
+			responseJson = postRequest(DOMAIN, API_KEY, API_PORT["upload_tweet"]["Port"], API_PORT["upload_tweet"]["Header"], tweetJson, "tweet", file)
 
 
 		except Exception as e:
 
 			print(e)
 			print("Cannot upload a well-formatted tweet to couchDB")
+			file.write(str(e) + "\n")
+			file.write("Cannot upload a well-formatted tweet to couchDB\n")
 
 
-
-
-
-
+file.close()

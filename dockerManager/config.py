@@ -13,6 +13,10 @@ DOCKER_DOMAIN = {
         domain='172.26.38.1',
         port=8866
     ),
+    'instance4': dict(
+        domain='172.26.38.11',
+        port=8866,
+    )
 }
 
 COUCH_DB_PORTS = {
@@ -42,5 +46,20 @@ DJANGO_VOLUMES = {
 }
 
 NGINX_PORTS = {
-    '80/tcp': 8088
+    '80/tcp': 80
+}
+
+INFLUXDB_PORTS = {
+    '8083/tcp': 8083,
+    '8086/tcp': 8086
+}
+
+INFLUXDB_VOLUMES = {
+    '/data/influxdb/': {'bind': '/var/lib/influxdb/', 'mode': 'rw'},
+    # '/home/ubuntu/config/init_script.influxql': {'bind': 'init_script.influxql', 'mode': 'ro'}
+}
+
+INFLUXDB_ENV = {
+    'ADMIN_USER': 'admin',
+    'INFLUXDB_INIT_PWD': 'password'
 }

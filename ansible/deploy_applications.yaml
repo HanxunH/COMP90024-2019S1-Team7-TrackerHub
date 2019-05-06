@@ -12,14 +12,6 @@
 #   gather_facts: true
 #   roles:
 #     - role: deploy-webserver
-#     # backend
-
-# - hosts: instance4
-#   vars_files:
-#     - host_vars/remote_vars.yaml
-#   gather_facts: true
-#   roles:
-#     - role: deploy-ml-server
 
 - hosts: instance2
   vars_files:
@@ -27,3 +19,10 @@
   gather_facts: true
   roles:
     - role: deploy-spider-server
+
+# - hosts: instance4
+#   vars_files:
+#     - host_vars/remote_vars.yaml
+#   gather_facts: true
+#   roles:
+#     - role: deploy-ml-server

@@ -4,5 +4,5 @@ services:
     container_name: spider
     build: {{remote_working_directory}}/scraper/GetResearchData
     volumes:
-      - {{remote_working_directory}}/scraper:/workspace
+      - {{remote_working_directory}}/scraper/GetResearchData:/workspace
     restart: always

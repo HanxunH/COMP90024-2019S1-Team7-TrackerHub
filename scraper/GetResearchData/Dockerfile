@@ -9,4 +9,4 @@ ADD . /workspace
 
 RUN pip install -r requirements.txt
 
-CMD [ "python", "./getResearchData.py" ]
+CMD [ "python", "./getResearchData.py"]

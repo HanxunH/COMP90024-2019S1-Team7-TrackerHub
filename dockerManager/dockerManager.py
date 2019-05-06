@@ -42,6 +42,13 @@ class DockerManager(object):
 dockerManager = dict()
 
 
+def get_docker_manager(domain, port):
+    if domain not in dockerManager:
+        dockerManager.update({
+            domain: DockerManager(domain, port)
+        })
+    return dockerManager[domain]
+
 
 
 
