@@ -38,7 +38,11 @@
     <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
       <div class="row">
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
-      </div>   
+      </div>
+      <div class="row">
+        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/fZ6poDmZk/instance-resource?orgId=1&from=now-30m&to=now-10s&refresh=5s&kiosk" target="_blank">API Monitor</b-button></div>
+        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/ji261NiWz/api-monitor?orgId=1&kiosk" target="_blank">Instance Monitor</b-button></div>
+      </div> 
       <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
