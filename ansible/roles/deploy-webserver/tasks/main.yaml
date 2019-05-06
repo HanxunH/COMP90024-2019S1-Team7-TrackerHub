@@ -56,4 +56,4 @@
 
 - name: start docker-compose
   become: yes
-  command: docker-compose up --build -d
+  command: docker-compose up --force-recreate -d
