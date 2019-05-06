@@ -154,8 +154,12 @@ export default {
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
-        self.barDataLabel.push(feature.getProperty('name'))
-        self.barData.push(cartodb_id)
+        let name = feature.getProperty('name')
+        if (!self.barDataLabel.includes(name)){
+          self.barDataLabel.push(name)
+          self.barData.push(cartodb_id)
+        }
+       
         // let total = feature.getProperty("total")
         // let details = feature.getProperty('detail')
         // for (let detail in details) {
