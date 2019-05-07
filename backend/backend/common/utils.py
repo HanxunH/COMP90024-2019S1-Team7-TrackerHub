@@ -5,10 +5,12 @@ import ujson
 import json
 import datetime
 
-import django.utils.timezone
 from django.http import HttpResponse, HttpResponseForbidden
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
 
-from backend.common.config import HTTP_X_API_KEY, API_KEY, ErrorCode, ErrorMsg
+from backend.common.config import ErrorCode, ErrorMsg
+from backend.config.config import HTTP_X_API_KEY, API_KEY
 
 
 class DateTimeEncoder(json.JSONEncoder):
@@ -18,6 +20,10 @@ class DateTimeEncoder(json.JSONEncoder):
         elif isinstance(obj, datetime.date):
             return obj.strftime('%Y-%m-%d')
         return json.JSONEncoder.default(self, obj)
+
+
+def str_to_str_datetime_utc(time):
+    return parse_datetime(time).astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
 
 
 def make_dict(keys, kwargs):
@@ -62,6 +68,12 @@ def init_http_not_found(err_msg=None):
     if not err_msg:
         return init_http_response(ErrorCode.not_found.value, ErrorMsg.not_found.value)
     return init_http_response(ErrorCode.not_found.value, err_msg)
+
+
+def init_http_bad_request(err_msg=None):
+    if not err_msg:
+        return init_http_response(ErrorCode.bad_request.value, ErrorMsg.not_found.value)
+    return init_http_response(ErrorCode.bad_request.value, err_msg)
 
 
 def init_http_unauthorized(err_msg=None):

@@ -1,4 +1,5 @@
 import requests
+import time
 
 DOMAIN = '172.26.38.1:8080/'
 TWEET_PIC_API = 'api/tweet/pic/'
@@ -27,12 +28,18 @@ def upload_tweet(tweet):
         'x-api-key': '227415ba68c811e9b1a48c8590c7151e',
         'Content-Type': 'application/json'
     }
-    resp = requests.post(url=url, json=tweet, headers=headers)
+    resp = requests.post(url=url, data=tweet, headers=headers)
     return resp
 
 
 def test():
-    resp = download_pic('ebf710106e3911e981c2fa163e56fa7b')
+    resp = requests.get('https://abs.twimg.com/emoji/v2/72x72/1f40d.png')
     pic = resp.content
     resp = upload_pic(pic)
     print(resp.status_code, resp.content)
+
+
+if __name__ == '__main__':
+    while True:
+        test()
+        time.sleep(15)

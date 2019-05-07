@@ -3,7 +3,7 @@
 import couchdb
 import logging
 
-from backend.common.config import *
+from backend.config.config import *
 
 
 logger = logging.getLogger('django.debug')
@@ -47,24 +47,17 @@ class CouchDbHandler(object):
             logger.debug('CouchDB Database %s Created Success: %s:%s' % (_database, self.domain, self.ports))
         return self.database[_database]
 
+    def make_views(self, database):
+        pass
+
+
 
 couch_db_handler = CouchDbHandler()
 
 if __name__ == '__main__':
-    tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
-    test_tweet = {
-            "id": "1123034108672659456",
-            "link": "https://twitter.com/kimberleerose10/status/1123034108672659456",
-            "user": "kimberleerose10",
-            "text": "pic.twitter.com/nE8LJSTRqR",
-            "date": "2019-04-30 01:19:31+00:00",
-            "hashtags": "",
-            "geo": "",
-            "urls": "",
-            "image_urls": [
-                "https://pbs.twimg.com/media/D5XRjxZVUAAc0zH.jpg"
-            ]
-        }
 
-    print(tweet_database.name)
-    tweet_database.save(test_tweet)
+    tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+    index = tweet_database.index()
+    index[None, 'datetime'] = [{'date': 'asc'}]
+    list(index)
+

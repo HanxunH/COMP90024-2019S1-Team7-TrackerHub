@@ -1,5 +1,5 @@
 {
-  "server_address" : "{{ ansible_host }}",
+  "server_address" : "{{ backend_server_host }}",
   "server_port" : {{ backend_server_port }},
   "trained_tweet_api" : "{{ trained_tweet_api }}",
   "untrained_tweet_api": "{{ untrained_tweet_api }}",
@@ -7,6 +7,6 @@
   "log_file_path": "{{ log_file_path }}",
   "food179_checkpoints": "{{ food179_checkpoints }}",
   "nsfw_checkpoints": "{{ nsfw_checkpoints }}",
-  "server_rest_time": 30,
-  "batch_size": 20
+  "server_rest_time": 10,
+  "batch_size": 100
 }

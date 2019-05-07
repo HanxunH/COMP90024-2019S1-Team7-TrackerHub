@@ -2,16 +2,8 @@
 
 import requests
 
-from dockerManager import DockerManager, dockerManager
+from dockerManager import get_docker_manager
 from config import *
-
-
-def get_docker_manager(domain, port):
-    if domain not in dockerManager:
-        dockerManager.update({
-            domain: DockerManager(domain, port)
-        })
-    return dockerManager[domain]
 
 
 def make_new_couchdb(domain, port):
