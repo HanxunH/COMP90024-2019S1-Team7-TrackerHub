@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-07T13:55:46+10:00
+# @Last modified time: 2019-05-07T23:24:27+10:00
 import argparse
 import logging
 import io
@@ -198,7 +198,7 @@ class coconut_image_recong:
                 nsfw_rs_list.append(nsfw_rs)
 
                 end = time.time()
-                self.logger.debug('inference %.4fs' % (end - start))
+                self.logger.info('inference %.4fs' % (end - start))
                 self.logger.debug(food179_rs)
                 self.logger.debug(nsfw_rs)
             except Exception as error:
