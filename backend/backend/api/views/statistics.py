@@ -20,15 +20,19 @@ logger = logging.getLogger('django.debug')
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET', 'OPTIONS'])
 @check_api_key
 def statistics_time_router(request, *args, **kwargs):
     if request.method == 'GET':
         return statistics_time_get(request)
+    elif request.method == 'OPTIONS':
+        response = HttpResponse()
+        response['Access-Control-Request-Method'] = 'GET'
+        return response
     return HttpResponseNotAllowed()
 
 
-@require_http_methods(['GET'])
+@require_http_methods(['GET', 'OPTIONS'])
 @check_api_key
 def statistics_track_router(request, *args, **kwargs):
     user_id = None
@@ -40,6 +44,10 @@ def statistics_track_router(request, *args, **kwargs):
 
     if request.method == 'GET':
         return statistics_track_get(request, user_id=user_id, number=number)
+    elif request.method == 'OPTIONS':
+        response = HttpResponse()
+        response['Access-Control-Request-Method'] = 'GET'
+        return response
     return HttpResponseNotAllowed()
 
 
