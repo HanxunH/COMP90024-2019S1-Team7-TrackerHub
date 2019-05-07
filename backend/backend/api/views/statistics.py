@@ -20,7 +20,7 @@ logger = logging.getLogger('django.debug')
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
 
 
-# @require_http_methods(['GET', 'OPTIONS'])
+@require_http_methods(['GET', 'OPTIONS'])
 @check_api_key
 def statistics_time_router(request, *args, **kwargs):
     if request.method == 'GET':
@@ -30,7 +30,7 @@ def statistics_time_router(request, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
-# @require_http_methods(['GET', 'OPTIONS'])
+@require_http_methods(['GET', 'OPTIONS'])
 @check_api_key
 def statistics_track_router(request, *args, **kwargs):
     user_id = None
@@ -75,7 +75,7 @@ def statistics_track_get(request, user_id=None, number=100):
         result = []
         if needed in tags:
             for tag in tags[needed]:
-                if tags[needed][tag] > value and (not ignore or tag not in ignore):
+                if (isinstance(tags[needed][tag], str) or tags[needed][tag] > value) and (not ignore or tag not in ignore):
                     result.append(tag)
         return result
 
@@ -118,6 +118,8 @@ def statistics_track_get(request, user_id=None, number=100):
         for _tag in _result_tags:
             if _tag in target_tag:
                 result_tags.append(_tag + '.text')
+            elif _tag in ['positive', 'negative', 'neutral']:
+                result_tags.append({'emotion': _tag})
 
         results[user].append(dict(
             time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime('%Y-%m-%d %H:%M:%S%z'),
