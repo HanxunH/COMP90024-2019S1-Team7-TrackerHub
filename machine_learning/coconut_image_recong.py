@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-07T13:25:59+10:00
+# @Last modified time: 2019-05-07T13:54:13+10:00
 import argparse
 import logging
 import io
@@ -244,12 +244,14 @@ class coconut_image_recong:
         if len(data_json) == 0:
             return False
         result_payload = {}
+        rs_list = []
         for (tweet_data_id, data) in data_json:
             rs_dict = self.process_single_tweet(tweet_data_id, data)
-            if rs_dict is not None:
-                result_payload[tweet_data_id] = rs_dict
-        self.upload_result(result_payload)
-        return True
+            rs_list.append((tweet_data_id, rs_dict))
+        #     if rs_dict is not None:
+        #         result_payload[tweet_data_id] = rs_dict
+        # self.upload_result(result_payload)
+        return rs_list
 
     # Upload Results
     def upload_result(self, payload):
@@ -288,21 +290,33 @@ class coconut_image_recong:
                     self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
 
                     response = self.process_tweets_json(target_tweet_list)
-                    if response is not None and not response:
+                    if response == False:
                         self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
                         time.sleep(self.server_rest_time*60)
+                    else:
+                        result_list = comm.gather(response, root=0)
+                        result_payload = {}
+                        for rank_rs in result_list:
+                            for (tweet_data_id, rs_dict) in rank_rs:
+                                if rs_dict is not None:
+                                    result_payload[tweet_data_id] = rs_dict
+
+                        self.upload_result(result_payload)
 
                 # Avoid too much request Sleep for 30 second
-                self.logger.info('Avoid too much request Sleep for 15 Seconds')
-                time.sleep(15)
+                self.logger.info('Avoid too much request Sleep for 10 Seconds')
+                time.sleep(10)
         else:
             while True:
                 chunks = None
                 target_tweet_list = comm.scatter(chunks, root=0)
                 self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
                 response = self.process_tweets_json(target_tweet_list)
-                if response is not None and not response:
+                if response == False:
                     self.logger.info('No Data Available')
+                else:
+                    result_list = comm.gather(response, root=0)
+
 
         return
 
