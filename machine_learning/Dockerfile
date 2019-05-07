@@ -22,4 +22,4 @@ RUN mkdir /workspace
 WORKDIR /workspace
 ADD . /workspace
 
-CMD [ "sudo", "mpirun","-n","12","python3","-u","coconut_image_recong.py","--load_with_config" ]
+CMD [ "mpirun","-n","12","python","-u","coconut_image_recong.py","--load_with_config" ]

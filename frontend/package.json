@@ -13,12 +13,15 @@
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "jquery": "^3.4.0",
+    "luxon": "^1.13.0",
     "moment": "^2.24.0",
     "vue": "^2.6.6",
-    "vue-bootstrap-datetimepicker": "^5.0.1",
     "vue-chartjs": "^3.4.2",
+    "vue-datetime": "^1.0.0-beta.10",
+    "vue-loading-overlay": "^3.2.0",
     "vue-router": "^3.0.6",
-    "vue-smooth-scroll": "^1.0.13"
+    "vue-smooth-scroll": "^1.0.13",
+    "weekstart": "^1.0.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.5.0",
