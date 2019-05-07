@@ -12,7 +12,7 @@ Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 60000
 // axios compatible with IE 8-9
 axios.interceptors.response.use(response => {
 	// IE 8-9

@@ -25,9 +25,10 @@
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['porn'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['food','porn'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['gluttony'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['warth'])">Warth</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust','gluttony','warth'])">All</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -409,9 +410,12 @@ export default {
 
       let sDate = new Date(self.start_time)
       let eDate = new Date(self.end_time)
+      console.log(tag)
+      console.log(self.toISOLocal(sDate).replace(/T/g, " "))
+      console.log(self.toISOLocal(eDate).replace(/T/g, " "))
 
       this.$axios
-        .get(`http://172.0.0.1:8080/api/statistics/track/random/${self.number}/`,{
+        .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
           data:{
             start_time: self.toISOLocal(sDate).replace(/T/g, " "),
             end_time: self.toISOLocal(eDate).replace(/T/g, " "),
@@ -425,18 +429,17 @@ export default {
           }
         })
         .then(response => {
-          self.visible = false
-        // for (let user in response.data) {
-        //   for (let point in user){
-        //     path.push({lat:point.geo[0], lng:point.geo[1]})
-        //     marker = new google.maps.Marker({
-        //       position: {lat:point.geo[0], lng:point.geo[1]},
-        //       map: map,
-        //       icon: point.img
-        //       title: point.time+" "+point.tags
-        //     })
-        //   }
-        // }
+          for (let user in response.data) {
+            for (let point in user){
+              path.push({lat:point.geo[0], lng:point.geo[1]})
+              marker = new google.maps.Marker({
+                position: {lat:point.geo[0], lng:point.geo[1]},
+                map: map,
+                //icon: point.img,
+                title: point.time+" "+point.tags
+              })
+            }
+          }
           let trackPath = new google.maps.Polyline({
             path: path,
             geodesic: true,
@@ -446,6 +449,7 @@ export default {
           })
 
           trackPath.setMap(map)
+          self.visible = false
         })
         .catch(error => {
           self.visible = false
