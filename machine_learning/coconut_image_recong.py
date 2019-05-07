@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-07T13:54:13+10:00
+# @Last modified time: 2019-05-07T13:55:46+10:00
 import argparse
 import logging
 import io
@@ -274,14 +274,12 @@ class coconut_image_recong:
                 self.logger.info('Requesting tweets, batch_size %d' % (self.batch_size))
                 target_tweets_json = self.request_tweets()
                 self.logger.debug(target_tweets_json)
-                self.logger.info(rank)
                 if target_tweets_json is not None:
                     target_dict = target_tweets_json['data']
                     target_list = []
                     for item in target_dict:
                         target_list.append((item, target_dict[item]))
 
-                    self.logger.info(len(target_list))
                     chunks = [[] for _ in range(size)]
                     for i, chunk in enumerate(target_list):
                         chunks[i % size].append(chunk)
