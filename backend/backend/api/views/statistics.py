@@ -28,6 +28,7 @@ def statistics_time_router(request, *args, **kwargs):
     elif request.method == 'OPTIONS':
         response = HttpResponse()
         response['Access-Control-Request-Method'] = 'GET'
+        response['Access-Control-Allow-Headers'] = 'content-type, x-api-key'
         return response
     return HttpResponseNotAllowed()
 
@@ -47,6 +48,7 @@ def statistics_track_router(request, *args, **kwargs):
     elif request.method == 'OPTIONS':
         response = HttpResponse()
         response['Access-Control-Request-Method'] = 'GET'
+        response['Access-Control-Allow-Headers'] = 'content-type, x-api-key'
         return response
     return HttpResponseNotAllowed()
 
