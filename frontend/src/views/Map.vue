@@ -300,6 +300,7 @@ export default {
       console.log(self.toISOLocal(sDate).replace(/T/g, " "))
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
+      
       this.$axios
         .get(`http://172.26.38.1:8080/api/statistics/time/`,{
           data:{
@@ -413,21 +414,22 @@ export default {
       console.log(tag)
       console.log(self.toISOLocal(sDate).replace(/T/g, " "))
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
-
+      
       this.$axios
-        .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
+        .get(`/api/statistics/track/random/${self.number}/`,{
           data:{
             start_time: self.toISOLocal(sDate).replace(/T/g, " "),
             end_time: self.toISOLocal(eDate).replace(/T/g, " "),
             tags: tag
-          }
-        },
-        {
+          },
+
           headers: {
             'Content-Type': 'application/json',
             'X-API-KEY': self.API_KEY
           }
-        })
+
+        },
+       )
         .then(response => {
           for (let user in response.data) {
             for (let point in user){
