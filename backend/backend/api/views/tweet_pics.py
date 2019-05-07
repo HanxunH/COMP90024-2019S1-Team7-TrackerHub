@@ -58,7 +58,7 @@ def tweet_pic_post(request):
         pic = object_storage_handler.download(pic_id + '.jpg')
 
     if not pic:
-        influxdb_handler.make_point(key='api/tweet/pic', prefix='API', method='POST', error=400)
+        influxdb_handler.make_point(key='api/tweet/pic/', prefix='API', method='POST', error=400)
         resp = init_http_not_found('Pic Upload Fail')
         return make_json_response(HttpResponseBadRequest, resp)
 
