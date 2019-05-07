@@ -183,12 +183,12 @@ export default {
           labels: self.barDataLabel,
           datasets: [
             {
-              label: 'Data One',
+              label: 'Lust',
               backgroundColor: '#ff9900',
               data: self.barData
             }, {
-              label: 'Data Two',
-              backgroundColor: '#000000',
+              label: 'Gluttony',
+              backgroundColor: '#DC143C',
               data: self.barData
             }
           ]
@@ -330,6 +330,7 @@ export default {
 
     mapBuildTrack(tag){
       let self = this
+      self.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
@@ -373,25 +374,27 @@ export default {
           //     title: point.time+" "+point.tags
           //   })
           // }
+          self.visible = false
+          let trackPath = new google.maps.Polyline({
+            path: path,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          })
+          trackPath.setMap(map)
         })
         .catch(error => {
+          self.visible = false
+          alert(error)
           console.log(error)
           this.errored = true
       })
-
-      let trackPath = new google.maps.Polyline({
-        path: path,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-      });
-
-      trackPath.setMap(map);
     },
 
     mapBuildTrackN(tag){
       let self = this
+      self.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
@@ -422,6 +425,7 @@ export default {
           }
         })
         .then(response => {
+          self.visible = false
         // for (let user in response.data) {
         //   for (let point in user){
         //     path.push({lat:point.geo[0], lng:point.geo[1]})
@@ -433,19 +437,24 @@ export default {
         //     })
         //   }
         // }
+          let trackPath = new google.maps.Polyline({
+            path: path,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          })
+
+          trackPath.setMap(map)
         })
         .catch(error => {
+          self.visible = false
+          alert(error)
           console.log(error)
           this.errored = true
       })
 
-      let trackPath = new google.maps.Polyline({
-        path: path,
-        geodesic: true,
-        strokeColor: '#FF0000',
-        strokeOpacity: 1.0,
-        strokeWeight: 2
-      });
+
     },
 
     toISOLocal(d) {
