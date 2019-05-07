@@ -1,5 +1,6 @@
 <template>
   <div id="gmap">
+    <loading :active.sync="visible" :can-cancel="true"></loading>
 
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
@@ -80,9 +81,13 @@ import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 import {Datetime} from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'gmap',
@@ -91,12 +96,14 @@ export default {
     Piechart,
     Linechart,
     Barchart,
-    datetime: Datetime
+    datetime: Datetime,
+    Loading
   },
 
   data() {
     return {
-      pieData: [],
+      visible: false,
+      pieData: [4,5,6,7],
       barData: [],
       barDataLabel: [],
       radarData: [],
@@ -283,7 +290,7 @@ export default {
       console.log(self.toISOLocal(sDate).replace(/T/g, " "))
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
-      
+      self.visible = true
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
           data:{
@@ -299,16 +306,19 @@ export default {
           }
         })
         .then(response => (
+          self.visible = false,
           self.melb_geo = response.data.melb_geo,
           console.log(self.melb_geo)
         ))
         .catch(error => {
-          console.log(error)
+          self.visible = false,
+          console.log(error),
+          alert(error),
           this.errored = true
       })
-
+      
       // re-render the map here
-       this.mapBuild()
+      this.mapBuild()
     },
 
     mapBuildTrack(tag){
