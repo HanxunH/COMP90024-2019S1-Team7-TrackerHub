@@ -16,7 +16,11 @@ DOCKER_DOMAIN = {
     'instance4': dict(
         domain='172.26.38.11',
         port=8866,
-    )
+    ),
+    'super': dict(
+        domain='103.6.254.118',
+        port=8866
+    ),
 }
 
 COUCH_DB_PORTS = {
@@ -69,7 +73,7 @@ GRAFANA_PORTS = {
 
 GRAFANA_VOLUMES = {
     '/data/grafana/': {'bind': '/var/lib/grafana', 'mode': 'rw'},
-    # '/home/ubuntu/config/grafana.ini': {'bind': '/etc/grafana/grafana.ini', 'mode': 'rw'}
+    '/home/ubuntu/config/grafana.ini': {'bind': '/etc/grafana/grafana.ini', 'mode': 'rw'}
 }
 
 GRAFANA_ENV = {
@@ -81,7 +85,12 @@ GRAFANA_ENV = {
     'GF_SMTP_PASSWORD': 'hz98643c',
     'GF_SMTP_SKIP_VERIFY': True,
     'GF_SMTP_FROM_ADDRESS': 'likwunoperation1@gmail.com',
-    'GF_SMTP_FROM_NAME': 'Grafana'
+    'GF_SMTP_FROM_NAME': 'Grafana',
+    'GF_SECURITY_ADMIN_USER': 'lihuan',
+    'GF_SECURITY_ADMIN_PASSWORD': 'lihuan',
+    'GF_SERVER_DOMAIN': '172.26.37.225',
+    # 'GF_SERVER_HTTP_PORT': 80,
+    # 'GF_SERVER_ROOT_URL': 'http://172.26.37.225/dashboard'
 }
 
 RESTART = {"Name": "always"}
