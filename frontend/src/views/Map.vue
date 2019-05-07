@@ -208,7 +208,8 @@ export default {
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Lust!',
-        icon: 'http://i68.tinypic.com/2rdfbsx.png'
+        icon: 'http://i68.tinypic.com/2rdfbsx.png',
+        visible: false
       })
       //======================== Setup each mark ==========================
       /*
@@ -241,6 +242,12 @@ export default {
           }
       });
       */
+
+      google.maps.event.addListener(map, 'zoom_changed', () => {
+        let zoom = map.getZoom()
+        // iterate over markers and call setVisible
+        lustMark.setVisible(zoom >= 15)
+      })
 
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
@@ -285,12 +292,12 @@ export default {
     // ====================== Get Map/Chart Data =====================
     mapBuildTime(tag) {
       let self = this
+      self.visible = true
       let sDate = new Date(self.start_time)
       let eDate = new Date(self.end_time)
       console.log(self.toISOLocal(sDate).replace(/T/g, " "))
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
-      self.visible = true
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
           data:{
@@ -306,19 +313,18 @@ export default {
           }
         })
         .then(response => (
-          self.visible = false,
           self.melb_geo = response.data.melb_geo,
-          console.log(self.melb_geo)
+          self.visible = false,
+          console.log(self.melb_geo),
+          // re-render the map here
+          self.mapBuild()
         ))
         .catch(error => {
           self.visible = false,
           console.log(error),
           alert(error),
           this.errored = true
-      })
-      
-      // re-render the map here
-      this.mapBuild()
+      })     
     },
 
     mapBuildTrack(tag){
