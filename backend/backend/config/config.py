@@ -15,6 +15,7 @@ COUCHDB_TIME_DB = 'time_{}_{}_{}_{}_{}'
 OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_PREURL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_CONTAINER = 'twitter_pic'
+JSON_STORAGE_CONTAINER = 'results'
 
 OS_AUTH_URL = 'https://keystone.rc.nectar.org.au:5000'
 OS_TENANT_ID = 'unimelb-comp90024-group-7'
