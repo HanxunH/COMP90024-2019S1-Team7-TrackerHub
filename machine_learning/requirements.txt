@@ -2,3 +2,4 @@ Pillow
 torch
 torchvision
 requests
+mpi4py
