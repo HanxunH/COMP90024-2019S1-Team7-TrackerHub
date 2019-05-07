@@ -35,7 +35,7 @@
     
     <!-- Charts -->
     <a class="anchor" id="anchor1"></a>
-    <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
+    <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;">
       <div class="row">
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
       </div>
@@ -64,8 +64,6 @@
             <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Lust</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
-        </div>
-        <div class="col-md-2">
         </div>
       </div>
     </nav>
