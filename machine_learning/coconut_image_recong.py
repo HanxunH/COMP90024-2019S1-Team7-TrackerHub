@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-06T17:03:08+10:00
+# @Last modified time: 2019-05-07T13:55:46+10:00
 import argparse
 import logging
 import io
@@ -14,6 +14,8 @@ import json
 import time
 from PIL import Image
 from coconut_inference import coconut_inference
+
+from mpi4py import MPI
 
 API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 parser = argparse.ArgumentParser(description='COMP90024 Project Coconut Image Recongnation')
@@ -91,9 +93,10 @@ class coconut_image_recong:
         return
 
     def set_logger(self):
+        extra = {'Process_ID': rank}
         logger_level = logging.INFO
         self.logger = logging.getLogger('Main')
-        formatter = logging.Formatter('%(asctime)s-%(name)s-%(levelname)s - %(funcName)s(): %(message)s')
+        formatter = logging.Formatter('%(asctime)s-%(name)s-Process-%(Process_ID)s-%(levelname)s - %(funcName)s(): %(message)s')
 
         # create file handler which logs even debug messages
         fh = logging.FileHandler(self.log_file_path)
@@ -106,6 +109,8 @@ class coconut_image_recong:
         ch.setFormatter(formatter)
         self.logger.addHandler(ch)
         self.logger.setLevel(logger_level)
+
+        self.logger = logging.LoggerAdapter(self.logger, extra)
 
     def test_connection(self):
         response = os.system("ping -c 1 " + self.server_address)
@@ -228,23 +233,25 @@ class coconut_image_recong:
         return
 
     # Process Tweets data
-    def process_tweets_json(self, json_data):
-        if json_data is None:
-            self.logger.error('Response json_data is None')
+    def process_tweets_json(self, data_json):
+        if data_json is None:
+            self.logger.error('Response data_json is None')
             return
-        if 'data' not in json_data:
-            self.logger.error('Key: data not in request_tweets() response')
-            return
-        data_json = json_data['data']
+        # if 'data' not in json_data:
+        #     self.logger.error('Key: data not in request_tweets() response')
+        #     return
+
         if len(data_json) == 0:
             return False
         result_payload = {}
-        for tweet_data_id in data_json:
-            rs_dict = self.process_single_tweet(tweet_data_id, data_json[tweet_data_id])
-            if rs_dict is not None:
-                result_payload[tweet_data_id] = rs_dict
-        self.upload_result(result_payload)
-        return True
+        rs_list = []
+        for (tweet_data_id, data) in data_json:
+            rs_dict = self.process_single_tweet(tweet_data_id, data)
+            rs_list.append((tweet_data_id, rs_dict))
+        #     if rs_dict is not None:
+        #         result_payload[tweet_data_id] = rs_dict
+        # self.upload_result(result_payload)
+        return rs_list
 
     # Upload Results
     def upload_result(self, payload):
@@ -262,20 +269,58 @@ class coconut_image_recong:
         return
 
     def main(self):
-        while True:
-            self.logger.info('Requesting tweets, batch_size %d' % (self.batch_size))
-            target_tweets_json = self.request_tweets()
-            self.logger.debug(target_tweets_json)
-            if target_tweets_json is not None:
-                response = self.process_tweets_json(target_tweets_json)
-                if response is not None and not response:
-                    self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
-                    time.sleep(self.server_rest_time*60)
-            # Avoid too much request Sleep for 30 second
-            self.logger.info('Avoid too much request Sleep for 10 Seconds')
-            time.sleep(10)
+        if rank == 0:
+            while True:
+                self.logger.info('Requesting tweets, batch_size %d' % (self.batch_size))
+                target_tweets_json = self.request_tweets()
+                self.logger.debug(target_tweets_json)
+                if target_tweets_json is not None:
+                    target_dict = target_tweets_json['data']
+                    target_list = []
+                    for item in target_dict:
+                        target_list.append((item, target_dict[item]))
+
+                    chunks = [[] for _ in range(size)]
+                    for i, chunk in enumerate(target_list):
+                        chunks[i % size].append(chunk)
+
+                    target_tweet_list = comm.scatter(chunks, root=0)
+                    self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
+
+                    response = self.process_tweets_json(target_tweet_list)
+                    if response == False:
+                        self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
+                        time.sleep(self.server_rest_time*60)
+                    else:
+                        result_list = comm.gather(response, root=0)
+                        result_payload = {}
+                        for rank_rs in result_list:
+                            for (tweet_data_id, rs_dict) in rank_rs:
+                                if rs_dict is not None:
+                                    result_payload[tweet_data_id] = rs_dict
+
+                        self.upload_result(result_payload)
+
+                # Avoid too much request Sleep for 30 second
+                self.logger.info('Avoid too much request Sleep for 10 Seconds')
+                time.sleep(10)
+        else:
+            while True:
+                chunks = None
+                target_tweet_list = comm.scatter(chunks, root=0)
+                self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
+                response = self.process_tweets_json(target_tweet_list)
+                if response == False:
+                    self.logger.info('No Data Available')
+                else:
+                    result_list = comm.gather(response, root=0)
+
+
         return
 
 if __name__ == "__main__":
+    comm = MPI.COMM_WORLD
+    rank = comm.Get_rank()
+    size = comm.Get_size()
     ops = coconut_image_recong()
     ops.main()

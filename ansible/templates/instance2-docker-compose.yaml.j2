@@ -6,3 +6,12 @@ services:
     volumes:
       - {{remote_working_directory}}/scraper/GetResearchData:/workspace
     restart: always
+  backend:
+    container_name: backend
+    build: {{remote_working_directory}}/backend
+    ports:
+      - "8080:8080"
+    volumes:
+      - {{remote_working_directory}}/backend:/code
+    restart: always
+
