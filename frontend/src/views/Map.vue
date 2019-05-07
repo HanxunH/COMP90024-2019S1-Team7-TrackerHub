@@ -1,5 +1,6 @@
 <template>
   <div id="gmap">
+    <loading :active.sync="visible" :can-cancel="true"></loading>
 
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
@@ -35,18 +36,15 @@
     
     <!-- Charts -->
     <a class="anchor" id="anchor1"></a>
-    <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;background-color:#ccc;">
+    <div id="chart" class="container-fluid w-100 d-inline-block" style="height: 100vh;z-index:0;">
       <div class="row">
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
       </div>
       <div class="row">
-        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/fZ6poDmZk/instance-resource?orgId=1&from=now-30m&to=now-10s&refresh=5s&kiosk" target="_blank">API Monitor</b-button></div>
-        <div class="col-lg6"><b-button variant="primary" href="http://172.26.37.225/dashboard/d/ji261NiWz/api-monitor?orgId=1&kiosk" target="_blank">Instance Monitor</b-button></div>
-      </div> 
-      <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
-        <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
+        <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
+        <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
       </div> 
     </div>  
 
@@ -69,8 +67,6 @@
             <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
-        <div class="col-md-2">
-        </div>
       </div>
     </nav>
 
@@ -86,9 +82,13 @@ import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
-import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/css/bootstrap.css'
 import {Datetime} from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
+// Import component
+import Loading from 'vue-loading-overlay';
+// Import stylesheet
+import 'vue-loading-overlay/dist/vue-loading.css';
 
 export default {
   name: 'gmap',
@@ -97,12 +97,14 @@ export default {
     Piechart,
     Linechart,
     Barchart,
-    datetime: Datetime
+    datetime: Datetime,
+    Loading
   },
 
   data() {
     return {
-      pieData: [],
+      visible: false,
+      pieData: [4,5,6,7],
       barData: [],
       barDataLabel: [],
       radarData: [],
@@ -207,7 +209,8 @@ export default {
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Lust!',
-        icon: 'http://i68.tinypic.com/2rdfbsx.png'
+        icon: 'http://i68.tinypic.com/2rdfbsx.png',
+        visible: false
       })
       //======================== Setup each mark ==========================
       /*
@@ -240,6 +243,12 @@ export default {
           }
       });
       */
+
+      google.maps.event.addListener(map, 'zoom_changed', () => {
+        let zoom = map.getZoom()
+        // iterate over markers and call setVisible
+        lustMark.setVisible(zoom >= 15)
+      })
 
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
@@ -284,12 +293,12 @@ export default {
     // ====================== Get Map/Chart Data =====================
     mapBuildTime(tag) {
       let self = this
+      self.visible = true
       let sDate = new Date(self.start_time)
       let eDate = new Date(self.end_time)
       console.log(self.toISOLocal(sDate).replace(/T/g, " "))
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
-      
       this.$axios
         .get(`http://172.0.0.1:8080/api/statistics/time/`,{
           data:{
@@ -306,15 +315,17 @@ export default {
         })
         .then(response => (
           self.melb_geo = response.data.melb_geo,
-          console.log(self.melb_geo)
+          self.visible = false,
+          console.log(self.melb_geo),
+          // re-render the map here
+          self.mapBuild()
         ))
         .catch(error => {
-          console.log(error)
+          self.visible = false,
+          console.log(error),
+          alert(error),
           this.errored = true
-      })
-
-      // re-render the map here
-       this.mapBuild()
+      })     
     },
 
     mapBuildTrack(tag){
