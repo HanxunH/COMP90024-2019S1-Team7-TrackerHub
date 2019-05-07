@@ -21,10 +21,20 @@ axios.interceptors.response.use(response => {
 			// eslint-disable-next-line no-param-reassign
 			response.data = JSON.parse(response.request.responseText)
 		} catch (e) {
-			// ignored
+      return Promise.reject(e.response.data)
 		}
 	}
 	return response
+})
+axios.interceptors.request.use(config => {
+  const API_KEY = '227415ba68c811e9b1a48c8590c7151e'
+  config.headers = {
+    'Content-Type': 'application/json',
+    'X-API-KEY': API_KEY
+  }
+  return config
+},err => {
+  return Promise.reject(err)
 })
 
 let request = function (options) {
