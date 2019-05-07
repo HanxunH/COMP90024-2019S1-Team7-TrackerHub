@@ -92,6 +92,7 @@ def statistics_track_get(request, user_id=None, number=100):
             tweets = tweet_couch_db.find(mango)
             break
         except Exception as e:
+            logger.debug('Query Timeout %s' % e)
             influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error=500, prefix='API')
             continue
 
