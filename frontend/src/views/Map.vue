@@ -43,7 +43,8 @@
       <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
-        <div class="col-lg-3"><Radarchart :data="this.radarData"/></div>
+        <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
+        <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
       </div> 
     </div>  
 
