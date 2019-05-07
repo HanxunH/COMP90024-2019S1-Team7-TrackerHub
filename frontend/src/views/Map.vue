@@ -301,7 +301,7 @@ export default {
       console.log(self.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
       this.$axios
-        .get(`http://172.0.0.1:8080/api/statistics/time/`,{
+        .get(`http://172.26.38.1:8080/api/statistics/time/`,{
           data:{
             start_time: self.toISOLocal(sDate).replace(/T/g, " "),
             end_time: self.toISOLocal(eDate).replace(/T/g, " "),
@@ -352,7 +352,7 @@ export default {
       let eDate = new Date(self.end_time)
 
       this.$axios
-        .get(`http://172.0.0.1:8080/api/statistics/track/${self.user_id}/`,{
+        .get(`http://172.26.38.1:8080/api/statistics/track/${self.user_id}/`,{
           data:{
             start_time: self.toISOLocal(sDate).replace(/T/g, " "),
             end_time: self.toISOLocal(eDate).replace(/T/g, " "),
