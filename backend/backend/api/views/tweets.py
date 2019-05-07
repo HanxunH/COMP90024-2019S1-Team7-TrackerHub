@@ -192,6 +192,7 @@ def tweet_trained_post(request):
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error=400, prefix='API')
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
                                         tweet=len(updated))
+            logger.debug('Tweet post failed %s' % e)
             resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
@@ -262,6 +263,7 @@ def tweet_trained_text_post(request):
             influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error=400, prefix='API')
             influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
                                         tweet=len(updated))
+            logger.debug('Tweet post failed %s' % e)
             resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
@@ -340,5 +342,8 @@ if __name__ == '__main__':
             if not picture:
                 newTweet['img_id'].remove(img)
         newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-        tweet_couch_db.save(newTweet)
+        try:
+            tweet_couch_db.save(newTweet)
+        except Exception:
+            continue
     tweet_couch_db.compact()

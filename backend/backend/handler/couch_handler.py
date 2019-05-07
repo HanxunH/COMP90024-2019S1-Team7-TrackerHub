@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from couchdb.design import ViewDefinition
 import couchdb
 import logging
 
