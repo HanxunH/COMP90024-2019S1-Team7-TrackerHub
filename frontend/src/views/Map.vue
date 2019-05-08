@@ -90,6 +90,8 @@ import 'vue-datetime/dist/vue-datetime.css'
 import Loading from 'vue-loading-overlay';
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
+import http from '../utils/http'
+import api from '../utils/api'
 
 export default {
   name: 'gmap',
@@ -388,9 +390,8 @@ export default {
       })
     },
 
-    mapBuildTrackN(tag){
-      let self = this
-      self.visible = true
+    mapBuildTrackN(tag) {
+      this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
         center:  {lat: -37.8136, lng: 144.9631},
@@ -403,18 +404,46 @@ export default {
           {lat: -18.142, lng: 178.431},
           {lat: -27.467, lng: 153.027}]
 
-      let sDate = new Date(self.start_time)
-      let eDate = new Date(self.end_time)
+      let sDate = new Date(this.start_time)
+      let eDate = new Date(this.end_time)
       console.log(tag)
-      console.log(self.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(self.toISOLocal(eDate).replace(/T/g, " "))
+      console.log(this.toISOLocal(sDate).replace(/T/g, " "))
+      console.log(this.toISOLocal(eDate).replace(/T/g, " "))
       
       let data = {
-        start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-        end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-        tags: tag
+        start_time: this.toISOLocal(sDate).replace(/T/g, " "),
+        end_time: this.toISOLocal(eDate).replace(/T/g, " "),
+        tags: tag,
+        skip: 0,
+        threshold: 0.9  
       }
+      
+      // 方法1 (错了，用方法2吧。。。)
+    //  this.$ajax({
+		// 		method: 'GET', 
+		// 		url: `/api/statistics/track/random/${this.number}/`, 
+		// 		data: data,
+		// 	}).then(res => {
+    //     console.log(res)
+		// 	}, error => {
+    //     console.log('error')
+    //   })
 
+
+      // 方法2 （返回500）
+      this.$axios
+        .get(`/api/statistics/track/random/${this.number}/`,{
+          data: data,
+        }).then(res => {
+          console.log(res)
+        }, error => {
+          console.log('error')
+        })
+
+
+
+
+<<<<<<< HEAD
       this.$axios
         .get(`/api/statistics/track/random/${self.number}/`,{})
         .then(response => {
@@ -446,6 +475,45 @@ export default {
           console.log(error)
           this.errored = true
       })
+=======
+      // this.$axios
+      //   .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
+      //     data:{
+      //       start_time: self.toISOLocal(sDate).replace(/T/g, " "),
+      //       end_time: self.toISOLocal(eDate).replace(/T/g, " "),
+      //       tags: tag
+      //     }
+      //   })
+      //   .then(response => {
+      //     for (let user in response.data) {
+      //       for (let point in user){
+      //         path.push({lat:point.geo[0], lng:point.geo[1]})
+      //         marker = new google.maps.Marker({
+      //           position: {lat:point.geo[0], lng:point.geo[1]},
+      //           map: map,
+      //           //icon: point.img,
+      //           title: point.time+" "+point.tags
+      //         })
+      //       }
+      //     }
+      //     let trackPath = new google.maps.Polyline({
+      //       path: path,
+      //       geodesic: true,
+      //       strokeColor: '#FF0000',
+      //       strokeOpacity: 1.0,
+      //       strokeWeight: 2
+      //     })
+
+      //     trackPath.setMap(map)
+      //     self.visible = false
+      //   })
+      //   .catch(error => {
+      //     self.visible = false
+      //     alert(error)
+      //     console.log(error)
+      //     this.errored = true
+      // })
+>>>>>>> 1e9e9fda926e127c023c0264b7917cbd6726f596
 
 
     },

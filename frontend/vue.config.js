@@ -1,5 +1,5 @@
 module.exports = {
-  lintOnSave: false,
+  lintOnSave: true,
   configureWebpack: {
     devtool: 'source-map'
   },
@@ -13,8 +13,13 @@ module.exports = {
     host: '0.0.0.0',
     port: 8080,
     proxy: {
+<<<<<<< HEAD
       '^/api': {
         target: 'http://172.26.38.1:8080',
+=======
+      '/api': {
+        target: 'http://172.26.37.225',
+>>>>>>> 1e9e9fda926e127c023c0264b7917cbd6726f596
         ws: true,
         changeOrigin: true,
         secure: false
