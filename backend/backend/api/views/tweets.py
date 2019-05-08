@@ -139,7 +139,6 @@ def tweet_get(request, resource):
 
 
 def tweet_untrained_get(request, resource=100):
-
     start_timer = time.time()
 
     try:
@@ -150,7 +149,6 @@ def tweet_untrained_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
-    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -160,10 +158,10 @@ def tweet_untrained_get(request, resource=100):
                 model=tweet.get('model', {})
             )
         })
-        count += 1
 
     timer = (time.time() - start_timer)
-    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API',
+                                tweet=len(resp['data']), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -217,7 +215,6 @@ def tweet_trained_get(request):
 
 
 def tweet_untrained_text_get(request, resource=100):
-
     start_timer = time.time()
 
     try:
@@ -228,7 +225,6 @@ def tweet_untrained_text_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
-    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -237,10 +233,10 @@ def tweet_untrained_text_get(request, resource=100):
                 tags=tweet.get('tags').get('text', {}),
             )
         })
-        count += 1
 
     timer = (time.time() - start_timer)
-    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API',
+                                tweet=len(resp['data']), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 

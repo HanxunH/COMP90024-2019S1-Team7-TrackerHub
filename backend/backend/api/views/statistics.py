@@ -78,8 +78,9 @@ def statistics_track_get(request, user_id=None, number=100):
         result = []
         if needed in tags:
             for tag in tags[needed]:
-                if (isinstance(tags[needed][tag], str) or tags[needed][tag] > value) and (
-                        not ignore or tag not in ignore):
+                if isinstance(tags[needed][tag], str):
+                    result.append(tags[needed][tag])
+                elif (tags[needed][tag] > value) and (not ignore or tag not in ignore):
                     result.append(tag)
         return result
 
