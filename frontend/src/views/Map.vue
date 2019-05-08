@@ -462,45 +462,6 @@ export default {
       //     data: data,
       //   }).then(res => {
    
-<<<<<<< HEAD
-          console.log(res.data.data)
-           for (const [key, value] of Object.entries(res.data.data)) {
-            console.log(key)
-            console.log(value)
-            for (var i = 0; i < value.length; i++) {
-              let point = {
-                lat: value[i].geo[1], 
-                lng: value[i].geo[0]
-              }
-              //{lat: -37.8136, lng: 144.9631},
-              path.push(point)
-              marker = new google.maps.Marker({
-                position: point,
-                map: map,
-                icon: 'http://i68.tinypic.com/2rdfbsx.png',
-                title: value[i].time+" "+value[i].tags
-              })
-            }
-           }
-      
-        
-          
-          this.visible = false
-        }, error => {
-          console.log('error')
-        }).then(()=>{
-            let trackPath = new google.maps.Polyline(console.log(path),{
-            path: path,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          })
-
-          trackPath.setMap(map)
-          console.log('1')
-        })
-=======
       //     console.log(res.data.data)
       //      for (const [key, value] of Object.entries(res.data.data)) {
       //       console.log(key)
@@ -534,7 +495,6 @@ export default {
       //   }, error => {
       //     console.log('error')
       //   })
->>>>>>> 4fc1ecd5b7d50433ccbb64e7f52f3a04d4bc227f
 
 
 
