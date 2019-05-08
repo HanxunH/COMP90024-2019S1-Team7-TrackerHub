@@ -14,9 +14,9 @@ from backend.handler.couch_handler import couch_db_handler
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.handler.object_storage_handler import json_storage_handler
 from backend.common.couchdb_map import statistics_track_random
-from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response, str_to_str_datetime_utc
+from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response, \
+    str_to_str_datetime_utc
 from backend.config.config import COUCHDB_TWEET_DB
-
 
 logger = logging.getLogger('django.debug')
 tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
@@ -72,12 +72,12 @@ def down_statistics_file(request):
 
 
 def statistics_track_get(request, user_id=None, number=100):
-
     def get_tags(tags, needed, value, ignore=None):
         result = []
         if needed in tags:
             for tag in tags[needed]:
-                if (isinstance(tags[needed][tag], str) or tags[needed][tag] > value) and (not ignore or tag not in ignore):
+                if (isinstance(tags[needed][tag], str) or tags[needed][tag] > value) and (
+                        not ignore or tag not in ignore):
                     result.append(tag)
         return result
 
@@ -99,11 +99,15 @@ def statistics_track_get(request, user_id=None, number=100):
     end_time = str_to_str_datetime_utc(end_time) if end_time else None
     target_tag = params.get('tags', [])
     skip = params.get('skip', 0)
-    threshold = params.get('threshold', 0.9)
+    threshold = params.get('threshold', 0.95)
 
     number = 0 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
-    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(user_id, number, start_time.replace(' ', '-'), end_time.replace(' ', '-'), '-'.join(sorted(target_tag)), skip, today)
+    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(user_id, number,
+                                                                start_time.replace(' ', '-') if start_time else None,
+                                                                end_time.replace(' ', '-') if end_time else None,
+                                                                '-'.join(sorted(target_tag)) if len(
+                                                                    target_tag) > 0 else None, skip, today)
 
     try:
         result_file = json_storage_handler.download(json_name)
@@ -154,7 +158,8 @@ def statistics_track_get(request, user_id=None, number=100):
         if tweet.get('geo') not in geo_exists[user]:
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
-                time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime('%Y-%m-%d %H:%M:%S%z'),
+                time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
+                    '%Y-%m-%d %H:%M:%S%z'),
                 geo=tweet.get('geo'),
                 img_id=tweet.get('img_id'),
                 tags=result_tags
@@ -183,5 +188,3 @@ if __name__ == '__main__':
     json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(None, 100, None, None, None, None, today)
     print(json_name)
     # statistics_track_get(None)
-
-

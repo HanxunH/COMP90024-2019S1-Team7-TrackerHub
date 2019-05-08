@@ -170,6 +170,8 @@ def tweet_untrained_get(request, resource=100):
 
 
 def tweet_trained_post(request):
+    start_timer = time.time()
+
     results = ujson.loads(request.body)
     updated = dict()
 
@@ -205,8 +207,10 @@ def tweet_trained_post(request):
 
     resp = init_http_success()
     resp['data'] = updated
+
+    timer = (time.time() - start_timer)
     influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
-                                tweet=len(updated))
+                                tweet=len(updated), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -247,6 +251,8 @@ def tweet_trained_text_get(request):
 
 
 def tweet_trained_text_post(request):
+    start_timer = time.time()
+
     results = ujson.loads(request.body)
     updated = dict()
 
@@ -281,8 +287,10 @@ def tweet_trained_text_post(request):
 
     resp = init_http_success()
     resp['data'] = updated
+
+    timer = (time.time() - start_timer)
     influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
-                                tweet=len(updated))
+                                tweet=len(updated), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
