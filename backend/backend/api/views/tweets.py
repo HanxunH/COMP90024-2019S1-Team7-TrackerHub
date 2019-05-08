@@ -9,15 +9,13 @@ from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from backend.handler.couch_handler import couch_db_handler
-from backend.handler.object_storage_handler import object_storage_handler
+from backend.handler.couch_handler import couch_db_banlancer
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, \
     check_api_key, make_json_response
 from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
-from backend.config.config import COUCHDB_TWEET_DB
 
-tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+tweet_couch_db = couch_db_banlancer
 logger = logging.getLogger('django.debug')
 
 
@@ -325,44 +323,44 @@ if __name__ == '__main__':
     #     tweet_couch_db.save(newTweet)
     # tweet_couch_db.compact()
     # pass
-    import datetime
-    import pytz
-
-    mango = {
-        'selector': {
-            'img_id': {
-                '$ne': []
-            },
-            'last_update': {
-                '$lt': (datetime.datetime.now().astimezone(pytz.utc) - datetime.timedelta(minutes=60)).strftime('%Y-%m-%d %H:%M:%S%z')
-            },
-            'process': {
-                '$eq': 0
-            }
-        },
-        'limit': 400000,
-        # 'skip': 1000,
-    }
-
-    tweets = tweet_couch_db.find(mango)
-    for tweet in tweets:
-        newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-        newTweet.update(dict(
-            _id=tweet.id,
-            _rev=tweet.rev,
-        ))
-        for img in newTweet['img_id']:
-            try:
-                picture = object_storage_handler.download(img + '.jpg')
-            except Exception as e:
-                object_storage_handler.reconnect()
-                picture = object_storage_handler.download(img + '.jpg')
-
-            if not picture:
-                newTweet['img_id'].remove(img)
-        newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-        try:
-            tweet_couch_db.save(newTweet)
-        except Exception:
-            continue
+    # import datetime
+    # import pytz
+    #
+    # mango = {
+    #     'selector': {
+    #         'img_id': {
+    #             '$ne': []
+    #         },
+    #         'last_update': {
+    #             '$lt': (datetime.datetime.now().astimezone(pytz.utc) - datetime.timedelta(minutes=60)).strftime('%Y-%m-%d %H:%M:%S%z')
+    #         },
+    #         'process': {
+    #             '$eq': 0
+    #         }
+    #     },
+    #     'limit': 400000,
+    #     # 'skip': 1000,
+    # }
+    #
+    # tweets = tweet_couch_db.find(mango)
+    # for tweet in tweets:
+    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
+    #     newTweet.update(dict(
+    #         _id=tweet.id,
+    #         _rev=tweet.rev,
+    #     ))
+    #     for img in newTweet['img_id']:
+    #         try:
+    #             picture = object_storage_handler.download(img + '.jpg')
+    #         except Exception as e:
+    #             object_storage_handler.reconnect()
+    #             picture = object_storage_handler.download(img + '.jpg')
+    #
+    #         if not picture:
+    #             newTweet['img_id'].remove(img)
+    #     newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+    #     try:
+    #         tweet_couch_db.save(newTweet)
+    #     except Exception:
+    #         continue
     tweet_couch_db.compact()

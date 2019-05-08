@@ -10,16 +10,19 @@ from django.views.decorators.http import require_http_methods
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
 
-from backend.handler.couch_handler import couch_db_handler
+from backend.handler.couch_handler import couch_db_banlancer
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.handler.object_storage_handler import json_storage_handler
 from backend.common.couchdb_map import statistics_track_random
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response, \
     str_to_str_datetime_utc
 from backend.config.config import COUCHDB_TWEET_DB
+from backend.settings import BASE_DIR
+
 
 logger = logging.getLogger('django.debug')
-tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+tweet_couch_db = couch_db_banlancer
+melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
 
 
 @require_http_methods(['GET', 'OPTIONS'])
@@ -54,7 +57,6 @@ def statistics_time_get(request):
     content = ujson.loads(request.body)
     content = make_dict(key, content)
 
-    # melb_json = ujson.load(open('../../common/melb_geo.json'))
     # print(melb_json)
 
     if 'start_time' in content:
@@ -100,15 +102,15 @@ def statistics_track_get(request, user_id=None, number=100):
     target_tag = params.get('tags', [])
     skip = params.get('skip', 0)
     threshold = params.get('threshold', 0.95)
+    single = int(params.get('single', 50))
 
     number = 0 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
-    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(user_id, number,
-                                                                None if not start_time else start_time.replace(' ',
-                                                                                                               '-'),
-                                                                None if not end_time else end_time.replace(' ', '-'),
-                                                                None if len(target_tag) == 0 else '-'.join(
-                                                                    sorted(target_tag)), skip, today)
+
+    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'
+    json_name = json_name.format(user_id, number, single, None if not start_time else start_time.replace(' ', '-'),
+                                 None if not end_time else end_time.replace(' ', '-'),
+                                 None if len(target_tag) == 0 else '-'.join(sorted(target_tag)), skip, today)
 
     try:
         result_file = json_storage_handler.download(json_name)
@@ -122,7 +124,7 @@ def statistics_track_get(request, user_id=None, number=100):
     except Exception as e:
         pass
 
-    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=200000, skip=skip)
+    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=300000, skip=skip)
 
     while True:
         try:
@@ -153,10 +155,10 @@ def statistics_track_get(request, user_id=None, number=100):
         for _tag in _result_tags:
             if _tag in target_tag:
                 result_tags.append(_tag + '.text')
-            elif _tag in ['positive', 'negative', 'neutral']:
+            elif 'emotion' in target_tag and _tag in ['positive', 'negative', 'neutral']:
                 result_tags.append({'emotion': _tag})
 
-        if tweet.get('geo') not in geo_exists[user]:
+        if tweet.get('geo') not in geo_exists[user] and len(results[user]) < single and ((target_tag and result_tags) or not target_tag):
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
                 time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
@@ -183,9 +185,12 @@ def statistics_track_get(request, user_id=None, number=100):
 
 
 if __name__ == '__main__':
-    import datetime
-
-    today = datetime.datetime.now().strftime('%Y-%m-%d')
-    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(None, 100, None, None, None, None, today)
-    print(json_name)
+    # import datetime
+    #
+    # today = datetime.datetime.now().strftime('%Y-%m-%d')
+    # json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(None, 100, None, None, None, None, today)
+    # print(json_name)
     # statistics_track_get(None)
+    temp = []
+    if temp:
+        print(1)
