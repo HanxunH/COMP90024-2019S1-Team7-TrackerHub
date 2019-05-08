@@ -13,10 +13,11 @@ module.exports = {
     host: '0.0.0.0',
     port: 8080,
     proxy: {
-      '/api': {
+      '^/api': {
         target: 'http://172.26.38.1:8080',
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
   },

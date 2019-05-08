@@ -44,7 +44,8 @@ let request = function (options) {
 
   for (let key in dataParams) {
 		data[key] = dataParams[key]
-  }
+	}
+	console.log(data)
   data = qs.stringify(data)
 	let method = options.method.toLowerCase()
 	let needStrParam = method === 'get' || method === 'put' || method === 'delete'

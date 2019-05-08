@@ -14,7 +14,7 @@
         <div id="myDIV" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
             <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['porn'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['lust'])">Lust</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
@@ -302,19 +302,13 @@ export default {
       console.log(tag)
       
       this.$axios
-        .get(`http://172.26.38.1:8080/api/statistics/time/`,{
-          data:{
-            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-            tags: tag
-          }
+        .get(`/api/statistics/time/`,{
+            'start_time': self.toISOLocal(sDate).replace(/T/g, " "),
+            'end_time': self.toISOLocal(eDate).replace(/T/g, " "),
+            'tags': tag
         },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-KEY': self.API_KEY
-          }
-        })
+        
+        )
         .then(response => (
           self.melb_geo = response.data.melb_geo,
           self.visible = false,
@@ -421,52 +415,37 @@ export default {
         tags: tag
       }
 
-      this.$ajax({
-				method: 'GET', 
-				url: `statistics/track/random/${self.number}/`, 
-				data: this.data
-			}).then(res => {
-        console.log(res)
-			}, error => {
-        console.log(error)
-      })
-      // this.$axios
-      //   .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
-      //     data:{
-      //       start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-      //       end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-      //       tags: tag
-      //     }
-      //   })
-      //   .then(response => {
-      //     for (let user in response.data) {
-      //       for (let point in user){
-      //         path.push({lat:point.geo[0], lng:point.geo[1]})
-      //         marker = new google.maps.Marker({
-      //           position: {lat:point.geo[0], lng:point.geo[1]},
-      //           map: map,
-      //           //icon: point.img,
-      //           title: point.time+" "+point.tags
-      //         })
-      //       }
-      //     }
-      //     let trackPath = new google.maps.Polyline({
-      //       path: path,
-      //       geodesic: true,
-      //       strokeColor: '#FF0000',
-      //       strokeOpacity: 1.0,
-      //       strokeWeight: 2
-      //     })
+      this.$axios
+        .get(`/api/statistics/track/random/${self.number}/`,{})
+        .then(response => {
+          for (let user in response.data) {
+            for (let point in user){
+              path.push({lat:point.geo[0], lng:point.geo[1]})
+              marker = new google.maps.Marker({
+                position: {lat:point.geo[0], lng:point.geo[1]},
+                map: map,
+                //icon: point.img,
+                title: point.time+" "+point.tags
+              })
+            }
+          }
+          let trackPath = new google.maps.Polyline({
+            path: path,
+            geodesic: true,
+            strokeColor: '#FF0000',
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          })
 
-      //     trackPath.setMap(map)
-      //     self.visible = false
-      //   })
-      //   .catch(error => {
-      //     self.visible = false
-      //     alert(error)
-      //     console.log(error)
-      //     this.errored = true
-      // })
+          trackPath.setMap(map)
+          self.visible = false
+        })
+        .catch(error => {
+          self.visible = false
+          alert(error)
+          console.log(error)
+          this.errored = true
+      })
 
 
     },
