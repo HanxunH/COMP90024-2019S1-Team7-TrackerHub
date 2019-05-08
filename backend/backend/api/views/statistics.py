@@ -143,21 +143,21 @@ def statistics_track_get(request, user_id=None, number=100):
         results.update({user: []}) if user not in results else None
         geo_exists.update({user: []}) if user not in geo_exists else None
         tags = tweet.get('tags')
-        result_tags = []
+        result_tags = {}
         if 'gluttony' in target_tag:
             _result_tags = get_tags(tags, 'food179', threshold, ['non_food'])
             if _result_tags:
-                result_tags.append({'gluttony': _result_tags})
+                result_tags.update({'gluttony': _result_tags})
         if 'lust' in target_tag:
             _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawing', 'sexy'])
             if _result_tags:
-                result_tags.append({'lust': _result_tags})
+                result_tags.update({'lust': _result_tags})
         _result_tags = get_tags(tags, 'text', threshold)
         for _tag in _result_tags:
             if _tag in target_tag:
-                result_tags.append({'text': _tag + '.text'})
+                result_tags.update({'text': _tag + '.text'})
             elif 'emotion' in target_tag and _tag in ['positive', 'negative', 'neutral']:
-                result_tags.append({'emotion': _tag})
+                result_tags.update({'emotion': _tag})
 
         if tweet.get('geo') not in geo_exists[user] and len(results[user]) < single and ((target_tag and result_tags) or not target_tag):
             geo_exists[user].append(tweet.get('geo'))
