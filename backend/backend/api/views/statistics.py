@@ -169,6 +169,9 @@ def statistics_track_get(request, user_id=None, number=100):
             ))
 
     results = sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number]
+    for user in results:
+        results[user] = sorted(results[user], key=lambda x: x['time'])
+        
     json_file = ujson.dumps(results)
     try:
         json_storage_handler.upload(json_name, json_file)
