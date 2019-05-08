@@ -443,39 +443,6 @@ export default {
 
 
 
-<<<<<<< HEAD
-      this.$axios
-        .get(`/api/statistics/track/random/${self.number}/`,{})
-        .then(response => {
-          for (let user in response.data) {
-            for (let point in user){
-              path.push({lat:point.geo[0], lng:point.geo[1]})
-              marker = new google.maps.Marker({
-                position: {lat:point.geo[0], lng:point.geo[1]},
-                map: map,
-                //icon: point.img,
-                title: point.time+" "+point.tags
-              })
-            }
-          }
-          let trackPath = new google.maps.Polyline({
-            path: path,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          })
-
-          trackPath.setMap(map)
-          self.visible = false
-        })
-        .catch(error => {
-          self.visible = false
-          alert(error)
-          console.log(error)
-          this.errored = true
-      })
-=======
       // this.$axios
       //   .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
       //     data:{
@@ -513,7 +480,6 @@ export default {
       //     console.log(error)
       //     this.errored = true
       // })
->>>>>>> 1e9e9fda926e127c023c0264b7917cbd6726f596
 
 
     },
