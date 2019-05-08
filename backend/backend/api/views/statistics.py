@@ -147,15 +147,15 @@ def statistics_track_get(request, user_id=None, number=100):
         if 'gluttony' in target_tag:
             _result_tags = get_tags(tags, 'food179', threshold, ['non_food'])
             if _result_tags:
-                result_tags.append('gluttony')
+                result_tags.append({'gluttony': _result_tags})
         if 'lust' in target_tag:
             _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawing', 'sexy'])
             if _result_tags:
-                result_tags.append('lust')
+                result_tags.append({'lust': _result_tags})
         _result_tags = get_tags(tags, 'text', threshold)
         for _tag in _result_tags:
             if _tag in target_tag:
-                result_tags.append(_tag + '.text')
+                result_tags.append({'text': _tag + '.text'})
             elif 'emotion' in target_tag and _tag in ['positive', 'negative', 'neutral']:
                 result_tags.append({'emotion': _tag})
 
