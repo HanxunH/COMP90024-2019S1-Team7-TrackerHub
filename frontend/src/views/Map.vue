@@ -13,9 +13,9 @@
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['gluttony'])">Gluttony</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTrack(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrack(['gluttony','porn'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
         <p></p>
@@ -31,6 +31,11 @@
             <b-dropdown-item href="#" @click="mapBuildTrackN(['lust','gluttony','warth'])">All</b-dropdown-item>
           </b-dropdown>
         </div>
+        <Dropdown addClass="selection" name="selection" defaultText="请选择"
+          v-model="selectedValue" :options="select_options"
+          textFiled="value" valueFiled="id"
+          @dropdown-selected="(text) => { selectedText = text}"
+        ></Dropdown>
         <p></p>
       </div>     
     </div>
@@ -53,19 +58,19 @@
     <nav class="navbar fixed-bottom navbar-light">
       <div class="row">
         <div class="col-md-4">
-          <datetime v-model="start_time" :type="'datetime'" :title="'Select your start time'"></datetime>
+          <datetime v-model="start_time" :type="'date'" :title="'Select your start time'"></datetime>
         </div>
         <div class="col-md-1">
           <a class="navbar-brand font-weight-bold text-white">To</a>
         </div>
         <div class="col-md-4">
-          <datetime v-model="end_time" :type="'datetime'" :title="'Select your end time'"></datetime>
+          <datetime v-model="end_time" :type="'date'" :title="'Select your end time'"></datetime>
         </div>
         <div class="col-md-2">
           <b-dropdown id="dropdown-dropup" size="sm" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['food'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Gluttony and Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['gluttony'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['lust'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTime(['gluttony','lust'])">Gluttony and Lust</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -86,12 +91,9 @@ import Vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import {Datetime} from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-// Import component
-import Loading from 'vue-loading-overlay';
-// Import stylesheet
-import 'vue-loading-overlay/dist/vue-loading.css';
-//import http from '../utils/http'
-//import api from '../utils/api'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
+import Dropdown from 'vue-semantic-dropdown'
 
 export default {
   name: 'gmap',
@@ -101,7 +103,8 @@ export default {
     Linechart,
     Barchart,
     datetime: Datetime,
-    Loading
+    Loading,
+    Dropdown
   },
 
   data() {
@@ -123,12 +126,24 @@ export default {
       },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
       API_KEY: '227415ba68c811e9b1a48c8590c7151e',
+      select_options: [
+            {
+                id: 'litteRed',
+                value: '小红'
+            },
+            {
+                id: 'litteBlue',
+                value: '小蓝'
+            }
+        ],
+      selectedValue: null,
+      selectedText: null
     }
   },
 
   mounted () {
     this.mapBuild()
-
+    
     /* Get chart data through API cals
     this.getBarData(),
     this.getLineData(),
@@ -143,20 +158,20 @@ export default {
   methods: {
     // ========================== Build Map ====================================================
     mapBuild(){
-      let self = this
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
+        center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
       })
+
       let infowindow = new google.maps.InfoWindow()
       let marker, i
       let markers = []
       let locations = []
-      console.log(self.barData)
-      self.barDataLabel.length=0
-      self.barData.length=0
+      console.log(this.barData)
+      this.barDataLabel.length=0
+      this.barData.length=0
 
       // ======================== Setup each region/ Collect bar data ==========================
       // set style for each region
@@ -164,9 +179,9 @@ export default {
       map.data.setStyle((feature) => {
         let cartodb_id = feature.getProperty('cartodb_id')
         let name = feature.getProperty('name')
-        if (!self.barDataLabel.includes(name)){
-          self.barDataLabel.push(name)
-          self.barData.push(cartodb_id)
+        if (!this.barDataLabel.includes(name)){
+          this.barDataLabel.push(name)
+          this.barData.push(cartodb_id)
         }
        
         // let total = feature.getProperty("total")
@@ -182,19 +197,19 @@ export default {
       })
 
       // setup bar data
-      self.barDatacollection = {
-          labels: self.barDataLabel,
-          datasets: [
-            {
-              label: 'Lust',
-              backgroundColor: '#ff9900',
-              data: self.barData
-            }, {
-              label: 'Gluttony',
-              backgroundColor: '#DC143C',
-              data: self.barData
-            }
-          ]
+      this.barDatacollection = {
+        labels: this.barDataLabel,
+        datasets: [
+          {
+            label: 'Lust',
+            backgroundColor: '#ff9900',
+            data: this.barData
+          }, {
+            label: 'Gluttony',
+            backgroundColor: '#DC143C',
+            data: this.barData
+          }
+        ]
       }
 
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
@@ -295,31 +310,34 @@ export default {
 
     // ====================== Get Map/Chart Data =====================
     mapBuildTime(tag) {
-      let self = this
-      self.visible = true
-      let sDate = new Date(self.start_time)
-      let eDate = new Date(self.end_time)
-      console.log(self.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(self.toISOLocal(eDate).replace(/T/g, " "))
+      this.visible = true
+      let sDate = new Date(this.start_time)
+      let eDate = new Date(this.end_time)
+      console.log(this.toISOLocal(sDate).replace(/T/g, " "))
+      console.log(this.toISOLocal(eDate).replace(/T/g, " "))
       console.log(tag)
+
+      let data = {
+        start_time: '2015-05-08 13:38:00+1000',
+        end_time: '2016-05-08 13:39:00+1000',
+        tags: tag,
+        skip: 0,
+        threshold: 0.9  
+      }
       
-      this.$axios
-        .get(`/api/statistics/time/`,{
-            'start_time': self.toISOLocal(sDate).replace(/T/g, " "),
-            'end_time': self.toISOLocal(eDate).replace(/T/g, " "),
-            'tags': tag
-        },
-        
-        )
-        .then(response => (
-          self.melb_geo = response.data.melb_geo,
-          self.visible = false,
-          console.log(self.melb_geo),
+      this.$ajax({
+        url: `/api/statistics/track/${this.user_id}/`,
+        method: 'GET',
+        data: data
+      }).then(res => {
+          this.melb_geo = response.data.melb_geo,
+          this.visible = false,
+          console.log(this.melb_geo),
           // re-render the map here
-          self.mapBuild()
-        ))
+          this.mapBuild()
+        })
         .catch(error => {
-          self.visible = false,
+          this.visible = false,
           console.log(error),
           alert(error),
           this.errored = true
@@ -327,84 +345,23 @@ export default {
     },
 
     mapBuildTrack(tag){
-      let self = this
-      self.visible = true
-      let map = new google.maps.Map(document.getElementById('map_canvas'), {
-        zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
-        disableDefaultUI: true,
-        styles: mapStyle
-      })
-      let infowindow = new google.maps.InfoWindow()
-      let marker
-
-      let path = [{lat: -37.8136, lng: 144.9631},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}]
-      let time = new Date()
-      let img = ''
-      let tags = []
-      let sDate = new Date(self.start_time)
-      let eDate = new Date(self.end_time)
-
-      this.$axios
-        .get(`http://172.26.38.1:8080/api/statistics/track/${self.user_id}/`,{
-          data:{
-            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-            tags: tag
-          }
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-KEY': self.API_KEY
-          }
-        })
-        .then(response => {
-          // for (let point in response.data.(self.user_id)) {
-          //   path.push({lat:point.geo[0], lng:point.geo[1]})
-          //   marker = new google.maps.Marker({
-          //     position: {lat:point.geo[0], lng:point.geo[1]},
-          //     map: map,
-          //     icon: point.img
-          //     title: point.time+" "+point.tags
-          //   })
-          // }
-          self.visible = false
-          let trackPath = new google.maps.Polyline({
-            path: path,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          })
-          trackPath.setMap(map)
-        })
-        .catch(error => {
-          self.visible = false
-          alert(error)
-          console.log(error)
-          this.errored = true
-      })
-    },
-
-    mapBuildTrackN(tag) {
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
+        center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
       })
 
-      var path = [{lat: -37.8136, lng: 144.9631}]
-      console.log(path)
+      let infowindow = new google.maps.InfoWindow()
+      let path = []
       let marker
-
+      let img = ''
+      let tags = []
+      let time = new Date()
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
+
       console.log(tag)
       console.log(this.toISOLocal(sDate).replace(/T/g, " "))
       console.log(this.toISOLocal(eDate).replace(/T/g, " "))
@@ -416,9 +373,9 @@ export default {
         skip: 0,
         threshold: 0.9  
       }
-      
+
       this.$ajax({
-        url: `/api/statistics/track/random/${this.number}/`,
+        url: `/api/statistics/track/${this.user_id}/`,
         method: 'GET',
         data: data
       }).then(res => {
@@ -428,24 +385,25 @@ export default {
               lat: value[i].geo[1], 
               lng: value[i].geo[0]
             }
-            //{lat: -37.8136, lng: 144.9631},
+
             path.push(point)
             marker = new google.maps.Marker({
               position: point,
               map: map,
+              animation: google.maps.Animation.BOUNCE,
               icon: 'http://i68.tinypic.com/2rdfbsx.png',
               title: value[i].time+" "+value[i].tags
             })
           }
         }
-      }).then(res => {
+      }).then(() => {
         console.log(path);
         let trackPath = new google.maps.Polyline({
           path: path,
           geodesic: true,
           strokeColor: '#FF0000',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 2,
         })
         trackPath.setMap(map)
         this.visible = false
@@ -455,89 +413,117 @@ export default {
         this.visible = false
         this.errored = true
       })
+    },
 
-      // 方法2 （返回500）
-      // this.$axios
-      //   .get(`/api/statistics/track/random/${this.number}/`,{
-      //     data: data,
-      //   }).then(res => {
-   
-      //     console.log(res.data.data)
-      //      for (const [key, value] of Object.entries(res.data.data)) {
-      //       console.log(key)
-      //       console.log(value)
-      //       for (var i = 0; i < value.length; i++) {
-      //         let point = {
-      //           lat: value[i].geo[1], 
-      //           lng: value[i].geo[0]
-      //         }
-      //         //{lat: -37.8136, lng: 144.9631},
-      //         path.push(point)
-      //         marker = new google.maps.Marker({
-      //           position: point,
-      //           map: map,
-      //           icon: 'http://i68.tinypic.com/2rdfbsx.png',
-      //           title: value[i].time+" "+value[i].tags
-      //         })
-      //       }
-      //      }
-          
-      //     let trackPath = new google.maps.Polyline(console.log(path),{
-      //       path: path,
-      //       geodesic: true,
-      //       strokeColor: '#FF0000',
-      //       strokeOpacity: 1.0,
-      //       strokeWeight: 2
-      //     })
+    mapBuildTrackN(tag) {
+      this.visible = true
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
 
-      //     trackPath.setMap(map)
-      //     self.visible = false
-      //   }, error => {
-      //     console.log('error')
-      //   })
+      let paths = []
+      let colors = []
+      let marker
+      let sDate = new Date(this.start_time)
+      let eDate = new Date(this.end_time)
 
+      console.log(tag)
+      
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
 
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        start_time = end_time = null
+        
+      let data = {
+        start_time,
+        end_time,
+        tags: ['emotion','lust','gluttony'],
+        skip: 0,
+        threshold: 0.95,
+        single: 20  
+      }
 
+      console.log(data)
+      
+      this.$ajax({
+        url: `/api/statistics/track/random/${this.number}/`,
+        method: 'POST',
+        data: data
+      }).then(res => {
+        for (const [key, value] of Object.entries(res.data)) {
+          let point = {
+            lat: value[0].geo[1], 
+            lng: value[0].geo[0]
+          }
+          let color = this.getRandomColor()
+          let path = []
+          colors.push(color)
 
-      // this.$axios
-      //   .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
-      //     data:{
-      //       start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-      //       end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-      //       tags: tag
-      //     }
-      //   })
-      //   .then(response => {
-      //     for (let user in response.data) {
-      //       for (let point in user){
-      //         path.push({lat:point.geo[0], lng:point.geo[1]})
-      //         marker = new google.maps.Marker({
-      //           position: {lat:point.geo[0], lng:point.geo[1]},
-      //           map: map,
-      //           //icon: point.img,
-      //           title: point.time+" "+point.tags
-      //         })
-      //       }
-      //     }
-      //     let trackPath = new google.maps.Polyline({
-      //       path: path,
-      //       geodesic: true,
-      //       strokeColor: '#FF0000',
-      //       strokeOpacity: 1.0,
-      //       strokeWeight: 2
-      //     })
+          let icon = {
+            path: 'M353.6 304.6c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.8-3.1-19.4 5.3-17.7 15.3 7.9 47.2 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zm-152.8-48.9c4.5 1.2 9.2-1.5 10.5-6l19.4-69.9c5.6-20.3-7.4-41.1-28.8-44.5-18.6-3-36.4 9.8-41.5 27.9l-2 7.1-7.1-1.9c-18.2-4.7-38.2 4.3-44.9 22-7.7 20.2 3.8 41.9 24.2 47.2l70.2 18.1zm188.8-65.3c-6.7-17.6-26.7-26.7-44.9-22l-7.1 1.9-2-7.1c-5-18.1-22.8-30.9-41.5-27.9-21.4 3.4-34.4 24.2-28.8 44.5l19.4 69.9c1.2 4.5 5.9 7.2 10.5 6l70.2-18.2c20.4-5.3 31.9-26.9 24.2-47.1zM248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200z',
+            fillColor: color,
+            fillOpacity: 1,
+            anchor: new google.maps.Point(250,250),
+            strokeWeight: 0, 
+            scale: .1
+          }
 
-      //     trackPath.setMap(map)
-      //     self.visible = false
-      //   })
-      //   .catch(error => {
-      //     self.visible = false
-      //     alert(error)
-      //     console.log(error)
-      //     this.errored = true
-      // })
+          marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            icon: icon,
+            title: value[0].time+" "+value[0].tags
+          })
 
+          for (let i = 0; i < value.length; i++) {
+            let icon_sm= {
+              path: 'M353.6 304.6c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.8-3.1-19.4 5.3-17.7 15.3 7.9 47.2 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zm-152.8-48.9c4.5 1.2 9.2-1.5 10.5-6l19.4-69.9c5.6-20.3-7.4-41.1-28.8-44.5-18.6-3-36.4 9.8-41.5 27.9l-2 7.1-7.1-1.9c-18.2-4.7-38.2 4.3-44.9 22-7.7 20.2 3.8 41.9 24.2 47.2l70.2 18.1zm188.8-65.3c-6.7-17.6-26.7-26.7-44.9-22l-7.1 1.9-2-7.1c-5-18.1-22.8-30.9-41.5-27.9-21.4 3.4-34.4 24.2-28.8 44.5l19.4 69.9c1.2 4.5 5.9 7.2 10.5 6l70.2-18.2c20.4-5.3 31.9-26.9 24.2-47.1zM248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200z',
+              fillColor: color,
+              fillOpacity: 1,
+              anchor: new google.maps.Point(250,250),
+              strokeWeight: 0, 
+              scale: .03
+            }
 
+            if (i != 0) {
+              marker = new google.maps.Marker({
+                position: point,
+                map: map,
+                icon: icon_sm,
+                title: value[i].time+" "+value[i].tags
+              })
+            }
+            
+            point = {
+              lat: value[i].geo[1], 
+              lng: value[i].geo[0]
+            }
+            path.push(point)
+          }
+          paths.push(path)
+        }
+      }).then((res) => {
+        for (let j = 0; j < paths.length; j++) {
+          let trackPath = new google.maps.Polyline({
+            path: paths[j],
+            geodesic: true,
+            strokeColor: colors[j],
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+          })
+          trackPath.setMap(map)
+        }
+        this.visible = false
+      }).catch(error => {
+        console.log(error)
+        alert(error)
+        this.visible = false
+        this.errored = true
+      })
     },
 
     toISOLocal(d) {
@@ -549,7 +535,16 @@ export default {
       return d.getFullYear() + '-' + z(d.getMonth()+1) + '-' +
             z(d.getDate()) + 'T' + z(d.getHours()) + ':'  + z(d.getMinutes()) + 
             ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
-    }
+    },
+
+    getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }   
   }
 }
 </script>

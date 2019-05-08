@@ -13,7 +13,7 @@ Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-axios.defaults.timeout = 60000
+axios.defaults.timeout = 600000
 // axios compatible with IE 8-9
 axios.interceptors.response.use(response => {
 	return response
@@ -23,14 +23,16 @@ axios.interceptors.request.use(config => {
   config.headers = {
     'Content-Type': 'application/json',
     'X-API-KEY': API_KEY,
-  }
+	}
+	console.log(this,config)
   return config
 },err => {
   return Promise.reject(err)
 })
 
 let request = function (options) {
-  let method = options.method.toLowerCase()
+	let method = options.method.toLowerCase()
+	console.log(options.data)
   return new Promise(function(resolve, reject){
 		axios({
 			url: options.url,
