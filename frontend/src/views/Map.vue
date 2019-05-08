@@ -12,11 +12,7 @@
         <p>Track user by user ID:</p>
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
-          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['gluttony','porn'])">Gluttony and Lust</b-dropdown-item>
-          </b-dropdown>
+          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrack()">Track</button>
         </div>
         <p></p>
       </div> 
@@ -24,19 +20,10 @@
         <p>Track random number of users:</p>
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
-          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['warth'])">Warth</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust','gluttony','warth'])">All</b-dropdown-item>
-          </b-dropdown>
+          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrackN()">Track</button>
         </div>
-        <Dropdown addClass="selection" name="selection" defaultText="请选择"
-          v-model="selectedValue" :options="select_options"
-          textFiled="value" valueFiled="id"
-          @dropdown-selected="(text) => { selectedText = text}"
-        ></Dropdown>
         <p></p>
+        <div></div>
       </div>     
     </div>
     
@@ -56,22 +43,30 @@
 
     <!-- Tool Navbar -->
     <nav class="navbar fixed-bottom navbar-light">
-      <div class="row">
-        <div class="col-md-4">
+      <div class="row" style="width: 100vw;">
+        <div style="margin-left: 30px;">
+          <span class="pull-left">
           <datetime v-model="start_time" :type="'date'" :title="'Select your start time'"></datetime>
+          </span>
         </div>
-        <div class="col-md-1">
+        <div style="margin-left: 30px;">
           <a class="navbar-brand font-weight-bold text-white">To</a>
         </div>
-        <div class="col-md-4">
+        <div style="margin-left: 15px;">
           <datetime v-model="end_time" :type="'date'" :title="'Select your end time'"></datetime>
         </div>
-        <div class="col-md-2">
-          <b-dropdown id="dropdown-dropup" size="sm" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['gluttony','lust'])">Gluttony and Lust</b-dropdown-item>
-          </b-dropdown>
+        <div class="col-md-3">
+          <sui-dropdown
+            fluid
+            multiple
+            :options="selections"
+            placeholder="Sins"
+            selection
+            v-model="tags"
+          />
+        </div>
+        <div>
+          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTime()">Search</button>
         </div>
       </div>
     </nav>
@@ -94,7 +89,6 @@ import {Datetime} from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
 import Loading from 'vue-loading-overlay'
 import 'vue-loading-overlay/dist/vue-loading.css'
-import Dropdown from 'vue-semantic-dropdown'
 
 export default {
   name: 'gmap',
@@ -104,8 +98,7 @@ export default {
     Linechart,
     Barchart,
     datetime: Datetime,
-    Loading,
-    Dropdown
+    Loading
   },
 
   data() {
@@ -126,18 +119,14 @@ export default {
         useCurrent: false,
       },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
-      select_options: [
-            {
-                id: 'litteRed',
-                value: '小红'
-            },
-            {
-                id: 'litteBlue',
-                value: '小蓝'
-            }
-        ],
-      selectedValue: null,
-      selectedText: null
+      tags: null,
+      selections: [
+        { key: 'lust', text: 'Lust', value: 'lust' },
+        { key: 'gluttony', text: 'Gluttony', value: 'gluttony' },
+        { key: 'warth', text: 'Warth', value: 'warth' },
+        { key: 'emotion', text: 'Emotion', value: 'emotion' }
+      ],
+
     }
   },
 
@@ -211,7 +200,9 @@ export default {
           }
         ]
       }
-      
+
+
+      // ========================Icon examples=========================
       let icon = {
         path: Const.svg_lust,
         fillColor: '#ff9900',
@@ -230,7 +221,39 @@ export default {
         scale: .1
       }
 
+      let icon3 = {
+        path: Const.svg_warth,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+            
+      let icon4 = {
+        path: Const.svg_positive,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+
+      let icon5 = {
+        path: Const.svg_negative,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
+      let myLustMark = {lat: -37.8136, lng: 144.9631}
+      let myWarthMark = {lat: -37.8036, lng: 144.9531}
+      let myPositiveMark = {lat: -37.8136, lng: 144.9731}
+      let myNegativeMark = {lat: -37.8236, lng: 144.9631}
+
       let foodMark = new google.maps.Marker({
         position: myFoodMark,
         map: map,
@@ -239,14 +262,38 @@ export default {
         icon: icon2
       })
 
-      let myLustMark = {lat: -37.8136, lng: 144.9631}
       let lustMark = new google.maps.Marker({
         position: myLustMark,
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Lust!',
-        icon: icon,
+        icon: icon
       })
+
+      let warthMark = new google.maps.Marker({
+        position: myWarthMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Warth!',
+        icon: icon3
+      })
+
+      let positiveMark = new google.maps.Marker({
+        position: myPositiveMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Positive!',
+        icon: icon4
+      })
+
+      let negativeMark = new google.maps.Marker({
+        position: myNegativeMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Negative!',
+        icon: icon5
+      })
+
       //======================== Setup each mark ==========================
       /*
       // set marks on the map
@@ -326,12 +373,10 @@ export default {
     },
 
     // ====================== Get Map/Chart Data =====================
-    mapBuildTime(tag) {
+    mapBuildTime() {
       this.visible = true
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-  
-      console.log(tag)
       
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
@@ -342,11 +387,13 @@ export default {
         let data = {
           start_time,
           end_time,
-          tags: tag,
+          tags: this.tags,
         }
-        
+      
+        console.log(data)
+
         this.$ajax({
-          url: `/api/statistics/track/${this.user_id}/`,
+          url: `/ api/statistics/time/`,
           method: 'POST',
           data: data
         }).then(res => {
@@ -366,7 +413,7 @@ export default {
     },
 
     // ====================== Track 1 User by ID =====================
-    mapBuildTrack(tag){
+    mapBuildTrack(){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
@@ -378,11 +425,8 @@ export default {
       let infowindow = new google.maps.InfoWindow()
       let path = []
       let marker
-      let tags = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-  
-      console.log(tag)
       
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
@@ -393,11 +437,13 @@ export default {
       let data = {
         start_time,
         end_time,
-        tags: ['emotion','lust','gluttony'],
+        tags: this.tags,
         skip: 0,
         threshold: 0.9,
         single: 50  
       }
+        
+      console.log(data)
 
       this.$ajax({
         url: `/api/statistics/track/${this.user_id}/`,
@@ -471,7 +517,7 @@ export default {
       })
     },
 
-    mapBuildTrackN(tag) {
+    mapBuildTrackN() {
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
@@ -485,8 +531,6 @@ export default {
       let marker
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-
-      console.log(tag)
       
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
@@ -497,7 +541,7 @@ export default {
       let data = {
         start_time,
         end_time,
-        tags: ['emotion','lust','gluttony'],
+        tags: tags,
         skip: 0,
         threshold: 0.9,
         single: 50  

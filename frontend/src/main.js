@@ -5,9 +5,12 @@ import config from './assets/js/config'
 import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
-import qs from 'qs'
+//import qs from 'qs'
 import vueSmoothScroll from 'vue-smooth-scroll'
+import SuiVue from 'semantic-ui-vue'
+import 'semantic-ui-css/semantic.min.css';
 
+Vue.use(SuiVue)
 Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)
 
