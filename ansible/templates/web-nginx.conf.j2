@@ -41,8 +41,18 @@ http {
         }
 
         location /api { 
-            proxy_pass http://172.20.0.2:8080/api;
+            proxy_pass http://172.26.38.110:8080;
         }
 
+        location /dashboard/ { 
+            proxy_pass http://172.26.38.11:3000/;
+            proxy_set_header Host $host:$server_port;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header REMOTE-HOST $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            error_log /var/log/nginx/grafana_error.log;
+            root /data/grafana;
+        }
+        
     }
 }

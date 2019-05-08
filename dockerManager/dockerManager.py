@@ -23,11 +23,11 @@ class DockerManager(object):
         container = self.client.containers.get(name)
         container.remove(force=True)
 
-    def run(self, image=None, name=None, ports=None, detach=None, environment=None, volumes=None):
+    def run(self, image=None, command=None, name=None, ports=None, detach=None, environment=None, volumes=None, restart_policy=None):
         print('[INFO] Creating Container %s / %s on %s:%s' % (name, image, self.domain, self.port))
 
-        container = self.client.containers.run(image=image, detach=detach, ports=ports, name=name,
-                                               environment=environment, volumes=volumes)
+        container = self.client.containers.run(image=image, command=command, detach=detach, ports=ports, name=name,
+                                               environment=environment, volumes=volumes, restart_policy=restart_policy)
         self.container.append(container)
         print('[INFO] Container %s / %s on %s:%s created success' % (container.name, container.image, self.domain, self.port))
 
@@ -41,6 +41,13 @@ class DockerManager(object):
 
 dockerManager = dict()
 
+
+def get_docker_manager(domain, port):
+    if domain not in dockerManager:
+        dockerManager.update({
+            domain: DockerManager(domain, port)
+        })
+    return dockerManager[domain]
 
 
 
