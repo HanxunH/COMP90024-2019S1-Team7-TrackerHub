@@ -25,8 +25,8 @@
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
           <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['gluttony'])">Lust</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['gluttony'])">Gluttony</b-dropdown-item>
+            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust'])">Lust</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTrackN(['warth'])">Warth</b-dropdown-item>
             <b-dropdown-item href="#" @click="mapBuildTrackN(['lust','gluttony','warth'])">All</b-dropdown-item>
           </b-dropdown>
@@ -399,10 +399,9 @@ export default {
         styles: mapStyle
       })
 
-      let path = [{lat: -37.8136, lng: 144.9631},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}]
+      var path = [{lat: -37.8136, lng: 144.9631}]
+      console.log(path)
+      let marker
 
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
@@ -411,34 +410,91 @@ export default {
       console.log(this.toISOLocal(eDate).replace(/T/g, " "))
       
       let data = {
-        start_time: this.toISOLocal(sDate).replace(/T/g, " "),
-        end_time: this.toISOLocal(eDate).replace(/T/g, " "),
+        start_time: '2015-05-08 13:38:00+1000',
+        end_time: '2016-05-08 13:39:00+1000',
         tags: tag,
         skip: 0,
         threshold: 0.9  
       }
       
-      // 方法1 (错了，用方法2吧。。。)
-    //  this.$ajax({
-		// 		method: 'GET', 
-		// 		url: `/api/statistics/track/random/${this.number}/`, 
-		// 		data: data,
-		// 	}).then(res => {
-    //     console.log(res)
-		// 	}, error => {
-    //     console.log('error')
-    //   })
-
+      this.$ajax({
+        url: `/api/statistics/track/random/${this.number}/`,
+        method: 'GET',
+        data: data
+      }).then(res => {
+        for (const [key, value] of Object.entries(res.data)) {
+          for (var i = 0; i < value.length; i++) {
+            let point = {
+              lat: value[i].geo[1], 
+              lng: value[i].geo[0]
+            }
+            //{lat: -37.8136, lng: 144.9631},
+            path.push(point)
+            marker = new google.maps.Marker({
+              position: point,
+              map: map,
+              icon: 'http://i68.tinypic.com/2rdfbsx.png',
+              title: value[i].time+" "+value[i].tags
+            })
+          }
+        }
+      }).then(res => {
+        console.log(path);
+        let trackPath = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        })
+        trackPath.setMap(map)
+        this.visible = false
+      }).catch(error => {
+        console.log(error)
+        alert(error)
+        this.visible = false
+        this.errored = true
+      })
 
       // 方法2 （返回500）
-      this.$axios
-        .get(`/api/statistics/track/random/${this.number}/`,{
-          data: data,
-        }).then(res => {
-          console.log(res)
-        }, error => {
-          console.log('error')
-        })
+      // this.$axios
+      //   .get(`/api/statistics/track/random/${this.number}/`,{
+      //     data: data,
+      //   }).then(res => {
+   
+      //     console.log(res.data.data)
+      //      for (const [key, value] of Object.entries(res.data.data)) {
+      //       console.log(key)
+      //       console.log(value)
+      //       for (var i = 0; i < value.length; i++) {
+      //         let point = {
+      //           lat: value[i].geo[1], 
+      //           lng: value[i].geo[0]
+      //         }
+      //         //{lat: -37.8136, lng: 144.9631},
+      //         path.push(point)
+      //         marker = new google.maps.Marker({
+      //           position: point,
+      //           map: map,
+      //           icon: 'http://i68.tinypic.com/2rdfbsx.png',
+      //           title: value[i].time+" "+value[i].tags
+      //         })
+      //       }
+      //      }
+          
+      //     let trackPath = new google.maps.Polyline(console.log(path),{
+      //       path: path,
+      //       geodesic: true,
+      //       strokeColor: '#FF0000',
+      //       strokeOpacity: 1.0,
+      //       strokeWeight: 2
+      //     })
+
+      //     trackPath.setMap(map)
+      //     self.visible = false
+      //   }, error => {
+      //     console.log('error')
+      //   })
 
 
 
