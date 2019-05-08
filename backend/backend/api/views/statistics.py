@@ -154,7 +154,6 @@ def statistics_track_get(request, user_id=None, number=100):
                 result_tags.append('lust')
         _result_tags = get_tags(tags, 'text', threshold)
         for _tag in _result_tags:
-            result_tags.append(_tag)
             if _tag in target_tag:
                 result_tags.append(_tag + '.text')
             elif 'emotion' in target_tag and _tag in ['positive', 'negative', 'neutral']:
