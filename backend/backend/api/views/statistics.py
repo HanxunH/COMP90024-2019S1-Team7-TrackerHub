@@ -104,10 +104,11 @@ def statistics_track_get(request, user_id=None, number=100):
     number = 0 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
     json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(user_id, number,
-                                                                start_time.replace(' ', '-') if start_time else None,
-                                                                end_time.replace(' ', '-') if end_time else None,
-                                                                '-'.join(sorted(target_tag)) if len(
-                                                                    target_tag) > 0 else None, skip, today)
+                                                                None if not start_time else start_time.replace(' ',
+                                                                                                               '-'),
+                                                                None if not end_time else end_time.replace(' ', '-'),
+                                                                None if len(target_tag) == 0 else '-'.join(
+                                                                    sorted(target_tag)), skip, today)
 
     try:
         result_file = json_storage_handler.download(json_name)
