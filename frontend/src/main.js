@@ -16,17 +16,6 @@ Vue.config.productionTip = false
 axios.defaults.timeout = 60000
 // axios compatible with IE 8-9
 axios.interceptors.response.use(response => {
-  console.log('response',response);
-  
-	// IE 8-9
-	if (response.data == null && response.config.responseType === 'json' && response.request.responseText != null) {
-		try {
-			// eslint-disable-next-line no-param-reassign
-			response.data = JSON.parse(response.request.responseText)
-		} catch (e) {
-      return Promise.reject(e.response.data)
-		}
-	}
 	return response
 })
 axios.interceptors.request.use(config => {
@@ -41,33 +30,14 @@ axios.interceptors.request.use(config => {
 })
 
 let request = function (options) {
-  console.log(options)
-  let dataParams = options.data
-	let data = {}
-	let requestUrl = options.url
-
-  for (let key in dataParams) {
-		data[key] = dataParams[key]
-	}
-	console.log(data)
-  data = qs.stringify(data)
   let method = options.method.toLowerCase()
-	let needStrParam = method === 'put' || method === 'delete'
-	// let needStrParam = method === 'get' || method === 'put' || method === 'delete'
-	if(data.length && needStrParam) {
-		requestUrl += config.baseApi.indexOf('?')>=0 ? '&' : '?'
-    requestUrl += data
-  }
-  
   return new Promise(function(resolve, reject){
 		axios({
-			url: config.baseApi + requestUrl,
-			method: options.method,
-      responseType: options.dataType || 'json',
-			data: needStrParam ? '' : options.data
+			url: options.url,
+			method: method,
+			data: options.data
 		}).then(res=>{
-      console.log(res);
-			if (res.data.success) {
+			if (res.status == 200 && res.data && res.data.err_msg === 'success') {
 				resolve(res.data)
 			} else {
 				reject(res.data)
