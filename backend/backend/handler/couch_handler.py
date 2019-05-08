@@ -84,6 +84,10 @@ class CouchDBBalancer(object):
         self.tick('find')
         return self.databases[self.balance].find(mango)
 
+    def compact(self):
+        self.tick('compact')
+        return self.databases[self.balance].compact()
+
 
 couch_db_banlancer = CouchDBBalancer()
 couch_db_banlancer.connect_database(COUCHDB_TWEET_DB)

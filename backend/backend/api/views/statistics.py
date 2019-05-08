@@ -104,7 +104,7 @@ def statistics_track_get(request, user_id=None, number=100):
     threshold = params.get('threshold', 0.95)
     single = int(params.get('single', 50))
 
-    number = 0 if user_id else number
+    number = 1 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
 
     json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'
