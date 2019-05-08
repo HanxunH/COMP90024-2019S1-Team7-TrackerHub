@@ -417,57 +417,84 @@ export default {
         threshold: 0.9  
       }
       
-      // 方法1 (错了，用方法2吧。。。)
-    //  this.$ajax({
-		// 		method: 'GET', 
-		// 		url: `/api/statistics/track/random/${this.number}/`, 
-		// 		data: data,
-		// 	}).then(res => {
-    //     console.log(res)
-		// 	}, error => {
-    //     console.log('error')
-    //   })
-
+      this.$ajax({
+        url: `/api/statistics/track/random/${this.number}/`,
+        method: 'GET',
+        data: data
+      }).then(res => {
+        for (const [key, value] of Object.entries(res.data)) {
+          for (var i = 0; i < value.length; i++) {
+            let point = {
+              lat: value[i].geo[1], 
+              lng: value[i].geo[0]
+            }
+            //{lat: -37.8136, lng: 144.9631},
+            path.push(point)
+            marker = new google.maps.Marker({
+              position: point,
+              map: map,
+              icon: 'http://i68.tinypic.com/2rdfbsx.png',
+              title: value[i].time+" "+value[i].tags
+            })
+          }
+        }
+      }).then(res => {
+        console.log(path);
+        let trackPath = new google.maps.Polyline({
+          path: path,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 2
+        })
+        trackPath.setMap(map)
+        this.visible = false
+      }).catch(error => {
+        console.log(error)
+        alert(error)
+        this.visible = false
+        this.errored = true
+      })
 
       // 方法2 （返回500）
-      this.$axios
-        .get(`/api/statistics/track/random/${this.number}/`,{
-          data: data,
-        }).then(res => {
+      // this.$axios
+      //   .get(`/api/statistics/track/random/${this.number}/`,{
+      //     data: data,
+      //   }).then(res => {
    
-          console.log(res.data.data)
-           for (const [key, value] of Object.entries(res.data.data)) {
-            console.log(key)
-            console.log(value)
-            for (var i = 0; i < value.length; i++) {
-              let point = {
-                lat: value[i].geo[1], 
-                lng: value[i].geo[0]
-              }
-              //{lat: -37.8136, lng: 144.9631},
-              path.push(point)
-              marker = new google.maps.Marker({
-                position: point,
-                map: map,
-                icon: 'http://i68.tinypic.com/2rdfbsx.png',
-                title: value[i].time+" "+value[i].tags
-              })
-            }
-           }
+      //     console.log(res.data.data)
+      //      for (const [key, value] of Object.entries(res.data.data)) {
+      //       console.log(key)
+      //       console.log(value)
+      //       for (var i = 0; i < value.length; i++) {
+      //         let point = {
+      //           lat: value[i].geo[1], 
+      //           lng: value[i].geo[0]
+      //         }
+      //         //{lat: -37.8136, lng: 144.9631},
+      //         path.push(point)
+      //         marker = new google.maps.Marker({
+      //           position: point,
+      //           map: map,
+      //           icon: 'http://i68.tinypic.com/2rdfbsx.png',
+      //           title: value[i].time+" "+value[i].tags
+      //         })
+      //       }
+      //      }
           
-          let trackPath = new google.maps.Polyline(console.log(path),{
-            path: path,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
-          })
+      //     let trackPath = new google.maps.Polyline(console.log(path),{
+      //       path: path,
+      //       geodesic: true,
+      //       strokeColor: '#FF0000',
+      //       strokeOpacity: 1.0,
+      //       strokeWeight: 2
+      //     })
 
-          trackPath.setMap(map)
-          self.visible = false
-        }, error => {
-          console.log('error')
-        })
+      //     trackPath.setMap(map)
+      //     self.visible = false
+      //   }, error => {
+      //     console.log('error')
+      //   })
 
 
 
