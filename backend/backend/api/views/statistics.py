@@ -25,17 +25,17 @@ tweet_couch_db = couch_db_banlancer
 melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
 
 
-@require_http_methods(['GET', 'OPTIONS'])
+@require_http_methods(['POST', 'OPTIONS'])
 @check_api_key
 def statistics_time_router(request, *args, **kwargs):
-    if request.method == 'GET':
+    if request.method == 'POST':
         return statistics_time_get(request)
     elif request.method == 'OPTIONS':
         return HttpResponse()
     return HttpResponseNotAllowed()
 
 
-@require_http_methods(['GET', 'OPTIONS'])
+@require_http_methods(['POST', 'OPTIONS'])
 @check_api_key
 def statistics_track_router(request, *args, **kwargs):
     user_id = None
@@ -45,7 +45,7 @@ def statistics_track_router(request, *args, **kwargs):
             user_id = arg.get('user_id', None)
             number = arg.get('number', 100)
 
-    if request.method == 'GET':
+    if request.method == 'POST':
         return statistics_track_get(request, user_id=user_id, number=number)
     elif request.method == 'OPTIONS':
         return HttpResponse()
@@ -125,7 +125,7 @@ def statistics_track_get(request, user_id=None, number=100):
     except Exception as e:
         pass
 
-    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=300000, skip=skip)
+    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=500000, skip=skip)
 
     while True:
         try:
