@@ -86,6 +86,7 @@ import Linechart from './../components/Linechart'
 import Piechart from './../components/Piechart'
 import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
+import {Const} from './../assets/js/const'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -125,7 +126,6 @@ export default {
         useCurrent: false,
       },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
-      API_KEY: '227415ba68c811e9b1a48c8590c7151e',
       select_options: [
             {
                 id: 'litteRed',
@@ -169,7 +169,7 @@ export default {
       let marker, i
       let markers = []
       let locations = []
-      console.log(this.barData)
+
       this.barDataLabel.length=0
       this.barData.length=0
 
@@ -211,6 +211,24 @@ export default {
           }
         ]
       }
+      
+      let icon = {
+        path: Const.svg_lust,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+            
+      let icon2 = {
+        path: Const.svg_gluttony,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
 
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
       let foodMark = new google.maps.Marker({
@@ -218,7 +236,7 @@ export default {
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Food!',
-        icon: 'http://i64.tinypic.com/egzm07.png'
+        icon: icon2
       })
 
       let myLustMark = {lat: -37.8136, lng: 144.9631}
@@ -227,8 +245,7 @@ export default {
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Lust!',
-        icon: 'http://i68.tinypic.com/2rdfbsx.png',
-        visible: false
+        icon: icon,
       })
       //======================== Setup each mark ==========================
       /*
@@ -313,37 +330,42 @@ export default {
       this.visible = true
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-      console.log(this.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(this.toISOLocal(eDate).replace(/T/g, " "))
+  
       console.log(tag)
-
-      let data = {
-        start_time: '2015-05-08 13:38:00+1000',
-        end_time: '2016-05-08 13:39:00+1000',
-        tags: tag,
-        skip: 0,
-        threshold: 0.9  
-      }
       
-      this.$ajax({
-        url: `/api/statistics/track/${this.user_id}/`,
-        method: 'GET',
-        data: data
-      }).then(res => {
-          this.melb_geo = response.data.melb_geo,
-          this.visible = false,
-          console.log(this.melb_geo),
-          // re-render the map here
-          this.mapBuild()
-        })
-        .catch(error => {
-          this.visible = false,
-          console.log(error),
-          alert(error),
-          this.errored = true
-      })     
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
+
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        alert('Time is required')
+      else {  
+        let data = {
+          start_time,
+          end_time,
+          tags: tag,
+        }
+        
+        this.$ajax({
+          url: `/api/statistics/track/${this.user_id}/`,
+          method: 'POST',
+          data: data
+        }).then(res => {
+            this.melb_geo = res.data.melb_geo,
+            this.visible = false,
+            console.log(this.melb_geo),
+            // re-render the map here
+            this.mapBuild()
+          })
+          .catch(error => {
+            this.visible = false,
+            console.log(error),
+            alert(error),
+            this.errored = true
+        })   
+      }  
     },
 
+    // ====================== Track 1 User by ID =====================
     mapBuildTrack(tag){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -356,22 +378,25 @@ export default {
       let infowindow = new google.maps.InfoWindow()
       let path = []
       let marker
-      let img = ''
       let tags = []
-      let time = new Date()
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-
+  
       console.log(tag)
-      console.log(this.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(this.toISOLocal(eDate).replace(/T/g, " "))
       
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
+
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        start_time = end_time = null
+        
       let data = {
-        start_time: '2015-05-08 13:38:00+1000',
-        end_time: '2016-05-08 13:39:00+1000',
-        tags: tag,
+        start_time,
+        end_time,
+        tags: ['emotion','lust','gluttony'],
         skip: 0,
-        threshold: 0.9  
+        threshold: 0.9,
+        single: 50  
       }
 
       this.$ajax({
@@ -380,28 +405,59 @@ export default {
         data: data
       }).then(res => {
         for (const [key, value] of Object.entries(res.data)) {
-          for (var i = 0; i < value.length; i++) {
-            let point = {
+          let point = {
+            lat: value[0].geo[1], 
+            lng: value[0].geo[0]
+          }
+          let path = []
+          path.push(point)
+
+          let icon = {
+            path: Const.svg_lust,
+            fillColor: '#ff9900',
+            fillOpacity: 1,
+            anchor: new google.maps.Point(250,250),
+            strokeWeight: 0, 
+            scale: .1
+          }
+
+          marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            icon: icon,
+            title: value[0].time+" "+value[0].tags
+          })
+
+          for (let i = 1; i < value.length; i++) {
+            let icon_sm= {
+              path: Const.svg_lust,
+              fillColor: '#ff9900',
+              fillOpacity: 1,
+              anchor: new google.maps.Point(250,250),
+              strokeWeight: 0, 
+              scale: .03
+            }
+
+            point = {
               lat: value[i].geo[1], 
               lng: value[i].geo[0]
             }
 
-            path.push(point)
             marker = new google.maps.Marker({
               position: point,
               map: map,
-              animation: google.maps.Animation.BOUNCE,
-              icon: 'http://i68.tinypic.com/2rdfbsx.png',
+              icon: icon_sm,
               title: value[i].time+" "+value[i].tags
             })
+
+            path.push(point)
           }
         }
-      }).then(() => {
-        console.log(path);
+      }).then((res) => {
         let trackPath = new google.maps.Polyline({
           path: path,
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#ff9900',
           strokeOpacity: 1.0,
           strokeWeight: 2,
         })
@@ -443,8 +499,8 @@ export default {
         end_time,
         tags: ['emotion','lust','gluttony'],
         skip: 0,
-        threshold: 0.95,
-        single: 20  
+        threshold: 0.9,
+        single: 50  
       }
 
       console.log(data)
@@ -461,10 +517,11 @@ export default {
           }
           let color = this.getRandomColor()
           let path = []
+          path.push(point)
           colors.push(color)
 
           let icon = {
-            path: 'M353.6 304.6c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.8-3.1-19.4 5.3-17.7 15.3 7.9 47.2 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zm-152.8-48.9c4.5 1.2 9.2-1.5 10.5-6l19.4-69.9c5.6-20.3-7.4-41.1-28.8-44.5-18.6-3-36.4 9.8-41.5 27.9l-2 7.1-7.1-1.9c-18.2-4.7-38.2 4.3-44.9 22-7.7 20.2 3.8 41.9 24.2 47.2l70.2 18.1zm188.8-65.3c-6.7-17.6-26.7-26.7-44.9-22l-7.1 1.9-2-7.1c-5-18.1-22.8-30.9-41.5-27.9-21.4 3.4-34.4 24.2-28.8 44.5l19.4 69.9c1.2 4.5 5.9 7.2 10.5 6l70.2-18.2c20.4-5.3 31.9-26.9 24.2-47.1zM248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200z',
+            path: Const.svg_lust,
             fillColor: color,
             fillOpacity: 1,
             anchor: new google.maps.Point(250,250),
@@ -479,9 +536,9 @@ export default {
             title: value[0].time+" "+value[0].tags
           })
 
-          for (let i = 0; i < value.length; i++) {
+          for (let i = 1; i < value.length; i++) {
             let icon_sm= {
-              path: 'M353.6 304.6c-25.9 8.3-64.4 13.1-105.6 13.1s-79.6-4.8-105.6-13.1c-9.8-3.1-19.4 5.3-17.7 15.3 7.9 47.2 71.3 80 123.3 80s115.3-32.9 123.3-80c1.6-9.8-7.7-18.4-17.7-15.3zm-152.8-48.9c4.5 1.2 9.2-1.5 10.5-6l19.4-69.9c5.6-20.3-7.4-41.1-28.8-44.5-18.6-3-36.4 9.8-41.5 27.9l-2 7.1-7.1-1.9c-18.2-4.7-38.2 4.3-44.9 22-7.7 20.2 3.8 41.9 24.2 47.2l70.2 18.1zm188.8-65.3c-6.7-17.6-26.7-26.7-44.9-22l-7.1 1.9-2-7.1c-5-18.1-22.8-30.9-41.5-27.9-21.4 3.4-34.4 24.2-28.8 44.5l19.4 69.9c1.2 4.5 5.9 7.2 10.5 6l70.2-18.2c20.4-5.3 31.9-26.9 24.2-47.1zM248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zm0 448c-110.3 0-200-89.7-200-200S137.7 56 248 56s200 89.7 200 200-89.7 200-200 200z',
+              path: Const.svg_lust,
               fillColor: color,
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
@@ -489,19 +546,18 @@ export default {
               scale: .03
             }
 
-            if (i != 0) {
-              marker = new google.maps.Marker({
-                position: point,
-                map: map,
-                icon: icon_sm,
-                title: value[i].time+" "+value[i].tags
-              })
-            }
-            
             point = {
               lat: value[i].geo[1], 
               lng: value[i].geo[0]
             }
+
+            marker = new google.maps.Marker({
+              position: point,
+              map: map,
+              icon: icon_sm,
+              title: value[i].time+" "+value[i].tags
+            })
+
             path.push(point)
           }
           paths.push(path)
