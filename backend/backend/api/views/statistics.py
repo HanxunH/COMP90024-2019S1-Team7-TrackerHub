@@ -148,7 +148,7 @@ def statistics_track_get(request, user_id=None, number=100):
             if _result_tags:
                 result_tags.append('gluttony')
         if 'lust' in target_tag:
-            _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral'])
+            _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawing', 'sexy'])
             if _result_tags:
                 result_tags.append('lust')
         _result_tags = get_tags(tags, 'text', threshold)
@@ -170,7 +170,7 @@ def statistics_track_get(request, user_id=None, number=100):
 
     results = sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number]
     for user in results:
-        results[user] = sorted(results[user], key=lambda x: x['time'])
+        results[user].sort(key=lambda x: x.get('time', 0))
         
     json_file = ujson.dumps(results)
     try:
