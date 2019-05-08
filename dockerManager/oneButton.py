@@ -31,4 +31,5 @@ if __name__ == '__main__':
     # make_new_cadvisor(DOCKER_DOMAIN['instance2']['domain'], DOCKER_DOMAIN['instance2']['port'], 'instance2')
     # make_new_cadvisor(DOCKER_DOMAIN['instance3']['domain'], DOCKER_DOMAIN['instance3']['port'], 'instance3')
     # make_new_cadvisor(DOCKER_DOMAIN['instance4']['domain'], DOCKER_DOMAIN['instance4']['port'], 'instance4')
-    make_new_cadvisor(DOCKER_DOMAIN['super']['domain'], DOCKER_DOMAIN['super']['port'], 'super')
+    # make_new_cadvisor(DOCKER_DOMAIN['super']['domain'], DOCKER_DOMAIN['super']['port'], 'super')
+    remote = get_docker_manager(DOCKER_DOMAIN['instance1']['domain'], DOCKER_DOMAIN['instance1']['port'])

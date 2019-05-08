@@ -168,9 +168,9 @@ def statistics_track_get(request, user_id=None, number=100):
                 tags=result_tags
             ))
 
-    results = sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number]
+    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number])
     for user in results:
-        results[user].sort(key=lambda x: x.get('time', 0))
+        results[user].sort(key=lambda x: x.get('time'))
         
     json_file = ujson.dumps(results)
     try:
