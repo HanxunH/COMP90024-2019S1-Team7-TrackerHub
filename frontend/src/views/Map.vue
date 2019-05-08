@@ -12,7 +12,7 @@
         <p>Track user by user ID:</p>
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
-          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrack()">Track</button>
+          <button class="btn btn-dark" :disabled="tags == null || tags == '' || user_id == ''" @click="mapBuildTrack()">Track</button>
         </div>
         <p></p>
       </div> 
@@ -66,7 +66,12 @@
           />
         </div>
         <div>
-          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTime()">Search</button>
+          <button class="btn btn-dark" 
+            :disabled="tags == null || tags == '' ||
+            start_time.includes('NaN') || start_time == '' ||
+            end_time.includes('NaN') || end_time == ''" 
+            @click="mapBuildTime()">Search
+          </button>
         </div>
       </div>
     </nav>
@@ -132,7 +137,6 @@ export default {
 
   mounted () {
     this.mapBuild()
-    
     /* Get chart data through API cals
     this.getBarData(),
     this.getLineData(),
@@ -541,7 +545,7 @@ export default {
       let data = {
         start_time,
         end_time,
-        tags: tags,
+        tags: this.tags,
         skip: 0,
         threshold: 0.9,
         single: 50  
