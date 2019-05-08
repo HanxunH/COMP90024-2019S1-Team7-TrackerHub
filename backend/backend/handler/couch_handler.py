@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from couchdb.design import ViewDefinition
 import couchdb
 import logging
 
 from backend.config.config import *
-
+from backend.handler.influxdb_handler import influxdb_handler
 
 logger = logging.getLogger('django.debug')
 
@@ -52,8 +51,43 @@ class CouchDbHandler(object):
         pass
 
 
+class CouchDBBalancer(object):
 
-couch_db_handler = CouchDbHandler()
+    servers = []
+    databases = []
+    domains = []
+    balance = 0
+
+    def __init__(self, domains=COUCHDB_DOMAINS):
+        self.domains = domains
+        for domain in domains:
+            self.servers.append(CouchDbHandler(domain=domain))
+
+    def connect_database(self, database):
+        for server in self.servers:
+            self.databases.append(server.get_database(database))
+
+    def tick(self, action):
+        self.balance += 1
+        self.balance %= len(self.databases)
+        influxdb_handler.make_point(key='Banlancer', action=action, method=self.domains[self.balance], prefix='CouchDB')
+
+    def save(self, tweet):
+        self.tick('save')
+        return self.databases[self.balance].save(tweet)
+
+    def get(self, id):
+        self.tick('get')
+        return self.databases[self.balance].get(id=id)
+
+    def find(self, mango):
+        self.tick('find')
+        return self.databases[self.balance].find(mango)
+
+
+couch_db_banlancer = CouchDBBalancer()
+couch_db_banlancer.connect_database(COUCHDB_TWEET_DB)
+
 
 if __name__ == '__main__':
 

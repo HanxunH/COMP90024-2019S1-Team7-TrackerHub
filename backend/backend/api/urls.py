@@ -18,5 +18,7 @@ urlpatterns = [
     path('tweet/', tweet_router),
     path('tweet/<str:resource>/', tweet_router),
     path('statistics/time/', statistics_time_router),
+    path('statistics/track/random/', statistics_track_router),
+    path('statistics/track/random/<int:number>/', statistics_track_router),
     path('statistics/track/<str:user_id>/', statistics_track_router),
 ]

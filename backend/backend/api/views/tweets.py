@@ -2,21 +2,20 @@
 
 import ujson
 import logging
+import time
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from backend.handler.couch_handler import couch_db_handler
-from backend.handler.object_storage_handler import object_storage_handler
+from backend.handler.couch_handler import couch_db_banlancer
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, init_http_bad_request, \
     check_api_key, make_json_response
 from backend.common.couchdb_map import TRAINING_UNTRAINED_MANGO, TRAINING_UNTRAINED_TEXT_MANGO
-from backend.config.config import COUCHDB_TWEET_DB
 
-tweet_couch_db = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+tweet_couch_db = couch_db_banlancer
 logger = logging.getLogger('django.debug')
 
 
@@ -140,6 +139,9 @@ def tweet_get(request, resource):
 
 
 def tweet_untrained_get(request, resource=100):
+
+    start_timer = time.time()
+
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_MANGO(resource))
     except Exception as e:
@@ -148,6 +150,7 @@ def tweet_untrained_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
+    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -157,11 +160,16 @@ def tweet_untrained_get(request, resource=100):
                 model=tweet.get('model', {})
             )
         })
-    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=resource)
+        count += 1
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
 def tweet_trained_post(request):
+    start_timer = time.time()
+
     results = ujson.loads(request.body)
     updated = dict()
 
@@ -190,14 +198,17 @@ def tweet_trained_post(request):
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error=400, prefix='API')
             influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
                                         tweet=len(updated))
+            logger.debug('Tweet post failed %s' % e)
             resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
     resp = init_http_success()
     resp['data'] = updated
+
+    timer = (time.time() - start_timer)
     influxdb_handler.make_point(key='api/tweet/trained/', method='POST', error='success', prefix='API',
-                                tweet=len(updated))
+                                tweet=len(updated), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -206,6 +217,9 @@ def tweet_trained_get(request):
 
 
 def tweet_untrained_text_get(request, resource=100):
+
+    start_timer = time.time()
+
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_TEXT_MANGO(resource))
     except Exception as e:
@@ -214,6 +228,7 @@ def tweet_untrained_text_get(request, resource=100):
         resp = init_http_not_found('Query Untrained Tweet Fail!')
         make_json_response(HttpResponseBadRequest, resp)
 
+    count = 0
     resp = init_http_success()
     for tweet in tweets:
         resp['data'].update({
@@ -222,8 +237,10 @@ def tweet_untrained_text_get(request, resource=100):
                 tags=tweet.get('tags').get('text', {}),
             )
         })
-    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API',
-                                tweet=resource)
+        count += 1
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -232,6 +249,8 @@ def tweet_trained_text_get(request):
 
 
 def tweet_trained_text_post(request):
+    start_timer = time.time()
+
     results = ujson.loads(request.body)
     updated = dict()
 
@@ -259,14 +278,17 @@ def tweet_trained_text_post(request):
             influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error=400, prefix='API')
             influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
                                         tweet=len(updated))
+            logger.debug('Tweet post failed %s' % e)
             resp = init_http_bad_request('Tweet Attribute Required %s' % e)
             resp['data'] = updated
             return make_json_response(HttpResponseBadRequest, resp)
 
     resp = init_http_success()
     resp['data'] = updated
+
+    timer = (time.time() - start_timer)
     influxdb_handler.make_point(key='api/tweet/trained/text/', method='POST', error='success', prefix='API',
-                                tweet=len(updated))
+                                tweet=len(updated), timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -301,30 +323,44 @@ if __name__ == '__main__':
     #     tweet_couch_db.save(newTweet)
     # tweet_couch_db.compact()
     # pass
-    mango = {
-        'selector': {
-            '$not': {
-                'text_update': '$exists'
-            }
-        },
-        'limit': 10000
-    }
-    tweets = tweet_couch_db.find(mango)
-    for tweet in tweets:
-        newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-        newTweet.update(dict(
-            _id=tweet.id,
-            _rev=tweet.rev,
-        ))
-        print(newTweet)
-        for img in newTweet['img_id']:
-            try:
-                picture = object_storage_handler.download(img)
-            except Exception as e:
-                object_storage_handler.reconnect()
-                picture = object_storage_handler.download(img)
-
-            if not picture:
-                newTweet['img_id'].remove(img)
-        print(newTweet)
-        # tweet_couch_db.save(newTweet)
+    # import datetime
+    # import pytz
+    #
+    # mango = {
+    #     'selector': {
+    #         'img_id': {
+    #             '$ne': []
+    #         },
+    #         'last_update': {
+    #             '$lt': (datetime.datetime.now().astimezone(pytz.utc) - datetime.timedelta(minutes=60)).strftime('%Y-%m-%d %H:%M:%S%z')
+    #         },
+    #         'process': {
+    #             '$eq': 0
+    #         }
+    #     },
+    #     'limit': 400000,
+    #     # 'skip': 1000,
+    # }
+    #
+    # tweets = tweet_couch_db.find(mango)
+    # for tweet in tweets:
+    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
+    #     newTweet.update(dict(
+    #         _id=tweet.id,
+    #         _rev=tweet.rev,
+    #     ))
+    #     for img in newTweet['img_id']:
+    #         try:
+    #             picture = object_storage_handler.download(img + '.jpg')
+    #         except Exception as e:
+    #             object_storage_handler.reconnect()
+    #             picture = object_storage_handler.download(img + '.jpg')
+    #
+    #         if not picture:
+    #             newTweet['img_id'].remove(img)
+    #     newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+    #     try:
+    #         tweet_couch_db.save(newTweet)
+    #     except Exception:
+    #         continue
+    tweet_couch_db.compact()

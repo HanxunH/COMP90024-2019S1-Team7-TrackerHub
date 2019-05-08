@@ -8,4 +8,4 @@ WORKDIR /workspace
 ADD . /workspace
 RUN pip install -r requirements.txt
 
-CMD [ "mpirun","-n","12","python","-u","coconut_image_recong.py","--load_with_config" ]
+CMD [ "python","coconut_image_recong.py","--load_with_config" ]

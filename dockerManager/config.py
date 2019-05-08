@@ -16,7 +16,11 @@ DOCKER_DOMAIN = {
     'instance4': dict(
         domain='172.26.38.11',
         port=8866,
-    )
+    ),
+    'super': dict(
+        domain='103.6.254.118',
+        port=8866
+    ),
 }
 
 COUCH_DB_PORTS = {
@@ -55,11 +59,71 @@ INFLUXDB_PORTS = {
 }
 
 INFLUXDB_VOLUMES = {
-    '/data/influxdb/': {'bind': '/var/lib/influxdb/', 'mode': 'rw'},
-    # '/home/ubuntu/config/init_script.influxql': {'bind': 'init_script.influxql', 'mode': 'ro'}
+    '/data/influxdb/': {'bind': '/data/data/', 'mode': 'rw'},
 }
 
 INFLUXDB_ENV = {
     'ADMIN_USER': 'admin',
     'INFLUXDB_INIT_PWD': 'password'
 }
+
+GRAFANA_PORTS = {
+    '3000/tcp': 3000
+}
+
+GRAFANA_VOLUMES = {
+    '/data/grafana/': {'bind': '/var/lib/grafana', 'mode': 'rw'},
+    '/home/ubuntu/config/grafana.ini': {'bind': '/etc/grafana/grafana.ini', 'mode': 'rw'}
+}
+
+GRAFANA_ENV = {
+    'GF_AUTH_PROXY_ENABLED': True,
+    'GF_AUTH_ANONYMOUS_ENABLED': True,
+    'GF_SMTP_ENABLED': True,
+    'GF_SMTP_HOST': 'smtp.gmail.com:465',
+    'GF_SMTP_USER': 'likwunoperation1@gmail.com',
+    'GF_SMTP_PASSWORD': 'hz98643c',
+    'GF_SMTP_SKIP_VERIFY': True,
+    'GF_SMTP_FROM_ADDRESS': 'likwunoperation1@gmail.com',
+    'GF_SMTP_FROM_NAME': 'Grafana',
+    'GF_SECURITY_ADMIN_USER': 'lihuan',
+    'GF_SECURITY_ADMIN_PASSWORD': 'lihuan',
+    'GF_SERVER_DOMAIN': '172.26.37.225',
+    # 'GF_SERVER_HTTP_PORT': 80,
+    # 'GF_SERVER_ROOT_URL': 'http://172.26.37.225/dashboard'
+}
+
+RESTART = {"Name": "always"}
+
+SMTP_PORTS = {
+    '25/tcp': 10025
+}
+
+SMTP_ENV = {
+    'RELAY_NETWORKS': ':0.0.0.0/0'
+}
+
+CADVISOR_PORTS = {
+    '8080/tcp': 8082
+}
+
+CADVISOR_ENV = {
+    'storage_driver': 'influxdb',
+    'storage_driver_db': 'cAdvisor',
+    'storage_driver_host': '172.26.38.11:8086'
+}
+
+CADVISOR_COMMAND = [
+    '-storage_driver', 'influxdb',
+    '-storage_driver_db', '',
+    '-storage_driver_host', '172.26.38.11:8086'
+]
+
+CADVISOR_VOLUMES = {
+    '/': {'bind': '/rootfs', 'mode': 'ro'},
+    '/var/run': {'bind': '/var/run', 'mode': 'rw'},
+    '/sys': {'bind':'/sys', 'mode': 'ro'},
+    '/var/lib/docker/': {'bind': '/var/lib/docker', 'mode': 'ro'}
+}
+
+

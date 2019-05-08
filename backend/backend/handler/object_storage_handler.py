@@ -76,6 +76,7 @@ class ObjectStorageHandler(object):
 
 
 object_storage_handler = ObjectStorageHandler(OBJECT_STORAGE_CONTAINER)
+json_storage_handler = ObjectStorageHandler(JSON_STORAGE_CONTAINER)
 
 
 if __name__ == '__main__':

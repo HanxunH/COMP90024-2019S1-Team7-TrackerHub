@@ -5,6 +5,7 @@ API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 
 COUCHDB_URL = 'http://{}:{}@{}:{}/'
 COUCHDB_DOMAIN = '172.26.37.225'
+COUCHDB_DOMAINS = ['172.26.37.225', '172.26.38.1', '172.26.38.110']
 COUCHDB_USERNAME = 'admin'
 COUCHDB_PASSWORD = 'password'
 COUCHDB_PORTS = 5984
@@ -15,6 +16,7 @@ COUCHDB_TIME_DB = 'time_{}_{}_{}_{}_{}'
 OBJECT_STORAGE_URL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_PREURL = 'https://swift.rc.nectar.org.au/v1/AUTH_0ca7fac1451c4f519376f20812279bfc'
 OBJECT_STORAGE_CONTAINER = 'twitter_pic'
+JSON_STORAGE_CONTAINER = 'results'
 
 OS_AUTH_URL = 'https://keystone.rc.nectar.org.au:5000'
 OS_TENANT_ID = 'unimelb-comp90024-group-7'
@@ -27,3 +29,5 @@ INFLUXDB_PORT = 8086
 INFLUXDB_USERNAME = 'admin'
 INFLUXDB_PASSWORD = 'password'
 INFLUXDB_DATABASE = 'backend'
+
+FOOD_TAGS = ['']
