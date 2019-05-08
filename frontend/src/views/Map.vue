@@ -90,8 +90,8 @@ import 'vue-datetime/dist/vue-datetime.css'
 import Loading from 'vue-loading-overlay';
 // Import stylesheet
 import 'vue-loading-overlay/dist/vue-loading.css';
-import http from '../utils/http'
-import api from '../utils/api'
+//import http from '../utils/http'
+//import api from '../utils/api'
 
 export default {
   name: 'gmap',
