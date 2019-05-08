@@ -454,8 +454,14 @@ export default {
               })
             }
            }
+      
+        
           
-          let trackPath = new google.maps.Polyline(console.log(path),{
+          this.visible = false
+        }, error => {
+          console.log('error')
+        }).then(()=>{
+            let trackPath = new google.maps.Polyline(console.log(path),{
             path: path,
             geodesic: true,
             strokeColor: '#FF0000',
@@ -464,9 +470,7 @@ export default {
           })
 
           trackPath.setMap(map)
-          self.visible = false
-        }, error => {
-          console.log('error')
+          console.log('1')
         })
 
 
