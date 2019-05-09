@@ -50,7 +50,7 @@ def tweet_trained_text_router(request, resource=None, *args, **kwargs):
 
 @require_http_methods(['POST', 'GET'])
 @check_api_key
-def tweet_trained_router(request, resource=None, *args, **kwargs):
+def tweet_trained_zone_router(request, resource=None, *args, **kwargs):
     if request.method == 'POST':
         return tweet_trained_zone_post(request)
     elif request.method == 'GET':
