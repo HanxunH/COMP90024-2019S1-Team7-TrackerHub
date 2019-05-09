@@ -328,7 +328,7 @@ def tweet_untrained_zone_get(request, resource=100):
     for tweet in tweets:
         resp['data'].update({
             tweet.id: dict(
-                text=tweet.value.get('geo', []),
+                geo=tweet.value.get('geo', []),
                 zone=None
             )
         })
