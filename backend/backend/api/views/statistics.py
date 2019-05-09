@@ -17,7 +17,6 @@ from backend.common.utils import make_dict, init_http_not_found, init_http_succe
     str_to_str_datetime_utc
 from backend.settings import BASE_DIR
 
-
 logger = logging.getLogger('django.debug')
 tweet_couch_db = couch_db_banlancer
 melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
@@ -72,7 +71,6 @@ def down_statistics_file(request):
 
 
 def statistics_track_get(request, user_id=None, number=100):
-
     def process_tag(tags):
         result_tags = {}
         for tag in tags:
@@ -144,8 +142,11 @@ def statistics_track_get(request, user_id=None, number=100):
     while True:
         try:
             current_db = tweet_couch_db.get_current_database()
-            tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time, stale='ok',
-                                     limit=500000)
+            if not user_id:
+                tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
+                                         stale='ok', limit=500000)
+            else:
+                tweets = current_db.view('statistics/user_geo', keys=[user_id], stale='ok', limit=single)
             tweets = [tweet.value for tweet in tweets]
             break
         except Exception as e:
@@ -169,6 +170,8 @@ def statistics_track_get(request, user_id=None, number=100):
                 img_id=tweet.get('img_id'),
                 tags=process_tag(tweet.get('tags'))
             ))
+            if user_id:
+                results[user][-1].update(dict(text=tweet.get('text')))
 
     results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
     for user in results:
