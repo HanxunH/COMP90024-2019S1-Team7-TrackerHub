@@ -5,20 +5,19 @@ import logging
 
 from backend.config.config import *
 from backend.handler.influxdb_handler import influxdb_handler
+from backend.common.couchdb_map import UNLEARNING, STATISTICS
 
 logger = logging.getLogger('django.debug')
 
 
 class CouchDbHandler(object):
 
-    load_balance_counter = None
     server = None
     database = dict()
     status = True
 
     def __init__(self, url=COUCHDB_URL, username=COUCHDB_USERNAME, password=COUCHDB_PASSWORD,
                  domain=COUCHDB_DOMAIN, ports=COUCHDB_PORTS):
-        self.load_balance_counter = 0
         self.domain = domain
         self.ports = ports.__str__()
 
@@ -44,6 +43,8 @@ class CouchDbHandler(object):
             self.database.update({
                 _database: self.server.create(_database)
             })
+            self.database[_database].save(UNLEARNING)
+            self.database[_database].save(STATISTICS)
             logger.debug('CouchDB Database %s Created Success: %s:%s' % (_database, self.domain, self.ports))
         return self.database[_database]
 
@@ -84,6 +85,14 @@ class CouchDBBalancer(object):
         self.tick('find')
         return self.databases[self.balance].find(mango)
 
+    def get_current_database(self):
+        self.tick('view')
+        return self.databases[self.balance]
+
+    def iterview(self, view, batch, wrapper=None):
+        self.tick('view')
+        return self.databases[self.balance].iterview(view, batch, wrapper)
+
     def compact(self):
         self.tick('compact')
         return self.databases[self.balance].compact()
@@ -95,8 +104,31 @@ couch_db_banlancer.connect_database(COUCHDB_TWEET_DB)
 
 if __name__ == '__main__':
 
-    tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
-    index = tweet_database.index()
-    index[None, 'datetime'] = [{'date': 'asc'}]
-    list(index)
+    # mango = {
+    #     'selector': {
+    #         'geo': {
+    #             '$ne': []
+    #         }
+    #     },
+    #     'use_index': '_design/with_geo_and_tags',
+    # }
+    #
+    # couch_db = couch_db_banlancer.view()
+    # tweets = couch_db.view('with_geo_and_tags/with_geo_and_tags', stale='ok', limit=20)
+    #
+    # print(tweets)
+    # for tweet in tweets:
+    #     print(tweet)
+
+    # tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
+    # index = tweet_database.index()
+    # index[None, 'datetime'] = [{'date': 'asc'}]
+    # list(index)
+
+    tweet_database = couch_db_banlancer.get_current_database()
+    tweets = tweet_database.view('unlearning/zone', stale='ok', limit=20)
+    for tweet in tweets:
+        print(tweet.id)
+        print(tweet.value)
+
 

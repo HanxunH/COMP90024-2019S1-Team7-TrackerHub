@@ -5,7 +5,7 @@ import ujson
 import time
 from shapely.geometry import shape, point
 
-from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
+from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 from django.utils.dateparse import parse_datetime
 from django.utils import timezone
@@ -95,15 +95,19 @@ def statistics_track_get(request, user_id=None, number=100):
     start_timer = time.time()
 
     params = ujson.loads(request.body) if request.body else {}
-
     start_time = params.get('start_time', None)
-    start_time = str_to_str_datetime_utc(start_time) if start_time else None
     end_time = params.get('end_time', None)
-    end_time = str_to_str_datetime_utc(end_time) if end_time else None
     target_tag = params.get('tags', [])
     skip = params.get('skip', 0)
     threshold = params.get('threshold', 0.95)
     single = int(params.get('single', 50))
+
+    try:
+        start_time = str_to_str_datetime_utc(start_time) if start_time else None
+        end_time = str_to_str_datetime_utc(end_time) if end_time else None
+    except Exception as e:
+        resp = init_http_not_found('Data time format error')
+        return make_json_response(HttpResponseBadRequest, resp)
 
     number = 1 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
@@ -149,7 +153,7 @@ def statistics_track_get(request, user_id=None, number=100):
             if _result_tags:
                 result_tags.update({'gluttony': _result_tags})
         if 'lust' in target_tag:
-            _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawing', 'sexy'])
+            _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawings', 'sexy'])
             if _result_tags:
                 result_tags.update({'lust': _result_tags})
         _result_tags = get_tags(tags, 'text', threshold)
