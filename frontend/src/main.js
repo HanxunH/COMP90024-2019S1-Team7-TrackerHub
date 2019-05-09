@@ -8,8 +8,11 @@ import axios from 'axios'
 //import qs from 'qs'
 import vueSmoothScroll from 'vue-smooth-scroll'
 import SuiVue from 'semantic-ui-vue'
-import 'semantic-ui-css/semantic.min.css';
+import 'semantic-ui-css/semantic.min.css'
+import VueFlashMessage from 'vue-flash-message'
+require('vue-flash-message/dist/vue-flash-message.min.css')
 
+Vue.use(VueFlashMessage)
 Vue.use(SuiVue)
 Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)

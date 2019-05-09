@@ -1,10 +1,8 @@
 <template>
   <div id="gmap">
     <loading :active.sync="visible" :can-cancel="true"></loading>
-
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
-
     <!-- Div on top of the map -->
     <div id="onmap">    
       <div class="container mt-3">
@@ -72,6 +70,9 @@
             end_time.includes('NaN') || end_time == ''" 
             @click="mapBuildTime()">Search
           </button>
+        </div>
+        <div class="col-md-4" style="height: 4vh; margin-bottom: 1vh;">
+          <flash-message transitionIn="animated swing"></flash-message>
         </div>
       </div>
     </nav>
@@ -386,7 +387,7 @@ export default {
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
 
       if (start_time.includes('NaN') || end_time.includes('NaN'))
-        alert('Time is required')
+        this.flash('Time must be selected', 'error')
       else {  
         let data = {
           start_time,
@@ -409,8 +410,7 @@ export default {
           })
           .catch(error => {
             this.visible = false,
-            console.log(error),
-            alert(error),
+            this.flash(`${error}`, 'error'),
             this.errored = true
         })   
       }  
@@ -514,8 +514,7 @@ export default {
         trackPath.setMap(map)
         this.visible = false
       }).catch(error => {
-        console.log(error)
-        alert(error)
+        this.flash(`${error}`, 'error'),
         this.visible = false
         this.errored = true
       })
@@ -623,8 +622,7 @@ export default {
         }
         this.visible = false
       }).catch(error => {
-        console.log(error)
-        alert(error)
+        this.flash(`${error}`, 'error'),
         this.visible = false
         this.errored = true
       })
