@@ -48,6 +48,16 @@ def tweet_trained_text_router(request, resource=None, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
+@require_http_methods(['POST', 'GET'])
+@check_api_key
+def tweet_trained_router(request, resource=None, *args, **kwargs):
+    if request.method == 'POST':
+        return tweet_trained_zone_post(request)
+    elif request.method == 'GET':
+        return tweet_trained_zone_get(request, resource)
+    return HttpResponseNotAllowed()
+
+
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_router(request, *args, **kwargs):
@@ -327,6 +337,10 @@ def tweet_untrained_zone_get(request, resource=100):
     influxdb_handler.make_point(key='api/tweet/untrained/zone/', method='GET', error='success', prefix='API',
                                 tweet=len(resp['data']), timer=timer)
     return make_json_response(HttpResponse, resp)
+
+
+def tweet_trained_zone_get(request):
+    params = ujson.loads(request.body)
 
 
 def tweet_trained_zone_post(request):
