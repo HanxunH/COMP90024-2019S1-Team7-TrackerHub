@@ -13,10 +13,8 @@ from django.utils import timezone
 from backend.handler.couch_handler import couch_db_banlancer
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.handler.object_storage_handler import json_storage_handler
-from backend.common.couchdb_map import statistics_track_random
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response, \
     str_to_str_datetime_utc
-from backend.config.config import COUCHDB_TWEET_DB
 from backend.settings import BASE_DIR
 
 
@@ -74,15 +72,6 @@ def down_statistics_file(request):
 
 
 def statistics_track_get(request, user_id=None, number=100):
-    def get_tags(tags, needed, value, ignore=None):
-        result = []
-        if needed in tags:
-            for tag in tags[needed]:
-                if isinstance(tags[needed][tag], str):
-                    result.append(tags[needed][tag])
-                elif (tags[needed][tag] > value) and (not ignore or tag not in ignore):
-                    result.append(tag)
-        return result
 
     def make_this_point(_length, _timer):
         if user_id:
@@ -99,7 +88,6 @@ def statistics_track_get(request, user_id=None, number=100):
     end_time = params.get('end_time', None)
     target_tag = params.get('tags', [])
     skip = params.get('skip', 0)
-    threshold = params.get('threshold', 0.95)
     single = int(params.get('single', 50))
 
     try:
@@ -129,11 +117,12 @@ def statistics_track_get(request, user_id=None, number=100):
     except Exception as e:
         pass
 
-    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=500000, skip=skip)
-
     while True:
         try:
-            tweets = tweet_couch_db.find(mango)
+            current_db = tweet_couch_db.get_current_database()
+            tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time, stale='ok',
+                                     limit=100000, skip=skip)
+            tweets = [tweet.value for tweet in tweets]
             break
         except Exception as e:
             logger.debug('Query Timeout %s' % e)
@@ -148,20 +137,16 @@ def statistics_track_get(request, user_id=None, number=100):
         geo_exists.update({user: []}) if user not in geo_exists else None
         tags = tweet.get('tags')
         result_tags = {}
-        if 'gluttony' in target_tag:
-            _result_tags = get_tags(tags, 'food179', threshold, ['non_food'])
-            if _result_tags:
-                result_tags.update({'gluttony': _result_tags})
-        if 'lust' in target_tag:
-            _result_tags = get_tags(tags, 'nsfw', threshold, ['neutral', 'drawings', 'sexy'])
-            if _result_tags:
-                result_tags.update({'lust': _result_tags})
-        _result_tags = get_tags(tags, 'text', threshold)
-        for _tag in _result_tags:
-            if _tag in target_tag:
-                result_tags.update({'text': _tag + '.text'})
-            elif 'emotion' in target_tag and _tag in ['positive', 'negative', 'neutral']:
-                result_tags.update({'emotion': _tag})
+
+        for tag in tags:
+            if tag in ['hentai', 'porn']:
+                result_tags.update({'lust': tag})
+            elif tag in ['neutral', 'positive', 'negative']:
+                result_tags.update({'sentiment': tag})
+            elif 'text' in tag:
+                result_tags.update({'text': tag.strip('text.')})
+            else:
+                result_tags.update({'gluttony': tag})
 
         if tweet.get('geo') not in geo_exists[user] and len(results[user]) < single and ((target_tag and result_tags) or not target_tag):
             geo_exists[user].append(tweet.get('geo'))

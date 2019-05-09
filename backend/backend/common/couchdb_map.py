@@ -55,30 +55,6 @@ def STATISTICS_TIME_MANGO(start_time=None, end_time=None, porn=None, food=None):
         mango['selector'].update('tags')
 
 
-def statistics_track_random(start_time=None, end_time=None, user_id=None, limit=10000, skip=0):
-    mango = {
-        'selector': {
-            'geo': {
-                '$ne': []
-            }
-        },
-        'use_index': 'json:geo-index',
-        'limit': limit,
-        'skip': skip
-    }
-
-    if start_time or end_time:
-        mango['selector'].update(dict(date={}))
-        mango['selector']['date'].update({'$gte': start_time}) if start_time else None
-        mango['selector']['date'].update({'$lte': end_time}) if end_time else None
-        mango.update(dict(use_index='json:date-index'))
-    if user_id:
-        mango['selector'].update(dict(user=user_id))
-        mango.update(dict(use_index='json:user-date-index'))
-
-    return mango
-
-
 STATISTICS = {
     "_id": "_design/statistics",
     "views": {
