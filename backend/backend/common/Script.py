@@ -31,7 +31,10 @@ def process_and_update(**tweets):
                 if melb_map[zone].contains(point.Point(geo)):
                     tweets[tweet]['zone'] = zone
                     break
-    resp = requests.post('http://172.26.38.1:8080/api/tweet/trained/zone/', headers=headers, json=tweets)
+    try:
+        resp = requests.post('http://172.26.38.1:8080/api/tweet/trained/zone/', headers=headers, json=tweets)
+    except Exception:
+        return
 
 
 def process_zone(amount=100000, batch=10000):

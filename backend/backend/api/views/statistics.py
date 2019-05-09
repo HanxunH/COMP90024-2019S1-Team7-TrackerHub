@@ -139,13 +139,13 @@ def statistics_track_get(request, user_id=None, number=100):
         result_tags = {}
 
         for tag in tags:
-            if tag in ['hentai', 'porn']:
+            if tag in ['hentai', 'porn'] and 'lust' in target_tag:
                 result_tags.update({'lust': tag})
-            elif tag in ['neutral', 'positive', 'negative']:
+            elif tag in ['neutral', 'positive', 'negative'] and 'sentiment' in target_tag:
                 result_tags.update({'sentiment': tag})
-            elif 'text' in tag:
-                result_tags.update({'text': tag.strip('text.')})
-            else:
+            elif 'text' in tag and tag.lstrip('text.') in target_tag:
+                result_tags.update({'text': tag.lstrip('text.')})
+            elif 'gluttony' in target_tag:
                 result_tags.update({'gluttony': tag})
 
         if tweet.get('geo') not in geo_exists[user] and len(results[user]) < single and ((target_tag and result_tags) or not target_tag):
