@@ -440,7 +440,6 @@ export default {
 
       let infowindow = new google.maps.InfoWindow()
       let path = []
-      let marker
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
       
@@ -483,7 +482,7 @@ export default {
             scale: .1
           }
 
-          marker = new google.maps.Marker({
+          let marker = new google.maps.Marker({
             position: point,
             map: map,
             icon: icon,
@@ -492,8 +491,10 @@ export default {
 
           let tag_content = ''
 
-          for (let m = 0; m < value[0].tags.length; m++){
-            tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[0].tags[m]}</button>`
+          for (const [mainTag, subTags] of Object.entries(value[0].tags)){
+            for (let m = 0; m < subTags.length;m ++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+            }
           }
 
           marker.addListener('click', () => {
@@ -520,7 +521,7 @@ export default {
               lng: value[i].geo[0]
             }
 
-            marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
@@ -529,8 +530,10 @@ export default {
 
             tag_content = ''
 
-            for (let m = 1; m < value[i].tags.length; m++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[i].tags[m]}</button>`
+            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
+              for (let m = 0; m < subTags.length;m ++){
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+              }
             }
 
             marker.addListener('click', () => {
@@ -571,9 +574,9 @@ export default {
         styles: mapStyle
       })
 
+      let infowindow = new google.maps.InfoWindow()
       let paths = []
       let colors = []
-      let marker
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
       
@@ -584,8 +587,8 @@ export default {
         start_time = end_time = null
         
       let data = {
-        start_time,
-        end_time,
+        start_time: '2016-05-09 10:00:00+1000',
+        end_time: '2016-10-09 10:00:00+1000',
         tags: this.tags,
         skip: 0,
         threshold: 0.9,
@@ -599,11 +602,13 @@ export default {
         method: 'POST',
         data: data
       }).then(res => {
+        console.log(res)
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
             lng: value[0].geo[0]
           }
+          console.log(point)
           let color = this.getRandomColor()
           let path = []
           path.push(point)
@@ -618,18 +623,24 @@ export default {
             scale: .1
           }
 
-          marker = new google.maps.Marker({
+          let marker = new google.maps.Marker({
             position: point,
             map: map,
             icon: icon,
-            title: value[0].time+" "+value[0].tags
+            title: value[0].time
           })
 
           let tag_content = ''
 
-          for (let m = 0; m < value[0].tags.length; m++){
-            tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[0].tags[m]}</button>`
+          console.log(value[0].tags)
+
+          for (const [mainTag, subTags] of Object.entries(value[0].tags)){
+            for (let m = 0; m < subTags.length;m ++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+            }
           }
+
+          console.log(tag_content)
 
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
@@ -655,17 +666,19 @@ export default {
               lng: value[i].geo[0]
             }
 
-            marker = new google.maps.Marker({
+            let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time+" "+value[i].tags
+              title: value[i].time
             })
 
             let tag_content = ''
 
-            for (let m = 0; m < value[i].tags.length; m++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[i].tags[m]}</button>`
+            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
+              for (let m = 0; m < subTags.length;m ++){
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+              }
             }
 
             marker.addListener('click', () => {
@@ -681,7 +694,8 @@ export default {
           }
           paths.push(path)
         }
-      }).then((res) => {
+      }).then(() => {
+        console.log(paths)
         for (let j = 0; j < paths.length; j++) {
           let trackPath = new google.maps.Polyline({
             path: paths[j],
@@ -694,6 +708,7 @@ export default {
         }
         this.visible = false
       }).catch(error => {
+        console.log(error)
         this.flash(`${error}`, 'error'),
         this.visible = false
         this.errored = true
