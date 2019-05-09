@@ -130,7 +130,7 @@ def statistics_track_get(request, user_id=None, number=100):
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
                         result_tag.update({tag: tweet['tags'][tag]})
 
-        results = results[skip: skip + number]
+        dict(tuple(results.items)[skip: skip + number])
 
         timer = (time.time() - start_timer)
 
@@ -189,7 +189,7 @@ def statistics_track_get(request, user_id=None, number=100):
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
 
-    results = results[skip: skip + number]
+    results = dict(tuple(results.items)[skip: skip + number])
 
     timer = (time.time() - start_timer)
 
