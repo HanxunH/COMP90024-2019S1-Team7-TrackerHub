@@ -146,7 +146,8 @@ def statistics_track_get(request, user_id=None, number=100):
                 tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
                                          stale='ok', limit=500000)
             else:
-                tweets = current_db.view('statistics/user_geo', keys=[user_id], stale='ok', limit=single)
+                tweets = current_db.view('statistics/user_geo', startkey=user_id, endkey=user_id, stale='ok',
+                                         limit=single)
             tweets = [tweet.value for tweet in tweets]
             break
         except Exception as e:
@@ -189,6 +190,10 @@ def statistics_track_get(request, user_id=None, number=100):
         result_tag = {}
         results[user] = results[user][0:single]
         for tweet in results[user]:
+            if user_id:
+                if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
+                    results[user].pop(tweet)
+                    continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
