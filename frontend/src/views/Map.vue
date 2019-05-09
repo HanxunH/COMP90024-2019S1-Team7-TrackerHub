@@ -120,10 +120,6 @@ export default {
       end_time: new Date().toString(),
       user_id: '',
       number: 1,
-      options: {
-        format: 'DD/MM/YYYY',
-        useCurrent: false,
-      },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
       tags: null,
       selections: [
@@ -137,12 +133,8 @@ export default {
   },
 
   mounted () {
+    this.mapInit()
     this.mapBuild()
-    /* Get chart data through API cals
-    this.getBarData(),
-    this.getLineData(),
-    this.getRadarchartData()
-    */
   },
 
   created: function(){
@@ -150,6 +142,15 @@ export default {
   },
 
   methods: {
+    // ========================== Init Map ===================================================
+    mapInit(){
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
+    },
     // ========================== Build Map ====================================================
     mapBuild(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
