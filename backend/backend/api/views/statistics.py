@@ -122,6 +122,7 @@ def statistics_track_get(request, user_id=None, number=100):
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
 
+        results = dict(tuple(results.items())[skip: skip + number])
         for user in results:
             result_tag = {}
             results[user] = results[user][0:single]
@@ -129,8 +130,7 @@ def statistics_track_get(request, user_id=None, number=100):
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
                         result_tag.update({tag: tweet['tags'][tag]})
-
-        dict(tuple(results.items)[skip: skip + number])
+            results[user].sort(key=lambda x: x.get('time'))
 
         timer = (time.time() - start_timer)
 
@@ -181,6 +181,7 @@ def statistics_track_get(request, user_id=None, number=100):
         json_storage_handler.reconnect()
         json_storage_handler.upload(json_name, json_file)
 
+    results = dict(tuple(results.items())[skip: skip + number])
     for user in results:
         result_tag = {}
         results[user] = results[user][0:single]
@@ -188,8 +189,7 @@ def statistics_track_get(request, user_id=None, number=100):
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
-
-    results = dict(tuple(results.items)[skip: skip + number])
+        results[user].sort(key=lambda x: x.get('time'))
 
     timer = (time.time() - start_timer)
 
