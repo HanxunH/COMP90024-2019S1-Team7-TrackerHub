@@ -121,7 +121,7 @@ def statistics_track_get(request, user_id=None, number=100):
         try:
             current_db = tweet_couch_db.get_current_database()
             tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time, stale='ok',
-                                     limit=100000, skip=skip)
+                                     limit=500000)
             tweets = [tweet.value for tweet in tweets]
             break
         except Exception as e:
@@ -161,7 +161,7 @@ def statistics_track_get(request, user_id=None, number=100):
                 tags=result_tags
             ))
 
-    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number])
+    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[skip: number + skip])
     for user in results:
         results[user].sort(key=lambda x: x.get('time'))
         
