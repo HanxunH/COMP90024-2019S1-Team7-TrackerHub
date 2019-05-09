@@ -73,6 +73,19 @@ def down_statistics_file(request):
 
 def statistics_track_get(request, user_id=None, number=100):
 
+    def process_tag(tags):
+        result_tags = {}
+        for tag in tags:
+            if tag in ['hentai', 'porn']:
+                result_tags.update({'lust': tag})
+            elif tag in ['neutral', 'positive', 'negative']:
+                result_tags.update({'sentiment': tag})
+            elif 'text' in tag:
+                result_tags.update({'text': tag.lstrip('text.')})
+            else:
+                result_tags.update({'gluttony': tag})
+        return result_tags
+
     def make_this_point(_length, _timer):
         if user_id:
             influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error='success',
@@ -100,14 +113,25 @@ def statistics_track_get(request, user_id=None, number=100):
     number = 1 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
 
-    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'
-    json_name = json_name.format(user_id, number, single, None if not start_time else start_time.replace(' ', '-'),
+    json_name = 'track\\{}\\{}\\{}\\{}\\{}.json'
+    json_name = json_name.format(user_id, None if not start_time else start_time.replace(' ', '-'),
                                  None if not end_time else end_time.replace(' ', '-'),
-                                 None if len(target_tag) == 0 else '-'.join(sorted(target_tag)), skip, today)
+                                 None if len(target_tag) == 0 else '-'.join(sorted(target_tag)), today)
 
     try:
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
+
+        for user in results:
+            result_tag = {}
+            results[user] = results[user][0:single]
+            for tweet in results[user]:
+                for tag in tweet['tags']:
+                    if tag in target_tag or tweet['tags'][tag] in target_tag:
+                        result_tag.update({tag: tweet['tags'][tag]})
+
+        results = results[skip: skip + number]
+
         timer = (time.time() - start_timer)
 
         make_this_point(len(results), timer)
@@ -135,42 +159,37 @@ def statistics_track_get(request, user_id=None, number=100):
         user = tweet.get('user')
         results.update({user: []}) if user not in results else None
         geo_exists.update({user: []}) if user not in geo_exists else None
-        tags = tweet.get('tags')
-        result_tags = {}
 
-        for tag in tags:
-            if tag in ['hentai', 'porn']:
-                if 'lust' in target_tag:
-                    result_tags.update({'lust': tag})
-            elif tag in ['neutral', 'positive', 'negative']:
-                if 'sentiment' in target_tag:
-                    result_tags.update({'sentiment': tag})
-            elif 'text' in tag:
-                if tag.lstrip('text.') in target_tag:
-                    result_tags.update({'text': tag.lstrip('text.')})
-            elif 'gluttony' in target_tag:
-                result_tags.update({'gluttony': tag})
-
-        if tweet.get('geo') not in geo_exists[user] and len(results[user]) < single and ((target_tag and result_tags) or not target_tag):
+        if tweet.get('geo') not in geo_exists[user]:
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
                 time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
                     '%Y-%m-%d %H:%M:%S%z'),
                 geo=tweet.get('geo'),
                 img_id=tweet.get('img_id'),
-                tags=result_tags
+                tags=process_tag(tweet.get('tags'))
             ))
 
-    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[skip: number + skip])
+    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
     for user in results:
         results[user].sort(key=lambda x: x.get('time'))
-        
+
     json_file = ujson.dumps(results)
     try:
         json_storage_handler.upload(json_name, json_file)
     except Exception as e:
         json_storage_handler.reconnect()
         json_storage_handler.upload(json_name, json_file)
+
+    for user in results:
+        result_tag = {}
+        results[user] = results[user][0:single]
+        for tweet in results[user]:
+            for tag in tweet['tags']:
+                if tag in target_tag or tweet['tags'][tag] in target_tag:
+                    result_tag.update({tag: tweet['tags'][tag]})
+
+    results = results[skip: skip + number]
 
     timer = (time.time() - start_timer)
 
