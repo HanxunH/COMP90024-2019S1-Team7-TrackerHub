@@ -416,7 +416,7 @@ export default {
         console.log(data)
 
         this.$ajax({
-          url: `/ api/statistics/time/`,
+          url: `/api/statistics/time/`,
           method: 'POST',
           data: data
         }).then(res => {
