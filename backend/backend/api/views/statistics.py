@@ -139,12 +139,15 @@ def statistics_track_get(request, user_id=None, number=100):
         result_tags = {}
 
         for tag in tags:
-            if tag in ['hentai', 'porn'] and 'lust' in target_tag:
-                result_tags.update({'lust': tag})
-            elif tag in ['neutral', 'positive', 'negative'] and 'sentiment' in target_tag:
-                result_tags.update({'sentiment': tag})
-            elif 'text' in tag and tag.lstrip('text.') in target_tag:
-                result_tags.update({'text': tag.lstrip('text.')})
+            if tag in ['hentai', 'porn']:
+                if 'lust' in target_tag:
+                    result_tags.update({'lust': tag})
+            elif tag in ['neutral', 'positive', 'negative']:
+                if 'sentiment' in target_tag:
+                    result_tags.update({'sentiment': tag})
+            elif 'text' in tag:
+                if tag.lstrip('text.') in target_tag:
+                    result_tags.update({'text': tag.lstrip('text.')})
             elif 'gluttony' in target_tag:
                 result_tags.update({'gluttony': tag})
 
