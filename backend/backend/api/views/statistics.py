@@ -160,7 +160,7 @@ def statistics_track_get(request, user_id=None, number=100):
         results.update({user: []}) if user not in results else None
         geo_exists.update({user: []}) if user not in geo_exists else None
 
-        if tweet.get('geo') not in geo_exists[user]:
+        if tweet.get('geo') not in geo_exists[user] and len(results[user]) < 150:
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
                 time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
