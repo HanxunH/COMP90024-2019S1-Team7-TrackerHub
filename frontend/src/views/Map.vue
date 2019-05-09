@@ -450,8 +450,8 @@ export default {
         start_time = end_time = null
         
       let data = {
-        start_time,
-        end_time,
+        start_time: '2016-01-09 10:00:00+1000',
+        end_time: '2016-10-09 10:00:00+1000',
         tags: this.tags,
         skip: 0,
         threshold: 0.9,
@@ -587,7 +587,7 @@ export default {
         start_time = end_time = null
         
       let data = {
-        start_time: '2016-05-09 10:00:00+1000',
+        start_time: '2016-01-09 10:00:00+1000',
         end_time: '2016-10-09 10:00:00+1000',
         tags: this.tags,
         skip: 0,
