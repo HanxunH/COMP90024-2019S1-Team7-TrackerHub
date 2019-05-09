@@ -171,19 +171,19 @@ export default {
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
-        let cartodb_id = feature.getProperty('cartodb_id')
+        let total = feature.getProperty('cartodb_id')
         let name = feature.getProperty('name')
+        //let tags = feature.getProperty('tags')
         if (!this.barDataLabel.includes(name)){
           this.barDataLabel.push(name)
-          this.barData.push(cartodb_id)
+          this.barData.push(total)
         }
        
-        // let total = feature.getProperty("total")
         // let details = feature.getProperty('detail')
         // for (let detail in details) {
         //   locations.push([detail.tag,detail.coordinates[0],detail.coordinates[1]]) 
         // }
-        let color = cartodb_id > 30 ? 'white' : 'gray'
+        let color = total > 30 ? 'white' : 'gray'
         return {
           fillColor: color,
           strokeWeight: 1
@@ -353,8 +353,14 @@ export default {
       map.data.addListener('click', (event) => {
         // prepare data
         let name = event.feature.getProperty("name")
+        // let infoPieData = [] 
+        // let infoPieName = []
         // let total = event.feature.getProperty("total")
-        // let tag = event.feature.getProperty("tag")
+        // let tags = event.feature.getProperty("tag")
+        // for (let tag in tags) {
+        //    infoPieData.push(tag.count)
+        //    infoPieData.push(tag.name)
+        //}
         // set all chart data here
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4
         let infoPieData = [data1, data2, data3, data4]

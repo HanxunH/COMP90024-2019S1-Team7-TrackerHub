@@ -5,7 +5,8 @@ export default {
   name:"Piechart",
   extends: Pie,
   props: [
-    'data'
+    'data',
+    'name'
   ],
   mounted () {
     // Overwriting base render method with actual data.
@@ -13,7 +14,7 @@ export default {
       labels: ['Teen','Big','Japanese','Nurse'],
       datasets: [
         {
-          label: 'PornHub Commits',
+          label: this.name,
           backgroundColor: ['#f8979', '#eee','#ddd','#888'],
           data: this.data
         }
