@@ -299,6 +299,18 @@ export default {
         icon: icon5
       })
 
+      positiveMark.addListener('click', function() {
+        let content = '<div id="content" style="min-width:150px;">'+
+                      '<p>Tags</p>'+
+                      '<button class="btn btn-primary btn-dark">positive</button>'+
+                      '<button class="btn btn-primary btn-warning">positive</button>'+
+                      '<button class="btn btn-primary">positive</button>'+
+                      '</div>';
+        
+        infowindow.setContent(content)
+        infowindow.open(map, positiveMark)
+      })
+
       //======================== Setup each mark ==========================
       /*
       // set marks on the map
@@ -475,7 +487,22 @@ export default {
             position: point,
             map: map,
             icon: icon,
-            title: value[0].time+" "+value[0].tags
+            title: value[0].time
+          })
+
+          let tag_content = ''
+
+          for (let m = 0; m < value[0].tags.length; m++){
+            tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[0].tags[m]}</button>`
+          }
+
+          marker.addListener('click', () => {
+            let content = '<div id="content" style="min-width:150px;">'+
+                      '<p>Tags</p>'+
+                      tag_content+
+                      '</div>'
+            infowindow.setContent(content)
+            infowindow.open(map, marker)
           })
 
           for (let i = 1; i < value.length; i++) {
@@ -497,7 +524,22 @@ export default {
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time+" "+value[i].tags
+              title: value[i].time
+            })
+
+            tag_content = ''
+
+            for (let m = 1; m < value[i].tags.length; m++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[i].tags[m]}</button>`
+            }
+
+            marker.addListener('click', () => {
+              let content = '<div id="content" style="min-width:150px;">'+
+                      '<p>Tags</p>'+
+                      tag_content+
+                      '</div>'
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
             })
 
             path.push(point)
@@ -583,6 +625,21 @@ export default {
             title: value[0].time+" "+value[0].tags
           })
 
+          let tag_content = ''
+
+          for (let m = 0; m < value[0].tags.length; m++){
+            tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[0].tags[m]}</button>`
+          }
+
+          marker.addListener('click', () => {
+            let content = '<div id="content" style="min-width:150px;">'+
+                      '<p>Tags</p>'+
+                      tag_content+
+                      '</div>'
+            infowindow.setContent(content)
+            infowindow.open(map, marker)
+          })
+
           for (let i = 1; i < value.length; i++) {
             let icon_sm= {
               path: Const.svg_lust,
@@ -603,6 +660,21 @@ export default {
               map: map,
               icon: icon_sm,
               title: value[i].time+" "+value[i].tags
+            })
+
+            let tag_content = ''
+
+            for (let m = 0; m < value[i].tags.length; m++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${value[i].tags[m]}</button>`
+            }
+
+            marker.addListener('click', () => {
+              let content = '<div id="content" style="min-width:150px;">'+
+                        '<p>Tags</p>'+
+                        tag_content+
+                        '</div>'
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
             })
 
             path.push(point)
