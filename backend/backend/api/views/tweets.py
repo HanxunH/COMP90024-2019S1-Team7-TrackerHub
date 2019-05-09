@@ -352,15 +352,11 @@ def tweet_trained_zone_post(request):
     for result in results:
         try:
             _tweet = tweet_couch_db.get(id=result)
-            tweet = dict([(k, v) for k, v in _tweet.items() if k not in ('_id', '_rev')])
-            tweet.update(dict(
-                _id=_tweet.id,
-                _rev=_tweet.rev
-            ))
+            tweet = dict([(k, v) for k, v in _tweet.items()])
             _now = timezone.now().astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
             tweet.update(dict(
                 last_update=_now,
-                zone=result.get('zone', None)
+                zone=results[result].get('zone', None)
             ))
             tweet_couch_db.save(tweet)
 
