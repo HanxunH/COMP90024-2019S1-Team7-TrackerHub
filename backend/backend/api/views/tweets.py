@@ -165,7 +165,7 @@ def tweet_untrained_get(request, resource=100):
 
     try:
         current_db = tweet_couch_db.get_current_database()
-        tweets = current_db.view('unlearning/machine', stale='ok', limit=resource)
+        tweets = current_db.view('unlearning/machine', limit=resource)
     except Exception as e:
         influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error=400, prefix='API')
         logger.error('Query Untrained Tweet Fail! %s', e)
@@ -242,7 +242,7 @@ def tweet_untrained_text_get(request, resource=100):
 
     try:
         current_db = tweet_couch_db.get_current_database()
-        tweets = current_db.view('unlearning/text', stale='ok', limit=resource)
+        tweets = current_db.view('unlearning/text', limit=resource)
     except Exception as e:
         influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error=400, prefix='API')
         logger.error('Query Untrained Tweet Fail! %s', e)
@@ -317,7 +317,7 @@ def tweet_untrained_zone_get(request, resource=100):
 
     try:
         current_db = tweet_couch_db.get_current_database()
-        tweets = current_db.view('unlearning/zone', stale='ok', limit=resource)
+        tweets = current_db.view('unlearning/zone', limit=resource)
     except Exception as e:
         influxdb_handler.make_point(key='api/tweet/untrained/zone/', method='GET', error=400, prefix='API')
         logger.error('Query Untrained Tweet Fail! %s', e)
