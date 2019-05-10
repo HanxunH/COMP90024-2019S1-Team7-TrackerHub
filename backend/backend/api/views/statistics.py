@@ -140,6 +140,7 @@ def statistics_track_get(request, user_id=None, number=100):
 
             results[user] = results[user][0:single]
             results[user].sort(key=lambda x: x.get('time'))
+        results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
 
         timer = (time.time() - start_timer)
 
@@ -216,6 +217,7 @@ def statistics_track_get(request, user_id=None, number=100):
 
         results[user] = results[user][0:single]
         results[user].sort(key=lambda x: x.get('time'))
+    results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
 
     timer = (time.time() - start_timer)
 
