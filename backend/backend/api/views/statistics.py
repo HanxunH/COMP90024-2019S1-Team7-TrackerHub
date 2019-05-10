@@ -135,7 +135,7 @@ def statistics_track_get(request, user_id=None, number=100):
 
                 tweet['tags'] = result_tag
                 if result_tag or not target_tag:
-                    new_tweet.appen(tweet)
+                    new_tweet.append(tweet)
             results[user] = new_tweet
 
             results[user] = results[user][0:single]
@@ -211,7 +211,7 @@ def statistics_track_get(request, user_id=None, number=100):
 
             tweet['tags'] = result_tag
             if result_tag or not target_tag:
-                new_tweet.appen(tweet)
+                new_tweet.append(tweet)
         results[user] = new_tweet
 
         results[user] = results[user][0:single]
