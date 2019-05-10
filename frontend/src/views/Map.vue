@@ -546,7 +546,7 @@ export default {
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
               strokeWeight: 0, 
-              scale: .03
+              scale: .05
             }
 
             point = {
