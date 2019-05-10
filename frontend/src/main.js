@@ -30,7 +30,7 @@ axios.interceptors.request.use(config => {
     'Content-Type': 'application/json',
     'X-API-KEY': API_KEY,
 	}
-	console.log(this,config)
+	//console.log(this,config)
   return config
 },err => {
   return Promise.reject(err)
@@ -38,7 +38,7 @@ axios.interceptors.request.use(config => {
 
 let request = function (options) {
 	let method = options.method.toLowerCase()
-	console.log(options.data)
+	//console.log(options.data)
   return new Promise(function(resolve, reject){
 		axios({
 			url: options.url,

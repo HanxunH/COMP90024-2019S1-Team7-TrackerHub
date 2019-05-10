@@ -469,9 +469,13 @@ export default {
 
       this.$ajax({
         url: `/api/statistics/track/${this.user_id}/`,
-        method: 'GET',
+        method: 'POST',
         data: data
       }).then(res => {
+        console.log(res.data)
+        if (Object.keys(res.data).length === 0)
+          this.flash('no data match current query', 'error')
+        
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
@@ -506,7 +510,7 @@ export default {
 
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
-                      '<p>Tags</p>'+
+                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
                       tag_content+
                       '</div>'
             infowindow.setContent(content)
@@ -545,7 +549,7 @@ export default {
 
             marker.addListener('click', () => {
               let content = '<div id="content" style="min-width:150px;">'+
-                      '<p>Tags</p>'+
+                      '<p class="font-weight-bold">Tags</p>'+
                       tag_content+
                       '</div>'
               infowindow.setContent(content)
@@ -555,7 +559,7 @@ export default {
             path.push(point)
           }
         }
-      }).then((res) => {
+      }).then(() => {
         let trackPath = new google.maps.Polyline({
           path: path,
           geodesic: true,
@@ -609,7 +613,10 @@ export default {
         method: 'POST',
         data: data
       }).then(res => {
-        console.log(res)
+        if (Object.keys(res.data).length === 0)
+          this.flash('no data match current query', 'error')
+        
+        console.log(res.data)
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
@@ -651,7 +658,7 @@ export default {
 
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
-                      '<p>Tags</p>'+
+                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
                       tag_content+
                       '</div>'
             infowindow.setContent(content)
@@ -690,7 +697,7 @@ export default {
 
             marker.addListener('click', () => {
               let content = '<div id="content" style="min-width:150px;">'+
-                        '<p>Tags</p>'+
+                        '<p class="font-weight-bold">Tags</p>'+
                         tag_content+
                         '</div>'
               infowindow.setContent(content)
