@@ -111,32 +111,32 @@ def statistics_track_get(request, user_id=None, number=100):
     number = 1 if user_id else number
     today = timezone.now().strftime('%Y-%m-%d')
 
-    json_name = 'track\\{}\\{}\\{}\\{}\\{}.json'
+    json_name = 'track\\{}\\{}\\{}\\{}.json'
     json_name = json_name.format(user_id, None if not start_time else start_time.replace(' ', '-'),
-                                 None if not end_time else end_time.replace(' ', '-'),
-                                 None if len(target_tag) == 0 else '-'.join(sorted(target_tag)), today)
+                                 None if not end_time else end_time.replace(' ', '-'), today)
 
     try:
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
 
         results = dict(tuple(results.items())[skip: skip + number])
-
         for user in results:
+            new_tweet = []
             for tweet in results[user]:
                 result_tag = {}
 
                 if user_id:
                     if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                        results[user].pop(tweet)
+                        results[user].remove(tweet)
                         continue
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
                         result_tag.update({tag: tweet['tags'][tag]})
 
                 tweet['tags'] = result_tag
-                if not tweet['tags']:
-                    results[user].pop(tweet)
+                if result_tag or not target_tag:
+                    new_tweet.appen(tweet)
+            results[user] = new_tweet
 
             results[user] = results[user][0:single]
             results[user].sort(key=lambda x: x.get('time'))
@@ -155,7 +155,7 @@ def statistics_track_get(request, user_id=None, number=100):
             current_db = tweet_couch_db.get_current_database()
             if not user_id:
                 tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
-                                         stale='ok', limit=500000)
+                                         stale='ok', limit=100000)
             else:
                 tweets = current_db.view('statistics/user_geo', startkey=user_id, endkey=user_id, stale='ok',
                                          limit=single)
@@ -165,7 +165,6 @@ def statistics_track_get(request, user_id=None, number=100):
             logger.debug('Query Timeout %s' % e)
             influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error=500, prefix='API')
             continue
-
     results = {}
     geo_exists = {}
     for tweet in tweets:
@@ -198,20 +197,22 @@ def statistics_track_get(request, user_id=None, number=100):
 
     results = dict(tuple(results.items())[skip: skip + number])
     for user in results:
+        new_tweet = []
         for tweet in results[user]:
             result_tag = {}
 
             if user_id:
                 if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                    results[user].pop(tweet)
+                    results[user].remove(tweet)
                     continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
 
             tweet['tags'] = result_tag
-            if not tweet['tags']:
-                results[user].pop(tweet)
+            if result_tag or not target_tag:
+                new_tweet.appen(tweet)
+        results[user] = new_tweet
 
         results[user] = results[user][0:single]
         results[user].sort(key=lambda x: x.get('time'))
