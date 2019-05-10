@@ -228,7 +228,7 @@ export default {
       }
 
       let icon3 = {
-        path: Const.svg_warth,
+        path: Const.svg_neutral,
         fillColor: '#ff9900',
         fillOpacity: 1,
         anchor: new google.maps.Point(250,250),
@@ -256,7 +256,7 @@ export default {
 
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
       let myLustMark = {lat: -37.8136, lng: 144.9631}
-      let myWarthMark = {lat: -37.8036, lng: 144.9531}
+      let myNormalMark = {lat: -37.8036, lng: 144.9531}
       let myPositiveMark = {lat: -37.8136, lng: 144.9731}
       let myNegativeMark = {lat: -37.8236, lng: 144.9631}
 
@@ -277,10 +277,10 @@ export default {
       })
 
       let warthMark = new google.maps.Marker({
-        position: myWarthMark,
+        position: myNormalMark,
         map: map,
         animation: google.maps.Animation.BOUNCE,
-        title: 'Hello Warth!',
+        title: 'Hello Normal!',
         icon: icon3
       })
 
@@ -425,6 +425,7 @@ export default {
             this.visible = false,
             console.log(this.melb_geo),
             // re-render the map here
+            this.flash('success', 'success',{timeout: 3000}),
             this.mapBuild()
           })
           .catch(error => {
@@ -483,9 +484,19 @@ export default {
           }
           let path = []
           path.push(point)
+          let svg_icon = Const.svg_neutral
+
+          if (value[0].tags.sentiment){
+            if (value[0].tags.sentiment[0] == 'positive'){
+              svg_icon = Const.svg_positive
+            }
+            if (value[0].tags.sentiment[0] == 'negative'){
+              svg_icon = Const.svg_negative
+            }
+          }
 
           let icon = {
-            path: Const.svg_lust,
+            path: svg_icon,
             fillColor: '#ff9900',
             fillOpacity: 1,
             anchor: new google.maps.Point(250,250),
@@ -518,8 +529,19 @@ export default {
           })
 
           for (let i = 1; i < value.length; i++) {
+            svg_icon = Const.svg_neutral
+
+            if (value[i].tags.sentiment){
+              if (value[i].tags.sentiment[i] == 'positive'){
+                svg_icon = Const.svg_positive
+              }
+              if (value[i].tags.sentiment[i] == 'negative'){
+                svg_icon = Const.svg_negative
+              }
+            }
+
             let icon_sm= {
-              path: Const.svg_lust,
+              path: svg_icon,
               fillColor: '#ff9900',
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
@@ -568,6 +590,7 @@ export default {
           strokeWeight: 2,
         })
         trackPath.setMap(map)
+        this.flash('tracking success', 'success',{timeout: 3000}),
         this.visible = false
       }).catch(error => {
         this.flash(`${error}`, 'error'),
@@ -622,14 +645,23 @@ export default {
             lat: value[0].geo[1], 
             lng: value[0].geo[0]
           }
-          console.log(point)
           let color = this.getRandomColor()
           let path = []
           path.push(point)
           colors.push(color)
+          let svg_icon = Const.svg_neutral
 
+          if (value[0].tags.sentiment){
+            if (value[0].tags.sentiment[0] == 'positive'){
+              svg_icon = Const.svg_positive
+            }
+            if (value[0].tags.sentiment[0] == 'negative'){
+              svg_icon = Const.svg_negative
+            }
+          }
+          
           let icon = {
-            path: Const.svg_lust,
+            path: svg_icon,
             fillColor: color,
             fillOpacity: 1,
             anchor: new google.maps.Point(250,250),
@@ -666,13 +698,24 @@ export default {
           })
 
           for (let i = 1; i < value.length; i++) {
+            svg_icon = Const.svg_neutral
+            if (value[i].tags.sentiment){
+              if (value[i].tags.sentiment[0] == 'positive'){
+                svg_icon = Const.svg_positive
+              }
+              if (value[i].tags.sentiment[0] == 'negative'){
+                console.log(value[i].tags['sentiment'])
+                svg_icon = Const.svg_negative
+              }
+            }
+
             let icon_sm= {
-              path: Const.svg_lust,
+              path: svg_icon,
               fillColor: color,
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
               strokeWeight: 0, 
-              scale: .03
+              scale: .05
             }
 
             point = {
@@ -720,6 +763,7 @@ export default {
           })
           trackPath.setMap(map)
         }
+        this.flash(`${paths.length} users found`, 'success',{timeout: 3000}),
         this.visible = false
       }).catch(error => {
         console.log(error)
