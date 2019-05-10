@@ -126,8 +126,11 @@ if __name__ == '__main__':
     # list(index)
 
     tweet_database = couch_db_banlancer.get_current_database()
-    tweets = tweet_database.view('statistics/time_geo_all_tags', startkey='2014-07-28 23:52:49+0000', endkey='2014-07-29 23:52:49+0000', stale='ok', limit=20000)
-    for tweet in tweets:
-        print(tweet.value) if tweet.value['img_id'] else None
+    # tweet_database.compact()
+    # tweets = tweet_database.view('statistics/user_geo', startkey='_LauraMcLeod', endkey='_LauraMcLeod', stale='ok', limit=20000)
+    # tweets = [tweet.value for tweet in tweets]
+    # for tweet in tweets:
+    #     print(tweet)
+
 
 

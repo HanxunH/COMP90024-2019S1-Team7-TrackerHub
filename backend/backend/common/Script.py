@@ -74,4 +74,4 @@ def process_zone(amount=100000, batch=10000):
 
 
 if __name__ == '__main__':
-    process_zone(amount=100000, batch=10000)
+    process_zone(amount=1500000, batch=10000)

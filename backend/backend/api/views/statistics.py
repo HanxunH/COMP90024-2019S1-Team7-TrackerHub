@@ -75,13 +75,13 @@ def statistics_track_get(request, user_id=None, number=100):
         result_tags = {}
         for tag in tags:
             if tag in ['hentai', 'porn']:
-                result_tags.update({'lust': tag})
+                result_tags.update({'lust': [tag]})
             elif tag in ['neutral', 'positive', 'negative']:
-                result_tags.update({'sentiment': tag})
+                result_tags.update({'sentiment': [tag]})
             elif 'text' in tag:
-                result_tags.update({'text': tag.lstrip('text.')})
+                result_tags.update({'text': [tag.lstrip('text.')]})
             else:
-                result_tags.update({'gluttony': tag})
+                result_tags.update({'gluttony': [tag]})
         return result_tags
 
     def make_this_point(_length, _timer):
@@ -121,13 +121,24 @@ def statistics_track_get(request, user_id=None, number=100):
         results = ujson.load(result_file)
 
         results = dict(tuple(results.items())[skip: skip + number])
+
         for user in results:
-            result_tag = {}
-            results[user] = results[user][0:single]
             for tweet in results[user]:
+                result_tag = {}
+
+                if user_id:
+                    if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
+                        results[user].pop(tweet)
+                        continue
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
                         result_tag.update({tag: tweet['tags'][tag]})
+
+                tweet['tags'] = result_tag
+                if not tweet['tags']:
+                    results[user].pop(tweet)
+
+            results[user] = results[user][0:single]
             results[user].sort(key=lambda x: x.get('time'))
 
         timer = (time.time() - start_timer)
@@ -187,9 +198,9 @@ def statistics_track_get(request, user_id=None, number=100):
 
     results = dict(tuple(results.items())[skip: skip + number])
     for user in results:
-        result_tag = {}
-        results[user] = results[user][0:single]
         for tweet in results[user]:
+            result_tag = {}
+
             if user_id:
                 if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
                     results[user].pop(tweet)
@@ -197,6 +208,12 @@ def statistics_track_get(request, user_id=None, number=100):
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
+
+            tweet['tags'] = result_tag
+            if not tweet['tags']:
+                results[user].pop(tweet)
+
+        results[user] = results[user][0:single]
         results[user].sort(key=lambda x: x.get('time'))
 
     timer = (time.time() - start_timer)
