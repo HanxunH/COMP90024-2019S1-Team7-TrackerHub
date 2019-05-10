@@ -127,10 +127,10 @@ if __name__ == '__main__':
 
     tweet_database = couch_db_banlancer.get_current_database()
     # tweet_database.compact()
-    # tweets = tweet_database.view('statistics/user_geo', startkey='_LauraMcLeod', endkey='_LauraMcLeod', stale='ok', limit=20000)
-    # tweets = [tweet.value for tweet in tweets]
-    # for tweet in tweets:
-    #     print(tweet)
+    tweets = tweet_database.view('statistics/user_geo', startkey='sunnyxcody', endkey='sunnyxcody', stale='ok', limit=200)
+    tweets = [tweet.value for tweet in tweets]
+    for tweet in tweets:
+        print(tweet)
 
 
 

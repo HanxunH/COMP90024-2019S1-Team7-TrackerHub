@@ -127,7 +127,6 @@ def statistics_track_get(request, user_id=None, number=100):
 
                 if user_id:
                     if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                        results[user].remove(tweet)
                         continue
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
@@ -204,7 +203,6 @@ def statistics_track_get(request, user_id=None, number=100):
 
             if user_id:
                 if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                    results[user].remove(tweet)
                     continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
