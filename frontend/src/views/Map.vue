@@ -125,8 +125,8 @@ export default {
       selections: [
         { key: 'lust', text: 'Lust', value: 'lust' },
         { key: 'gluttony', text: 'Gluttony', value: 'gluttony' },
-        { key: 'warth', text: 'Warth', value: 'warth' },
-        { key: 'emotion', text: 'Emotion', value: 'emotion' }
+        { key: 'text', text: 'Text', value: 'text' },
+        { key: 'sentiment', text: 'Sentiment', value: 'sentiment' }
       ],
 
     }
@@ -149,7 +149,7 @@ export default {
         center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
-      })
+      })  
     },
     // ========================== Build Map ====================================================
     mapBuild(){
