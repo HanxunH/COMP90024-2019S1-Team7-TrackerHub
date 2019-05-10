@@ -1,10 +1,8 @@
 <template>
   <div id="gmap">
     <loading :active.sync="visible" :can-cancel="true"></loading>
-
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
-
     <!-- Div on top of the map -->
     <div id="onmap">    
       <div class="container mt-3">
@@ -12,11 +10,7 @@
         <p>Track user by user ID:</p>
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
-          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrack(['food','porn'])">Gluttony and Lust</b-dropdown-item>
-          </b-dropdown>
+          <button class="btn btn-dark" :disabled="tags == null || tags == '' || user_id == ''" @click="mapBuildTrack()">Track</button>
         </div>
         <p></p>
       </div> 
@@ -24,14 +18,10 @@
         <p>Track random number of users:</p>
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
         <div id="myDIV2" class="mt-3">
-          <b-dropdown id="dropdown-1" split split-href="#foo/bar" text="Track" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['gluttony'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['warth'])">Warth</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTrackN(['lust','gluttony','warth'])">All</b-dropdown-item>
-          </b-dropdown>
+          <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrackN()">Track</button>
         </div>
         <p></p>
+        <div></div>
       </div>     
     </div>
     
@@ -51,22 +41,38 @@
 
     <!-- Tool Navbar -->
     <nav class="navbar fixed-bottom navbar-light">
-      <div class="row">
-        <div class="col-md-4">
-          <datetime v-model="start_time" :type="'datetime'" :title="'Select your start time'"></datetime>
+      <div class="row" style="width: 100vw;">
+        <div style="margin-left: 30px;">
+          <span class="pull-left">
+          <datetime v-model="start_time" :type="'date'" :title="'Select your start time'"></datetime>
+          </span>
         </div>
-        <div class="col-md-1">
+        <div style="margin-left: 30px;">
           <a class="navbar-brand font-weight-bold text-white">To</a>
         </div>
-        <div class="col-md-4">
-          <datetime v-model="end_time" :type="'datetime'" :title="'Select your end time'"></datetime>
+        <div style="margin-left: 15px;">
+          <datetime v-model="end_time" :type="'date'" :title="'Select your end time'"></datetime>
         </div>
-        <div class="col-md-2">
-          <b-dropdown id="dropdown-dropup" size="sm" split split-href="#foo/bar" dropup text="Sins" class="m-md">
-            <b-dropdown-item href="#" @click="mapBuildTime(['food'])">Gluttony</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['porn'])">Lust</b-dropdown-item>
-            <b-dropdown-item href="#" @click="mapBuildTime(['food','porn'])">Gluttony and Lust</b-dropdown-item>
-          </b-dropdown>
+        <div class="col-md-3">
+          <sui-dropdown
+            fluid
+            multiple
+            :options="selections"
+            placeholder="Sins"
+            selection
+            v-model="tags"
+          />
+        </div>
+        <div>
+          <button class="btn btn-dark" 
+            :disabled="tags == null || tags == '' ||
+            start_time.includes('NaN') || start_time == '' ||
+            end_time.includes('NaN') || end_time == ''" 
+            @click="mapBuildTime()">Search
+          </button>
+        </div>
+        <div class="col-md-4" style="height: 4vh; margin-bottom: 1vh;">
+          <flash-message transitionIn="animated swing"></flash-message>
         </div>
       </div>
     </nav>
@@ -81,17 +87,14 @@ import Linechart from './../components/Linechart'
 import Piechart from './../components/Piechart'
 import Radarchart from './../components/Radarchart'
 import {mapStyle} from './../assets/js/map-style'
+import {Const} from './../assets/js/const'
 import InfoWindowComponent from './InfoWindow'
 import Vue from 'vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import {Datetime} from 'vue-datetime'
 import 'vue-datetime/dist/vue-datetime.css'
-// Import component
-import Loading from 'vue-loading-overlay';
-// Import stylesheet
-import 'vue-loading-overlay/dist/vue-loading.css';
-//import http from '../utils/http'
-//import api from '../utils/api'
+import Loading from 'vue-loading-overlay'
+import 'vue-loading-overlay/dist/vue-loading.css'
 
 export default {
   name: 'gmap',
@@ -117,23 +120,21 @@ export default {
       end_time: new Date().toString(),
       user_id: '',
       number: 1,
-      options: {
-        format: 'DD/MM/YYYY',
-        useCurrent: false,
-      },
       melb_geo: 'https://api.myjson.com/bins/udv2g',
-      API_KEY: '227415ba68c811e9b1a48c8590c7151e',
+      tags: null,
+      selections: [
+        { key: 'lust', text: 'Lust', value: 'lust' },
+        { key: 'gluttony', text: 'Gluttony', value: 'gluttony' },
+        { key: 'text', text: 'Text', value: 'text' },
+        { key: 'sentiment', text: 'Sentiment', value: 'sentiment' }
+      ],
+
     }
   },
 
   mounted () {
+    this.mapInit()
     this.mapBuild()
-
-    /* Get chart data through API cals
-    this.getBarData(),
-    this.getLineData(),
-    this.getRadarchartData()
-    */
   },
 
   created: function(){
@@ -141,40 +142,49 @@ export default {
   },
 
   methods: {
-    // ========================== Build Map ====================================================
-    mapBuild(){
-      let self = this
+    // ========================== Init Map ===================================================
+    mapInit(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })  
+    },
+    // ========================== Build Map ====================================================
+    mapBuild(){
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
       })
+
       let infowindow = new google.maps.InfoWindow()
       let marker, i
       let markers = []
       let locations = []
-      console.log(self.barData)
-      self.barDataLabel.length=0
-      self.barData.length=0
+
+      this.barDataLabel.length=0
+      this.barData.length=0
 
       // ======================== Setup each region/ Collect bar data ==========================
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
-        let cartodb_id = feature.getProperty('cartodb_id')
+        let total = feature.getProperty('cartodb_id')
         let name = feature.getProperty('name')
-        if (!self.barDataLabel.includes(name)){
-          self.barDataLabel.push(name)
-          self.barData.push(cartodb_id)
+        //let tags = feature.getProperty('tags')
+        if (!this.barDataLabel.includes(name)){
+          this.barDataLabel.push(name)
+          this.barData.push(total)
         }
        
-        // let total = feature.getProperty("total")
         // let details = feature.getProperty('detail')
         // for (let detail in details) {
         //   locations.push([detail.tag,detail.coordinates[0],detail.coordinates[1]]) 
         // }
-        let color = cartodb_id > 30 ? 'white' : 'gray'
+        let color = total > 30 ? 'white' : 'gray'
         return {
           fillColor: color,
           strokeWeight: 1
@@ -182,39 +192,126 @@ export default {
       })
 
       // setup bar data
-      self.barDatacollection = {
-          labels: self.barDataLabel,
-          datasets: [
-            {
-              label: 'Lust',
-              backgroundColor: '#ff9900',
-              data: self.barData
-            }, {
-              label: 'Gluttony',
-              backgroundColor: '#DC143C',
-              data: self.barData
-            }
-          ]
+      this.barDatacollection = {
+        labels: this.barDataLabel,
+        datasets: [
+          {
+            label: 'Lust',
+            backgroundColor: '#ff9900',
+            data: this.barData
+          }, {
+            label: 'Gluttony',
+            backgroundColor: '#DC143C',
+            data: this.barData
+          }
+        ]
+      }
+
+
+      // ========================Icon examples=========================
+      let icon = {
+        path: Const.svg_lust,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+            
+      let icon2 = {
+        path: Const.svg_gluttony,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+
+      let icon3 = {
+        path: Const.svg_warth,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+            
+      let icon4 = {
+        path: Const.svg_positive,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
+      }
+
+      let icon5 = {
+        path: Const.svg_negative,
+        fillColor: '#ff9900',
+        fillOpacity: 1,
+        anchor: new google.maps.Point(250,250),
+        strokeWeight: 0, 
+        scale: .1
       }
 
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
+      let myLustMark = {lat: -37.8136, lng: 144.9631}
+      let myWarthMark = {lat: -37.8036, lng: 144.9531}
+      let myPositiveMark = {lat: -37.8136, lng: 144.9731}
+      let myNegativeMark = {lat: -37.8236, lng: 144.9631}
+
       let foodMark = new google.maps.Marker({
         position: myFoodMark,
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Food!',
-        icon: 'http://i64.tinypic.com/egzm07.png'
+        icon: icon2
       })
 
-      let myLustMark = {lat: -37.8136, lng: 144.9631}
       let lustMark = new google.maps.Marker({
         position: myLustMark,
         map: map,
         animation: google.maps.Animation.BOUNCE,
         title: 'Hello Lust!',
-        icon: 'http://i68.tinypic.com/2rdfbsx.png',
-        visible: false
+        icon: icon
       })
+
+      let warthMark = new google.maps.Marker({
+        position: myWarthMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Warth!',
+        icon: icon3
+      })
+
+      let positiveMark = new google.maps.Marker({
+        position: myPositiveMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Positive!',
+        icon: icon4
+      })
+
+      let negativeMark = new google.maps.Marker({
+        position: myNegativeMark,
+        map: map,
+        animation: google.maps.Animation.BOUNCE,
+        title: 'Hello Negative!',
+        icon: icon5
+      })
+
+      positiveMark.addListener('click', function() {
+        let content = '<div id="content" style="min-width:150px;">'+
+                      '<p>Tags</p>'+
+                      '<button class="btn btn-primary btn-dark">positive</button>'+
+                      '<button class="btn btn-primary btn-warning">positive</button>'+
+                      '<button class="btn btn-primary">positive</button>'+
+                      '</div>';
+        
+        infowindow.setContent(content)
+        infowindow.open(map, positiveMark)
+      })
+
       //======================== Setup each mark ==========================
       /*
       // set marks on the map
@@ -257,8 +354,14 @@ export default {
       map.data.addListener('click', (event) => {
         // prepare data
         let name = event.feature.getProperty("name")
+        // let infoPieData = [] 
+        // let infoPieName = []
         // let total = event.feature.getProperty("total")
-        // let tag = event.feature.getProperty("tag")
+        // let tags = event.feature.getProperty("tag")
+        // for (let tag in tags) {
+        //    infoPieData.push(tag.count)
+        //    infoPieData.push(tag.name)
+        //}
         // set all chart data here
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4
         let infoPieData = [data1, data2, data3, data4]
@@ -294,250 +397,336 @@ export default {
     },
 
     // ====================== Get Map/Chart Data =====================
-    mapBuildTime(tag) {
-      let self = this
-      self.visible = true
-      let sDate = new Date(self.start_time)
-      let eDate = new Date(self.end_time)
-      console.log(self.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(self.toISOLocal(eDate).replace(/T/g, " "))
-      console.log(tag)
+    mapBuildTime() {
+      this.visible = true
+      let sDate = new Date(this.start_time)
+      let eDate = new Date(this.end_time)
       
-      this.$axios
-        .get(`/api/statistics/time/`,{
-            'start_time': self.toISOLocal(sDate).replace(/T/g, " "),
-            'end_time': self.toISOLocal(eDate).replace(/T/g, " "),
-            'tags': tag
-        },
-        
-        )
-        .then(response => (
-          self.melb_geo = response.data.melb_geo,
-          self.visible = false,
-          console.log(self.melb_geo),
-          // re-render the map here
-          self.mapBuild()
-        ))
-        .catch(error => {
-          self.visible = false,
-          console.log(error),
-          alert(error),
-          this.errored = true
-      })     
-    },
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
 
-    mapBuildTrack(tag){
-      let self = this
-      self.visible = true
-      let map = new google.maps.Map(document.getElementById('map_canvas'), {
-        zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
-        disableDefaultUI: true,
-        styles: mapStyle
-      })
-      let infowindow = new google.maps.InfoWindow()
-      let marker
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        this.flash('Time must be selected', 'error')
+      else {  
+        let data = {
+          start_time,
+          end_time,
+          tags: this.tags,
+        }
+      
+        console.log(data)
 
-      let path = [{lat: -37.8136, lng: 144.9631},
-          {lat: 21.291, lng: -157.821},
-          {lat: -18.142, lng: 178.431},
-          {lat: -27.467, lng: 153.027}]
-      let time = new Date()
-      let img = ''
-      let tags = []
-      let sDate = new Date(self.start_time)
-      let eDate = new Date(self.end_time)
-
-      this.$axios
-        .get(`http://172.26.38.1:8080/api/statistics/track/${self.user_id}/`,{
-          data:{
-            start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-            end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-            tags: tag
-          }
-        },
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-KEY': self.API_KEY
-          }
-        })
-        .then(response => {
-          // for (let point in response.data.(self.user_id)) {
-          //   path.push({lat:point.geo[0], lng:point.geo[1]})
-          //   marker = new google.maps.Marker({
-          //     position: {lat:point.geo[0], lng:point.geo[1]},
-          //     map: map,
-          //     icon: point.img
-          //     title: point.time+" "+point.tags
-          //   })
-          // }
-          self.visible = false
-          let trackPath = new google.maps.Polyline({
-            path: path,
-            geodesic: true,
-            strokeColor: '#FF0000',
-            strokeOpacity: 1.0,
-            strokeWeight: 2
+        this.$ajax({
+          url: `/api/statistics/time/`,
+          method: 'POST',
+          data: data
+        }).then(res => {
+            this.melb_geo = res.data.melb_geo,
+            this.visible = false,
+            console.log(this.melb_geo),
+            // re-render the map here
+            this.mapBuild()
           })
-          trackPath.setMap(map)
-        })
-        .catch(error => {
-          self.visible = false
-          alert(error)
-          console.log(error)
-          this.errored = true
-      })
+          .catch(error => {
+            this.visible = false,
+            this.flash(`${error}`, 'error'),
+            this.errored = true
+        })   
+      }  
     },
 
-    mapBuildTrackN(tag) {
+    // ====================== Track 1 User by ID =====================
+    mapBuildTrack(){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
-        center:  {lat: -37.8136, lng: 144.9631},
+        center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
       })
 
-      var path = [{lat: -37.8136, lng: 144.9631}]
-      console.log(path)
-      let marker
-
+      let infowindow = new google.maps.InfoWindow()
+      let path = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-      console.log(tag)
-      console.log(this.toISOLocal(sDate).replace(/T/g, " "))
-      console.log(this.toISOLocal(eDate).replace(/T/g, " "))
       
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
+
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        start_time = end_time = null
+        
       let data = {
-        start_time: '2015-05-08 13:38:00+1000',
-        end_time: '2016-05-08 13:39:00+1000',
-        tags: tag,
+        start_time: '2016-01-09 10:00:00+1000',
+        end_time: '2016-10-09 10:00:00+1000',
+        tags: this.tags,
         skip: 0,
-        threshold: 0.9  
+        threshold: 0.9,
+        single: 50  
       }
-      
+        
+      console.log(data)
+
       this.$ajax({
-        url: `/api/statistics/track/random/${this.number}/`,
-        method: 'GET',
+        url: `/api/statistics/track/${this.user_id}/`,
+        method: 'POST',
         data: data
       }).then(res => {
+        console.log(res.data)
+        if (Object.keys(res.data).length === 0)
+          this.flash('no data match current query', 'error')
+        
         for (const [key, value] of Object.entries(res.data)) {
-          for (var i = 0; i < value.length; i++) {
-            let point = {
+          let point = {
+            lat: value[0].geo[1], 
+            lng: value[0].geo[0]
+          }
+          let path = []
+          path.push(point)
+
+          let icon = {
+            path: Const.svg_lust,
+            fillColor: '#ff9900',
+            fillOpacity: 1,
+            anchor: new google.maps.Point(250,250),
+            strokeWeight: 0, 
+            scale: .1
+          }
+
+          let marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            icon: icon,
+            title: value[0].time
+          })
+
+          let tag_content = ''
+
+          for (const [mainTag, subTags] of Object.entries(value[0].tags)){
+            for (let m = 0; m < subTags.length;m ++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+            }
+          }
+
+          marker.addListener('click', () => {
+            let content = '<div id="content" style="min-width:150px;">'+
+                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
+                      tag_content+
+                      '</div>'
+            infowindow.setContent(content)
+            infowindow.open(map, marker)
+          })
+
+          for (let i = 1; i < value.length; i++) {
+            let icon_sm= {
+              path: Const.svg_lust,
+              fillColor: '#ff9900',
+              fillOpacity: 1,
+              anchor: new google.maps.Point(250,250),
+              strokeWeight: 0, 
+              scale: .03
+            }
+
+            point = {
               lat: value[i].geo[1], 
               lng: value[i].geo[0]
             }
-            //{lat: -37.8136, lng: 144.9631},
-            path.push(point)
-            marker = new google.maps.Marker({
+
+            let marker = new google.maps.Marker({
               position: point,
               map: map,
-              icon: 'http://i68.tinypic.com/2rdfbsx.png',
-              title: value[i].time+" "+value[i].tags
+              icon: icon_sm,
+              title: value[i].time
             })
+
+            tag_content = ''
+
+            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
+              for (let m = 0; m < subTags.length;m ++){
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+              }
+            }
+
+            marker.addListener('click', () => {
+              let content = '<div id="content" style="min-width:150px;">'+
+                      '<p class="font-weight-bold">Tags</p>'+
+                      tag_content+
+                      '</div>'
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
+            })
+
+            path.push(point)
           }
         }
-      }).then(res => {
-        console.log(path);
+      }).then(() => {
         let trackPath = new google.maps.Polyline({
           path: path,
           geodesic: true,
-          strokeColor: '#FF0000',
+          strokeColor: '#ff9900',
           strokeOpacity: 1.0,
-          strokeWeight: 2
+          strokeWeight: 2,
         })
         trackPath.setMap(map)
         this.visible = false
       }).catch(error => {
-        console.log(error)
-        alert(error)
+        this.flash(`${error}`, 'error'),
         this.visible = false
         this.errored = true
       })
+    },
 
-      // 方法2 （返回500）
-      // this.$axios
-      //   .get(`/api/statistics/track/random/${this.number}/`,{
-      //     data: data,
-      //   }).then(res => {
-   
-      //     console.log(res.data.data)
-      //      for (const [key, value] of Object.entries(res.data.data)) {
-      //       console.log(key)
-      //       console.log(value)
-      //       for (var i = 0; i < value.length; i++) {
-      //         let point = {
-      //           lat: value[i].geo[1], 
-      //           lng: value[i].geo[0]
-      //         }
-      //         //{lat: -37.8136, lng: 144.9631},
-      //         path.push(point)
-      //         marker = new google.maps.Marker({
-      //           position: point,
-      //           map: map,
-      //           icon: 'http://i68.tinypic.com/2rdfbsx.png',
-      //           title: value[i].time+" "+value[i].tags
-      //         })
-      //       }
-      //      }
-          
-      //     let trackPath = new google.maps.Polyline(console.log(path),{
-      //       path: path,
-      //       geodesic: true,
-      //       strokeColor: '#FF0000',
-      //       strokeOpacity: 1.0,
-      //       strokeWeight: 2
-      //     })
+    mapBuildTrackN() {
+      this.visible = true
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 13,
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
 
-      //     trackPath.setMap(map)
-      //     self.visible = false
-      //   }, error => {
-      //     console.log('error')
-      //   })
+      let infowindow = new google.maps.InfoWindow()
+      let paths = []
+      let colors = []
+      let sDate = new Date(this.start_time)
+      let eDate = new Date(this.end_time)
+      
+      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
+          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
 
+      if (start_time.includes('NaN') || end_time.includes('NaN'))
+        start_time = end_time = null
+        
+      let data = {
+        start_time: '2016-01-09 10:00:00+1000',
+        end_time: '2016-10-09 10:00:00+1000',
+        tags: this.tags,
+        skip: 0,
+        threshold: 0.9,
+        single: 50  
+      }
 
+      console.log(data)
+      
+      this.$ajax({
+        url: `/api/statistics/track/random/${this.number}/`,
+        method: 'POST',
+        data: data
+      }).then(res => {
+        if (Object.keys(res.data).length === 0)
+          this.flash('no data match current query', 'error')
+        
+        console.log(res.data)
+        for (const [key, value] of Object.entries(res.data)) {
+          let point = {
+            lat: value[0].geo[1], 
+            lng: value[0].geo[0]
+          }
+          console.log(point)
+          let color = this.getRandomColor()
+          let path = []
+          path.push(point)
+          colors.push(color)
 
+          let icon = {
+            path: Const.svg_lust,
+            fillColor: color,
+            fillOpacity: 1,
+            anchor: new google.maps.Point(250,250),
+            strokeWeight: 0, 
+            scale: .1
+          }
 
-      // this.$axios
-      //   .get(`http://172.26.38.1:8080/api/statistics/track/random/${self.number}/`,{
-      //     data:{
-      //       start_time: self.toISOLocal(sDate).replace(/T/g, " "),
-      //       end_time: self.toISOLocal(eDate).replace(/T/g, " "),
-      //       tags: tag
-      //     }
-      //   })
-      //   .then(response => {
-      //     for (let user in response.data) {
-      //       for (let point in user){
-      //         path.push({lat:point.geo[0], lng:point.geo[1]})
-      //         marker = new google.maps.Marker({
-      //           position: {lat:point.geo[0], lng:point.geo[1]},
-      //           map: map,
-      //           //icon: point.img,
-      //           title: point.time+" "+point.tags
-      //         })
-      //       }
-      //     }
-      //     let trackPath = new google.maps.Polyline({
-      //       path: path,
-      //       geodesic: true,
-      //       strokeColor: '#FF0000',
-      //       strokeOpacity: 1.0,
-      //       strokeWeight: 2
-      //     })
+          let marker = new google.maps.Marker({
+            position: point,
+            map: map,
+            icon: icon,
+            title: value[0].time
+          })
 
-      //     trackPath.setMap(map)
-      //     self.visible = false
-      //   })
-      //   .catch(error => {
-      //     self.visible = false
-      //     alert(error)
-      //     console.log(error)
-      //     this.errored = true
-      // })
+          let tag_content = ''
 
+          console.log(value[0].tags)
 
+          for (const [mainTag, subTags] of Object.entries(value[0].tags)){
+            for (let m = 0; m < subTags.length;m ++){
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+            }
+          }
+
+          console.log(tag_content)
+
+          marker.addListener('click', () => {
+            let content = '<div id="content" style="min-width:150px;">'+
+                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
+                      tag_content+
+                      '</div>'
+            infowindow.setContent(content)
+            infowindow.open(map, marker)
+          })
+
+          for (let i = 1; i < value.length; i++) {
+            let icon_sm= {
+              path: Const.svg_lust,
+              fillColor: color,
+              fillOpacity: 1,
+              anchor: new google.maps.Point(250,250),
+              strokeWeight: 0, 
+              scale: .03
+            }
+
+            point = {
+              lat: value[i].geo[1], 
+              lng: value[i].geo[0]
+            }
+
+            let marker = new google.maps.Marker({
+              position: point,
+              map: map,
+              icon: icon_sm,
+              title: value[i].time
+            })
+
+            let tag_content = ''
+
+            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
+              for (let m = 0; m < subTags.length;m ++){
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
+              }
+            }
+
+            marker.addListener('click', () => {
+              let content = '<div id="content" style="min-width:150px;">'+
+                        '<p class="font-weight-bold">Tags</p>'+
+                        tag_content+
+                        '</div>'
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
+            })
+
+            path.push(point)
+          }
+          paths.push(path)
+        }
+      }).then(() => {
+        console.log(paths)
+        for (let j = 0; j < paths.length; j++) {
+          let trackPath = new google.maps.Polyline({
+            path: paths[j],
+            geodesic: true,
+            strokeColor: colors[j],
+            strokeOpacity: 1.0,
+            strokeWeight: 2,
+          })
+          trackPath.setMap(map)
+        }
+        this.visible = false
+      }).catch(error => {
+        console.log(error)
+        this.flash(`${error}`, 'error'),
+        this.visible = false
+        this.errored = true
+      })
     },
 
     toISOLocal(d) {
@@ -549,7 +738,16 @@ export default {
       return d.getFullYear() + '-' + z(d.getMonth()+1) + '-' +
             z(d.getDate()) + 'T' + z(d.getHours()) + ':'  + z(d.getMinutes()) + 
             ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
-    }
+    },
+
+    getRandomColor() {
+      const letters = '0123456789ABCDEF';
+      let color = '#';
+      for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }   
   }
 }
 </script>

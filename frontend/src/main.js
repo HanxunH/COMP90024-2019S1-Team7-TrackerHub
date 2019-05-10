@@ -5,15 +5,21 @@ import config from './assets/js/config'
 import utils from './assets/js/utils'
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios'
-import qs from 'qs'
+//import qs from 'qs'
 import vueSmoothScroll from 'vue-smooth-scroll'
+import SuiVue from 'semantic-ui-vue'
+import 'semantic-ui-css/semantic.min.css'
+import VueFlashMessage from 'vue-flash-message'
+require('vue-flash-message/dist/vue-flash-message.min.css')
 
+Vue.use(VueFlashMessage)
+Vue.use(SuiVue)
 Vue.use(vueSmoothScroll)
 Vue.use(BootstrapVue)
 
 Vue.config.productionTip = false
 
-axios.defaults.timeout = 60000
+axios.defaults.timeout = 600000
 // axios compatible with IE 8-9
 axios.interceptors.response.use(response => {
 	return response
@@ -23,14 +29,16 @@ axios.interceptors.request.use(config => {
   config.headers = {
     'Content-Type': 'application/json',
     'X-API-KEY': API_KEY,
-  }
+	}
+	//console.log(this,config)
   return config
 },err => {
   return Promise.reject(err)
 })
 
 let request = function (options) {
-  let method = options.method.toLowerCase()
+	let method = options.method.toLowerCase()
+	//console.log(options.data)
   return new Promise(function(resolve, reject){
 		axios({
 			url: options.url,
