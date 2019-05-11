@@ -525,13 +525,13 @@ export default {
             infowindow.open(map, marker)
           })
 
-          value.slice(1).forEach((track,i) => {
+          value.slice(1).forEach((track) => {
             svg_icon = Const.svg_neutral
             if (track.tags.sentiment){
-              if (track.tags.sentiment[i+1] == 'positive'){
+              if (track.tags.sentiment[0] == 'positive'){
                 svg_icon = Const.svg_positive
               }
-              if (track.tags.sentiment[i+1] == 'negative'){
+              if (track.tags.sentiment[0] == 'negative'){
                 svg_icon = Const.svg_negative
               }
             }
@@ -691,13 +691,13 @@ export default {
             infowindow.open(map, marker)
           })
 
-          value.slice(1).forEach((track,i) => {
+          value.slice(1).forEach((track) => {
             svg_icon = Const.svg_neutral
             if (track.tags.sentiment){
-              if (track.tags.sentiment[i+1] == 'positive'){
+              if (track.tags.sentiment[0] == 'positive'){
                 svg_icon = Const.svg_positive
               }
-              if (track.tags.sentiment[i+1] == 'negative'){
+              if (track.tags.sentiment[0] == 'negative'){
                 svg_icon = Const.svg_negative
               }
             }
