@@ -32,6 +32,9 @@
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
       </div>
       <div class="row">
+        <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
+      </div>
+      <div class="row">
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
         <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
         <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
