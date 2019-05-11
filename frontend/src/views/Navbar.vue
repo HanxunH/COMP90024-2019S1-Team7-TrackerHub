@@ -37,7 +37,7 @@
   transition: background-color 0.2s ease;
 }
 #header #logo {
-  background: url("../assets/images/group_logo.png") center;
+  background: url("../assets/images/logo.png") center;
   background-size: contain;
   background-repeat: no-repeat;
   background-color: transparent;
@@ -175,7 +175,7 @@ export default {
           this.info.buttonText = "View statistics"
         },100)
       }
-    }
+    },
   }
 };
 </script>

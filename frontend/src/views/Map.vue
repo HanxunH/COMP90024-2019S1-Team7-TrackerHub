@@ -812,7 +812,7 @@ export default {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
-    }   
+    }
   }
 }
 </script>
@@ -821,6 +821,17 @@ export default {
 <style>
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
+#header #logo {
+  background: url("../assets/images/logo_premium.png") center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  position: fixed;
+  width: 12em;
+  height: 6em;
+  top: 0;
+  left: 3em;
+}
 #gmap {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -80,7 +80,7 @@ section.center {
 }
 
 #banner div.logo {
-  background: url('../images/group_logo.png') center;
+  background: url('../images/logo.png') center;
   background-size: contain;
   background-repeat: no-repeat;
   min-width: 5em;
