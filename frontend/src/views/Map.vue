@@ -127,7 +127,7 @@ export default {
       user_id: '',
       number: 1,
       skip: 0,
-      melb_geo: 'https://api.myjson.com/bins/udv2g',
+      melb_geo: 'https://data.gov.au/geoserver/vic-local-government-areas-psma-administrative-boundaries/wfs?request=GetFeature&typeName=ckan_bdf92691_c6fe_42b9_a0e2_a4cd716fa811&outputFormat=json',
       tags: null,
       selections: [
         { key: 'lust', text: 'Lust', value: 'lust' },
@@ -176,7 +176,7 @@ export default {
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
         let total = feature.getProperty('cartodb_id')
-        let name = feature.getProperty('name')
+        let name = feature.getProperty('vic_lga__3')
         //let tags = feature.getProperty('tags')
         if (!this.barDataLabel.includes(name)){
           this.barDataLabel.push(name)
@@ -356,7 +356,7 @@ export default {
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
         // prepare data
-        let name = event.feature.getProperty("name")
+        let name = event.feature.getProperty("vic_lga__3")
         // let infoPieData = [] 
         // let infoPieName = []
         // let total = event.feature.getProperty("total")
