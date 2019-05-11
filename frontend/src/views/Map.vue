@@ -455,6 +455,7 @@ export default {
       let eDate = new Date(this.end_time)
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
+      let noData = false
 
       if (start_time.includes('NaN') || end_time.includes('NaN'))
         start_time = end_time = null
@@ -480,6 +481,7 @@ export default {
         
         if (Object.keys(res.data).length === 0)
           this.flash('no data match current query', 'error')
+          noData = true
 
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
@@ -599,7 +601,9 @@ export default {
           trackPath.setOptions({strokeWeight: 2})
         })
         trackPath.setMap(map)
-        this.flash('tracking success', 'success',{timeout: 3000}),
+        if (noData == false)
+          this.flash('tracking success', 'success',{timeout: 3000})
+          this.flash('tracking success', 'success',{timeout: 3000})
         this.visible = false
       }).catch(error => {
         this.flash(`${error}`, 'error'),
@@ -623,6 +627,7 @@ export default {
       let colors = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
+      let noData = false
       
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
@@ -648,6 +653,7 @@ export default {
       }).then(res => {
         if (Object.keys(res.data).length === 0)
           this.flash('no data match current query', 'error')
+          noData = true
         
         console.log(res.data)
 
@@ -774,7 +780,9 @@ export default {
           })
           trackPath.setMap(map)
         })
-        this.flash(`${paths.length} users found`, 'success',{timeout: 3000}),
+        if (noData == false)
+          this.flash(`${paths.length} users found`, 'success',{timeout: 3000})
+          this.flash(`${paths.length} users found`, 'success',{timeout: 3000})
         this.visible = false
       }).catch(error => {
         console.log(error)
