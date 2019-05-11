@@ -111,9 +111,9 @@ def statistics_zone_get(request, zone=None):
         if tweet.key[0] not in results:
             results.update({tweet.key[0]: {}})
         if tweet.key[1] == 'food179':
-            tweet.key[1] = 'lust'
-        if tweet.key[1] == 'nsfw':
             tweet.key[1] = 'gluttony'
+        if tweet.key[1] == 'nsfw':
+            tweet.key[1] = 'lust'
         if tweet.key[1] not in results[tweet.key[0]]:
             results[tweet.key[0]].update({tweet.key[1]: {}})
         if 'sentiment' not in results[tweet.key[0]]:
@@ -172,9 +172,9 @@ def statistics_zone_vic_get(request, zone=None):
         if tweet.key[0] not in results:
             results.update({tweet.key[0]: {}})
         if tweet.key[1] == 'food179':
-            tweet.key[1] = 'lust'
-        if tweet.key[1] == 'nsfw':
             tweet.key[1] = 'gluttony'
+        if tweet.key[1] == 'nsfw':
+            tweet.key[1] = 'lust'
         if tweet.key[1] not in results[tweet.key[0]]:
             results[tweet.key[0]].update({tweet.key[1]: {}})
         if 'sentiment' not in results[tweet.key[0]]:
