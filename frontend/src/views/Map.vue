@@ -17,6 +17,9 @@
         <div class="container mt-3">
         <p>Track random number of users:</p>
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
+        <br>
+        <p>Skip:</p>
+        <input class="form-control" v-model="skip" type="number" placeholder="Skip..">
         <div id="myDIV2" class="mt-3">
           <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrackN()">Track</button>
         </div>
@@ -123,6 +126,7 @@ export default {
       end_time: new Date().toString(),
       user_id: '',
       number: 1,
+      skip: 0,
       melb_geo: 'https://api.myjson.com/bins/udv2g',
       tags: null,
       selections: [
@@ -461,7 +465,7 @@ export default {
         tags: this.tags,
         skip: 0,
         threshold: 0.9,
-        single: 50  
+        single: 20
       }
         
       console.log(data)
@@ -588,6 +592,12 @@ export default {
           strokeOpacity: 1.0,
           strokeWeight: 2,
         })
+        google.maps.event.addListener(trackPath, 'mouseover', () => {
+          trackPath.setOptions({strokeWeight: 4})
+        })
+        google.maps.event.addListener(trackPath, 'mouseout', () => {
+          trackPath.setOptions({strokeWeight: 2})
+        })
         trackPath.setMap(map)
         this.flash('tracking success', 'success',{timeout: 3000}),
         this.visible = false
@@ -624,9 +634,9 @@ export default {
         start_time: '2016-01-09 10:00:00+1000',
         end_time: '2016-10-09 10:00:00+1000',
         tags: this.tags,
-        skip: 0,
+        skip: parseInt(this.skip),
         threshold: 0.9,
-        single: 50  
+        single: 20  
       }
 
       console.log(data)
@@ -755,6 +765,12 @@ export default {
             strokeColor: colors[j],
             strokeOpacity: 1.0,
             strokeWeight: 2,
+          })
+          google.maps.event.addListener(trackPath, 'mouseover', () => {
+            trackPath.setOptions({strokeWeight: 4})
+          })
+          google.maps.event.addListener(trackPath, 'mouseout', () => {
+            trackPath.setOptions({strokeWeight: 2})
           })
           trackPath.setMap(map)
         })
