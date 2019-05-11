@@ -136,11 +136,7 @@ export default {
     this.mapInit()
     this.mapBuild()
   },
-
-  created: function(){
-
-  },
-
+  
   methods: {
     // ========================== Init Map ===================================================
     mapInit(){
@@ -450,7 +446,6 @@ export default {
       let path = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-      
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
 
@@ -473,16 +468,18 @@ export default {
         method: 'POST',
         data: data
       }).then(res => {
+
         console.log(res.data)
+        
         if (Object.keys(res.data).length === 0)
           this.flash('no data match current query', 'error')
-        
+
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
             lng: value[0].geo[0]
           }
-          let path = []
+          
           path.push(point)
           let svg_icon = Const.svg_neutral
 
@@ -514,9 +511,9 @@ export default {
           let tag_content = ''
 
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
-            for (let m = 0; m < subTags.length;m ++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-            }
+            subTags.forEach(element => {
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${element}</button>`
+            })
           }
 
           marker.addListener('click', () => {
@@ -528,14 +525,13 @@ export default {
             infowindow.open(map, marker)
           })
 
-          for (let i = 1; i < value.length; i++) {
+          value.slice(1).forEach((track,i) => {
             svg_icon = Const.svg_neutral
-
-            if (value[i].tags.sentiment){
-              if (value[i].tags.sentiment[i] == 'positive'){
+            if (track.tags.sentiment){
+              if (track.tags.sentiment[i+1] == 'positive'){
                 svg_icon = Const.svg_positive
               }
-              if (value[i].tags.sentiment[i] == 'negative'){
+              if (track.tags.sentiment[i+1] == 'negative'){
                 svg_icon = Const.svg_negative
               }
             }
@@ -550,23 +546,23 @@ export default {
             }
 
             point = {
-              lat: value[i].geo[1], 
-              lng: value[i].geo[0]
+              lat: track.geo[1], 
+              lng: track.geo[0]
             }
 
             let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time
+              title: track.time
             })
 
             tag_content = ''
 
-            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
-              for (let m = 0; m < subTags.length;m ++){
-                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-              }
+            for (const [mainTag, subTags] of Object.entries(track.tags)){
+              subTags.forEach(tag => {
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+              })
             }
 
             marker.addListener('click', () => {
@@ -579,7 +575,7 @@ export default {
             })
 
             path.push(point)
-          }
+          })
         }
       }).then(() => {
         let trackPath = new google.maps.Polyline({
@@ -641,6 +637,7 @@ export default {
           this.flash('no data match current query', 'error')
         
         console.log(res.data)
+
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
@@ -679,15 +676,11 @@ export default {
 
           let tag_content = ''
 
-          console.log(value[0].tags)
-
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
-            for (let m = 0; m < subTags.length;m ++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-            }
+            subTags.forEach(tag => {
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+            })
           }
-
-          console.log(tag_content)
 
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
@@ -698,14 +691,13 @@ export default {
             infowindow.open(map, marker)
           })
 
-          for (let i = 1; i < value.length; i++) {
+          value.slice(1).forEach((track,i) => {
             svg_icon = Const.svg_neutral
-            if (value[i].tags.sentiment){
-              if (value[i].tags.sentiment[0] == 'positive'){
+            if (track.tags.sentiment){
+              if (track.tags.sentiment[i+1] == 'positive'){
                 svg_icon = Const.svg_positive
               }
-              if (value[i].tags.sentiment[0] == 'negative'){
-                console.log(value[i].tags['sentiment'])
+              if (track.tags.sentiment[i+1] == 'negative'){
                 svg_icon = Const.svg_negative
               }
             }
@@ -720,23 +712,23 @@ export default {
             }
 
             point = {
-              lat: value[i].geo[1], 
-              lng: value[i].geo[0]
+              lat: track.geo[1], 
+              lng: track.geo[0]
             }
 
             let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time
+              title: track.time
             })
 
             let tag_content = ''
 
-            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
-              for (let m = 0; m < subTags.length;m ++){
-                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-              }
+            for (const [mainTag, subTags] of Object.entries(track.tags)){
+              subTags.forEach(tag => {
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+              })
             }
 
             marker.addListener('click', () => {
@@ -749,21 +741,20 @@ export default {
             })
 
             path.push(point)
-          }
+          })
           paths.push(path)
         }
       }).then(() => {
-        console.log(paths)
-        for (let j = 0; j < paths.length; j++) {
+        paths.forEach((path,j) => {
           let trackPath = new google.maps.Polyline({
-            path: paths[j],
+            path: path,
             geodesic: true,
             strokeColor: colors[j],
             strokeOpacity: 1.0,
             strokeWeight: 2,
           })
           trackPath.setMap(map)
-        }
+        })
         this.flash(`${paths.length} users found`, 'success',{timeout: 3000}),
         this.visible = false
       }).catch(error => {
