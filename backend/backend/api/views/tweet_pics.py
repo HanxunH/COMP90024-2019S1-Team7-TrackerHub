@@ -6,7 +6,7 @@ from uuid import uuid1 as uuid
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
 
-from backend.handler.object_storage_handler import object_storage_handler
+from backend.handler.object_storage_handler import object_storage_handler, json_storage_handler
 from backend.handler.influxdb_handler import influxdb_handler
 from backend.common.utils import init_http_not_found, init_http_success, check_api_key, make_json_response
 
@@ -27,6 +27,19 @@ def tweet_pic_router(request, *args, **kwargs):
         return tweet_pic_get(request, resource)
     elif request.method == 'GET':
         return tweet_pic_list(request)
+    return HttpResponseNotAllowed()
+
+
+@require_http_methods(['GET'])
+@check_api_key
+def geo_file_router(request, *args, **kwargs):
+    resource = None
+    for arg in args:
+        if isinstance(arg, dict):
+            resource = arg.get('resource', None)
+
+    if request.method == 'GET' and resource:
+        return geo_file_get(request, resource)
     return HttpResponseNotAllowed()
 
 
@@ -109,6 +122,26 @@ def tweet_pic_get(request, resource):
 
     influxdb_handler.make_point(key='api/tweet/pic/:pic_id/', prefix='API', method='GET', error='success')
     return FileResponse(picture, filename=resource, content_type='image/jpeg')
+
+
+def geo_file_get(request, resource):
+
+    resource = resource if '.json' in resource else resource + '.json'
+
+    try:
+        file = json_storage_handler.download(resource)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        file = json_storage_handler.download(resource)
+
+    if not file:
+        influxdb_handler.make_point(key='api/statistics/file/:file/', prefix='API', error=404, method='GET',
+                                    msg='pic not found')
+        resp = init_http_not_found('Object Storage Resource %s Not Found' % resource)
+        return make_json_response(HttpResponseNotFound, resp)
+
+    influxdb_handler.make_point(key='api/statistics/file/:file/', prefix='API', method='GET', error='success')
+    return FileResponse(file, filename=resource)
 
 
 def tweet_pic_reconnect(exception):

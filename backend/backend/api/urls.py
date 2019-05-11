@@ -2,11 +2,12 @@
 
 from django.urls import path, re_path
 from backend.api.views.tweets import *
-from backend.api.views.tweet_pics import tweet_pic_router
-from backend.api.views.statistics import statistics_time_router, statistics_track_router
+from backend.api.views.tweet_pics import *
+from backend.api.views.statistics import *
 
 
 urlpatterns = [
+    path('statistics/file/<str:resource>/', geo_file_router),
     path('tweet/pic/<str:resource>/', tweet_pic_router),
     path('tweet/pic/', tweet_pic_router),
     path('tweet/untrained/<int:resource>/', tweet_untrained_router),
@@ -27,4 +28,9 @@ urlpatterns = [
     path('statistics/track/random/', statistics_track_router),
     path('statistics/track/random/<int:number>/', statistics_track_router),
     path('statistics/track/<str:user_id>/', statistics_track_router),
+    path('statistics/machine/', statistics_machine_router),
+    path('statistics/vic/zone/', statistics_zone_vic_router),
+    path('statistics/vic/zone/<str:zone>/', statistics_zone_vic_router),
+    path('statistics/zone/', statistics_zone_router),
+    path('statistics/zone/<str:zone>/', statistics_zone_router),
 ]

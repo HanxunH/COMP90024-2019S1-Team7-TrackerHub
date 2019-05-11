@@ -49,6 +49,230 @@ def statistics_track_router(request, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
+@require_http_methods(['GET'])
+@check_api_key
+def statistics_zone_router(request, *args, **kwargs):
+    for arg in args:
+        if isinstance(arg, dict):
+            zone = arg.get('zone', None)
+
+    if request.method == 'GET':
+        return statistics_zone_get(request, zone)
+    return HttpResponseNotAllowed()
+
+
+@require_http_methods(['GET'])
+@check_api_key
+def statistics_zone_vic_router(request, *args, **kwargs):
+    for arg in args:
+        if isinstance(arg, dict):
+            zone = arg.get('zone', None)
+
+    if request.method == 'GET':
+        return statistics_zone_vic_get(request, zone)
+    return HttpResponseNotAllowed()
+
+
+@require_http_methods(['GET'])
+@check_api_key
+def statistics_machine_router(request, *args, **kwargs):
+    # for arg in args:
+    #     if isinstance(arg, dict):
+    #         zone = arg.get('zone', None)
+
+    if request.method == 'GET':
+        return statistics_machine_get(request)
+    return HttpResponseNotAllowed()
+
+
+def statistics_zone_get(request, zone=None):
+    start_timer = time.time()
+
+    today = timezone.now().strftime('%Y-%m-%d')
+    json_name = 'zone-{}.json'.format(today)
+
+    melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
+
+    try:
+        if json_storage_handler.find(json_name):
+            timer = (time.time() - start_timer)
+            influxdb_handler.make_point(key='api/statistics/zone/', method='GET', error='success', prefix='API',
+                                        timer=timer)
+            resp = init_http_success()
+            resp['data'].update(dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
+            return make_json_response(HttpResponse, resp)
+    except Exception:
+        pass
+
+    current_db = tweet_couch_db.get_current_database()
+    tweets = current_db.view('statistics/zone_tags', stale='ok', group=True, group_level=3)
+    results = dict()
+    for tweet in tweets:
+        if tweet.key[0] not in results:
+            results.update({tweet.key[0]: {}})
+        if tweet.key[1] == 'food179':
+            tweet.key[1] = 'lust'
+        if tweet.key[1] == 'nsfw':
+            tweet.key[1] = 'gluttony'
+        if tweet.key[1] not in results[tweet.key[0]]:
+            results[tweet.key[0]].update({tweet.key[1]: {}})
+        if 'sentiment' not in results[tweet.key[0]]:
+            results[tweet.key[0]].update(dict(sentiment={}))
+        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
+            if '.' in tweet.key[2]:
+                if 'sentiment' in tweet.key[2]:
+                    results[tweet.key[0]]['sentiment'].update({tweet.key[2].split('.')[1]: tweet.value})
+                else:
+                    results[tweet.key[0]][tweet.key[1]].update({tweet.key[2].split('.')[1]: tweet.value})
+                continue
+            results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
+    for result in results:
+        for melb_zone in melb_json['features']:
+            if melb_zone['properties']['name'] == result:
+                melb_zone['properties'].update(dict(statistcs=results[result]))
+
+    json_file = ujson.dumps(melb_json)
+    try:
+        json_storage_handler.upload(json_name, json_file)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        json_storage_handler.upload(json_name, json_file)
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/statistics/zone/', method='GET', error='success', prefix='API', timer=timer)
+    resp = init_http_success()
+    resp['data'].update(dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
+    return make_json_response(HttpResponse, resp)
+
+
+def statistics_zone_vic_get(request, zone=None):
+    start_timer = time.time()
+
+    today = timezone.now().strftime('%Y-%m-%d')
+    json_name = 'zone-vic-{}.json'.format(today)
+
+    vic_json = ujson.load(open(BASE_DIR + '/backend/common/vic_geo.json'))
+
+    try:
+        if json_storage_handler.find(json_name):
+            timer = (time.time() - start_timer)
+            influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API',
+                                        timer=timer)
+            resp = init_http_success()
+            resp['data'].update(dict(
+                url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
+            return make_json_response(HttpResponse, resp)
+    except Exception:
+        pass
+
+    current_db = tweet_couch_db.get_current_database()
+    tweets = current_db.view('statistics/vic_zone_tags', stale='ok', group=True, group_level=3)
+    results = dict()
+    for tweet in tweets:
+        if tweet.key[0] not in results:
+            results.update({tweet.key[0]: {}})
+        if tweet.key[1] == 'food179':
+            tweet.key[1] = 'lust'
+        if tweet.key[1] == 'nsfw':
+            tweet.key[1] = 'gluttony'
+        if tweet.key[1] not in results[tweet.key[0]]:
+            results[tweet.key[0]].update({tweet.key[1]: {}})
+        if 'sentiment' not in results[tweet.key[0]]:
+            results[tweet.key[0]].update(dict(sentiment={}))
+        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
+            if '.' in tweet.key[2]:
+                if 'sentiment' in tweet.key[2]:
+                    results[tweet.key[0]]['sentiment'].update({tweet.key[2].split('.')[1]: tweet.value})
+                else:
+                    results[tweet.key[0]][tweet.key[1]].update({tweet.key[2].split('.')[1]: tweet.value})
+                continue
+            results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
+
+    for result in results:
+        for vic_zone in vic_json['features']:
+            if vic_zone['properties']['vic_lga__3'] == result:
+                vic_zone['properties'].update(dict(name=result))
+                vic_zone['properties'].update(dict(statistcs=results[result]))
+
+    json_file = ujson.dumps(vic_json)
+    try:
+        json_storage_handler.upload(json_name, json_file)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        json_storage_handler.upload(json_name, json_file)
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API', timer=timer)
+    resp = init_http_success()
+    resp['data'].update(
+        dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
+    return make_json_response(HttpResponse, resp)
+
+
+def statistics_machine_get(request):
+    start_timer = time.time()
+
+    today = timezone.now().strftime('%Y-%m-%d')
+    json_name = 'machine\\{}.json'.format(today)
+
+    try:
+        result_file = json_storage_handler.download(json_name)
+        results = ujson.load(result_file)
+
+        timer = (time.time() - start_timer)
+        influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API', timer=timer)
+        resp = init_http_success()
+        resp['data'] = results
+        return make_json_response(HttpResponse, resp)
+    except Exception:
+        pass
+
+    while True:
+        try:
+            current_db = tweet_couch_db.get_current_database()
+            results = current_db.view('statistics/machine_result', group=True, stale='ok')
+            results = dict((result.key, result.value) for result in results)
+            break
+        except Exception as e:
+            logger.debug('Query Timeout %s' % e)
+            influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error=500, prefix='API')
+            continue
+
+    lust = dict()
+    gluttony = dict()
+    for result in results:
+        if result in ['neutral', 'sexy', 'porn', 'hentai', 'drawing']:
+            lust.update({result: results[result]})
+        else:
+            gluttony.update({result: results[result]})
+    total = 0
+    lust_total = 0
+    for result in lust:
+        total += lust[result]
+        lust_total += lust[result] if result in ['porn', 'hentai'] else 0
+    lust.update(dict(total=total, lust_total=lust_total))
+    total=0
+    gluttony_total = 0
+    for result in gluttony:
+        total += gluttony[result]
+        gluttony_total += gluttony[result] if not result == 'non_food' else 0
+    gluttony.update(dict(total=total, gluttony_total=gluttony_total))
+    results = dict(lust=lust, gluttony=gluttony)
+
+    json_file = ujson.dumps(results)
+    try:
+        json_storage_handler.upload(json_name, json_file)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        json_storage_handler.upload(json_name, json_file)
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API', timer=timer)
+    resp = init_http_success()
+    resp['data'] = results
+    return make_json_response(HttpResponse, resp)
+
+
 def statistics_time_get(request):
     key = ['start_time', 'end_time', 'tags']
     content = ujson.loads(request.body)
