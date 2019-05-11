@@ -16,7 +16,7 @@
         <h2>Group Member</h2>
         <p>Hanxun Huang - 975781</p>
         <p>Haonan Chen - 000000</p>
-        <p>Lihuan Zhang - 000000</p>
+        <p>Lihuan Zhang - 945003</p>
         <p>Xu Wang - 979895</p>
         <p>Xu Yang - 961717</p>
         <p class="button premium" onclick="window.location.href='/map'">
