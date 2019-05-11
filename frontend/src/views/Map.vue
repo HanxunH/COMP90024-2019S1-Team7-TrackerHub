@@ -151,7 +151,7 @@ export default {
         styles: mapStyle
       })  
     },
-    // ========================== Build Map ====================================================
+    // ========================== Build Map ==================================================
     mapBuild(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
@@ -396,7 +396,7 @@ export default {
       })
     },
 
-    // ====================== Get Map/Chart Data =====================
+    // ====================== Get Map/Chart Data =============================================
     mapBuildTime() {
       this.visible = true
       let sDate = new Date(this.start_time)
@@ -436,7 +436,7 @@ export default {
       }  
     },
 
-    // ====================== Track 1 User by ID =====================
+    // ====================== Track 1 User by ID =============================================
     mapBuildTrack(){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -599,6 +599,7 @@ export default {
       })
     },
 
+    // ====================== Track random n users ===========================================
     mapBuildTrackN() {
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -773,6 +774,7 @@ export default {
       })
     },
 
+    // ====================== Time formatter =================================================
     toISOLocal(d) {
       let z = n => (n<10? '0':'')+n;
       let off = d.getTimezoneOffset();
@@ -784,6 +786,7 @@ export default {
             ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
     },
 
+    // ====================== Color generator ================================================
     getRandomColor() {
       const letters = '0123456789ABCDEF';
       let color = '#';
