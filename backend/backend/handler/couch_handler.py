@@ -152,7 +152,7 @@ if __name__ == '__main__':
     #         else:
     #             results[tweet.key[0]][tweet.key[1]][tweet.key[2]] += tweet.value
     # print(results)
-    tweets = tweet_database.view('unlearning/text', stale='ok', limit=200000)
+    tweets = tweet_database.view('unlearning/zone', stale='ok', limit=200000)
     print(len(tweets))
 
 

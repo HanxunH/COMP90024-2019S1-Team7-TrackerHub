@@ -39,6 +39,8 @@ def process_and_update(**tweets):
                 if melb_map[zone].contains(point.Point(geo)):
                     tweets[tweet]['zone'] = zone
                     break
+            if not tweets[tweet]['zone']:
+                tweets[tweet]['zone'] = 'NotMelb'
     try:
         resp = requests.post('http://172.26.38.1:8080/api/tweet/trained/zone/', headers=headers, json=tweets)
     except Exception:
@@ -92,6 +94,8 @@ def process_and_update_vic(**tweets):
                 if vic_map[zone].contains(point.Point(geo)):
                     tweets[tweet]['zone'] = zone
                     break
+            if not tweets[tweet]['zone']:
+                tweets[tweet]['zone'] = 'NotVic'
     try:
         resp = requests.post('http://172.26.38.1:8080/api/tweet/trained/zone/vic/', headers=headers, json=tweets)
     except Exception:
