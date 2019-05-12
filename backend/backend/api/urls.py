@@ -28,6 +28,7 @@ urlpatterns = [
     path('statistics/track/random/', statistics_track_router),
     path('statistics/track/random/<int:number>/', statistics_track_router),
     path('statistics/track/<str:user_id>/', statistics_track_router),
+    path('statistics/text/', statistics_text_router),
     path('statistics/machine/', statistics_machine_router),
     path('statistics/vic/zone/', statistics_zone_vic_router),
     path('statistics/vic/zone/<str:zone>/', statistics_zone_vic_router),
