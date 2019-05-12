@@ -127,9 +127,13 @@ def statistics_zone_get(request, zone=None):
                 continue
             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
     for result in results:
+        total = 0
         for melb_zone in melb_json['features']:
             if melb_zone['properties']['name'] == result:
-                melb_zone['properties'].update(dict(statistcs=results[result]))
+                total += len(results[result]['gluttony'])
+                total += len(results[result]['lust'])
+                total += len(results[result]['text'])
+                melb_zone['properties'].update(dict(statistcs=results[result], total=total))
 
     json_file = ujson.dumps(melb_json)
     try:
@@ -189,10 +193,14 @@ def statistics_zone_vic_get(request, zone=None):
             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
 
     for result in results:
+        total=0
         for vic_zone in vic_json['features']:
             if vic_zone['properties']['vic_lga__3'] == result:
+                total += len(results[result]['gluttony'])
+                total += len(results[result]['lust'])
+                total += len(results[result]['text'])
                 vic_zone['properties'].update(dict(name=result))
-                vic_zone['properties'].update(dict(statistcs=results[result]))
+                vic_zone['properties'].update(dict(statistcs=results[result], total=total))
 
     json_file = ujson.dumps(vic_json)
     try:
