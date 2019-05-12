@@ -38,5 +38,7 @@ for name in lst:
 
 
 json.dump(resultDict, outputfile, indent=2)
+outputfile.close()
+file.close()
 
 

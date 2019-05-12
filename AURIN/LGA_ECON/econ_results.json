@@ -1,0 +1,482 @@
+{
+  "Alpine (S)": {
+    "unemployment_num": 216,
+    "total_people_hospital": 5241,
+    "total_male_hospital": 2625,
+    "total_female_hospital": 2614
+  },
+  "Ararat (RC)": {
+    "unemployment_num": 257,
+    "total_people_hospital": 6574,
+    "total_male_hospital": 3106,
+    "total_female_hospital": 3468
+  },
+  "Ballarat (C)": {
+    "unemployment_num": 3415,
+    "total_people_hospital": 36640,
+    "total_male_hospital": 16450,
+    "total_female_hospital": 20189
+  },
+  "Banyule (C)": {
+    "unemployment_num": 3429,
+    "total_people_hospital": 50143,
+    "total_male_hospital": 22452,
+    "total_female_hospital": 27689
+  },
+  "Bass Coast (S)": {
+    "unemployment_num": 857,
+    "total_people_hospital": 11011,
+    "total_male_hospital": 5422,
+    "total_female_hospital": 5589
+  },
+  "Baw Baw (S)": {
+    "unemployment_num": 1235,
+    "total_people_hospital": 13343,
+    "total_male_hospital": 6410,
+    "total_female_hospital": 6933
+  },
+  "Bayside (C)": {
+    "unemployment_num": 2215,
+    "total_people_hospital": 43828,
+    "total_male_hospital": 19936,
+    "total_female_hospital": 23890
+  },
+  "Benalla (RC)": {
+    "unemployment_num": 319,
+    "total_people_hospital": 5999,
+    "total_male_hospital": 2910,
+    "total_female_hospital": 3089
+  },
+  "Boroondara (C)": {
+    "unemployment_num": 4837,
+    "total_people_hospital": 61843,
+    "total_male_hospital": 27879,
+    "total_female_hospital": 33962
+  },
+  "Brimbank (C)": {
+    "unemployment_num": 9257,
+    "total_people_hospital": 71961,
+    "total_male_hospital": 32697,
+    "total_female_hospital": 39264
+  },
+  "Buloke (S)": {
+    "unemployment_num": 113,
+    "total_people_hospital": 3636,
+    "total_male_hospital": 1803,
+    "total_female_hospital": 1832
+  },
+  "Campaspe (S)": {
+    "unemployment_num": 824,
+    "total_people_hospital": 22417,
+    "total_male_hospital": 10780,
+    "total_female_hospital": 11638
+  },
+  "Cardinia (S)": {
+    "unemployment_num": 2601,
+    "total_people_hospital": 32741,
+    "total_male_hospital": 15194,
+    "total_female_hospital": 17546
+  },
+  "Casey (C)": {
+    "unemployment_num": 10663,
+    "total_people_hospital": 113855,
+    "total_male_hospital": 49237,
+    "total_female_hospital": 64617
+  },
+  "Central Goldfields (S)": {
+    "unemployment_num": 423,
+    "total_people_hospital": 4902,
+    "total_male_hospital": 2354,
+    "total_female_hospital": 2549
+  },
+  "Colac-Otway (S)": {
+    "unemployment_num": 398,
+    "total_people_hospital": 9865,
+    "total_male_hospital": 4411,
+    "total_female_hospital": 5454
+  },
+  "Corangamite (S)": {
+    "unemployment_num": 296,
+    "total_people_hospital": 8193,
+    "total_male_hospital": 3835,
+    "total_female_hospital": 4357
+  },
+  "Darebin (C)": {
+    "unemployment_num": 5435,
+    "total_people_hospital": 53081,
+    "total_male_hospital": 23170,
+    "total_female_hospital": 29911
+  },
+  "East Gippsland (S)": {
+    "unemployment_num": 1153,
+    "total_people_hospital": 17234,
+    "total_male_hospital": 8419,
+    "total_female_hospital": 8815
+  },
+  "Frankston (C)": {
+    "unemployment_num": 4365,
+    "total_people_hospital": 75705,
+    "total_male_hospital": 33583,
+    "total_female_hospital": 42121
+  },
+  "Gannawarra (S)": {
+    "unemployment_num": 220,
+    "total_people_hospital": 6189,
+    "total_male_hospital": 3069,
+    "total_female_hospital": 3119
+  },
+  "Greater Shepparton (C)": {
+    "unemployment_num": 1857,
+    "total_people_hospital": 34431,
+    "total_male_hospital": 15982,
+    "total_female_hospital": 18449
+  },
+  "Hepburn (S)": {
+    "unemployment_num": 345,
+    "total_people_hospital": 5508,
+    "total_male_hospital": 2641,
+    "total_female_hospital": 2867
+  },
+  "Hindmarsh (S)": {
+    "unemployment_num": 124,
+    "total_people_hospital": 4006,
+    "total_male_hospital": 2052,
+    "total_female_hospital": 1954
+  },
+  "Hobsons Bay (C)": {
+    "unemployment_num": 2931,
+    "total_people_hospital": 38206,
+    "total_male_hospital": 17253,
+    "total_female_hospital": 20953
+  },
+  "Horsham (RC)": {
+    "unemployment_num": 468,
+    "total_people_hospital": 10018,
+    "total_male_hospital": 4694,
+    "total_female_hospital": 5324
+  },
+  "Hume (C)": {
+    "unemployment_num": 7756,
+    "total_people_hospital": 84241,
+    "total_male_hospital": 37378,
+    "total_female_hospital": 46863
+  },
+  "Indigo (S)": {
+    "unemployment_num": 333,
+    "total_people_hospital": 6531,
+    "total_male_hospital": 3271,
+    "total_female_hospital": 3260
+  },
+  "Kingston (C) (Vic.)": {
+    "unemployment_num": 4247,
+    "total_people_hospital": 65869,
+    "total_male_hospital": 29221,
+    "total_female_hospital": 36647
+  },
+  "Knox (C)": {
+    "unemployment_num": 4584,
+    "total_people_hospital": 61635,
+    "total_male_hospital": 27974,
+    "total_female_hospital": 33660
+  },
+  "Latrobe (C) (Vic.)": {
+    "unemployment_num": 3157,
+    "total_people_hospital": 30198,
+    "total_male_hospital": 13725,
+    "total_female_hospital": 16472
+  },
+  "Loddon (S)": {
+    "unemployment_num": 158,
+    "total_people_hospital": 3072,
+    "total_male_hospital": 1522,
+    "total_female_hospital": 1550
+  },
+  "Macedon Ranges (S)": {
+    "unemployment_num": 1002,
+    "total_people_hospital": 15560,
+    "total_male_hospital": 7938,
+    "total_female_hospital": 7622
+  },
+  "Manningham (C)": {
+    "unemployment_num": 3452,
+    "total_people_hospital": 48734,
+    "total_male_hospital": 22416,
+    "total_female_hospital": 26316
+  },
+  "Mansfield (S)": {
+    "unemployment_num": 132,
+    "total_people_hospital": 2466,
+    "total_male_hospital": 1353,
+    "total_female_hospital": 1113
+  },
+  "Maribyrnong (C)": {
+    "unemployment_num": 3760,
+    "total_people_hospital": 36527,
+    "total_male_hospital": 15915,
+    "total_female_hospital": 20611
+  },
+  "Maroondah (C)": {
+    "unemployment_num": 3025,
+    "total_people_hospital": 48679,
+    "total_male_hospital": 21499,
+    "total_female_hospital": 27180
+  },
+  "Melbourne (C)": {
+    "unemployment_num": 8006,
+    "total_people_hospital": 25827,
+    "total_male_hospital": 11245,
+    "total_female_hospital": 14580
+  },
+  "Melton (C)": {
+    "unemployment_num": 4943,
+    "total_people_hospital": 52289,
+    "total_male_hospital": 21807,
+    "total_female_hospital": 30482
+  },
+  "Mildura (RC)": {
+    "unemployment_num": 1784,
+    "total_people_hospital": 26186,
+    "total_male_hospital": 12506,
+    "total_female_hospital": 13679
+  },
+  "Mitchell (S)": {
+    "unemployment_num": 1112,
+    "total_people_hospital": 14156,
+    "total_male_hospital": 6756,
+    "total_female_hospital": 7400
+  },
+  "Moira (S)": {
+    "unemployment_num": 629,
+    "total_people_hospital": 16386,
+    "total_male_hospital": 7655,
+    "total_female_hospital": 8731
+  },
+  "Monash (C)": {
+    "unemployment_num": 6956,
+    "total_people_hospital": 94946,
+    "total_male_hospital": 41814,
+    "total_female_hospital": 53128
+  },
+  "Moonee Valley (C)": {
+    "unemployment_num": 3462,
+    "total_people_hospital": 43199,
+    "total_male_hospital": 20094,
+    "total_female_hospital": 23104
+  },
+  "Moorabool (S)": {
+    "unemployment_num": 895,
+    "total_people_hospital": 12288,
+    "total_male_hospital": 5605,
+    "total_female_hospital": 6683
+  },
+  "Moreland (C)": {
+    "unemployment_num": 5915,
+    "total_people_hospital": 60310,
+    "total_male_hospital": 26663,
+    "total_female_hospital": 33641
+  },
+  "Mornington Peninsula (S)": {
+    "unemployment_num": 3487,
+    "total_people_hospital": 102806,
+    "total_male_hospital": 47957,
+    "total_female_hospital": 54820
+  },
+  "Mount Alexander (S)": {
+    "unemployment_num": 431,
+    "total_people_hospital": 6708,
+    "total_male_hospital": 3302,
+    "total_female_hospital": 3406
+  },
+  "Moyne (S)": {
+    "unemployment_num": 299,
+    "total_people_hospital": 7178,
+    "total_male_hospital": 3406,
+    "total_female_hospital": 3772
+  },
+  "Murrindindi (S)": {
+    "unemployment_num": 318,
+    "total_people_hospital": 4768,
+    "total_male_hospital": 2417,
+    "total_female_hospital": 2350
+  },
+  "Nillumbik (S)": {
+    "unemployment_num": 1457,
+    "total_people_hospital": 25151,
+    "total_male_hospital": 11648,
+    "total_female_hospital": 13502
+  },
+  "Northern Grampians (S)": {
+    "unemployment_num": 266,
+    "total_people_hospital": 6578,
+    "total_male_hospital": 3045,
+    "total_female_hospital": 3533
+  },
+  "Port Phillip (C)": {
+    "unemployment_num": 3075,
+    "total_people_hospital": 35073,
+    "total_male_hospital": 15964,
+    "total_female_hospital": 19108
+  },
+  "Pyrenees (S)": {
+    "unemployment_num": 176,
+    "total_people_hospital": 2753,
+    "total_male_hospital": 1371,
+    "total_female_hospital": 1382
+  },
+  "Queenscliffe (B)": {
+    "unemployment_num": 34,
+    "total_people_hospital": 1144,
+    "total_male_hospital": 513,
+    "total_female_hospital": 631
+  },
+  "South Gippsland (S)": {
+    "unemployment_num": 626,
+    "total_people_hospital": 9080,
+    "total_male_hospital": 4422,
+    "total_female_hospital": 4658
+  },
+  "Southern Grampians (S)": {
+    "unemployment_num": 335,
+    "total_people_hospital": 7872,
+    "total_male_hospital": 3566,
+    "total_female_hospital": 4305
+  },
+  "Stonnington (C)": {
+    "unemployment_num": 3112,
+    "total_people_hospital": 43220,
+    "total_male_hospital": 19048,
+    "total_female_hospital": 24172
+  },
+  "Golden Plains (S)": {
+    "unemployment_num": 501,
+    "total_people_hospital": 6500,
+    "total_male_hospital": 3177,
+    "total_female_hospital": 3323
+  },
+  "Glen Eira (C)": {
+    "unemployment_num": 4278,
+    "total_people_hospital": 60499,
+    "total_male_hospital": 26292,
+    "total_female_hospital": 34207
+  },
+  "Greater Bendigo (C)": {
+    "unemployment_num": 3328,
+    "total_people_hospital": 38339,
+    "total_male_hospital": 17940,
+    "total_female_hospital": 20399
+  },
+  "Greater Dandenong (C)": {
+    "unemployment_num": 6897,
+    "total_people_hospital": 74984,
+    "total_male_hospital": 33077,
+    "total_female_hospital": 41902
+  },
+  "Greater Geelong (C)": {
+    "unemployment_num": 7057,
+    "total_people_hospital": 87405,
+    "total_male_hospital": 40561,
+    "total_female_hospital": 46839
+  },
+  "Glenelg (S)": {
+    "unemployment_num": 526,
+    "total_people_hospital": 9093,
+    "total_male_hospital": 4399,
+    "total_female_hospital": 4695
+  },
+  "Strathbogie (S)": {
+    "unemployment_num": 210,
+    "total_people_hospital": 4306,
+    "total_male_hospital": 2202,
+    "total_female_hospital": 2104
+  },
+  "Surf Coast (S)": {
+    "unemployment_num": 558,
+    "total_people_hospital": 9150,
+    "total_male_hospital": 4478,
+    "total_female_hospital": 4672
+  },
+  "Swan Hill (RC)": {
+    "unemployment_num": 462,
+    "total_people_hospital": 11012,
+    "total_male_hospital": 5169,
+    "total_female_hospital": 5842
+  },
+  "Towong (S)": {
+    "unemployment_num": 129,
+    "total_people_hospital": 2479,
+    "total_male_hospital": 1290,
+    "total_female_hospital": 1189
+  },
+  "Wangaratta (RC)": {
+    "unemployment_num": 615,
+    "total_people_hospital": 11041,
+    "total_male_hospital": 5332,
+    "total_female_hospital": 5709
+  },
+  "Warrnambool (C)": {
+    "unemployment_num": 863,
+    "total_people_hospital": 18416,
+    "total_male_hospital": 8293,
+    "total_female_hospital": 10123
+  },
+  "Wellington (S)": {
+    "unemployment_num": 1196,
+    "total_people_hospital": 17457,
+    "total_male_hospital": 8163,
+    "total_female_hospital": 9293
+  },
+  "West Wimmera (S)": {
+    "unemployment_num": 72,
+    "total_people_hospital": 2941,
+    "total_male_hospital": 1507,
+    "total_female_hospital": 1434
+  },
+  "Whitehorse (C)": {
+    "unemployment_num": 5603,
+    "total_people_hospital": 72318,
+    "total_male_hospital": 31079,
+    "total_female_hospital": 41237
+  },
+  "Whittlesea (C)": {
+    "unemployment_num": 6868,
+    "total_people_hospital": 74934,
+    "total_male_hospital": 33267,
+    "total_female_hospital": 41667
+  },
+  "Wodonga (C)": {
+    "unemployment_num": 1160,
+    "total_people_hospital": 17807,
+    "total_male_hospital": 8264,
+    "total_female_hospital": 9543
+  },
+  "Wyndham (C)": {
+    "unemployment_num": 8831,
+    "total_people_hospital": 79568,
+    "total_male_hospital": 33171,
+    "total_female_hospital": 46397
+  },
+  "Yarra (C)": {
+    "unemployment_num": 2814,
+    "total_people_hospital": 29850,
+    "total_male_hospital": 13029,
+    "total_female_hospital": 16821
+  },
+  "Yarra Ranges (S)": {
+    "unemployment_num": 3572,
+    "total_people_hospital": 73323,
+    "total_male_hospital": 33802,
+    "total_female_hospital": 39521
+  },
+  "Yarriambiack (S)": {
+    "unemployment_num": 136,
+    "total_people_hospital": 4823,
+    "total_male_hospital": 2471,
+    "total_female_hospital": 2352
+  },
+  "Unincorporated Vic": {
+    "unemployment_num": 13,
+    "total_people_hospital": 251,
+    "total_male_hospital": 133,
+    "total_female_hospital": 119
+  }
+}

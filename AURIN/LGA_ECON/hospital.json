@@ -1,0 +1,805 @@
+{
+	"type": "FeatureCollection",
+	"bbox": [0.0, 0.0, -1.0, -1.0],
+	"features": [{
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2625,
+			"tot_admis_all_hosps_2016_17_num": 5241,
+			"lga_name16": "Alpine (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2614,
+			"lga_code16": "20110"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20110"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3106,
+			"tot_admis_all_hosps_2016_17_num": 6574,
+			"lga_name16": "Ararat (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 3468,
+			"lga_code16": "20260"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20260"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 16450,
+			"tot_admis_all_hosps_2016_17_num": 36640,
+			"lga_name16": "Ballarat (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 20189,
+			"lga_code16": "20570"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20570"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 22452,
+			"tot_admis_all_hosps_2016_17_num": 50143,
+			"lga_name16": "Banyule (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 27689,
+			"lga_code16": "20660"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20660"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 5422,
+			"tot_admis_all_hosps_2016_17_num": 11011,
+			"lga_name16": "Bass Coast (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 5589,
+			"lga_code16": "20740"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20740"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 6410,
+			"tot_admis_all_hosps_2016_17_num": 13343,
+			"lga_name16": "Baw Baw (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 6933,
+			"lga_code16": "20830"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20830"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 19936,
+			"tot_admis_all_hosps_2016_17_num": 43828,
+			"lga_name16": "Bayside (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 23890,
+			"lga_code16": "20910"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.20910"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2910,
+			"tot_admis_all_hosps_2016_17_num": 5999,
+			"lga_name16": "Benalla (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 3089,
+			"lga_code16": "21010"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21010"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 27879,
+			"tot_admis_all_hosps_2016_17_num": 61843,
+			"lga_name16": "Boroondara (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 33962,
+			"lga_code16": "21110"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21110"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 32697,
+			"tot_admis_all_hosps_2016_17_num": 71961,
+			"lga_name16": "Brimbank (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 39264,
+			"lga_code16": "21180"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21180"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1803,
+			"tot_admis_all_hosps_2016_17_num": 3636,
+			"lga_name16": "Buloke (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1832,
+			"lga_code16": "21270"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21270"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 10780,
+			"tot_admis_all_hosps_2016_17_num": 22417,
+			"lga_name16": "Campaspe (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 11638,
+			"lga_code16": "21370"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21370"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 15194,
+			"tot_admis_all_hosps_2016_17_num": 32741,
+			"lga_name16": "Cardinia (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 17546,
+			"lga_code16": "21450"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21450"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 49237,
+			"tot_admis_all_hosps_2016_17_num": 113855,
+			"lga_name16": "Casey (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 64617,
+			"lga_code16": "21610"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21610"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2354,
+			"tot_admis_all_hosps_2016_17_num": 4902,
+			"lga_name16": "Central Goldfields (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2549,
+			"lga_code16": "21670"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21670"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 4411,
+			"tot_admis_all_hosps_2016_17_num": 9865,
+			"lga_name16": "Colac-Otway (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 5454,
+			"lga_code16": "21750"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21750"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3835,
+			"tot_admis_all_hosps_2016_17_num": 8193,
+			"lga_name16": "Corangamite (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 4357,
+			"lga_code16": "21830"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21830"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 23170,
+			"tot_admis_all_hosps_2016_17_num": 53081,
+			"lga_name16": "Darebin (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 29911,
+			"lga_code16": "21890"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.21890"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 8419,
+			"tot_admis_all_hosps_2016_17_num": 17234,
+			"lga_name16": "East Gippsland (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 8815,
+			"lga_code16": "22110"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22110"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 33583,
+			"tot_admis_all_hosps_2016_17_num": 75705,
+			"lga_name16": "Frankston (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 42121,
+			"lga_code16": "22170"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22170"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3069,
+			"tot_admis_all_hosps_2016_17_num": 6189,
+			"lga_name16": "Gannawarra (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3119,
+			"lga_code16": "22250"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22250"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 15982,
+			"tot_admis_all_hosps_2016_17_num": 34431,
+			"lga_name16": "Greater Shepparton (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 18449,
+			"lga_code16": "22830"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22830"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2641,
+			"tot_admis_all_hosps_2016_17_num": 5508,
+			"lga_name16": "Hepburn (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2867,
+			"lga_code16": "22910"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22910"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2052,
+			"tot_admis_all_hosps_2016_17_num": 4006,
+			"lga_name16": "Hindmarsh (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1954,
+			"lga_code16": "22980"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22980"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 17253,
+			"tot_admis_all_hosps_2016_17_num": 38206,
+			"lga_name16": "Hobsons Bay (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 20953,
+			"lga_code16": "23110"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23110"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 4694,
+			"tot_admis_all_hosps_2016_17_num": 10018,
+			"lga_name16": "Horsham (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 5324,
+			"lga_code16": "23190"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23190"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 37378,
+			"tot_admis_all_hosps_2016_17_num": 84241,
+			"lga_name16": "Hume (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 46863,
+			"lga_code16": "23270"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23270"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3271,
+			"tot_admis_all_hosps_2016_17_num": 6531,
+			"lga_name16": "Indigo (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3260,
+			"lga_code16": "23350"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23350"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 29221,
+			"tot_admis_all_hosps_2016_17_num": 65869,
+			"lga_name16": "Kingston (C) (Vic.)",
+			"f_tot_admis_all_hosps_2016_17_num": 36647,
+			"lga_code16": "23430"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23430"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 27974,
+			"tot_admis_all_hosps_2016_17_num": 61635,
+			"lga_name16": "Knox (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 33660,
+			"lga_code16": "23670"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23670"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 13725,
+			"tot_admis_all_hosps_2016_17_num": 30198,
+			"lga_name16": "Latrobe (C) (Vic.)",
+			"f_tot_admis_all_hosps_2016_17_num": 16472,
+			"lga_code16": "23810"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23810"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1522,
+			"tot_admis_all_hosps_2016_17_num": 3072,
+			"lga_name16": "Loddon (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1550,
+			"lga_code16": "23940"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.23940"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 7938,
+			"tot_admis_all_hosps_2016_17_num": 15560,
+			"lga_name16": "Macedon Ranges (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 7622,
+			"lga_code16": "24130"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24130"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 22416,
+			"tot_admis_all_hosps_2016_17_num": 48734,
+			"lga_name16": "Manningham (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 26316,
+			"lga_code16": "24210"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24210"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1353,
+			"tot_admis_all_hosps_2016_17_num": 2466,
+			"lga_name16": "Mansfield (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1113,
+			"lga_code16": "24250"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24250"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 15915,
+			"tot_admis_all_hosps_2016_17_num": 36527,
+			"lga_name16": "Maribyrnong (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 20611,
+			"lga_code16": "24330"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24330"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 21499,
+			"tot_admis_all_hosps_2016_17_num": 48679,
+			"lga_name16": "Maroondah (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 27180,
+			"lga_code16": "24410"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24410"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 11245,
+			"tot_admis_all_hosps_2016_17_num": 25827,
+			"lga_name16": "Melbourne (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 14580,
+			"lga_code16": "24600"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24600"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 21807,
+			"tot_admis_all_hosps_2016_17_num": 52289,
+			"lga_name16": "Melton (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 30482,
+			"lga_code16": "24650"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24650"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 12506,
+			"tot_admis_all_hosps_2016_17_num": 26186,
+			"lga_name16": "Mildura (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 13679,
+			"lga_code16": "24780"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24780"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 6756,
+			"tot_admis_all_hosps_2016_17_num": 14156,
+			"lga_name16": "Mitchell (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 7400,
+			"lga_code16": "24850"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24850"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 7655,
+			"tot_admis_all_hosps_2016_17_num": 16386,
+			"lga_name16": "Moira (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 8731,
+			"lga_code16": "24900"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24900"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 41814,
+			"tot_admis_all_hosps_2016_17_num": 94946,
+			"lga_name16": "Monash (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 53128,
+			"lga_code16": "24970"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.24970"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 20094,
+			"tot_admis_all_hosps_2016_17_num": 43199,
+			"lga_name16": "Moonee Valley (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 23104,
+			"lga_code16": "25060"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25060"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 5605,
+			"tot_admis_all_hosps_2016_17_num": 12288,
+			"lga_name16": "Moorabool (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 6683,
+			"lga_code16": "25150"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25150"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 26663,
+			"tot_admis_all_hosps_2016_17_num": 60310,
+			"lga_name16": "Moreland (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 33641,
+			"lga_code16": "25250"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25250"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 47957,
+			"tot_admis_all_hosps_2016_17_num": 102806,
+			"lga_name16": "Mornington Peninsula (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 54820,
+			"lga_code16": "25340"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25340"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 17940,
+			"tot_admis_all_hosps_2016_17_num": 38339,
+			"lga_name16": "Greater Bendigo (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 20399,
+			"lga_code16": "22620"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22620"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 33077,
+			"tot_admis_all_hosps_2016_17_num": 74984,
+			"lga_name16": "Greater Dandenong (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 41902,
+			"lga_code16": "22670"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22670"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 40561,
+			"tot_admis_all_hosps_2016_17_num": 87405,
+			"lga_name16": "Greater Geelong (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 46839,
+			"lga_code16": "22750"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22750"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3302,
+			"tot_admis_all_hosps_2016_17_num": 6708,
+			"lga_name16": "Mount Alexander (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3406,
+			"lga_code16": "25430"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25430"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3406,
+			"tot_admis_all_hosps_2016_17_num": 7178,
+			"lga_name16": "Moyne (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3772,
+			"lga_code16": "25490"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25490"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2417,
+			"tot_admis_all_hosps_2016_17_num": 4768,
+			"lga_name16": "Murrindindi (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2350,
+			"lga_code16": "25620"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25620"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 11648,
+			"tot_admis_all_hosps_2016_17_num": 25151,
+			"lga_name16": "Nillumbik (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 13502,
+			"lga_code16": "25710"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25710"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3045,
+			"tot_admis_all_hosps_2016_17_num": 6578,
+			"lga_name16": "Northern Grampians (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3533,
+			"lga_code16": "25810"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25810"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 15964,
+			"tot_admis_all_hosps_2016_17_num": 35073,
+			"lga_name16": "Port Phillip (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 19108,
+			"lga_code16": "25900"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25900"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 26292,
+			"tot_admis_all_hosps_2016_17_num": 60499,
+			"lga_name16": "Glen Eira (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 34207,
+			"lga_code16": "22310"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22310"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 4399,
+			"tot_admis_all_hosps_2016_17_num": 9093,
+			"lga_name16": "Glenelg (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 4695,
+			"lga_code16": "22410"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22410"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3177,
+			"tot_admis_all_hosps_2016_17_num": 6500,
+			"lga_name16": "Golden Plains (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 3323,
+			"lga_code16": "22490"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.22490"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1371,
+			"tot_admis_all_hosps_2016_17_num": 2753,
+			"lga_name16": "Pyrenees (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1382,
+			"lga_code16": "25990"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.25990"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 513,
+			"tot_admis_all_hosps_2016_17_num": 1144,
+			"lga_name16": "Queenscliffe (B)",
+			"f_tot_admis_all_hosps_2016_17_num": 631,
+			"lga_code16": "26080"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26080"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 4422,
+			"tot_admis_all_hosps_2016_17_num": 9080,
+			"lga_name16": "South Gippsland (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 4658,
+			"lga_code16": "26170"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26170"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 3566,
+			"tot_admis_all_hosps_2016_17_num": 7872,
+			"lga_name16": "Southern Grampians (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 4305,
+			"lga_code16": "26260"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26260"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 19048,
+			"tot_admis_all_hosps_2016_17_num": 43220,
+			"lga_name16": "Stonnington (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 24172,
+			"lga_code16": "26350"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26350"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2202,
+			"tot_admis_all_hosps_2016_17_num": 4306,
+			"lga_name16": "Strathbogie (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2104,
+			"lga_code16": "26430"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26430"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 4478,
+			"tot_admis_all_hosps_2016_17_num": 9150,
+			"lga_name16": "Surf Coast (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 4672,
+			"lga_code16": "26490"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26490"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 5169,
+			"tot_admis_all_hosps_2016_17_num": 11012,
+			"lga_name16": "Swan Hill (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 5842,
+			"lga_code16": "26610"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26610"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1290,
+			"tot_admis_all_hosps_2016_17_num": 2479,
+			"lga_name16": "Towong (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1189,
+			"lga_code16": "26670"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26670"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 5332,
+			"tot_admis_all_hosps_2016_17_num": 11041,
+			"lga_name16": "Wangaratta (RC)",
+			"f_tot_admis_all_hosps_2016_17_num": 5709,
+			"lga_code16": "26700"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26700"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 8293,
+			"tot_admis_all_hosps_2016_17_num": 18416,
+			"lga_name16": "Warrnambool (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 10123,
+			"lga_code16": "26730"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26730"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 8163,
+			"tot_admis_all_hosps_2016_17_num": 17457,
+			"lga_name16": "Wellington (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 9293,
+			"lga_code16": "26810"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26810"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 1507,
+			"tot_admis_all_hosps_2016_17_num": 2941,
+			"lga_name16": "West Wimmera (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 1434,
+			"lga_code16": "26890"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26890"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 31079,
+			"tot_admis_all_hosps_2016_17_num": 72318,
+			"lga_name16": "Whitehorse (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 41237,
+			"lga_code16": "26980"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.26980"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 33267,
+			"tot_admis_all_hosps_2016_17_num": 74934,
+			"lga_name16": "Whittlesea (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 41667,
+			"lga_code16": "27070"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27070"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 8264,
+			"tot_admis_all_hosps_2016_17_num": 17807,
+			"lga_name16": "Wodonga (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 9543,
+			"lga_code16": "27170"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27170"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 33171,
+			"tot_admis_all_hosps_2016_17_num": 79568,
+			"lga_name16": "Wyndham (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 46397,
+			"lga_code16": "27260"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27260"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 13029,
+			"tot_admis_all_hosps_2016_17_num": 29850,
+			"lga_name16": "Yarra (C)",
+			"f_tot_admis_all_hosps_2016_17_num": 16821,
+			"lga_code16": "27350"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27350"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 33802,
+			"tot_admis_all_hosps_2016_17_num": 73323,
+			"lga_name16": "Yarra Ranges (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 39521,
+			"lga_code16": "27450"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27450"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 2471,
+			"tot_admis_all_hosps_2016_17_num": 4823,
+			"lga_name16": "Yarriambiack (S)",
+			"f_tot_admis_all_hosps_2016_17_num": 2352,
+			"lga_code16": "27630"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.27630"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"m_tot_admis_all_hosps_2016_17_num": 133,
+			"tot_admis_all_hosps_2016_17_num": 251,
+			"lga_name16": "Unincorporated Vic",
+			"f_tot_admis_all_hosps_2016_17_num": 119,
+			"lga_code16": "29399"
+		},
+		"id": "phidu_admissions_hosp_type_by_sex_lga_2016_17.29399"
+	}]
+}
