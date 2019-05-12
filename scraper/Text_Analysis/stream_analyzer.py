@@ -1,7 +1,7 @@
 from api_requirements import DOMAIN, API_KEY, API_PORT
 import requests
 from pyspark import SparkContext, SparkConf
-import time, re
+import re
 from text_analysis import lust_analysis,profanity_analysis, sentiment_analysis
 import argparse
 from requests.auth import HTTPBasicAuth
