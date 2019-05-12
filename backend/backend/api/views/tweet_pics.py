@@ -31,7 +31,6 @@ def tweet_pic_router(request, *args, **kwargs):
 
 
 @require_http_methods(['GET'])
-@check_api_key
 def geo_file_router(request, *args, **kwargs):
     resource = None
     for arg in args:
