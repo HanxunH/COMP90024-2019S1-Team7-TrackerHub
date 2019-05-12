@@ -1,0 +1,634 @@
+{
+  "Ballarat (C)": {
+    "weapons related": 1603,
+    "assaults": 4442,
+    "sexual offences": 2239,
+    "robbery": 167,
+    "harassment and threatening": 801,
+    "total": 54948
+  },
+  "Banyule (C)": {
+    "weapons related": 963,
+    "assaults": 3234,
+    "sexual offences": 1126,
+    "robbery": 195,
+    "harassment and threatening": 1184,
+    "total": 46688
+  },
+  "Bass Coast (S)": {
+    "weapons related": 396,
+    "assaults": 1541,
+    "sexual offences": 612,
+    "robbery": 23,
+    "harassment and threatening": 547,
+    "total": 13372
+  },
+  "Baw Baw (S)": {
+    "weapons related": 773,
+    "assaults": 1666,
+    "sexual offences": 867,
+    "robbery": 39,
+    "harassment and threatening": 741,
+    "total": 18412
+  },
+  "Bayside (C)": {
+    "weapons related": 559,
+    "assaults": 1380,
+    "sexual offences": 765,
+    "robbery": 127,
+    "harassment and threatening": 470,
+    "total": 22983
+  },
+  "Benalla (RC)": {
+    "weapons related": 213,
+    "assaults": 857,
+    "sexual offences": 359,
+    "robbery": 10,
+    "harassment and threatening": 185,
+    "total": 6167
+  },
+  "Boroondara (C)": {
+    "weapons related": 532,
+    "assaults": 1853,
+    "sexual offences": 793,
+    "robbery": 183,
+    "harassment and threatening": 688,
+    "total": 37170
+  },
+  "Alpine (S)": {
+    "weapons related": 178,
+    "assaults": 210,
+    "sexual offences": 127,
+    "robbery": 0,
+    "harassment and threatening": 51,
+    "total": 2244
+  },
+  "Ararat (RC)": {
+    "weapons related": 208,
+    "assaults": 819,
+    "sexual offences": 208,
+    "robbery": 4,
+    "harassment and threatening": 159,
+    "total": 6082
+  },
+  "Brimbank (C)": {
+    "weapons related": 3434,
+    "assaults": 7165,
+    "sexual offences": 1451,
+    "robbery": 1146,
+    "harassment and threatening": 1807,
+    "total": 92393
+  },
+  "Buloke (S)": {
+    "weapons related": 40,
+    "assaults": 121,
+    "sexual offences": 90,
+    "robbery": 0,
+    "harassment and threatening": 35,
+    "total": 1116
+  },
+  "Campaspe (S)": {
+    "weapons related": 493,
+    "assaults": 1447,
+    "sexual offences": 698,
+    "robbery": 32,
+    "harassment and threatening": 358,
+    "total": 15743
+  },
+  "Cardinia (S)": {
+    "weapons related": 1120,
+    "assaults": 2774,
+    "sexual offences": 872,
+    "robbery": 117,
+    "harassment and threatening": 1086,
+    "total": 32107
+  },
+  "Casey (C)": {
+    "weapons related": 3037,
+    "assaults": 9934,
+    "sexual offences": 2801,
+    "robbery": 646,
+    "harassment and threatening": 3022,
+    "total": 98799
+  },
+  "Central Goldfields (S)": {
+    "weapons related": 291,
+    "assaults": 682,
+    "sexual offences": 286,
+    "robbery": 12,
+    "harassment and threatening": 207,
+    "total": 6061
+  },
+  "Colac-Otway (S)": {
+    "weapons related": 306,
+    "assaults": 923,
+    "sexual offences": 344,
+    "robbery": 17,
+    "harassment and threatening": 314,
+    "total": 8262
+  },
+  "Corangamite (S)": {
+    "weapons related": 164,
+    "assaults": 386,
+    "sexual offences": 267,
+    "robbery": 7,
+    "harassment and threatening": 114,
+    "total": 3828
+  },
+  "Darebin (C)": {
+    "weapons related": 1666,
+    "assaults": 4337,
+    "sexual offences": 1242,
+    "robbery": 520,
+    "harassment and threatening": 1420,
+    "total": 72855
+  },
+  "East Gippsland (S)": {
+    "weapons related": 796,
+    "assaults": 2774,
+    "sexual offences": 494,
+    "robbery": 42,
+    "harassment and threatening": 636,
+    "total": 20032
+  },
+  "Frankston (C)": {
+    "weapons related": 3523,
+    "assaults": 5796,
+    "sexual offences": 1745,
+    "robbery": 425,
+    "harassment and threatening": 1488,
+    "total": 75380
+  },
+  "Gannawarra (S)": {
+    "weapons related": 123,
+    "assaults": 356,
+    "sexual offences": 96,
+    "robbery": 4,
+    "harassment and threatening": 85,
+    "total": 2860
+  },
+  "Greater Shepparton (C)": {
+    "weapons related": 1440,
+    "assaults": 3568,
+    "sexual offences": 1051,
+    "robbery": 88,
+    "harassment and threatening": 946,
+    "total": 37085
+  },
+  "Hepburn (S)": {
+    "weapons related": 52,
+    "assaults": 348,
+    "sexual offences": 144,
+    "robbery": 8,
+    "harassment and threatening": 103,
+    "total": 3750
+  },
+  "Hindmarsh (S)": {
+    "weapons related": 52,
+    "assaults": 189,
+    "sexual offences": 80,
+    "robbery": 1,
+    "harassment and threatening": 75,
+    "total": 1421
+  },
+  "Hobsons Bay (C)": {
+    "weapons related": 1003,
+    "assaults": 2670,
+    "sexual offences": 589,
+    "robbery": 214,
+    "harassment and threatening": 798,
+    "total": 33641
+  },
+  "Horsham (RC)": {
+    "weapons related": 328,
+    "assaults": 1499,
+    "sexual offences": 345,
+    "robbery": 13,
+    "harassment and threatening": 417,
+    "total": 13054
+  },
+  "Hume (C)": {
+    "weapons related": 3491,
+    "assaults": 7805,
+    "sexual offences": 1976,
+    "robbery": 476,
+    "harassment and threatening": 2857,
+    "total": 96188
+  },
+  "Indigo (S)": {
+    "weapons related": 127,
+    "assaults": 222,
+    "sexual offences": 156,
+    "robbery": 8,
+    "harassment and threatening": 77,
+    "total": 2349
+  },
+  "Kingston (C)": {
+    "weapons related": 1429,
+    "assaults": 3536,
+    "sexual offences": 1311,
+    "robbery": 310,
+    "harassment and threatening": 1048,
+    "total": 51719
+  },
+  "Knox (C)": {
+    "weapons related": 1639,
+    "assaults": 3874,
+    "sexual offences": 1484,
+    "robbery": 279,
+    "harassment and threatening": 941,
+    "total": 52014
+  },
+  "Latrobe (C)": {
+    "weapons related": 1941,
+    "assaults": 6948,
+    "sexual offences": 1823,
+    "robbery": 290,
+    "harassment and threatening": 2824,
+    "total": 62444
+  },
+  "Loddon (S)": {
+    "weapons related": 58,
+    "assaults": 234,
+    "sexual offences": 124,
+    "robbery": 1,
+    "harassment and threatening": 77,
+    "total": 2147
+  },
+  "Macedon Ranges (S)": {
+    "weapons related": 392,
+    "assaults": 1370,
+    "sexual offences": 339,
+    "robbery": 17,
+    "harassment and threatening": 411,
+    "total": 11246
+  },
+  "Manningham (C)": {
+    "weapons related": 394,
+    "assaults": 1602,
+    "sexual offences": 496,
+    "robbery": 101,
+    "harassment and threatening": 797,
+    "total": 22100
+  },
+  "Mansfield (S)": {
+    "weapons related": 164,
+    "assaults": 193,
+    "sexual offences": 93,
+    "robbery": 3,
+    "harassment and threatening": 84,
+    "total": 2591
+  },
+  "Maribyrnong (C)": {
+    "weapons related": 1249,
+    "assaults": 2726,
+    "sexual offences": 612,
+    "robbery": 520,
+    "harassment and threatening": 604,
+    "total": 42601
+  },
+  "Maroondah (C)": {
+    "weapons related": 1137,
+    "assaults": 3147,
+    "sexual offences": 870,
+    "robbery": 200,
+    "harassment and threatening": 863,
+    "total": 39404
+  },
+  "Melbourne (C)": {
+    "weapons related": 3814,
+    "assaults": 12438,
+    "sexual offences": 2594,
+    "robbery": 1558,
+    "harassment and threatening": 2879,
+    "total": 175136
+  },
+  "Melton (S)": {
+    "weapons related": 1809,
+    "assaults": 4364,
+    "sexual offences": 977,
+    "robbery": 312,
+    "harassment and threatening": 1434,
+    "total": 52173
+  },
+  "Mildura (RC)": {
+    "weapons related": 1171,
+    "assaults": 3202,
+    "sexual offences": 604,
+    "robbery": 80,
+    "harassment and threatening": 719,
+    "total": 30442
+  },
+  "Mitchell (S)": {
+    "weapons related": 746,
+    "assaults": 2139,
+    "sexual offences": 605,
+    "robbery": 28,
+    "harassment and threatening": 892,
+    "total": 18980
+  },
+  "Moira (S)": {
+    "weapons related": 297,
+    "assaults": 789,
+    "sexual offences": 585,
+    "robbery": 11,
+    "harassment and threatening": 205,
+    "total": 8138
+  },
+  "Monash (C)": {
+    "weapons related": 1008,
+    "assaults": 3175,
+    "sexual offences": 1152,
+    "robbery": 492,
+    "harassment and threatening": 950,
+    "total": 50972
+  },
+  "Moonee Valley (C)": {
+    "weapons related": 1011,
+    "assaults": 3042,
+    "sexual offences": 701,
+    "robbery": 359,
+    "harassment and threatening": 1132,
+    "total": 43912
+  },
+  "Moorabool (S)": {
+    "weapons related": 372,
+    "assaults": 895,
+    "sexual offences": 391,
+    "robbery": 17,
+    "harassment and threatening": 257,
+    "total": 10564
+  },
+  "Moreland (C)": {
+    "weapons related": 1389,
+    "assaults": 4712,
+    "sexual offences": 1177,
+    "robbery": 395,
+    "harassment and threatening": 1344,
+    "total": 66045
+  },
+  "Mornington Peninsula (S)": {
+    "weapons related": 1467,
+    "assaults": 4294,
+    "sexual offences": 1292,
+    "robbery": 150,
+    "harassment and threatening": 1349,
+    "total": 53663
+  },
+  "Mount Alexander (S)": {
+    "weapons related": 205,
+    "assaults": 428,
+    "sexual offences": 157,
+    "robbery": 22,
+    "harassment and threatening": 155,
+    "total": 5459
+  },
+  "Moyne (S)": {
+    "weapons related": 121,
+    "assaults": 373,
+    "sexual offences": 233,
+    "robbery": 3,
+    "harassment and threatening": 102,
+    "total": 3026
+  },
+  "Murrindindi (S)": {
+    "weapons related": 181,
+    "assaults": 356,
+    "sexual offences": 225,
+    "robbery": 2,
+    "harassment and threatening": 126,
+    "total": 3425
+  },
+  "Nillumbik (S)": {
+    "weapons related": 222,
+    "assaults": 899,
+    "sexual offences": 361,
+    "robbery": 35,
+    "harassment and threatening": 312,
+    "total": 12710
+  },
+  "Northern Grampians (S)": {
+    "weapons related": 227,
+    "assaults": 683,
+    "sexual offences": 246,
+    "robbery": 5,
+    "harassment and threatening": 316,
+    "total": 6475
+  },
+  "Port Phillip (C)": {
+    "weapons related": 1360,
+    "assaults": 4292,
+    "sexual offences": 1042,
+    "robbery": 409,
+    "harassment and threatening": 966,
+    "total": 61471
+  },
+  "Pyrenees (S)": {
+    "weapons related": 71,
+    "assaults": 205,
+    "sexual offences": 143,
+    "robbery": 2,
+    "harassment and threatening": 60,
+    "total": 2426
+  },
+  "Queenscliffe (B)": {
+    "weapons related": 8,
+    "assaults": 23,
+    "sexual offences": 16,
+    "robbery": 0,
+    "harassment and threatening": 4,
+    "total": 663
+  },
+  "South Gippsland (S)": {
+    "weapons related": 198,
+    "assaults": 671,
+    "sexual offences": 384,
+    "robbery": 6,
+    "harassment and threatening": 290,
+    "total": 6750
+  },
+  "Southern Grampians (S)": {
+    "weapons related": 190,
+    "assaults": 564,
+    "sexual offences": 299,
+    "robbery": 5,
+    "harassment and threatening": 159,
+    "total": 5755
+  },
+  "Stonnington (C)": {
+    "weapons related": 935,
+    "assaults": 2775,
+    "sexual offences": 831,
+    "robbery": 274,
+    "harassment and threatening": 615,
+    "total": 50338
+  },
+  "Strathbogie (S)": {
+    "weapons related": 91,
+    "assaults": 247,
+    "sexual offences": 174,
+    "robbery": 2,
+    "harassment and threatening": 120,
+    "total": 2764
+  },
+  "Surf Coast (S)": {
+    "weapons related": 90,
+    "assaults": 404,
+    "sexual offences": 214,
+    "robbery": 17,
+    "harassment and threatening": 155,
+    "total": 6655
+  },
+  "Swan Hill (RC)": {
+    "weapons related": 540,
+    "assaults": 1387,
+    "sexual offences": 253,
+    "robbery": 19,
+    "harassment and threatening": 318,
+    "total": 10642
+  },
+  "Towong (S)": {
+    "weapons related": 69,
+    "assaults": 139,
+    "sexual offences": 73,
+    "robbery": 1,
+    "harassment and threatening": 50,
+    "total": 1153
+  },
+  "Wangaratta (RC)": {
+    "weapons related": 559,
+    "assaults": 1199,
+    "sexual offences": 363,
+    "robbery": 11,
+    "harassment and threatening": 371,
+    "total": 12290
+  },
+  "Warrnambool (C)": {
+    "weapons related": 472,
+    "assaults": 1615,
+    "sexual offences": 487,
+    "robbery": 38,
+    "harassment and threatening": 536,
+    "total": 14801
+  },
+  "Wellington (S)": {
+    "weapons related": 733,
+    "assaults": 2429,
+    "sexual offences": 995,
+    "robbery": 26,
+    "harassment and threatening": 823,
+    "total": 21020
+  },
+  "West Wimmera (S)": {
+    "weapons related": 38,
+    "assaults": 84,
+    "sexual offences": 82,
+    "robbery": 0,
+    "harassment and threatening": 56,
+    "total": 877
+  },
+  "Whitehorse (C)": {
+    "weapons related": 674,
+    "assaults": 2633,
+    "sexual offences": 1110,
+    "robbery": 317,
+    "harassment and threatening": 780,
+    "total": 38949
+  },
+  "Whittlesea (C)": {
+    "weapons related": 1735,
+    "assaults": 5784,
+    "sexual offences": 1124,
+    "robbery": 360,
+    "harassment and threatening": 2219,
+    "total": 71384
+  },
+  "Wodonga (RC)": {
+    "weapons related": 493,
+    "assaults": 1774,
+    "sexual offences": 640,
+    "robbery": 35,
+    "harassment and threatening": 465,
+    "total": 15923
+  },
+  "Wyndham (C)": {
+    "weapons related": 1862,
+    "assaults": 5203,
+    "sexual offences": 1079,
+    "robbery": 573,
+    "harassment and threatening": 1422,
+    "total": 68777
+  },
+  "Yarra (C)": {
+    "weapons related": 1776,
+    "assaults": 3772,
+    "sexual offences": 764,
+    "robbery": 582,
+    "harassment and threatening": 776,
+    "total": 63548
+  },
+  "Yarra Ranges (S)": {
+    "weapons related": 1383,
+    "assaults": 3439,
+    "sexual offences": 1574,
+    "robbery": 148,
+    "harassment and threatening": 1020,
+    "total": 38283
+  },
+  "Yarriambiack (S)": {
+    "weapons related": 104,
+    "assaults": 300,
+    "sexual offences": 132,
+    "robbery": 2,
+    "harassment and threatening": 69,
+    "total": 1974
+  },
+  "Glenelg (S)": {
+    "weapons related": 284,
+    "assaults": 798,
+    "sexual offences": 363,
+    "robbery": 11,
+    "harassment and threatening": 140,
+    "total": 8050
+  },
+  "Glen Eira (C)": {
+    "weapons related": 689,
+    "assaults": 2128,
+    "sexual offences": 817,
+    "robbery": 211,
+    "harassment and threatening": 595,
+    "total": 31873
+  },
+  "Golden Plains (S)": {
+    "weapons related": 75,
+    "assaults": 268,
+    "sexual offences": 145,
+    "robbery": 1,
+    "harassment and threatening": 60,
+    "total": 3257
+  },
+  "Greater Bendigo (C)": {
+    "weapons related": 1426,
+    "assaults": 3924,
+    "sexual offences": 1486,
+    "robbery": 116,
+    "harassment and threatening": 1248,
+    "total": 45863
+  },
+  "Greater Dandenong (C)": {
+    "weapons related": 3456,
+    "assaults": 8160,
+    "sexual offences": 1868,
+    "robbery": 808,
+    "harassment and threatening": 2186,
+    "total": 89968
+  },
+  "Greater Geelong (C)": {
+    "weapons related": 2855,
+    "assaults": 7162,
+    "sexual offences": 2363,
+    "robbery": 385,
+    "harassment and threatening": 1876,
+    "total": 100487
+  }
+}
