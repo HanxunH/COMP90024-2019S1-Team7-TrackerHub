@@ -216,12 +216,8 @@ export default {
         labels: this.barDataLabel,
         datasets: [
           {
-            label: 'Lust',
+            label: 'Total',
             backgroundColor: '#ff9900',
-            data: this.barData
-          }, {
-            label: 'Gluttony',
-            backgroundColor: '#DC143C',
             data: this.barData
           }
         ]
@@ -337,46 +333,58 @@ export default {
         // prepare data
         let name = event.feature.getProperty("name")
         let statistics = event.feature.getProperty("statistcs")
+ 
         let infoPieDataSentiment = [] 
         let infoPieNameSentiment = []
         let infoPieData = []
         let infoPieName = []
+        let temp = 'sentiment'
 
-        // for (const [key, value] of Object.entries(statistics.sentiment)) {
-        //   infoPieNameSentiment.push(key)
-        //   infoPieDataSentiment.push(value)
-        // }
+        for (const [key, value] of Object.entries(statistics.sentiment)) {
+          infoPieNameSentiment.push(key)
+          infoPieDataSentiment.push(value)
+        }
 
-        // for (const [key, value] of Object.entries(statistics)) {
-        //   if (key != 'sentiment'){
-        //     for(const [tag, total] of Object.entries(value))
-        //       infoPieName.push(tag)
-        //       infoPieData.push(total)
-        //   }
-        // }
+        for (const [key, value] of Object.entries(statistics)) {
+          if (key != temp){
+            for(const [inner_key, inner_value] of Object.entries(value)) {
+              infoPieName.push(inner_key)
+              infoPieData.push(inner_value)
+            }
+          }
+        }
 
         // set all chart data here
-        let data1 = 1, data2 = 2, data3 = 3, data4 = 4
-        let infoPieDatatest = [data1, data2, data3, data4]
-        
-        let pieDatacollection = {
-          labels: ['Teen','Big','Japanese','Nurse'],
+        let pieDatacollection_sentiment = {
+          labels: infoPieNameSentiment,
           datasets: [
             {
-              label: 'Lust',
-              backgroundColor: this.gradient('#F5F5F5','ff9900',4) ,
-              data: infoPieDatatest
+              label: 'Sentiment',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',infoPieDataSentiment.length) ,
+              data: infoPieDataSentiment
             }
           ]
         }
 
+        let pieDatacollection = {
+          labels: infoPieName,
+          datasets: [
+            {
+              label: 'Sin',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',infoPieData.length) ,
+              data: infoPieData
+            }
+          ]
+        }
+        
         // init infowindow with customized view
         let InfoWindow = Vue.extend(InfoWindowComponent)
-
+        
         // send data to the view
         let instance = new InfoWindow({
           propsData: {
             name,
+            pieDatacollection_sentiment,
             pieDatacollection
           }
         })
@@ -409,7 +417,7 @@ export default {
         url: zone,
         method: 'GET',
       }).then(res => {
-          this.melb_geo = res.data.melb_geo,
+          this.melb_geo = res.data.url,
           this.visible = false,
           console.log(this.melb_geo),
           // re-render the map here

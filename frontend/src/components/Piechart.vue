@@ -11,9 +11,11 @@ export default {
   ],
   mounted () {
     console.log(this.pieData)
-    // Overwriting base render method with actual data.
-    this.renderChart(this.pieData,{
-      responsive: true, maintainAspectRatio: false 
+    this.$nextTick(() => {
+      // Overwriting base render method with actual data.
+      this.renderChart(this.pieData,{
+        responsive: true, maintainAspectRatio: false 
+      })
     })
   },
   watch: {
