@@ -10,14 +10,12 @@ import time
 
 parser = argparse.ArgumentParser(description='COMP90024 Project Text Analysis')
 parser.add_argument('--batch', type=int, default=500)
-parser.add_argument('--total', type=int, default=3000)
 parser.add_argument('--filename', type=str, default="Analysis_Log.txt")
 parser.add_argument('--setmaster', type=str, default="local[4]")
 args = parser.parse_args()
 
 params = {"skip": "0"}
 BATCHSIZE = args.batch
-TOTALSIZE = args.total
 
 file = open(args.filename, "w+")
 
@@ -105,10 +103,8 @@ def main():
 	sc = SparkContext(conf=conf)
 
 
-	while num< TOTALSIZE:
-
+	while True: 
 		
-		num = num + BATCHSIZE
 
 		
 
@@ -117,7 +113,7 @@ def main():
 
 		if type(response) == type(dict()) and len(response.keys()) != 0:
 
-
+			num = num + len(response.keys())
 			file.write("{} tweets has been retrieved and waiting for analysis...\n".format(num))
 		# list of (text, id) pair
 			infoList = []
