@@ -1,6 +1,7 @@
 from keywords import NOUN, VERB, ADJ
 import nltk
 nltk.download('punkt')
+nltk.download('wordnet')
 import re
 from profanity import profanity
 from nltk.corpus import wordnet as wn
