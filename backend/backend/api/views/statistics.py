@@ -121,7 +121,7 @@ def statistics_zone_get(request, zone=None):
             results[tweet.key[0]].update({tweet.key[1]: {}})
         if 'sentiment' not in results[tweet.key[0]]:
             results[tweet.key[0]].update(dict(sentiment={}))
-        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
+        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]] and tweet.key[2] not in ['non_food', 'neutral']:
             if '.' in tweet.key[2]:
                 if 'sentiment' in tweet.key[2]:
                     results[tweet.key[0]]['sentiment'].update({tweet.key[2].split('.')[1]: tweet.value})
@@ -192,7 +192,7 @@ def statistics_zone_vic_get(request, zone=None):
             results[tweet.key[0]].update({tweet.key[1]: {}})
         if 'sentiment' not in results[tweet.key[0]]:
             results[tweet.key[0]].update(dict(sentiment={}))
-        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
+        if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]] and tweet.key[2] not in ['non_food', 'neutral']:
             if '.' in tweet.key[2]:
                 if 'sentiment' in tweet.key[2]:
                     results[tweet.key[0]]['sentiment'].update({tweet.key[2].split('.')[1]: tweet.value})
