@@ -8,10 +8,15 @@
           <a href="/map" class="button premium"><span>Go Premium</span></a>
         </li>
         <li v-if="this.$route.path != '/'">
+          <a href="http://172.26.37.225/dashboard/d/ji261NiWz/api-monitor?orgId=1&refresh=%2010s&from=now-1h&to=now&kiosk" target="_blank" :class="'button '+ [this.info.class]"><span>API Monitor</span></a>
+        </li>
+        <li v-if="this.$route.path != '/'">
+          <a href="http://172.26.37.225/dashboard/d/fZ6poDmZk/instance-resource?orgId=1&refresh=%202s&from=now-1h&to=now&kiosk" target="_blank" :class="'button '+ [this.info.class]"><span>Instance Monitor</span></a>
+        </li>
+        <li v-if="this.$route.path != '/'">
           <a :href="this.info.href" :class="'button '+ [this.info.class]" @click="changeButton"><span>{{ this.info.buttonText }}</span></a>
         </li>
-      </ul> 
-    
+      </ul>
     </nav>
   </header>
 </template>

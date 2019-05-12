@@ -1,8 +1,0 @@
-version: '3'
-services:
-  machine_learning:
-    container_name: machine_learning
-    build: {{remote_working_directory}}/machine_learning
-    volumes:
-      - {{remote_working_directory}}/machine_learning:/workspace
-    restart: always

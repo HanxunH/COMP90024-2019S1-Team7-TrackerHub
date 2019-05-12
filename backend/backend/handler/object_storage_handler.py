@@ -41,9 +41,9 @@ class ObjectStorageHandler(object):
 
     def find(self, name=None):
         items = self.findall()
-        if not name:
-            return items
-        return [item for item in items if name in item['name']]
+        return True if name in items else False
+        #     return items
+        # return [item for item in items if name in item['name']]
 
     def upload(self, file_name, file):
         return self.swift.put_object(container=self.container_name, obj=file_name, contents=file)
@@ -76,6 +76,7 @@ class ObjectStorageHandler(object):
 
 
 object_storage_handler = ObjectStorageHandler(OBJECT_STORAGE_CONTAINER)
+json_storage_handler = ObjectStorageHandler(JSON_STORAGE_CONTAINER)
 
 
 if __name__ == '__main__':

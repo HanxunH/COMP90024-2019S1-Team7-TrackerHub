@@ -14,9 +14,10 @@ module.exports = {
     port: 8080,
     proxy: {
       '/api': {
-        target: 'http://www.ourNectarServer.com',
+        target: 'http://172.26.37.225',
         ws: true,
-        changeOrigin: true
+        changeOrigin: true,
+        secure: false
       }
     }
   },
