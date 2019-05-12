@@ -22,6 +22,7 @@ def postRequest(domain, api_key, port, header, info, string, file):
 	try:
 		if string == "tweet":
 			req = requests.post(url, headers=header , auth=auth, data=info)
+			print(req.text)
 			print("tweet being uploaded... {}".format(req.status_code))
 			file.write("tweet being uploaded... {}\n".format(req.status_code))
 

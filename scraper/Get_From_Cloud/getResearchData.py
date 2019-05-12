@@ -13,8 +13,8 @@ import time
 parser = argparse.ArgumentParser(description='COMP90024 Project Scrape Research Data')
 parser.add_argument('--batch', type=int, default=100)
 parser.add_argument('--total', type=int, default=500)
-parser.add_argument('--startDate', type=str, default='[\"melbourne\",2016,1,1]')
-parser.add_argument('--endDate', type=str, default='[\"melbourne\",2016,12,31]')
+parser.add_argument('--startDate', type=str, default='[\"sydney\",2015,1,1]')
+parser.add_argument('--endDate', type=str, default='[\"sydney\",2015,12,31]')
 parser.add_argument('--url', type=str, default='http://45.113.232.90/couchdbro/twitter/_design/twitter/_view/summary')
 parser.add_argument('--filename', type=str, default='log2016.txt')
 args = parser.parse_args()
@@ -135,6 +135,6 @@ while num<TOTALSIZE:
 			print("Cannot upload a well-formatted tweet to couchDB")
 			file.write(str(e) + "\n")
 			file.write("Cannot upload a well-formatted tweet to couchDB\n")
-			time.sleep(30)
+
 
 file.close()
