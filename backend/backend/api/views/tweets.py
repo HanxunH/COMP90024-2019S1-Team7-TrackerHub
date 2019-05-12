@@ -363,7 +363,7 @@ def tweet_untrained_zone_get(request, resource=100):
     return make_json_response(HttpResponse, resp)
 
 
-def tweet_untrained_zone_get(request, resource=100):
+def tweet_untrained_vic_zone_get(request, resource=100):
     start_timer = time.time()
 
     try:
