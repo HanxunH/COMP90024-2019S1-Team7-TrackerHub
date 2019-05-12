@@ -31,12 +31,11 @@ def tweet_pic_router(request, *args, **kwargs):
 
 
 @require_http_methods(['GET'])
-@check_api_key
-def geo_file_router(request, *args, **kwargs):
-    resource = None
-    for arg in args:
-        if isinstance(arg, dict):
-            resource = arg.get('resource', None)
+def geo_file_router(request, resource=None, *args, **kwargs):
+    # resource = None
+    # for arg in args:
+    #     if isinstance(arg, dict):
+    #         resource = arg.get('resource', None)
 
     if request.method == 'GET' and resource:
         return geo_file_get(request, resource)

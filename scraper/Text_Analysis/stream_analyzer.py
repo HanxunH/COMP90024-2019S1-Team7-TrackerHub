@@ -9,15 +9,13 @@ import json
 import time
 
 parser = argparse.ArgumentParser(description='COMP90024 Project Text Analysis')
-parser.add_argument('--batch', type=int, default=3500)
-parser.add_argument('--total', type=int, default=100000)
+parser.add_argument('--batch', type=int, default=500)
 parser.add_argument('--filename', type=str, default="Analysis_Log.txt")
 parser.add_argument('--setmaster', type=str, default="local[4]")
 args = parser.parse_args()
 
 params = {"skip": "0"}
 BATCHSIZE = args.batch
-TOTALSIZE = args.total
 
 file = open(args.filename, "w+")
 
@@ -105,19 +103,17 @@ def main():
 	sc = SparkContext(conf=conf)
 
 
-	while num< TOTALSIZE:
-
+	while True: 
 		
-		num = num + BATCHSIZE
 
 		
 
 		response = getRequest(DOMAIN, API_KEY, API_PORT["download_tweet"]["Port"], API_PORT["download_tweet"]["Header"], params, BATCHSIZE, file)
 
 
-		if type(response) == type(dict()):
+		if type(response) == type(dict()) and len(response.keys()) != 0:
 
-
+			num = num + len(response.keys())
 			file.write("{} tweets has been retrieved and waiting for analysis...\n".format(num))
 		# list of (text, id) pair
 			infoList = []
@@ -138,6 +134,10 @@ def main():
 			if flag == 0:
 				file.write("{} tweets has been analyzed and updateed\n".format(num))
 
+		elif type(response) == type(dict()) and len(response.keys()) == 0:
+
+			file.write("No new data!\n")
+			time.sleep(1800)
 
 		else:
 			file.write("Bad GET request, stop analysis\n")
