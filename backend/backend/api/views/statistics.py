@@ -262,14 +262,17 @@ def statistics_machine_get(request):
             continue
 
     lust = dict()
-    gluttony = dict()
+    gluttony = dict(others=0)
     for result in results:
         if result in ['neutral', 'sexy', 'porn', 'hentai', 'drawings']:
             lust.update({result: results[result]})
+        elif results[result] < 10:
+            gluttony['others'] += results[result]g
         else:
             gluttony.update({result: results[result]})
     lust = dict(sorted(lust.items(), key=lambda item: item[1], reverse=True))
     gluttony = dict(sorted(gluttony.items(), key=lambda item: item[1], reverse=True))
+
     lust = dict(key=lust.keys(), value=lust.values())
     gluttony = dict(key=gluttony.keys(), value=gluttony.values())
     results = dict(lust=lust, gluttony=gluttony)
@@ -309,12 +312,12 @@ def statistics_text_get(request):
     while True:
         try:
             current_db = tweet_couch_db.get_current_database()
-            results = current_db.view('statistics/mtext_result', group=True, stale='ok')
+            results = current_db.view('statistics/text_result', group=True, stale='ok')
             results = dict((result.key, result.value) for result in results)
             break
         except Exception as e:
             logger.debug('Query Timeout %s' % e)
-            influxdb_handler.make_point(key='api/statistics/mtext/', method='GET', error=500, prefix='API')
+            influxdb_handler.make_point(key='api/statistics/text/', method='GET', error=500, prefix='API')
             continue
 
     text = dict()
