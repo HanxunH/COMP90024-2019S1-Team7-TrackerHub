@@ -588,11 +588,10 @@ export default {
             position: point,
             map: map,
             icon: icon,
-            title: value[0].time
+            title: value[0].time + value[0].text
           })
 
           let tag_content = ''
-
         
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
             subTags.forEach(tag => {
@@ -600,11 +599,18 @@ export default {
             })
           }
 
-          marker.addListener('click', () => {
-            let content = '<div id="content" style="min-width:150px;">'+
-                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
-                      tag_content+
-                      '</div>'     
+          if (value[0].img_id.length>0){
+            value[0].img_id.forEach(img => {
+              tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+            })
+          }
+
+          let content = '<div id="content" style="min-width:150px;">'+
+            '<h4 class="font-weight-bold">'+ key +'</h4>'+
+            tag_content+
+            '</div>'
+
+          marker.addListener('click', () => {     
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
@@ -638,7 +644,7 @@ export default {
               position: point,
               map: map,
               icon: icon_sm,
-              title: track.time
+              title: track.time + track.text
             })
 
             tag_content = ''
@@ -648,15 +654,21 @@ export default {
                 tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
               })
             }
-            this.$nextTick(() => {
-              marker.addListener('click', () => {
-                let content = '<div id="content" style="min-width:150px;">'+
-                        '<p class="font-weight-bold">Tags</p>'+
-                        tag_content+
-                        '</div>'
-                infowindow.setContent(content)
-                infowindow.open(map, marker)
+
+            if (track.img_id.length>0){
+              track.img_id.forEach(img => {
+                tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
               })
+            }
+
+            let content = '<div id="content" style="min-width:150px;">'+
+              '<p class="font-weight-bold">Tags</p>'+
+              tag_content+
+              '</div>'
+
+            marker.addListener('click', () => {
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
             })
 
             path.push(point)
@@ -777,11 +789,18 @@ export default {
             })
           }
 
+          if (value[0].img_id.length>0){
+            value[0].img_id.forEach(img => {
+              tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+            })
+          }
+
+          let content = '<div id="content" style="min-width:150px;">'+
+            '<h4 class="font-weight-bold">'+ key +'</h4>'+
+            tag_content+
+            '</div>'
+
           marker.addListener('click', () => {
-            let content = '<div id="content" style="min-width:150px;">'+
-                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
-                      tag_content+
-                      '</div>'
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
@@ -826,11 +845,18 @@ export default {
               })
             }
 
+            if (track.img_id.length>0){
+              track.img_id.forEach(img => {
+                tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+              })
+            }
+
+            let content = '<div id="content" style="min-width:150px;">'+
+              '<p class="font-weight-bold">Tags</p>'+
+              tag_content+
+              '</div>'
+
             marker.addListener('click', () => {
-              let content = '<div id="content" style="min-width:150px;">'+
-                        '<p class="font-weight-bold">Tags</p>'+
-                        tag_content+
-                        '</div>'
               infowindow.setContent(content)
               infowindow.open(map, marker)
             })
