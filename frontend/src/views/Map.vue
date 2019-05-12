@@ -599,14 +599,6 @@ export default {
             })
           }
 
-<<<<<<< HEAD
-          marker.addListener('click', () => {
-            let content = '<div id="content" style="min-width:150px;">'+
-                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
-                      tag_content+
-                      '</div>'
-     
-=======
           if (value[0].img_id.length>0){
             value[0].img_id.forEach(img => {
               tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
@@ -619,7 +611,6 @@ export default {
             '</div>'
 
           marker.addListener('click', () => {     
->>>>>>> ee11bf3efe0e928e0d45d85655ece78e8fc74538
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
