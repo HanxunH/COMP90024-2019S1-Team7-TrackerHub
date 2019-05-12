@@ -87,6 +87,7 @@ def statistics_track_random(start_time=None, end_time=None, user_id=None, limit=
                 '$ne': []
             }
         },
+        'use_index': 'json:geo-index',
         'limit': limit,
         'skip': skip
     }

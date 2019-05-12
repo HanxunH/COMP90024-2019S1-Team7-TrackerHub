@@ -2,6 +2,7 @@
 
 import logging
 import ujson
+import time
 from shapely.geometry import shape, point
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseNotFound, FileResponse
@@ -11,6 +12,7 @@ from django.utils import timezone
 
 from backend.handler.couch_handler import couch_db_handler
 from backend.handler.influxdb_handler import influxdb_handler
+from backend.handler.object_storage_handler import json_storage_handler
 from backend.common.couchdb_map import statistics_track_random
 from backend.common.utils import make_dict, init_http_not_found, init_http_success, check_api_key, make_json_response, str_to_str_datetime_utc
 from backend.config.config import COUCHDB_TWEET_DB
@@ -26,8 +28,7 @@ def statistics_time_router(request, *args, **kwargs):
     if request.method == 'GET':
         return statistics_time_get(request)
     elif request.method == 'OPTIONS':
-        response = HttpResponse()
-        return response
+        return HttpResponse()
     return HttpResponseNotAllowed()
 
 
@@ -44,8 +45,7 @@ def statistics_track_router(request, *args, **kwargs):
     if request.method == 'GET':
         return statistics_track_get(request, user_id=user_id, number=number)
     elif request.method == 'OPTIONS':
-        response = HttpResponse()
-        return response
+        return HttpResponse()
     return HttpResponseNotAllowed()
 
 
@@ -77,9 +77,19 @@ def statistics_track_get(request, user_id=None, number=100):
         result = []
         if needed in tags:
             for tag in tags[needed]:
-                if tags[needed][tag] > value and (not ignore or tag not in ignore):
+                if (isinstance(tags[needed][tag], str) or tags[needed][tag] > value) and (not ignore or tag not in ignore):
                     result.append(tag)
         return result
+
+    def make_this_point(_length, _timer):
+        if user_id:
+            influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error='success',
+                                        prefix='API', user=_length, timer=_timer)
+        else:
+            influxdb_handler.make_point(key='api/statistics/track/random/', method='GET', error='success', prefix='API',
+                                        user=_length, timer=_timer)
+
+    start_timer = time.time()
 
     params = ujson.loads(request.body) if request.body else {}
 
@@ -91,7 +101,23 @@ def statistics_track_get(request, user_id=None, number=100):
     skip = params.get('skip', 0)
     threshold = params.get('threshold', 0.9)
 
-    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=100000, skip=skip)
+    number = 0 if user_id else number
+    today = timezone.now().strftime('%Y-%m-%d')
+    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(user_id, number, start_time.replace(' ', '-'), end_time.replace(' ', '-'), '-'.join(sorted(target_tag)), skip, today)
+
+    try:
+        result_file = json_storage_handler.download(json_name)
+        results = ujson.load(result_file)
+        timer = (time.time() - start_timer)
+
+        make_this_point(len(results), timer)
+        resp = init_http_success()
+        resp['data'].update(results)
+        return make_json_response(HttpResponse, resp)
+    except Exception as e:
+        pass
+
+    mango = statistics_track_random(start_time=start_time, end_time=end_time, user_id=user_id, limit=200000, skip=skip)
 
     while True:
         try:
@@ -103,9 +129,11 @@ def statistics_track_get(request, user_id=None, number=100):
             continue
 
     results = {}
+    geo_exists = {}
     for tweet in tweets:
         user = tweet.get('user')
         results.update({user: []}) if user not in results else None
+        geo_exists.update({user: []}) if user not in geo_exists else None
         tags = tweet.get('tags')
         result_tags = []
         if 'gluttony' in target_tag:
@@ -120,26 +148,40 @@ def statistics_track_get(request, user_id=None, number=100):
         for _tag in _result_tags:
             if _tag in target_tag:
                 result_tags.append(_tag + '.text')
+            elif _tag in ['positive', 'negative', 'neutral']:
+                result_tags.append({'emotion': _tag})
 
-        results[user].append(dict(
-            time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime('%Y-%m-%d %H:%M:%S%z'),
-            geo=tweet.get('geo'),
-            img_id=tweet.get('img_id'),
-            tags=result_tags
-        ))
+        if tweet.get('geo') not in geo_exists[user]:
+            geo_exists[user].append(tweet.get('geo'))
+            results[user].append(dict(
+                time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime('%Y-%m-%d %H:%M:%S%z'),
+                geo=tweet.get('geo'),
+                img_id=tweet.get('img_id'),
+                tags=result_tags
+            ))
 
     results = sorted(results.items(), key=lambda item: len(item[1]), reverse=True)[0: number]
+    json_file = ujson.dumps(results)
+    try:
+        json_storage_handler.upload(json_name, json_file)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        json_storage_handler.upload(json_name, json_file)
 
-    if user_id:
-        influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error='success', prefix='API', user=len(results))
-    else:
-        influxdb_handler.make_point(key='api/statistics/track/random/', method='GET', error='success', prefix='API', user=len(results))
+    timer = (time.time() - start_timer)
+
+    make_this_point(len(results), timer)
     resp = init_http_success()
     resp['data'].update(results)
     return make_json_response(HttpResponse, resp)
 
 
 if __name__ == '__main__':
-    statistics_track_get(None)
+    import datetime
+
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    json_name = 'track\\{}\\{}\\{}\\{}\\{}\\{}\\{}.json'.format(None, 100, None, None, None, None, today)
+    print(json_name)
+    # statistics_track_get(None)
 
 

@@ -2,6 +2,7 @@
 
 import ujson
 import logging
+import time
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
@@ -140,6 +141,9 @@ def tweet_get(request, resource):
 
 
 def tweet_untrained_get(request, resource=100):
+
+    start_timer = time.time()
+
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_MANGO(resource))
     except Exception as e:
@@ -158,8 +162,10 @@ def tweet_untrained_get(request, resource=100):
                 model=tweet.get('model', {})
             )
         })
-        count += 1;
-    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=count)
+        count += 1
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
@@ -209,6 +215,9 @@ def tweet_trained_get(request):
 
 
 def tweet_untrained_text_get(request, resource=100):
+
+    start_timer = time.time()
+
     try:
         tweets = tweet_couch_db.find(TRAINING_UNTRAINED_TEXT_MANGO(resource))
     except Exception as e:
@@ -227,7 +236,9 @@ def tweet_untrained_text_get(request, resource=100):
             )
         })
         count += 1
-    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API', tweet=count)
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/tweet/untrained/text/', method='GET', error='success', prefix='API', tweet=count, timer=timer)
     return make_json_response(HttpResponse, resp)
 
 
