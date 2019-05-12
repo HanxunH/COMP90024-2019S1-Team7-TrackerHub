@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_inference.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-06T00:11:58+10:00
+# @Last modified time: 2019-05-12T14:30:41+10:00
 
 import torch
 import torch.nn as nn
@@ -133,6 +133,9 @@ class coconut_inference():
             rs.append((self.model_idx_to_class[class_id], score, class_id))
 
         return rs
+
+    def get_checkpoint_train_dict(self):
+        return self.model_train_history_dict
 
 
 # coconut = coconut_inference(model_checkpoint_file_path='checkpoints/nsfw_resnet101_adabound.pth_best.pth')

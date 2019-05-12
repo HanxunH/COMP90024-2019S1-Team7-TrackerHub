@@ -3,7 +3,7 @@
 # @Email:  hanxunh@student.unimelb.edu.au
 # @Filename: coconut_image_recong.py
 # @Last modified by:   hanxunhuang
-# @Last modified time: 2019-05-07T23:24:27+10:00
+# @Last modified time: 2019-05-12T14:39:04+10:00
 import argparse
 import logging
 import io
@@ -121,9 +121,8 @@ class coconut_image_recong:
             self.logger.error('Sever Address: %s is Down' % (self.server_address))
             return False
 
-
     def api_get(self, request_url):
-        headers = {'X-API-KEY' : API_KEY}
+        headers = {'X-API-KEY': API_KEY}
         try:
             response = requests.get(request_url, headers=headers)
             if response.status_code != requests.codes.ok:
@@ -136,7 +135,7 @@ class coconut_image_recong:
         return
 
     def api_post(self, request_url, payload):
-        headers = {'X-API-KEY' : API_KEY}
+        headers = {'X-API-KEY': API_KEY}
         try:
             response = requests.post(request_url, headers=headers, json=payload)
             if response.status_code != requests.codes.ok:
@@ -181,8 +180,6 @@ class coconut_image_recong:
     # Process single tweet
     def process_single_tweet(self, tweet_data_id, json_data):
         tweet_data_img_ids = json_data['img_id']
-        tweet_data_tags = json_data['tags']
-        tweet_data_model = json_data['model']
         food179_rs_list = []
         nsfw_rs_list = []
         # Some tweet have more than 1 image
@@ -220,13 +217,13 @@ class coconut_image_recong:
             food179_rs_dict = self.process_list_rs_to_dict(food179_rs)
 
             result_payload = {
-                'tags':{
-                    'nsfw' : nsfw_rs_dict,
+                'tags': {
+                    'nsfw': nsfw_rs_dict,
                     'food179': food179_rs_dict
                 },
-                'model':{
-                    'nsfw' : self.nsfw_version,
-                    'food179' : self.food179_version
+                'model': {
+                    'nsfw': self.nsfw_version,
+                    'food179': self.food179_version
                 }
             }
             return result_payload
@@ -260,7 +257,7 @@ class coconut_image_recong:
         if response:
             response = json.loads(response.content)
             self.logger.debug(response)
-            if 'data' in response and len(response['data']) > 0 :
+            if 'data' in response and len(response['data']) > 0:
                 self.logger.info('Uploaded %d tweets result' % (len(response['data'])))
             else:
                 self.logger.error('Someting went wrong with upload result')
@@ -288,7 +285,7 @@ class coconut_image_recong:
                     self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
 
                     response = self.process_tweets_json(target_tweet_list)
-                    if response == False:
+                    if not response:
                         self.logger.info('No Data Available, Sleep for %d minute' % (self.server_rest_time))
                         time.sleep(self.server_rest_time*60)
                     else:
@@ -301,6 +298,9 @@ class coconut_image_recong:
 
                         self.upload_result(result_payload)
 
+                    if args.load_with_config:
+                        self.load_config_with_file(args.config_file_path)
+
                 # Avoid too much request Sleep for 30 second
                 self.logger.info('Avoid too much request Sleep for 10 Seconds')
                 time.sleep(10)
@@ -310,13 +310,13 @@ class coconut_image_recong:
                 target_tweet_list = comm.scatter(chunks, root=0)
                 self.logger.info('Recv %d Tweets to process' % (len(target_tweet_list)))
                 response = self.process_tweets_json(target_tweet_list)
-                if response == False:
+                if not response:
                     self.logger.info('No Data Available')
                 else:
                     result_list = comm.gather(response, root=0)
 
-
         return
+
 
 if __name__ == "__main__":
     comm = MPI.COMM_WORLD
