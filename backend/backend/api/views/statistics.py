@@ -76,12 +76,15 @@ def statistics_zone_vic_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def statistics_machine_router(request, *args, **kwargs):
-    # for arg in args:
-    #     if isinstance(arg, dict):
-    #         zone = arg.get('zone', None)
-
     if request.method == 'GET':
         return statistics_machine_get(request)
+    return HttpResponseNotAllowed()
+
+@require_http_methods(['GET'])
+@check_api_key
+def statistics_text_router(request, *args, **kwargs):
+    if request.method == 'GET':
+        return statistics_text_get(request)
     return HttpResponseNotAllowed()
 
 
@@ -249,22 +252,14 @@ def statistics_machine_get(request):
     lust = dict()
     gluttony = dict()
     for result in results:
-        if result in ['neutral', 'sexy', 'porn', 'hentai', 'drawing']:
+        if result in ['neutral', 'sexy', 'porn', 'hentai', 'drawings']:
             lust.update({result: results[result]})
         else:
             gluttony.update({result: results[result]})
-    total = 0
-    lust_total = 0
-    for result in lust:
-        total += lust[result]
-        lust_total += lust[result] if result in ['porn', 'hentai'] else 0
-    lust.update(dict(total=total, lust_total=lust_total))
-    total=0
-    gluttony_total = 0
-    for result in gluttony:
-        total += gluttony[result]
-        gluttony_total += gluttony[result] if not result == 'non_food' else 0
-    gluttony.update(dict(total=total, gluttony_total=gluttony_total))
+    lust = dict(sorted(lust.items(), key=lambda item: len(item[1]), reverse=True))
+    gluttony = dict(sorted(gluttony.items(), key=lambda item: len(item[1]), reverse=True))
+    lust = dict(key=lust.keys(), value=lust.values())
+    gluttony = dict(key=gluttony.keys(), value=lust.values())
     results = dict(lust=lust, gluttony=gluttony)
 
     json_file = ujson.dumps(results)
@@ -276,6 +271,62 @@ def statistics_machine_get(request):
 
     timer = (time.time() - start_timer)
     influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API', timer=timer)
+    resp = init_http_success()
+    resp['data'] = results
+    return make_json_response(HttpResponse, resp)
+
+
+def statistics_text_get(request):
+    start_timer = time.time()
+
+    today = timezone.now().strftime('%Y-%m-%d')
+    json_name = 'text\\{}.json'.format(today)
+
+    try:
+        result_file = json_storage_handler.download(json_name)
+        results = ujson.load(result_file)
+
+        timer = (time.time() - start_timer)
+        influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API', timer=timer)
+        resp = init_http_success()
+        resp['data'] = results
+        return make_json_response(HttpResponse, resp)
+    except Exception:
+        pass
+
+    while True:
+        try:
+            current_db = tweet_couch_db.get_current_database()
+            results = current_db.view('statistics/mtext_result', group=True, stale='ok')
+            results = dict((result.key, result.value) for result in results)
+            break
+        except Exception as e:
+            logger.debug('Query Timeout %s' % e)
+            influxdb_handler.make_point(key='api/statistics/mtext/', method='GET', error=500, prefix='API')
+            continue
+
+    text = dict()
+    sentiment = dict()
+    for result in results:
+        if result in ['neutral', 'positive', 'negative']:
+            sentiment.update({result: results[result]})
+        else:
+            text.update({result: results[result]})
+    sentiment = dict(sorted(sentiment.items(), key=lambda item: len(item[1]), reverse=True))
+    text = dict(sorted(text.items(), key=lambda item: len(item[1]), reverse=True))
+    sentiment = dict(key=sentiment.keys(), value=sentiment.values())
+    text = dict(key=text.keys(), value=text.values())
+    results = dict(text=text, sentiment=sentiment)
+
+    json_file = ujson.dumps(results)
+    try:
+        json_storage_handler.upload(json_name, json_file)
+    except Exception as e:
+        json_storage_handler.reconnect()
+        json_storage_handler.upload(json_name, json_file)
+
+    timer = (time.time() - start_timer)
+    influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API', timer=timer)
     resp = init_http_success()
     resp['data'] = results
     return make_json_response(HttpResponse, resp)
