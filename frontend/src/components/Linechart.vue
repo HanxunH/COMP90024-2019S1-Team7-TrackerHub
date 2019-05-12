@@ -14,7 +14,7 @@ export default {
       labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       datasets: [
         {
-          label: 'PornHub Commits',
+          label: 'Github Commits',
           backgroundColor: '#f8979',
           data: [10, 30, 12, 39, 10, 40, 39, 20, 40, 70, 12, 11]
         }

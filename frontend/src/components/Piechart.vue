@@ -1,25 +1,29 @@
 <script>
-import { Pie } from 'vue-chartjs'
+import { Pie, mixins } from 'vue-chartjs'
+const { reactiveProp } = mixins
 
 export default {
   name:"Piechart",
   extends: Pie,
   props: [
-    'data',
-    'name'
+    'name',
+    'pieData'
   ],
   mounted () {
-    // Overwriting base render method with actual data.
-    this.renderChart({
-      labels: ['Teen','Big','Japanese','Nurse'],
-      datasets: [
-        {
-          label: this.name,
-          backgroundColor: ['#f8979', '#eee','#ddd','#888'],
-          data: this.data
-        }
-      ]
+    console.log(this.pieData)
+    this.$nextTick(() => {
+      // Overwriting base render method with actual data.
+      this.renderChart(this.pieData,{
+        responsive: true, maintainAspectRatio: false 
+      })
     })
+  },
+  watch: {
+    pieData: function(New,Old){
+      this.renderChart(New,{
+        responsive: true, maintainAspectRatio: false 
+      })
+    }
   }
 }
 </script>
