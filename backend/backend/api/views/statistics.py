@@ -133,12 +133,15 @@ def statistics_zone_get(request, zone=None):
         total = 0
         for melb_zone in melb_json['features']:
             if melb_zone['properties']['name'] == result:
-                for item in results[result]['gluttony']:
-                    total += results[result]['gluttony'][item]
-                for item in results[result]['lust']:
-                    total += results[result]['lust'][item]
-                for item in results[result]['text']:
-                    total += results[result]['text'][item]
+                if 'gluttony' in results[result]:
+                    for item in results[result]['gluttony']:
+                        total += results[result]['gluttony'][item]
+                if 'lust' in results[result]:
+                    for item in results[result]['lust']:
+                        total += results[result]['lust'][item]
+                if 'text' in results[result]:
+                    for item in results[result]['text']:
+                        total += results[result]['text'][item]
                 melb_zone['properties'].update(dict(statistcs=results[result], total=total))
 
     json_file = ujson.dumps(melb_json)
@@ -202,12 +205,15 @@ def statistics_zone_vic_get(request, zone=None):
         total=0
         for vic_zone in vic_json['features']:
             if vic_zone['properties']['vic_lga__3'] == result:
-                for item in results[result]['gluttony']:
-                    total += results[result]['gluttony'][item]
-                for item in results[result]['lust']:
-                    total += results[result]['lust'][item]
-                for item in results[result]['text']:
-                    total += results[result]['text'][item]
+                if 'gluttony' in results[result]:
+                    for item in results[result]['gluttony']:
+                        total += results[result]['gluttony'][item]
+                if 'lust' in results[result]:
+                    for item in results[result]['lust']:
+                        total += results[result]['lust'][item]
+                if 'text' in results[result]:
+                    for item in results[result]['text']:
+                        total += results[result]['text'][item]
                 vic_zone['properties'].update(dict(name=result))
                 vic_zone['properties'].update(dict(statistcs=results[result], total=total))
 
