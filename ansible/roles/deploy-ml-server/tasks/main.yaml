@@ -69,7 +69,7 @@
 
 - name: copy compose file to server
   template:
-    src: ml-docker-compose.yaml.j2
+    src: instance4-docker-compose.yaml.j2
     dest: '/home/ubuntu/docker-compose.yaml'
     owner: ubuntu
     group: ubuntu

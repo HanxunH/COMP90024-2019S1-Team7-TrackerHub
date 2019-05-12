@@ -1,0 +1,15 @@
+version: '3'
+services:
+  nlp:
+    container_name: nlp
+    build: {{remote_working_directory}}/scraper/Text_Analysis
+    volumes:
+      - {{remote_working_directory}}/scraper/Text_Analysis:/workspace
+    restart: always
+  spider:
+    container_name: spider
+    build: {{remote_working_directory}}/scraper/Streamer
+    volumes:
+      - {{remote_working_directory}}/scraper/Streamer:/workspace
+    restart: always
+
