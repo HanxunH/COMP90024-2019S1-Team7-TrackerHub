@@ -117,6 +117,8 @@ def main():
 
 		if type(response) == type(dict()):
 
+			print(response)
+
 
 			file.write("{} tweets has been retrieved and waiting for analysis...\n".format(num))
 		# list of (text, id) pair

@@ -1,11 +1,8 @@
 GetOldTweets3
-json
-urllib.request
 bs4
 requests
 requests.auth
 pillow
 tweepy
-tweepy.streaming
 argparse
 datetime
