@@ -604,7 +604,8 @@ export default {
             let content = '<div id="content" style="min-width:150px;">'+
                       '<h4 class="font-weight-bold">'+ key +'</h4>'+
                       tag_content+
-                      '</div>'     
+                      '</div>'
+     
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
