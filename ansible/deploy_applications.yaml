@@ -12,6 +12,7 @@
   gather_facts: true
   roles:
     - role: deploy-webserver
+    - role: restart-docker-compose
 
 - hosts: instance2
   vars_files:
@@ -19,6 +20,7 @@
   gather_facts: true
   roles:
     - role: deploy-backend
+    - role: restart-docker-compose
 
 - hosts: instance3
   vars_files:
@@ -26,6 +28,7 @@
   gather_facts: true
   roles:
     - role: deploy-nlp
+    - role: restart-docker-compose
 
 # - hosts: instance4
 #   vars_files:
