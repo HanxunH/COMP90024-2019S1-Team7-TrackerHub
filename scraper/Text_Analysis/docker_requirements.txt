@@ -1,7 +1,6 @@
 requests
 pyspark
 argparse
-requests.auth
 nltk
 profanity
 textblob
