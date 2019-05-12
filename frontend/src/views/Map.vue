@@ -51,13 +51,10 @@
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
       </div>
       <div class="row">
-        <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
-      </div>
-      <div class="row">
-        <div class="col-lg-3"><Piechart :data="this.machineDatacollection_lust"/></div>
-        <div class="col-lg-3"><Piechart :data="this.machineDatacollection_gluttony"/></div>
-        <div class="col-lg-3"><Piechart :data="this.textDatacollection"/></div>
-        <div class="col-lg-3"><Piechart :data="this.sentimentDatacollection"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.machineDatacollection_lust"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.machineDatacollection_gluttony"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.textDatacollection"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.sentimentDatacollection"/></div>
       </div> 
     </div>  
 
@@ -150,13 +147,22 @@ export default {
         { key: 'text', text: 'Text', value: 'text' },
         { key: 'sentiment', text: 'Sentiment', value: 'sentiment' }
       ],
-
     }
   },
 
   mounted () {
     this.mapInit()
     this.mapBuild()
+    this.machineDatacollection_lust = {
+          labels: ['Teen','Big','Japanese','Nurse'],
+          datasets: [
+            {
+              label: 'Lust',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',4) ,
+              data: [1,2,3,4]
+            }
+          ]
+        }
   },
   
   methods: {
@@ -349,8 +355,6 @@ export default {
         //   }
         // }
 
-
-
         // set all chart data here
         let data1 = 1, data2 = 2, data3 = 3, data4 = 4
         let infoPieDatatest = [data1, data2, data3, data4]
@@ -432,7 +436,7 @@ export default {
           datasets: [
             {
               label: 'Lust',
-              backgroundColor: '#ff9900',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
               data: res.data
             }
           ]
@@ -442,7 +446,7 @@ export default {
           datasets: [
             {
               label: 'Gluttony',
-              backgroundColor: '#ff9900',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
               data: res.data
             }
           ]
@@ -469,7 +473,7 @@ export default {
           datasets: [
             {
               label: 'Lust',
-              backgroundColor: '#ff9900',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()) ,
               data: res.data
             }
           ]
@@ -479,7 +483,7 @@ export default {
           datasets: [
             {
               label: 'Sentiment',
-              backgroundColor: '#ff9900',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
               data: res.data
             }
           ]
