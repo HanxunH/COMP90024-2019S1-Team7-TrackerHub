@@ -267,7 +267,7 @@ def statistics_machine_get(request):
         if result in ['neutral', 'sexy', 'porn', 'hentai', 'drawings']:
             lust.update({result: results[result]})
         elif results[result] < 10:
-            gluttony['others'] += results[result]g
+            gluttony['others'] += results[result]
         else:
             gluttony.update({result: results[result]})
     lust = dict(sorted(lust.items(), key=lambda item: item[1], reverse=True))
