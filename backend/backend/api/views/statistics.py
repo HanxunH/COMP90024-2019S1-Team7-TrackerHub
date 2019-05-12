@@ -271,7 +271,7 @@ def statistics_machine_get(request):
     lust = dict(sorted(lust.items(), key=lambda item: item[1], reverse=True))
     gluttony = dict(sorted(gluttony.items(), key=lambda item: item[1], reverse=True))
     lust = dict(key=lust.keys(), value=lust.values())
-    gluttony = dict(key=gluttony.keys(), value=lust.values())
+    gluttony = dict(key=gluttony.keys(), value=gluttony.values())
     results = dict(lust=lust, gluttony=gluttony)
 
     json_file = ujson.dumps(results)
