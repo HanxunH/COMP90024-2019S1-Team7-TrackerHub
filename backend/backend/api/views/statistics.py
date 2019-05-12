@@ -268,8 +268,8 @@ def statistics_machine_get(request):
             lust.update({result: results[result]})
         else:
             gluttony.update({result: results[result]})
-    lust = dict(sorted(lust.items(), key=lambda item: len(item[1]), reverse=True))
-    gluttony = dict(sorted(gluttony.items(), key=lambda item: len(item[1]), reverse=True))
+    lust = dict(sorted(lust.items(), key=lambda item: item[1], reverse=True))
+    gluttony = dict(sorted(gluttony.items(), key=lambda item: item[1], reverse=True))
     lust = dict(key=lust.keys(), value=lust.values())
     gluttony = dict(key=gluttony.keys(), value=lust.values())
     results = dict(lust=lust, gluttony=gluttony)
@@ -324,8 +324,8 @@ def statistics_text_get(request):
             sentiment.update({result: results[result]})
         else:
             text.update({result: results[result]})
-    sentiment = dict(sorted(sentiment.items(), key=lambda item: len(item[1]), reverse=True))
-    text = dict(sorted(text.items(), key=lambda item: len(item[1]), reverse=True))
+    sentiment = dict(sorted(sentiment.items(), key=lambda item: item[1], reverse=True))
+    text = dict(sorted(text.items(), key=lambda item: item[1], reverse=True))
     sentiment = dict(key=sentiment.keys(), value=sentiment.values())
     text = dict(key=text.keys(), value=text.values())
     results = dict(text=text, sentiment=sentiment)
