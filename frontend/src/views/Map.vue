@@ -330,7 +330,7 @@ export default {
         labels: this.barDataLabel,
         datasets: [
           {
-            label: 'Total',
+            label: 'Total Sins',
             backgroundColor: '#ff9900',
             data: this.barData
           }
@@ -540,9 +540,7 @@ export default {
         start_time,
         end_time,
         tags: this.tags,
-        skip: 0,
-        threshold: 0.9,
-        single: 20
+        threshold: 0.9
       }
         
       console.log(data)
