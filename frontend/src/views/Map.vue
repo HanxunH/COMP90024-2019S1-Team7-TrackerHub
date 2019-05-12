@@ -330,7 +330,7 @@ export default {
         labels: this.barDataLabel,
         datasets: [
           {
-            label: 'Total',
+            label: 'Total Sins',
             backgroundColor: '#ff9900',
             data: this.barData
           }
@@ -535,12 +535,12 @@ export default {
         start_time = end_time = null
         
       let data = {
-        start_time: '2016-01-09 10:00:00+1000',
-        end_time: '2016-10-09 10:00:00+1000',
+        //start_time: '2016-01-09 10:00:00+1000',
+        //end_time: '2016-10-09 10:00:00+1000',
+        start_time,
+        end_time,
         tags: this.tags,
-        skip: 0,
-        threshold: 0.9,
-        single: 20
+        threshold: 0.9
       }
         
       console.log(data)
@@ -588,11 +588,10 @@ export default {
             position: point,
             map: map,
             icon: icon,
-            title: value[0].time
+            title: value[0].time + value[0].text
           })
 
           let tag_content = ''
-
         
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
             subTags.forEach(tag => {
@@ -600,12 +599,27 @@ export default {
             })
           }
 
+<<<<<<< HEAD
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
                       '<h4 class="font-weight-bold">'+ key +'</h4>'+
                       tag_content+
                       '</div>'
      
+=======
+          if (value[0].img_id.length>0){
+            value[0].img_id.forEach(img => {
+              tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+            })
+          }
+
+          let content = '<div id="content" style="min-width:150px;">'+
+            '<h4 class="font-weight-bold">'+ key +'</h4>'+
+            tag_content+
+            '</div>'
+
+          marker.addListener('click', () => {     
+>>>>>>> ee11bf3efe0e928e0d45d85655ece78e8fc74538
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
@@ -639,7 +653,7 @@ export default {
               position: point,
               map: map,
               icon: icon_sm,
-              title: track.time
+              title: track.time + track.text
             })
 
             tag_content = ''
@@ -649,15 +663,21 @@ export default {
                 tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
               })
             }
-            this.$nextTick(() => {
-              marker.addListener('click', () => {
-                let content = '<div id="content" style="min-width:150px;">'+
-                        '<p class="font-weight-bold">Tags</p>'+
-                        tag_content+
-                        '</div>'
-                infowindow.setContent(content)
-                infowindow.open(map, marker)
+
+            if (track.img_id.length>0){
+              track.img_id.forEach(img => {
+                tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
               })
+            }
+
+            let content = '<div id="content" style="min-width:150px;">'+
+              '<p class="font-weight-bold">Tags</p>'+
+              tag_content+
+              '</div>'
+
+            marker.addListener('click', () => {
+              infowindow.setContent(content)
+              infowindow.open(map, marker)
             })
 
             path.push(point)
@@ -713,8 +733,10 @@ export default {
         start_time = end_time = null
         
       let data = {
-        start_time: '2016-01-09 10:00:00+1000',
-        end_time: '2016-10-09 10:00:00+1000',
+        //start_time: '2016-01-09 10:00:00+1000',
+        //end_time: '2016-10-09 10:00:00+1000',
+        start_time,
+        end_time,
         tags: this.tags,
         skip: parseInt(this.skip),
         threshold: 0.9,
@@ -778,11 +800,18 @@ export default {
             })
           }
 
+          if (value[0].img_id.length>0){
+            value[0].img_id.forEach(img => {
+              tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+            })
+          }
+
+          let content = '<div id="content" style="min-width:150px;">'+
+            '<h4 class="font-weight-bold">'+ key +'</h4>'+
+            tag_content+
+            '</div>'
+
           marker.addListener('click', () => {
-            let content = '<div id="content" style="min-width:150px;">'+
-                      '<h4 class="font-weight-bold">'+ key +'</h4>'+
-                      tag_content+
-                      '</div>'
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
@@ -827,11 +856,18 @@ export default {
               })
             }
 
+            if (track.img_id.length>0){
+              track.img_id.forEach(img => {
+                tag_content = tag_content + `<a class="btn btn-warning" target="_blank" href="http://172.26.37.225/api/tweet/pic/${img}">IMAGE</a>`
+              })
+            }
+
+            let content = '<div id="content" style="min-width:150px;">'+
+              '<p class="font-weight-bold">Tags</p>'+
+              tag_content+
+              '</div>'
+
             marker.addListener('click', () => {
-              let content = '<div id="content" style="min-width:150px;">'+
-                        '<p class="font-weight-bold">Tags</p>'+
-                        tag_content+
-                        '</div>'
               infowindow.setContent(content)
               infowindow.open(map, marker)
             })
