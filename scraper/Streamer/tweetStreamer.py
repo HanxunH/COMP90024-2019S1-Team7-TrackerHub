@@ -78,7 +78,23 @@ def dealStream(tweetJson, file):
 
         dataDict["img_id"] = []
 
-        if "extended_tweet" in tweetJson.keys() and tweetJson["extended_tweet"] != None and "extended_entities" in tweetJson["extended_tweet"] and \
+        if "entities" in tweetJson.keys() and tweetJson["entities"] != None and "media" in tweetJson["entities"] and \
+        tweetJson["entities"]["media"] != None:
+
+            for item in tweetJson["entities"]["media"]:
+                if item["media_url"] != None:
+                    return_id = uploadImg(item["media_url"], file)
+                    if return_id != "none":
+                        dataDict["img_id"].append(return_id)  
+
+                elif item["media_url_https"] != None:   
+                    return_id = uploadImg(item["media_url_https"], file)
+                    if return_id != "none":
+                        dataDict["img_id"].append(return_id)  
+
+
+
+        elif "extended_tweet" in tweetJson.keys() and tweetJson["extended_tweet"] != None and "extended_entities" in tweetJson["extended_tweet"] and \
         tweetJson["extended_tweet"]["extended_entities"] != None and "media" in tweetJson["extended_tweet"]["extended_entities"]\
         and tweetJson["extended_tweet"]["extended_entities"]["media"] != None:
 

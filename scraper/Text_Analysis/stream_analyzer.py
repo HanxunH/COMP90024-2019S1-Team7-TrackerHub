@@ -9,8 +9,8 @@ import json
 import time
 
 parser = argparse.ArgumentParser(description='COMP90024 Project Text Analysis')
-parser.add_argument('--batch', type=int, default=4000)
-parser.add_argument('--total', type=int, default=40000)
+parser.add_argument('--batch', type=int, default=3500)
+parser.add_argument('--total', type=int, default=100000)
 parser.add_argument('--filename', type=str, default="Analysis_Log.txt")
 parser.add_argument('--setmaster', type=str, default="local[4]")
 args = parser.parse_args()
@@ -137,7 +137,7 @@ def main():
 					break
 			if flag == 0:
 				file.write("{} tweets has been analyzed and updateed\n".format(num))
-				time.sleep(30)
+
 
 		else:
 			file.write("Bad GET request, stop analysis\n")
