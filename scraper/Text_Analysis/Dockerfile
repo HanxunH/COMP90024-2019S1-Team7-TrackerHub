@@ -1,4 +1,4 @@
-FROM alexcoppe/pyspark
+FROM fokkodriesprong/docker-pyspark
 
 ENV http_proxy http://wwwproxy.unimelb.edu.au:8000
 ENV https_proxy http://wwwproxy.unimelb.edu.au:8000
