@@ -18,7 +18,7 @@
         <p>Haonan Chen - 930614</p>
         <p>Lihuan Zhang - 945003</p>
         <p>Xu Wang - 979895</p>
-        <p>Xu Yang - 961717</p>
+        <p>Yang Xu- 961717</p>
         <p class="button premium" onclick="window.location.href='/map'">
           <a>Go Premium</a>
         </p>
