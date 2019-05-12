@@ -152,17 +152,8 @@ export default {
 
   mounted () {
     this.mapInit()
-    this.mapBuild()
-    this.machineDatacollection_lust = {
-          labels: ['Teen','Big','Japanese','Nurse'],
-          datasets: [
-            {
-              label: 'Lust',
-              backgroundColor: this.gradient('#F5F5F5','ff9900',4) ,
-              data: [1,2,3,4]
-            }
-          ]
-        }
+    this.chartBuildMachine()
+    this.chartBuildText()
   },
   
   methods: {
@@ -173,56 +164,9 @@ export default {
         center:  {lat: -37.7998, lng: 144.9460},
         disableDefaultUI: true,
         styles: mapStyle
-      })  
-    },
-    // ========================== Build Map ==================================================
-    mapBuild(){
-      let map = new google.maps.Map(document.getElementById('map_canvas'), {
-        zoom: 13,
-        center:  {lat: -37.7998, lng: 144.9460},
-        disableDefaultUI: true,
-        styles: mapStyle
       })
-
+      
       let infowindow = new google.maps.InfoWindow()
-      let marker, i
-      let markers = []
-      let locations = []
-
-      this.barDataLabel.length=0
-      this.barData.length=0
-
-      // ======================== Setup each region/ Collect bar data ==========================
-      // set style for each region
-      map.data.loadGeoJson(this.melb_geo)
-      map.data.setStyle((feature) => {
-        let total = feature.getProperty('total')
-        let name = feature.getProperty('name')
-        //let tags = feature.getProperty('tags')
-        if (!this.barDataLabel.includes(name)){
-          this.barDataLabel.push(name)
-          this.barData.push(total)
-        }
-       
-        let color = total > 30 ? 'white' : 'gray'
-        return {
-          fillColor: color,
-          strokeWeight: 1
-        }
-      })
-
-      // setup bar data
-      this.barDatacollection = {
-        labels: this.barDataLabel,
-        datasets: [
-          {
-            label: 'Total',
-            backgroundColor: '#ff9900',
-            data: this.barData
-          }
-        ]
-      }
-
 
       // ========================Icon examples=========================
       let icon = {
@@ -327,6 +271,71 @@ export default {
         infowindow.setContent(content)
         infowindow.open(map, positiveMark)
       })
+    },
+    // ========================== Build Map ==================================================
+    mapBuild(){
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 12,
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
+
+      let infowindow = new google.maps.InfoWindow()
+      let marker, i
+      let markers = []
+      let locations = []
+      let colors = this.gradient('#ffffff','#ff9900',7)
+     
+
+      this.barDataLabel.length=0
+      this.barData.length=0
+
+      // ======================== Setup each region/ Collect bar data ==========================
+      // set style for each region
+      map.data.loadGeoJson(this.melb_geo)
+      map.data.setStyle((feature) => {
+        let total = feature.getProperty('total')
+        let name = feature.getProperty('name')
+        //let tags = feature.getProperty('tags')
+        if (!this.barDataLabel.includes(name)){
+          this.barDataLabel.push(name)
+          this.barData.push(total)
+        }
+        let color = '#000000'
+        if (total > 1)
+          color = colors[0]
+        if (total > 100)
+          color = colors[1]
+        if (total > 300)
+          color = colors[2]
+        if (total > 500)
+          color = colors[3]
+        if (total > 1000)
+          color = colors[4]
+        if (total > 1500)
+          color = colors[5]
+        if (total > 2000)
+          color = colors[6]  
+
+        return {
+          fillColor: color,
+          fillOpacity: 0.7,
+          strokeWeight: 1
+        }
+      })
+
+      // setup bar data
+      this.barDatacollection = {
+        labels: this.barDataLabel,
+        datasets: [
+          {
+            label: 'Total',
+            backgroundColor: '#ff9900',
+            data: this.barData
+          }
+        ]
+      }
 
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
@@ -438,24 +447,23 @@ export default {
         url: '/api/statistics/machine/',
         method: 'GET',
       }).then(res => {
-        console.log(res)
         this.machineDatacollection_lust = {
-          labels: res.data,
+          labels: res.data.lust.key,
           datasets: [
             {
               label: 'Lust',
-              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
-              data: res.data
+              backgroundColor: this.gradient('#ff9900','#ffffff', res.data.lust.key.length),
+              data: res.data.lust.value
             }
           ]
         }
         this.machineDatacollection_gluttony = {
-          labels: res.data,
+          labels: res.data.gluttony.key,
           datasets: [
             {
               label: 'Gluttony',
-              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
-              data: res.data
+              backgroundColor: this.gradient('#ff9900','#ffffff', res.data.gluttony.key.length),
+              data: res.data.gluttony.value
             }
           ]
         }
@@ -477,22 +485,22 @@ export default {
       }).then(res => {
         console.log(res)
         this.textDatacollection = {
-          labels: res.data,
+          labels: res.data.text.key,
           datasets: [
             {
-              label: 'Lust',
-              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()) ,
-              data: res.data
+              label: 'Text',
+              backgroundColor: this.gradient('#ff9900','#ffffff', res.data.text.key.length),
+              data: res.data.text.value
             }
           ]
         }
         this.sentimentDatacollection = {
-          labels: res.data,
+          labels: res.data.sentiment.key,
           datasets: [
             {
               label: 'Sentiment',
-              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
-              data: res.data
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.sentiment.key.length),
+              data: res.data.sentiment.value
             }
           ]
         }
@@ -585,9 +593,10 @@ export default {
 
           let tag_content = ''
 
+        
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
-            subTags.forEach(element => {
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${element}</button>`
+            subTags.forEach(tag => {
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
             })
           }
 
@@ -595,7 +604,7 @@ export default {
             let content = '<div id="content" style="min-width:150px;">'+
                       '<h4 class="font-weight-bold">'+ key +'</h4>'+
                       tag_content+
-                      '</div>'
+                      '</div>'     
             infowindow.setContent(content)
             infowindow.open(map, marker)
           })
@@ -639,14 +648,15 @@ export default {
                 tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
               })
             }
-
-            marker.addListener('click', () => {
-              let content = '<div id="content" style="min-width:150px;">'+
-                      '<p class="font-weight-bold">Tags</p>'+
-                      tag_content+
-                      '</div>'
-              infowindow.setContent(content)
-              infowindow.open(map, marker)
+            this.$nextTick(() => {
+              marker.addListener('click', () => {
+                let content = '<div id="content" style="min-width:150px;">'+
+                        '<p class="font-weight-bold">Tags</p>'+
+                        tag_content+
+                        '</div>'
+                infowindow.setContent(content)
+                infowindow.open(map, marker)
+              })
             })
 
             path.push(point)
