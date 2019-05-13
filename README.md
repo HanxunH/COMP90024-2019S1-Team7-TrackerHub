@@ -24,13 +24,13 @@
    5. Twitter content is stored in the first level of CouchDB (call backend interface)
 
 ### Machine Learning
-1. Select model: porn, food identification
+1. Select model: NSFW, Food Identification
 2. Train model
 3. Run the script regularly (30min?)
    1. Scan the first level CouchDB (call backend interface)
-   2. Take pictures from the back end
-   3. Picture classification
-   4. Write the result to the second level CouchDB (call backend interface)
+   2. Retrive pictures from the back end
+   3. Image Classification
+   4. Upload the result to the second level CouchDB (call backend interface)
 
 ### Hadoop and Operation 
 1. Ansible creates 4 hosts with one click
