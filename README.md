@@ -43,7 +43,7 @@ Server1: 172.26.37.225
     CouchDB/ couchdb:2.3.0
     Frontend/
     Nginx/ nginx:lastest
-    Casvisor/
+    CAdvisor/
 
 
 Server2: 172.26.38.110
@@ -51,7 +51,7 @@ Server2: 172.26.38.110
     CouchDB/couchdb:2.3.0
     Backend/ lihuanz/my-backend:lastest
     Spider/ 
-    Casvisor/
+    CAdvisor/
 
 
 Server3: 172.26.38.1
@@ -59,7 +59,7 @@ Server3: 172.26.38.1
     CouchDB/couchdb:2.3.0
     Backend/
     NLP/
-    Casvisor/
+    CAdvisor/
 
 
 Server4: 172.26.38.11
