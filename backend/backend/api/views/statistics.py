@@ -241,7 +241,7 @@ def statistics_zone_vic_get(request, zone=None):
             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
 
     for result in results:
-        total=0
+        total = 0
         for vic_zone in vic_json['features']:
             if vic_zone['properties']['vic_lga__3'] == result:
                 if 'gluttony' in results[result]:
@@ -265,7 +265,8 @@ def statistics_zone_vic_get(request, zone=None):
         json_storage_handler.upload(json_name, json_file)
 
     timer = (time.time() - start_timer)
-    influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API', timer=timer)
+    influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API',
+                                timer=timer)
     resp = init_http_success()
     resp['data'].update(
         dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
@@ -287,7 +288,8 @@ def statistics_machine_get(request):
         results = ujson.load(result_file)
 
         timer = (time.time() - start_timer)
-        influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API', timer=timer)
+        influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API',
+                                    timer=timer)
         resp = init_http_success()
         resp['data'] = results
         return make_json_response(HttpResponse, resp)
@@ -352,7 +354,8 @@ def statistics_text_get(request):
         results = ujson.load(result_file)
 
         timer = (time.time() - start_timer)
-        influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API', timer=timer)
+        influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API',
+                                    timer=timer)
         resp = init_http_success()
         resp['data'] = results
         return make_json_response(HttpResponse, resp)
@@ -472,7 +475,8 @@ def statistics_track_get(request, user_id=None, number=100):
             for tweet in results[user]:
                 result_tag = {}
 
-                if user_id and ((start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time)):
+                if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
+                        end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
                     continue
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
@@ -550,7 +554,8 @@ def statistics_track_get(request, user_id=None, number=100):
         for tweet in results[user]:
             result_tag = {}
 
-            if user_id and ((start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time)):
+            if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
+                    end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
                 continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
