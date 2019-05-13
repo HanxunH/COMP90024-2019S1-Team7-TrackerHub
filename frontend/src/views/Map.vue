@@ -7,14 +7,29 @@
     <div id="onmap">
       <div class="container mt-3">
          <h2>General Search</h2>
-        <div>
+        <div>     
+          <b-dropdown id="dropdown-1" text="Aurin" class="m-md-2">
+            <b-dropdown-item @click="mapAurin(['econ','unemployment_num'])">Unemployment</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_people_hospital'])">Total Hospital</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_male_hospital'])">Male Hospital</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_female_hospital'])">Female Hospital</b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item @click="mapAurin(['offence','weapons related'])">Weapon Releted</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['offence','assaults'])">Assaults</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['offence','sexual offences'])">Sexual Offences</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['offence','robbery'])">Robbery</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['offence','harassment and threatening'])">Harassment and Threatening</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['offence','total'])">Total Offence</b-dropdown-item>
+          </b-dropdown>
+          <div class="divider"/>
           <button class="btn btn-dark" 
-            @click="mapBuildZone('/api/statistics/zone/')">Melbourne
+            @click="mapBuildZone('/api/statistics/zone/','melb')">Melbourne
           </button>
           <div class="divider"/>
           <button class="btn btn-dark" 
-            @click="mapBuildZone('/api/statistics/vic/zone/')">VIC
+            @click="mapBuildZone('/api/statistics/vic/zone/','vic')">VIC
           </button>
+
         </div>
       </div>
       <p></p>
@@ -139,6 +154,7 @@ export default {
       user_id: '',
       number: 1,
       skip: 0,
+      vic_geo: 'https://data.gov.au/geoserver/vic-local-government-areas-psma-administrative-boundaries/wfs?request=GetFeature&typeName=ckan_bdf92691_c6fe_42b9_a0e2_a4cd716fa811&outputFormat=json',
       melb_geo: 'https://data.gov.au/geoserver/vic-local-government-areas-psma-administrative-boundaries/wfs?request=GetFeature&typeName=ckan_bdf92691_c6fe_42b9_a0e2_a4cd716fa811&outputFormat=json',
       tags: null,
       selections: [
@@ -273,8 +289,58 @@ export default {
       })
     },
 
+    // ========================== Show aurin data on map ====================================
+    mapAurin(type){
+      this.visible=true
+      let map = new google.maps.Map(document.getElementById('map_canvas'), {
+        zoom: 12,
+        center:  {lat: -37.7998, lng: 144.9460},
+        disableDefaultUI: true,
+        styles: mapStyle
+      })
+      google.maps.event.addListenerOnce(map, 'idle', () => {
+        this.visible=false
+      })
+      let colors = this.gradient('#ffffff','#ff9900',7)
+
+      map.data.loadGeoJson(this.vic_geo)
+      map.data.setStyle((feature) => {
+        let name = feature.getProperty('vic_lga__3')
+        let total = 0
+
+        if (Const.aurin[`${name}`]){
+          if (Const.aurin[`${name}`][`${type[0]}`][`${type[1]}`]){
+            total = Const.aurin[`${name}`][`${type[0]}`][`${type[1]}`]
+          }
+        }
+
+        let color = '#000000'
+        if (total > 1)
+          color = colors[0]
+        if (total > 1000)
+          color = colors[1]
+        if (total > 3000)
+          color = colors[2]
+        if (total > 5000)
+          color = colors[3]
+        if (total > 10000)
+          color = colors[4]
+        if (total > 15000)
+          color = colors[5]
+        if (total > 20000)
+          color = colors[6]  
+
+        return {
+          fillColor: color,
+          fillOpacity: 0.7,
+          strokeWeight: 1
+        }
+      })
+ 
+    },
+
     // ========================== Build Map =================================================
-    mapBuild(){
+    mapBuild(scope){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 12,
         center:  {lat: -37.7998, lng: 144.9460},
@@ -295,37 +361,69 @@ export default {
       // ======================== Setup each region/ Collect bar data ==========================
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
-      map.data.setStyle((feature) => {
-        let total = feature.getProperty('total')
-        let name = feature.getProperty('name')
+      if (scope == 'melb') {
+        map.data.setStyle((feature) => {
+          let total = feature.getProperty('total')
+          let name = feature.getProperty('name')
 
-        if (!this.barDataLabel.includes(name)){
-          this.barDataLabel.push(name)
-          this.barData.push(total)
-        }
-        let color = '#000000'
-        if (total > 1)
-          color = colors[0]
-        if (total > 100)
-          color = colors[1]
-        if (total > 300)
-          color = colors[2]
-        if (total > 500)
-          color = colors[3]
-        if (total > 1000)
-          color = colors[4]
-        if (total > 1500)
-          color = colors[5]
-        if (total > 2000)
-          color = colors[6]  
+          if (!this.barDataLabel.includes(name)){
+            this.barDataLabel.push(name)
+            this.barData.push(total)
+          }
+          let color = '#000000'
+          if (total > 1)
+            color = colors[0]
+          if (total > 100)
+            color = colors[1]
+          if (total > 300)
+            color = colors[2]
+          if (total > 500)
+            color = colors[3]
+          if (total > 1000)
+            color = colors[4]
+          if (total > 1500)
+            color = colors[5]
+          if (total > 2000)
+            color = colors[6]  
 
-        return {
-          fillColor: color,
-          fillOpacity: 0.7,
-          strokeWeight: 1
-        }
-      })
+          return {
+            fillColor: color,
+            fillOpacity: 0.7,
+            strokeWeight: 1
+          }
+        })
+      } else {
+         map.data.setStyle((feature) => {
+          let total = feature.getProperty('total')
+          let name = feature.getProperty('name')
 
+          if (!this.barDataLabel.includes(name)){
+            this.barDataLabel.push(name)
+            this.barData.push(total)
+          }
+          let color = '#000000'
+          if (total > 1)
+            color = colors[0]
+          if (total > 1000)
+            color = colors[1]
+          if (total > 3000)
+            color = colors[2]
+          if (total > 5000)
+            color = colors[3]
+          if (total > 10000)
+            color = colors[4]
+          if (total > 15000)
+            color = colors[5]
+          if (total > 20000)
+            color = colors[6]  
+
+          return {
+            fillColor: color,
+            fillOpacity: 0.7,
+            strokeWeight: 1
+          }
+        })
+      }
       // setup bar data
       this.barDatacollection = {
         labels: this.barDataLabel,
@@ -421,7 +519,7 @@ export default {
     },
 
     // ====================== Get Map Data ==================================================
-    mapBuildZone(zone) {
+    mapBuildZone(zone, scope) {
       this.visible = true
       this.$ajax({
         url: zone,
@@ -432,7 +530,7 @@ export default {
           console.log(this.melb_geo),
           // re-render the map here
           this.flash('success', 'success',{timeout: 3000}),
-          this.mapBuild()
+          this.mapBuild(scope)
         })
         .catch(error => {
           this.visible = false,
@@ -982,16 +1080,16 @@ export default {
   right: 20px; 
   z-index: 9999; 
   border-radius: 25px;
-  width: 240px;
+  width: 320px;
 }
 #onmap2 {
   background-color:#ff9900;
   position: absolute; 
   top: 250px; 
   right: 20px; 
-  z-index: 9999; 
+  z-index: 9998; 
   border-radius: 25px;
-  width: 240px;
+  width: 320px;
 }
 a.anchor {
   display: block;
@@ -1004,7 +1102,7 @@ a.anchor {
   border-bottom: 2px solid rgb(44, 44, 44);
 }
 .divider{
-  width:2em;
+  width:1em;
   height:auto;
   display:inline-block;
 }
