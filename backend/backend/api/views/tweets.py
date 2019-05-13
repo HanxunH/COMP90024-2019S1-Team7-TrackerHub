@@ -1,4 +1,9 @@
 # coding: utf-8
+"""
+@Author: Lihuan Zhang
+
+This files including the views that used to upload tweets and query unlearning tweet
+"""
 
 import ujson
 import logging
@@ -21,6 +26,10 @@ logger = logging.getLogger('django.debug')
 @require_http_methods(['POST', 'GET'])
 @check_api_key
 def tweet_router(request, resource=None, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
+
     if request.method == 'POST':
         return tweet_post(request)
     elif request.method == 'GET' and resource:
@@ -31,6 +40,10 @@ def tweet_router(request, resource=None, *args, **kwargs):
 @require_http_methods(['POST', 'GET'])
 @check_api_key
 def tweet_trained_router(request, resource=None, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
+
     if request.method == 'POST':
         return tweet_trained_post(request)
     elif request.method == 'GET':
@@ -41,6 +54,10 @@ def tweet_trained_router(request, resource=None, *args, **kwargs):
 @require_http_methods(['POST', 'GET'])
 @check_api_key
 def tweet_trained_text_router(request, resource=None, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
+
     if request.method == 'POST':
         return tweet_trained_text_post(request)
     elif request.method == 'GET':
@@ -51,6 +68,10 @@ def tweet_trained_text_router(request, resource=None, *args, **kwargs):
 @require_http_methods(['POST', 'GET'])
 @check_api_key
 def tweet_trained_zone_router(request, resource=None, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
+
     if request.method == 'POST':
         return tweet_trained_zone_post(request)
     elif request.method == 'GET':
@@ -58,19 +79,24 @@ def tweet_trained_zone_router(request, resource=None, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
-@require_http_methods(['POST', 'GET'])
+@require_http_methods(['POST'])
 @check_api_key
 def tweet_trained_zone_vic_router(request, resource=None, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
+
     if request.method == 'POST':
         return tweet_trained_zone_vic_post(request)
-    elif request.method == 'GET':
-        return tweet_trained_zone_get(request, resource)
     return HttpResponseNotAllowed()
 
 
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_router(request, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
     resource = 100
     for arg in args:
         if isinstance(arg, dict):
@@ -84,6 +110,9 @@ def tweet_untrained_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_text_router(request, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
     resource = 100
     for arg in args:
         if isinstance(arg, dict):
@@ -97,6 +126,9 @@ def tweet_untrained_text_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_zone_router(request, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
     resource = 100
     for arg in args:
         if isinstance(arg, dict):
@@ -110,6 +142,9 @@ def tweet_untrained_zone_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def tweet_untrained_zone_vic_router(request, *args, **kwargs):
+    """
+    A router used to control the permission and distribute request
+    """
     resource = 100
     for arg in args:
         if isinstance(arg, dict):
@@ -120,8 +155,10 @@ def tweet_untrained_zone_vic_router(request, *args, **kwargs):
     return HttpResponseNotAllowed()
 
 
-
 def tweet_post(request):
+    """
+    This views is used to receive crawler's tweet
+    """
     try:
         keys = ['id', 'text', 'img_id', 'geo', 'date', 'user', 'hashtags']
         tweet = make_dict(keys, ujson.loads(request.body))
@@ -138,6 +175,7 @@ def tweet_post(request):
         return make_json_response(HttpResponseBadRequest, resp)
 
     try:
+        # Process the datetime
         utc_tweet_time = parse_datetime(tweet['date']).astimezone(timezone.utc)
     except Exception as e:
         influxdb_handler.make_point(key='api/tweet/', method='POST', error=400, prefix='API', msg='error format time')
@@ -178,13 +216,13 @@ def tweet_post(request):
 
 
 def tweet_get(request, resource):
-    key = ['']
-    params = ujson.loads(request.body)
-
     pass
 
 
 def tweet_untrained_get(request, resource=100):
+    """
+    This views is used to return unlearnig tweet to client
+    """
     start_timer = time.time()
 
     try:
@@ -213,6 +251,10 @@ def tweet_untrained_get(request, resource=100):
 
 
 def tweet_trained_post(request):
+    """
+    This views is used to receive the Machine Learning results from client
+    """
+
     start_timer = time.time()
 
     results = ujson.loads(request.body)
@@ -258,10 +300,17 @@ def tweet_trained_post(request):
 
 
 def tweet_trained_get(request):
-    params = ujson.loads(request.body)
+    """
+    TODO: Implement
+    """
+    pass
 
 
 def tweet_untrained_text_get(request, resource=100):
+    """
+    This views is used to return unlearnig tweet to client
+    """
+
     start_timer = time.time()
 
     try:
@@ -289,10 +338,17 @@ def tweet_untrained_text_get(request, resource=100):
 
 
 def tweet_trained_text_get(request):
-    params = ujson.loads(request.body)
+    """
+    TODO: Implement for second training
+    """
+    pass
 
 
 def tweet_trained_text_post(request):
+    """
+    This views is used to receive the Natural Language Process results from client
+    """
+
     start_timer = time.time()
 
     results = ujson.loads(request.body)
@@ -337,6 +393,10 @@ def tweet_trained_text_post(request):
 
 
 def tweet_untrained_zone_get(request, resource=100):
+    """
+    This views is used to return the tweet have not been located to client
+    """
+
     start_timer = time.time()
 
     try:
@@ -364,6 +424,9 @@ def tweet_untrained_zone_get(request, resource=100):
 
 
 def tweet_untrained_zone_vic_get(request, resource=100):
+    """
+    This views is used to return the tweet have not been located to client
+    """
     start_timer = time.time()
 
     try:
@@ -395,6 +458,9 @@ def tweet_trained_zone_get(request):
 
 
 def tweet_trained_zone_post(request):
+    """
+    This views is used to received result from client to update the Melbourne zone of tweet
+    """
     start_timer = time.time()
 
     results = ujson.loads(request.body)
@@ -432,6 +498,9 @@ def tweet_trained_zone_post(request):
 
 
 def tweet_trained_zone_vic_post(request):
+    """
+    This views is used to received result from client to update the vic zone of tweet
+    """
     start_timer = time.time()
 
     results = ujson.loads(request.body)
@@ -469,74 +538,4 @@ def tweet_trained_zone_vic_post(request):
 
 
 if __name__ == '__main__':
-    # mango = {
-    #     'selector': {
-    #         'text_update': {
-    #             '$exists': False
-    #         }
-    #     },
-    #     'limit': 15000
-    # }
-    # tweets = tweet_couch_db.find(mango)
-    # for tweet in tweets:
-    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-    #     print(newTweet)
-    #     newTweet.update(dict(
-    #         _id=tweet.id,
-    #         _rev=tweet.rev,
-    #         text_update=newTweet.get('text_updated', ''),
-    #         ml_update=newTweet.get('lm_updated', ''),
-    #         last_update=newTweet.get('last_updated', newTweet.get('last_update'))
-    #     ))
-    #     if 'text_updated' in newTweet:
-    #         newTweet.pop('text_updated')
-    #     if 'ml_updated' in newTweet:
-    #         newTweet.pop('ml_updated')
-    #     if 'last_updated' in newTweet:
-    #         newTweet.pop('last_updated')
-    #     print(newTweet)
-    #     # tweet_couch_db.delete(newTweet)
-    #     tweet_couch_db.save(newTweet)
-    # tweet_couch_db.compact()
-    # pass
-    # import datetime
-    # import pytz
-    #
-    # mango = {
-    #     'selector': {
-    #         'img_id': {
-    #             '$ne': []
-    #         },
-    #         'last_update': {
-    #             '$lt': (datetime.datetime.now().astimezone(pytz.utc) - datetime.timedelta(minutes=60)).strftime('%Y-%m-%d %H:%M:%S%z')
-    #         },
-    #         'process': {
-    #             '$eq': 0
-    #         }
-    #     },
-    #     'limit': 400000,
-    #     # 'skip': 1000,
-    # }
-    #
-    # tweets = tweet_couch_db.find(mango)
-    # for tweet in tweets:
-    #     newTweet = dict([(k, v) for k, v in tweet.items() if k not in ('_id', '_rev')])
-    #     newTweet.update(dict(
-    #         _id=tweet.id,
-    #         _rev=tweet.rev,
-    #     ))
-    #     for img in newTweet['img_id']:
-    #         try:
-    #             picture = object_storage_handler.download(img + '.jpg')
-    #         except Exception as e:
-    #             object_storage_handler.reconnect()
-    #             picture = object_storage_handler.download(img + '.jpg')
-    #
-    #         if not picture:
-    #             newTweet['img_id'].remove(img)
-    #     newTweet['last_update'] = datetime.datetime.now().astimezone(pytz.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-    #     try:
-    #         tweet_couch_db.save(newTweet)
-    #     except Exception:
-    #         continue
     tweet_couch_db.compact()

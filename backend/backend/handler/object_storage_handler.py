@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+@Author: Lihuan Zhang
+
+This handler is used to operate Nectar Object Storage Service
+"""
 
 from swiftclient import client
 from swiftclient.exceptions import ClientException
@@ -12,6 +17,10 @@ logger = logging.getLogger('django.debug')
 
 
 class ObjectStorageHandler(object):
+    """
+    This handler is used to upload file to and download files from Nectar Object Storage Service
+
+    """
     swift = None
     container_name = None
     container_url = None
@@ -27,10 +36,16 @@ class ObjectStorageHandler(object):
         logger.debug('Object Storage Connected Success: %s' % self.container_url)
 
     def reconnect(self):
+        """
+        When the connection is overtime, reconnect it
+        """
         del self.swift
         self.__init__(self.container_name)
 
     def check_exist_or_create(self):
+        """
+        Check container status
+        """
         try:
             self.swift.get_container(self.container_name)
         except ClientException:
@@ -42,8 +57,6 @@ class ObjectStorageHandler(object):
     def find(self, name=None):
         items = self.findall()
         return True if name in items else False
-        #     return items
-        # return [item for item in items if name in item['name']]
 
     def upload(self, file_name, file):
         return self.swift.put_object(container=self.container_name, obj=file_name, contents=file)
