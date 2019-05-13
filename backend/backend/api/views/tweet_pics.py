@@ -19,7 +19,6 @@ logger = logging.getLogger('django.debug')
 
 
 @require_http_methods(['POST', 'GET'])
-@check_api_key
 def tweet_pic_router(request, *args, **kwargs):
     """
     A router used to control the permission and distribute request
