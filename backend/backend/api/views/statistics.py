@@ -523,7 +523,7 @@ def statistics_track_get(request, user_id=None, number=100):
         results.update({user: []}) if user not in results else None
         geo_exists.update({user: []}) if user not in geo_exists else None
 
-        if tweet.get('geo') not in geo_exists[user] and len(results[user]) < 150:
+        if user_id or (tweet.get('geo') not in geo_exists[user] and len(results[user]) < 150):
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
                 time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
@@ -534,7 +534,6 @@ def statistics_track_get(request, user_id=None, number=100):
             ))
             if user_id:
                 results[user][-1].update(dict(text=tweet.get('text')))
-
     results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
     for user in results:
         results[user].sort(key=lambda x: x.get('time'))
@@ -553,9 +552,11 @@ def statistics_track_get(request, user_id=None, number=100):
         new_tweet = []
         for tweet in results[user]:
             result_tag = {}
-
+            # print(tweet)
             if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
                     end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
+                # print(parse_datetime(tweet['time']))
+                # print(parse_datetime(start_time))
                 continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
