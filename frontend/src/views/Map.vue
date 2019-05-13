@@ -10,9 +10,9 @@
         <div>     
           <b-dropdown id="dropdown-1" text="Aurin" class="m-md-2">
             <b-dropdown-item @click="mapAurin(['econ','unemployment_num'])">Unemployment</b-dropdown-item>
-            <b-dropdown-item @click="mapAurin(['econ','total_people_hospital'])">Total Hospital</b-dropdown-item>
-            <b-dropdown-item @click="mapAurin(['econ','total_male_hospital'])">Male Hospital</b-dropdown-item>
-            <b-dropdown-item @click="mapAurin(['econ','total_female_hospital'])">Female Hospital</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_people_hospital'])">Total Hospital Admission</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_male_hospital'])">Male Hospital Admission</b-dropdown-item>
+            <b-dropdown-item @click="mapAurin(['econ','total_female_hospital'])">Female Hospital Admission</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
             <b-dropdown-item @click="mapAurin(['offence','weapons related'])">Weapon Releted</b-dropdown-item>
             <b-dropdown-item @click="mapAurin(['offence','assaults'])">Assaults</b-dropdown-item>
