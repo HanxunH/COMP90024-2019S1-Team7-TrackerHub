@@ -1,4 +1,9 @@
 # coding: utf-8
+"""
+@Author: Lihuan Zhang
+
+This file including the basic configuration information
+"""
 
 HTTP_X_API_KEY = 'HTTP_X_API_KEY'
 API_KEY = '227415ba68c811e9b1a48c8590c7151e'
