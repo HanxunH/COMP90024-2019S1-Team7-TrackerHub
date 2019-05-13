@@ -4,60 +4,70 @@
 
 ### FrontEnd 
 1. Vue
-2. 数据可视化
-3. 接口联调
+2. Data visualization
+3. Interface joint debugging
 
 ### BackEnd
-1. Django(8081)
-2. CouchDB相关接口
-3. Object Storage接口
-4. 数据查询接口
-5. 接口联调
+1. Django(8080) -> Nginx reverse proxy port 80 /api
+2. CouchDB related interface
+3. Object Storage interface
+4. Data query interface
+5. Interface joint debugging
 
 ### Spider
-1. 申请Twitter Developer API
-2. 定时运行脚本（30min？）
-   1. 抓取数据
-   2. 数据预处理
-   3. 图片预处理
-   4. 图片存到Object Storage（调用后端接口）
-   5. twitter内容存到第一级的CouchDB （调用后端接口）
+1. Apply for the Twitter Developer API
+2. Run the script regularly（30min?）
+   1. Grab data
+   2. Data preprocessing
+   3. Image preprocessing
+   4. Save the image to Object Storage (call backend interface)
+   5. Twitter content is stored in the first level of CouchDB (call backend interface)
 
 ### Machine Learning
-1. 选择模型：鉴黄、食物识别
-2. 训练模型
-3. 定时运行脚本（30min？）
-   1. 扫描第一级CouchDB（调用后端接口）
-   2. 从后端取图片
-   3. 图片分类
-   4. 将结果写入第二级CouchDB（调用后端接口）
+1. Select model: NSFW, Food Identification
+2. Train model
+3. Run the script regularly (30min?)
+   1. Scan the first level CouchDB (call backend interface)
+   2. Retrive pictures from the back end
+   3. Image Classification
+   4. Upload the result to the second level CouchDB (call backend interface)
 
 ### Hadoop and Operation 
-1. Ansible一键创建4台主机
-2. Docker运行3份CouchDB实例
+1. Ansible creates 4 hosts with one click
+2. Docker runs 3 CouchDB instances
 
 ### Server Arrangement
 
-Server1:
+Server1: 172.26.37.225
     
     CouchDB/ couchdb:2.3.0
-    Backend/ lihuanz/my-backend:lastest
     Frontend/
     Nginx/ nginx:lastest
+    Casvisor/
 
-Server2:
+
+Server2: 172.26.38.110
     
     CouchDB/couchdb:2.3.0
+    Backend/ lihuanz/my-backend:lastest
     Spider/ 
+    Casvisor/
 
 
-Server3:
+Server3: 172.26.38.1
     
     CouchDB/couchdb:2.3.0
+    Backend/
+    NLP/
+    Casvisor/
 
-Server4:
+
+Server4: 172.26.38.11
 
     MachineLearning/
+    Grafana/ grafana/grafana:lastest
+    InfluxDB/ influxdb:lastest
+    cAdvisor/ google/cadvisor:lastest
 
 
    

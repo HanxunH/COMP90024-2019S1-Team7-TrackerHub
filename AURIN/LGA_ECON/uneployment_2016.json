@@ -1,0 +1,725 @@
+{
+	"type": "FeatureCollection",
+	"bbox": [0.0, 0.0, -1.0, -1.0],
+	"features": [{
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 216,
+			"yr": 2016,
+			"lga_code17": "20110",
+			"lga_name17": "Alpine (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.863"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 257,
+			"yr": 2016,
+			"lga_code17": "20260",
+			"lga_name17": "Ararat (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.870"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3415,
+			"yr": 2016,
+			"lga_code17": "20570",
+			"lga_name17": "Ballarat (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.877"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3429,
+			"yr": 2016,
+			"lga_code17": "20660",
+			"lga_name17": "Banyule (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.884"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 857,
+			"yr": 2016,
+			"lga_code17": "20740",
+			"lga_name17": "Bass Coast (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.891"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1235,
+			"yr": 2016,
+			"lga_code17": "20830",
+			"lga_name17": "Baw Baw (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.898"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 2215,
+			"yr": 2016,
+			"lga_code17": "20910",
+			"lga_name17": "Bayside (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.905"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 319,
+			"yr": 2016,
+			"lga_code17": "21010",
+			"lga_name17": "Benalla (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.912"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4837,
+			"yr": 2016,
+			"lga_code17": "21110",
+			"lga_name17": "Boroondara (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.919"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 9257,
+			"yr": 2016,
+			"lga_code17": "21180",
+			"lga_name17": "Brimbank (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.926"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 113,
+			"yr": 2016,
+			"lga_code17": "21270",
+			"lga_name17": "Buloke (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.933"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 824,
+			"yr": 2016,
+			"lga_code17": "21370",
+			"lga_name17": "Campaspe (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.940"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 2601,
+			"yr": 2016,
+			"lga_code17": "21450",
+			"lga_name17": "Cardinia (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.947"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 10663,
+			"yr": 2016,
+			"lga_code17": "21610",
+			"lga_name17": "Casey (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.954"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 423,
+			"yr": 2016,
+			"lga_code17": "21670",
+			"lga_name17": "Central Goldfields (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.961"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 398,
+			"yr": 2016,
+			"lga_code17": "21750",
+			"lga_name17": "Colac-Otway (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.968"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 296,
+			"yr": 2016,
+			"lga_code17": "21830",
+			"lga_name17": "Corangamite (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.975"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 5435,
+			"yr": 2016,
+			"lga_code17": "21890",
+			"lga_name17": "Darebin (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.982"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1153,
+			"yr": 2016,
+			"lga_code17": "22110",
+			"lga_name17": "East Gippsland (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.989"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4365,
+			"yr": 2016,
+			"lga_code17": "22170",
+			"lga_name17": "Frankston (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.996"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 220,
+			"yr": 2016,
+			"lga_code17": "22250",
+			"lga_name17": "Gannawarra (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1003"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1857,
+			"yr": 2016,
+			"lga_code17": "22830",
+			"lga_name17": "Greater Shepparton (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1010"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 345,
+			"yr": 2016,
+			"lga_code17": "22910",
+			"lga_name17": "Hepburn (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1017"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 124,
+			"yr": 2016,
+			"lga_code17": "22980",
+			"lga_name17": "Hindmarsh (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1024"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 2931,
+			"yr": 2016,
+			"lga_code17": "23110",
+			"lga_name17": "Hobsons Bay (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1031"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 468,
+			"yr": 2016,
+			"lga_code17": "23190",
+			"lga_name17": "Horsham (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1038"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 7756,
+			"yr": 2016,
+			"lga_code17": "23270",
+			"lga_name17": "Hume (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1045"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 333,
+			"yr": 2016,
+			"lga_code17": "23350",
+			"lga_name17": "Indigo (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1052"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4247,
+			"yr": 2016,
+			"lga_code17": "23430",
+			"lga_name17": "Kingston (C) (Vic.)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1059"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4584,
+			"yr": 2016,
+			"lga_code17": "23670",
+			"lga_name17": "Knox (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1066"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3157,
+			"yr": 2016,
+			"lga_code17": "23810",
+			"lga_name17": "Latrobe (C) (Vic.)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1073"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 158,
+			"yr": 2016,
+			"lga_code17": "23940",
+			"lga_name17": "Loddon (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1080"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1002,
+			"yr": 2016,
+			"lga_code17": "24130",
+			"lga_name17": "Macedon Ranges (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1087"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3452,
+			"yr": 2016,
+			"lga_code17": "24210",
+			"lga_name17": "Manningham (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1094"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 132,
+			"yr": 2016,
+			"lga_code17": "24250",
+			"lga_name17": "Mansfield (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1101"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3760,
+			"yr": 2016,
+			"lga_code17": "24330",
+			"lga_name17": "Maribyrnong (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1108"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3025,
+			"yr": 2016,
+			"lga_code17": "24410",
+			"lga_name17": "Maroondah (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1115"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 8006,
+			"yr": 2016,
+			"lga_code17": "24600",
+			"lga_name17": "Melbourne (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1122"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4943,
+			"yr": 2016,
+			"lga_code17": "24650",
+			"lga_name17": "Melton (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1129"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1784,
+			"yr": 2016,
+			"lga_code17": "24780",
+			"lga_name17": "Mildura (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1136"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1112,
+			"yr": 2016,
+			"lga_code17": "24850",
+			"lga_name17": "Mitchell (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1143"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 629,
+			"yr": 2016,
+			"lga_code17": "24900",
+			"lga_name17": "Moira (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1150"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 6956,
+			"yr": 2016,
+			"lga_code17": "24970",
+			"lga_name17": "Monash (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1157"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3462,
+			"yr": 2016,
+			"lga_code17": "25060",
+			"lga_name17": "Moonee Valley (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1164"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 895,
+			"yr": 2016,
+			"lga_code17": "25150",
+			"lga_name17": "Moorabool (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1171"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 5915,
+			"yr": 2016,
+			"lga_code17": "25250",
+			"lga_name17": "Moreland (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1178"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3487,
+			"yr": 2016,
+			"lga_code17": "25340",
+			"lga_name17": "Mornington Peninsula (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1185"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 431,
+			"yr": 2016,
+			"lga_code17": "25430",
+			"lga_name17": "Mount Alexander (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1192"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 299,
+			"yr": 2016,
+			"lga_code17": "25490",
+			"lga_name17": "Moyne (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1199"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 318,
+			"yr": 2016,
+			"lga_code17": "25620",
+			"lga_name17": "Murrindindi (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1206"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1457,
+			"yr": 2016,
+			"lga_code17": "25710",
+			"lga_name17": "Nillumbik (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1213"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 266,
+			"yr": 2016,
+			"lga_code17": "25810",
+			"lga_name17": "Northern Grampians (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1220"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3075,
+			"yr": 2016,
+			"lga_code17": "25900",
+			"lga_name17": "Port Phillip (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1227"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 176,
+			"yr": 2016,
+			"lga_code17": "25990",
+			"lga_name17": "Pyrenees (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1234"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 34,
+			"yr": 2016,
+			"lga_code17": "26080",
+			"lga_name17": "Queenscliffe (B)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1241"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 626,
+			"yr": 2016,
+			"lga_code17": "26170",
+			"lga_name17": "South Gippsland (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1248"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 335,
+			"yr": 2016,
+			"lga_code17": "26260",
+			"lga_name17": "Southern Grampians (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1255"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3112,
+			"yr": 2016,
+			"lga_code17": "26350",
+			"lga_name17": "Stonnington (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1262"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 501,
+			"yr": 2016,
+			"lga_code17": "22490",
+			"lga_name17": "Golden Plains (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1325"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 4278,
+			"yr": 2016,
+			"lga_code17": "22310",
+			"lga_name17": "Glen Eira (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1311"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3328,
+			"yr": 2016,
+			"lga_code17": "22620",
+			"lga_name17": "Greater Bendigo (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1332"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 6897,
+			"yr": 2016,
+			"lga_code17": "22670",
+			"lga_name17": "Greater Dandenong (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1339"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 7057,
+			"yr": 2016,
+			"lga_code17": "22750",
+			"lga_name17": "Greater Geelong (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1346"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 526,
+			"yr": 2016,
+			"lga_code17": "22410",
+			"lga_name17": "Glenelg (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1318"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 210,
+			"yr": 2016,
+			"lga_code17": "26430",
+			"lga_name17": "Strathbogie (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1353"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 558,
+			"yr": 2016,
+			"lga_code17": "26490",
+			"lga_name17": "Surf Coast (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1360"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 462,
+			"yr": 2016,
+			"lga_code17": "26610",
+			"lga_name17": "Swan Hill (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1367"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 129,
+			"yr": 2016,
+			"lga_code17": "26670",
+			"lga_name17": "Towong (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1374"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 615,
+			"yr": 2016,
+			"lga_code17": "26700",
+			"lga_name17": "Wangaratta (RC)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1381"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 863,
+			"yr": 2016,
+			"lga_code17": "26730",
+			"lga_name17": "Warrnambool (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1388"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1196,
+			"yr": 2016,
+			"lga_code17": "26810",
+			"lga_name17": "Wellington (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1395"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 72,
+			"yr": 2016,
+			"lga_code17": "26890",
+			"lga_name17": "West Wimmera (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1402"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 5603,
+			"yr": 2016,
+			"lga_code17": "26980",
+			"lga_name17": "Whitehorse (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1409"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 6868,
+			"yr": 2016,
+			"lga_code17": "27070",
+			"lga_name17": "Whittlesea (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1416"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 1160,
+			"yr": 2016,
+			"lga_code17": "27170",
+			"lga_name17": "Wodonga (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1423"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 8831,
+			"yr": 2016,
+			"lga_code17": "27260",
+			"lga_name17": "Wyndham (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1430"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 2814,
+			"yr": 2016,
+			"lga_code17": "27350",
+			"lga_name17": "Yarra (C)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1437"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 3572,
+			"yr": 2016,
+			"lga_code17": "27450",
+			"lga_name17": "Yarra Ranges (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1444"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 136,
+			"yr": 2016,
+			"lga_code17": "27630",
+			"lga_name17": "Yarriambiack (S)"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1451"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"lbr_frc_statistics_unemp_num": 13,
+			"yr": 2016,
+			"lga_code17": "29399",
+			"lga_name17": "Unincorporated Vic"
+		},
+		"id": "abs_data_by_region_education_and_employment_lga_2011_17.1458"
+	}]
+}

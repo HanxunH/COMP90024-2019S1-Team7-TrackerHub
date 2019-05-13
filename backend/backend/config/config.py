@@ -1,10 +1,16 @@
 # coding: utf-8
+"""
+@Author: Lihuan Zhang
+
+This file including the basic configuration information
+"""
 
 HTTP_X_API_KEY = 'HTTP_X_API_KEY'
 API_KEY = '227415ba68c811e9b1a48c8590c7151e'
 
 COUCHDB_URL = 'http://{}:{}@{}:{}/'
 COUCHDB_DOMAIN = '172.26.37.225'
+COUCHDB_DOMAINS = ['172.26.37.225', '172.26.38.1', '172.26.38.110']
 COUCHDB_USERNAME = 'admin'
 COUCHDB_PASSWORD = 'password'
 COUCHDB_PORTS = 5984

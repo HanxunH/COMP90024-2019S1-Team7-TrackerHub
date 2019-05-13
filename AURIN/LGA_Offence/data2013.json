@@ -1,0 +1,1427 @@
+{
+	"type": "FeatureCollection",
+	"bbox": [0.0, 0.0, -1.0, -1.0],
+	"features": [{
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 286,
+			"grand_total_offence_count": 9893,
+			"b30_burglary_break__and__enter": 1200,
+			"a20_assault__and__related_offences": 884,
+			"a30_sexual_offences": 256,
+			"d20_disorderly__and__offensive_conduct": 421,
+			"a50_robbery": 35,
+			"lga_name11": "Ballarat (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 225,
+			"lga_code": "20570",
+			"e20_breaches_of_orders": 594,
+			"total_division_a_offences": 1508,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d0"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 169,
+			"grand_total_offence_count": 8861,
+			"b30_burglary_break__and__enter": 954,
+			"a20_assault__and__related_offences": 628,
+			"a30_sexual_offences": 184,
+			"d20_disorderly__and__offensive_conduct": 282,
+			"a50_robbery": 46,
+			"lga_name11": "Banyule (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 255,
+			"lga_code": "20660",
+			"e20_breaches_of_orders": 1171,
+			"total_division_a_offences": 1209,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d1"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 63,
+			"grand_total_offence_count": 2329,
+			"b30_burglary_break__and__enter": 233,
+			"a20_assault__and__related_offences": 287,
+			"a30_sexual_offences": 116,
+			"d20_disorderly__and__offensive_conduct": 156,
+			"a50_robbery": 1,
+			"lga_name11": "Bass Coast (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 131,
+			"lga_code": "20740",
+			"e20_breaches_of_orders": 165,
+			"total_division_a_offences": 561,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d2"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 186,
+			"grand_total_offence_count": 3198,
+			"b30_burglary_break__and__enter": 289,
+			"a20_assault__and__related_offences": 267,
+			"a30_sexual_offences": 111,
+			"d20_disorderly__and__offensive_conduct": 186,
+			"a50_robbery": 1,
+			"lga_name11": "Baw Baw (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 116,
+			"lga_code": "20830",
+			"e20_breaches_of_orders": 177,
+			"total_division_a_offences": 546,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d3"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 95,
+			"grand_total_offence_count": 4226,
+			"b30_burglary_break__and__enter": 666,
+			"a20_assault__and__related_offences": 236,
+			"a30_sexual_offences": 98,
+			"d20_disorderly__and__offensive_conduct": 150,
+			"a50_robbery": 22,
+			"lga_name11": "Bayside (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 96,
+			"lga_code": "20910",
+			"e20_breaches_of_orders": 241,
+			"total_division_a_offences": 478,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d4"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 46,
+			"grand_total_offence_count": 1048,
+			"b30_burglary_break__and__enter": 86,
+			"a20_assault__and__related_offences": 163,
+			"a30_sexual_offences": 55,
+			"d20_disorderly__and__offensive_conduct": 39,
+			"a50_robbery": 1,
+			"lga_name11": "Benalla (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 38,
+			"lga_code": "21010",
+			"e20_breaches_of_orders": 82,
+			"total_division_a_offences": 275,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d5"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 116,
+			"grand_total_offence_count": 7057,
+			"b30_burglary_break__and__enter": 1311,
+			"a20_assault__and__related_offences": 352,
+			"a30_sexual_offences": 139,
+			"d20_disorderly__and__offensive_conduct": 252,
+			"a50_robbery": 41,
+			"lga_name11": "Boroondara (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 134,
+			"lga_code": "21110",
+			"e20_breaches_of_orders": 199,
+			"total_division_a_offences": 705,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d6"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 45,
+			"grand_total_offence_count": 447,
+			"b30_burglary_break__and__enter": 42,
+			"a20_assault__and__related_offences": 35,
+			"a30_sexual_offences": 13,
+			"d20_disorderly__and__offensive_conduct": 60,
+			"a50_robbery": null,
+			"lga_name11": "Alpine (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 13,
+			"lga_code": "20110",
+			"e20_breaches_of_orders": 32,
+			"total_division_a_offences": 70,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d7"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 34,
+			"grand_total_offence_count": 1350,
+			"b30_burglary_break__and__enter": 79,
+			"a20_assault__and__related_offences": 162,
+			"a30_sexual_offences": 33,
+			"d20_disorderly__and__offensive_conduct": 112,
+			"a50_robbery": 1,
+			"lga_name11": "Ararat (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 29,
+			"lga_code": "20260",
+			"e20_breaches_of_orders": 86,
+			"total_division_a_offences": 247,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d8"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 584,
+			"grand_total_offence_count": 19277,
+			"b30_burglary_break__and__enter": 2300,
+			"a20_assault__and__related_offences": 1387,
+			"a30_sexual_offences": 298,
+			"d20_disorderly__and__offensive_conduct": 483,
+			"a50_robbery": 305,
+			"lga_name11": "Brimbank (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 334,
+			"lga_code": "21180",
+			"e20_breaches_of_orders": 1490,
+			"total_division_a_offences": 2510,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71d9"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 15,
+			"grand_total_offence_count": 244,
+			"b30_burglary_break__and__enter": 22,
+			"a20_assault__and__related_offences": 26,
+			"a30_sexual_offences": 6,
+			"d20_disorderly__and__offensive_conduct": 7,
+			"a50_robbery": null,
+			"lga_name11": "Buloke (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 7,
+			"lga_code": "21270",
+			"e20_breaches_of_orders": 6,
+			"total_division_a_offences": 44,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71da"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 64,
+			"grand_total_offence_count": 2674,
+			"b30_burglary_break__and__enter": 337,
+			"a20_assault__and__related_offences": 286,
+			"a30_sexual_offences": 82,
+			"d20_disorderly__and__offensive_conduct": 174,
+			"a50_robbery": 9,
+			"lga_name11": "Campaspe (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 55,
+			"lga_code": "21370",
+			"e20_breaches_of_orders": 168,
+			"total_division_a_offences": 458,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71db"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 164,
+			"grand_total_offence_count": 5879,
+			"b30_burglary_break__and__enter": 659,
+			"a20_assault__and__related_offences": 566,
+			"a30_sexual_offences": 134,
+			"d20_disorderly__and__offensive_conduct": 131,
+			"a50_robbery": 19,
+			"lga_name11": "Cardinia (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 294,
+			"lga_code": "21450",
+			"e20_breaches_of_orders": 630,
+			"total_division_a_offences": 1097,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71dc"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 445,
+			"grand_total_offence_count": 15507,
+			"b30_burglary_break__and__enter": 1663,
+			"a20_assault__and__related_offences": 1795,
+			"a30_sexual_offences": 416,
+			"d20_disorderly__and__offensive_conduct": 367,
+			"a50_robbery": 99,
+			"lga_name11": "Casey (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 456,
+			"lga_code": "21610",
+			"e20_breaches_of_orders": 1012,
+			"total_division_a_offences": 2993,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71dd"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 56,
+			"grand_total_offence_count": 1046,
+			"b30_burglary_break__and__enter": 71,
+			"a20_assault__and__related_offences": 138,
+			"a30_sexual_offences": 58,
+			"d20_disorderly__and__offensive_conduct": 78,
+			"a50_robbery": null,
+			"lga_name11": "Central Goldfields (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 54,
+			"lga_code": "21670",
+			"e20_breaches_of_orders": 81,
+			"total_division_a_offences": 266,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71de"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 42,
+			"grand_total_offence_count": 1311,
+			"b30_burglary_break__and__enter": 130,
+			"a20_assault__and__related_offences": 152,
+			"a30_sexual_offences": 60,
+			"d20_disorderly__and__offensive_conduct": 104,
+			"a50_robbery": 6,
+			"lga_name11": "Colac-Otway (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 41,
+			"lga_code": "21750",
+			"e20_breaches_of_orders": 78,
+			"total_division_a_offences": 269,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71df"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 26,
+			"grand_total_offence_count": 599,
+			"b30_burglary_break__and__enter": 88,
+			"a20_assault__and__related_offences": 56,
+			"a30_sexual_offences": 20,
+			"d20_disorderly__and__offensive_conduct": 35,
+			"a50_robbery": 2,
+			"lga_name11": "Corangamite (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 42,
+			"lga_code": "21830",
+			"e20_breaches_of_orders": 47,
+			"total_division_a_offences": 132,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e0"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 224,
+			"grand_total_offence_count": 11325,
+			"b30_burglary_break__and__enter": 1833,
+			"a20_assault__and__related_offences": 869,
+			"a30_sexual_offences": 327,
+			"d20_disorderly__and__offensive_conduct": 290,
+			"a50_robbery": 127,
+			"lga_name11": "Darebin (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 235,
+			"lga_code": "21890",
+			"e20_breaches_of_orders": 390,
+			"total_division_a_offences": 1664,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e1"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 117,
+			"grand_total_offence_count": 3887,
+			"b30_burglary_break__and__enter": 298,
+			"a20_assault__and__related_offences": 543,
+			"a30_sexual_offences": 57,
+			"d20_disorderly__and__offensive_conduct": 194,
+			"a50_robbery": 8,
+			"lga_name11": "East Gippsland (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 129,
+			"lga_code": "22110",
+			"e20_breaches_of_orders": 381,
+			"total_division_a_offences": 802,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e2"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 827,
+			"grand_total_offence_count": 14149,
+			"b30_burglary_break__and__enter": 992,
+			"a20_assault__and__related_offences": 1165,
+			"a30_sexual_offences": 270,
+			"d20_disorderly__and__offensive_conduct": 1070,
+			"a50_robbery": 68,
+			"lga_name11": "Frankston (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 262,
+			"lga_code": "22170",
+			"e20_breaches_of_orders": 1150,
+			"total_division_a_offences": 1928,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e3"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 16,
+			"grand_total_offence_count": 543,
+			"b30_burglary_break__and__enter": 55,
+			"a20_assault__and__related_offences": 78,
+			"a30_sexual_offences": 26,
+			"d20_disorderly__and__offensive_conduct": 59,
+			"a50_robbery": 1,
+			"lga_name11": "Gannawarra (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 12,
+			"lga_code": "22250",
+			"e20_breaches_of_orders": 29,
+			"total_division_a_offences": 131,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e4"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 295,
+			"grand_total_offence_count": 6324,
+			"b30_burglary_break__and__enter": 708,
+			"a20_assault__and__related_offences": 672,
+			"a30_sexual_offences": 117,
+			"d20_disorderly__and__offensive_conduct": 356,
+			"a50_robbery": 18,
+			"lga_name11": "Greater Shepparton (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 140,
+			"lga_code": "22830",
+			"e20_breaches_of_orders": 483,
+			"total_division_a_offences": 1035,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e5"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 10,
+			"grand_total_offence_count": 646,
+			"b30_burglary_break__and__enter": 113,
+			"a20_assault__and__related_offences": 62,
+			"a30_sexual_offences": 16,
+			"d20_disorderly__and__offensive_conduct": 27,
+			"a50_robbery": 1,
+			"lga_name11": "Hepburn (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 21,
+			"lga_code": "22910",
+			"e20_breaches_of_orders": 14,
+			"total_division_a_offences": 106,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e6"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 11,
+			"grand_total_offence_count": 260,
+			"b30_burglary_break__and__enter": 31,
+			"a20_assault__and__related_offences": 23,
+			"a30_sexual_offences": 10,
+			"d20_disorderly__and__offensive_conduct": 4,
+			"a50_robbery": null,
+			"lga_name11": "Hindmarsh (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 9,
+			"lga_code": "22980",
+			"e20_breaches_of_orders": 30,
+			"total_division_a_offences": 46,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e7"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 182,
+			"grand_total_offence_count": 6732,
+			"b30_burglary_break__and__enter": 758,
+			"a20_assault__and__related_offences": 540,
+			"a30_sexual_offences": 94,
+			"d20_disorderly__and__offensive_conduct": 259,
+			"a50_robbery": 42,
+			"lga_name11": "Hobsons Bay (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 134,
+			"lga_code": "23110",
+			"e20_breaches_of_orders": 223,
+			"total_division_a_offences": 885,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e8"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 44,
+			"grand_total_offence_count": 2593,
+			"b30_burglary_break__and__enter": 161,
+			"a20_assault__and__related_offences": 282,
+			"a30_sexual_offences": 44,
+			"d20_disorderly__and__offensive_conduct": 126,
+			"a50_robbery": 1,
+			"lga_name11": "Horsham (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 62,
+			"lga_code": "23190",
+			"e20_breaches_of_orders": 135,
+			"total_division_a_offences": 410,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71e9"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 557,
+			"grand_total_offence_count": 15019,
+			"b30_burglary_break__and__enter": 1570,
+			"a20_assault__and__related_offences": 1457,
+			"a30_sexual_offences": 329,
+			"d20_disorderly__and__offensive_conduct": 238,
+			"a50_robbery": 95,
+			"lga_name11": "Hume (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 537,
+			"lga_code": "23270",
+			"e20_breaches_of_orders": 1122,
+			"total_division_a_offences": 2653,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ea"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 18,
+			"grand_total_offence_count": 484,
+			"b30_burglary_break__and__enter": 59,
+			"a20_assault__and__related_offences": 34,
+			"a30_sexual_offences": 16,
+			"d20_disorderly__and__offensive_conduct": 17,
+			"a50_robbery": null,
+			"lga_name11": "Indigo (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 11,
+			"lga_code": "23350",
+			"e20_breaches_of_orders": 39,
+			"total_division_a_offences": 65,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71eb"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 225,
+			"grand_total_offence_count": 9313,
+			"b30_burglary_break__and__enter": 905,
+			"a20_assault__and__related_offences": 729,
+			"a30_sexual_offences": 238,
+			"d20_disorderly__and__offensive_conduct": 394,
+			"a50_robbery": 56,
+			"lga_name11": "Kingston (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 185,
+			"lga_code": "23430",
+			"e20_breaches_of_orders": 609,
+			"total_division_a_offences": 1293,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ec"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 192,
+			"grand_total_offence_count": 8699,
+			"b30_burglary_break__and__enter": 893,
+			"a20_assault__and__related_offences": 723,
+			"a30_sexual_offences": 201,
+			"d20_disorderly__and__offensive_conduct": 224,
+			"a50_robbery": 58,
+			"lga_name11": "Knox (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 147,
+			"lga_code": "23670",
+			"e20_breaches_of_orders": 363,
+			"total_division_a_offences": 1219,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ed"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 266,
+			"grand_total_offence_count": 10245,
+			"b30_burglary_break__and__enter": 837,
+			"a20_assault__and__related_offences": 1201,
+			"a30_sexual_offences": 284,
+			"d20_disorderly__and__offensive_conduct": 573,
+			"a50_robbery": 59,
+			"lga_name11": "Latrobe (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 564,
+			"lga_code": "23810",
+			"e20_breaches_of_orders": 1267,
+			"total_division_a_offences": 2286,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ee"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 7,
+			"grand_total_offence_count": 373,
+			"b30_burglary_break__and__enter": 40,
+			"a20_assault__and__related_offences": 45,
+			"a30_sexual_offences": 28,
+			"d20_disorderly__and__offensive_conduct": 15,
+			"a50_robbery": null,
+			"lga_name11": "Loddon (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 14,
+			"lga_code": "23940",
+			"e20_breaches_of_orders": 16,
+			"total_division_a_offences": 93,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ef"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 48,
+			"grand_total_offence_count": 1812,
+			"b30_burglary_break__and__enter": 166,
+			"a20_assault__and__related_offences": 212,
+			"a30_sexual_offences": 62,
+			"d20_disorderly__and__offensive_conduct": 64,
+			"a50_robbery": 6,
+			"lga_name11": "Macedon Ranges (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 102,
+			"lga_code": "24130",
+			"e20_breaches_of_orders": 183,
+			"total_division_a_offences": 401,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f0"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 80,
+			"grand_total_offence_count": 3857,
+			"b30_burglary_break__and__enter": 429,
+			"a20_assault__and__related_offences": 266,
+			"a30_sexual_offences": 71,
+			"d20_disorderly__and__offensive_conduct": 71,
+			"a50_robbery": 22,
+			"lga_name11": "Manningham (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 227,
+			"lga_code": "24210",
+			"e20_breaches_of_orders": 269,
+			"total_division_a_offences": 622,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f1"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 18,
+			"grand_total_offence_count": 349,
+			"b30_burglary_break__and__enter": 46,
+			"a20_assault__and__related_offences": 19,
+			"a30_sexual_offences": 14,
+			"d20_disorderly__and__offensive_conduct": 32,
+			"a50_robbery": null,
+			"lga_name11": "Mansfield (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 10,
+			"lga_code": "24250",
+			"e20_breaches_of_orders": 6,
+			"total_division_a_offences": 48,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f2"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 225,
+			"grand_total_offence_count": 8411,
+			"b30_burglary_break__and__enter": 932,
+			"a20_assault__and__related_offences": 596,
+			"a30_sexual_offences": 124,
+			"d20_disorderly__and__offensive_conduct": 453,
+			"a50_robbery": 136,
+			"lga_name11": "Maribyrnong (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 95,
+			"lga_code": "24330",
+			"e20_breaches_of_orders": 174,
+			"total_division_a_offences": 1005,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f3"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 205,
+			"grand_total_offence_count": 6462,
+			"b30_burglary_break__and__enter": 684,
+			"a20_assault__and__related_offences": 584,
+			"a30_sexual_offences": 141,
+			"d20_disorderly__and__offensive_conduct": 300,
+			"a50_robbery": 39,
+			"lga_name11": "Maroondah (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 127,
+			"lga_code": "24410",
+			"e20_breaches_of_orders": 702,
+			"total_division_a_offences": 945,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f4"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 579,
+			"grand_total_offence_count": 34868,
+			"b30_burglary_break__and__enter": 1519,
+			"a20_assault__and__related_offences": 2233,
+			"a30_sexual_offences": 424,
+			"d20_disorderly__and__offensive_conduct": 4839,
+			"a50_robbery": 224,
+			"lga_name11": "Melbourne (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 619,
+			"lga_code": "24600",
+			"e20_breaches_of_orders": 2057,
+			"total_division_a_offences": 3690,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f5"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 265,
+			"grand_total_offence_count": 8716,
+			"b30_burglary_break__and__enter": 1156,
+			"a20_assault__and__related_offences": 773,
+			"a30_sexual_offences": 181,
+			"d20_disorderly__and__offensive_conduct": 151,
+			"a50_robbery": 66,
+			"lga_name11": "Melton (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 257,
+			"lga_code": "24650",
+			"e20_breaches_of_orders": 501,
+			"total_division_a_offences": 1397,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f6"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 197,
+			"grand_total_offence_count": 5518,
+			"b30_burglary_break__and__enter": 680,
+			"a20_assault__and__related_offences": 598,
+			"a30_sexual_offences": 144,
+			"d20_disorderly__and__offensive_conduct": 505,
+			"a50_robbery": 15,
+			"lga_name11": "Mildura (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 150,
+			"lga_code": "24780",
+			"e20_breaches_of_orders": 386,
+			"total_division_a_offences": 971,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f7"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 107,
+			"grand_total_offence_count": 2760,
+			"b30_burglary_break__and__enter": 279,
+			"a20_assault__and__related_offences": 356,
+			"a30_sexual_offences": 113,
+			"d20_disorderly__and__offensive_conduct": 132,
+			"a50_robbery": 2,
+			"lga_name11": "Mitchell (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 132,
+			"lga_code": "24850",
+			"e20_breaches_of_orders": 169,
+			"total_division_a_offences": 651,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f8"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 43,
+			"grand_total_offence_count": 1299,
+			"b30_burglary_break__and__enter": 195,
+			"a20_assault__and__related_offences": 114,
+			"a30_sexual_offences": 69,
+			"d20_disorderly__and__offensive_conduct": 73,
+			"a50_robbery": 3,
+			"lga_name11": "Moira (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 32,
+			"lga_code": "24900",
+			"e20_breaches_of_orders": 63,
+			"total_division_a_offences": 235,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71f9"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 112,
+			"grand_total_offence_count": 8757,
+			"b30_burglary_break__and__enter": 1303,
+			"a20_assault__and__related_offences": 480,
+			"a30_sexual_offences": 278,
+			"d20_disorderly__and__offensive_conduct": 234,
+			"a50_robbery": 81,
+			"lga_name11": "Monash (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 146,
+			"lga_code": "24970",
+			"e20_breaches_of_orders": 211,
+			"total_division_a_offences": 1068,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71fa"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 138,
+			"grand_total_offence_count": 7750,
+			"b30_burglary_break__and__enter": 968,
+			"a20_assault__and__related_offences": 573,
+			"a30_sexual_offences": 104,
+			"d20_disorderly__and__offensive_conduct": 276,
+			"a50_robbery": 62,
+			"lga_name11": "Moonee Valley (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 296,
+			"lga_code": "25060",
+			"e20_breaches_of_orders": 248,
+			"total_division_a_offences": 1116,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71fb"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 57,
+			"grand_total_offence_count": 1797,
+			"b30_burglary_break__and__enter": 237,
+			"a20_assault__and__related_offences": 160,
+			"a30_sexual_offences": 33,
+			"d20_disorderly__and__offensive_conduct": 55,
+			"a50_robbery": 4,
+			"lga_name11": "Moorabool (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 50,
+			"lga_code": "25150",
+			"e20_breaches_of_orders": 83,
+			"total_division_a_offences": 270,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71fc"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 297,
+			"grand_total_offence_count": 11787,
+			"b30_burglary_break__and__enter": 1481,
+			"a20_assault__and__related_offences": 838,
+			"a30_sexual_offences": 239,
+			"d20_disorderly__and__offensive_conduct": 289,
+			"a50_robbery": 109,
+			"lga_name11": "Moreland (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 231,
+			"lga_code": "25250",
+			"e20_breaches_of_orders": 564,
+			"total_division_a_offences": 1532,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71fd"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 201,
+			"grand_total_offence_count": 9117,
+			"b30_burglary_break__and__enter": 1075,
+			"a20_assault__and__related_offences": 797,
+			"a30_sexual_offences": 286,
+			"d20_disorderly__and__offensive_conduct": 559,
+			"a50_robbery": 25,
+			"lga_name11": "Mornington Peninsula (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 211,
+			"lga_code": "25340",
+			"e20_breaches_of_orders": 617,
+			"total_division_a_offences": 1450,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71fe"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 33,
+			"grand_total_offence_count": 900,
+			"b30_burglary_break__and__enter": 63,
+			"a20_assault__and__related_offences": 85,
+			"a30_sexual_offences": 31,
+			"d20_disorderly__and__offensive_conduct": 34,
+			"a50_robbery": 3,
+			"lga_name11": "Mount Alexander (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 36,
+			"lga_code": "25430",
+			"e20_breaches_of_orders": 122,
+			"total_division_a_offences": 166,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_71ff"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 22,
+			"grand_total_offence_count": 513,
+			"b30_burglary_break__and__enter": 43,
+			"a20_assault__and__related_offences": 62,
+			"a30_sexual_offences": 20,
+			"d20_disorderly__and__offensive_conduct": 15,
+			"a50_robbery": null,
+			"lga_name11": "Moyne (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 14,
+			"lga_code": "25490",
+			"e20_breaches_of_orders": 23,
+			"total_division_a_offences": 107,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7200"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 76,
+			"grand_total_offence_count": 650,
+			"b30_burglary_break__and__enter": 73,
+			"a20_assault__and__related_offences": 77,
+			"a30_sexual_offences": 35,
+			"d20_disorderly__and__offensive_conduct": 45,
+			"a50_robbery": null,
+			"lga_name11": "Murrindindi (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 14,
+			"lga_code": "25620",
+			"e20_breaches_of_orders": 16,
+			"total_division_a_offences": 144,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7201"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 45,
+			"grand_total_offence_count": 2055,
+			"b30_burglary_break__and__enter": 241,
+			"a20_assault__and__related_offences": 189,
+			"a30_sexual_offences": 54,
+			"d20_disorderly__and__offensive_conduct": 58,
+			"a50_robbery": 6,
+			"lga_name11": "Nillumbik (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 61,
+			"lga_code": "25710",
+			"e20_breaches_of_orders": 117,
+			"total_division_a_offences": 328,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7202"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 46,
+			"grand_total_offence_count": 1978,
+			"b30_burglary_break__and__enter": 58,
+			"a20_assault__and__related_offences": 149,
+			"a30_sexual_offences": 61,
+			"d20_disorderly__and__offensive_conduct": 70,
+			"a50_robbery": 1,
+			"lga_name11": "Northern Grampians (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 41,
+			"lga_code": "25810",
+			"e20_breaches_of_orders": 67,
+			"total_division_a_offences": 269,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7203"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 223,
+			"grand_total_offence_count": 11518,
+			"b30_burglary_break__and__enter": 1117,
+			"a20_assault__and__related_offences": 850,
+			"a30_sexual_offences": 170,
+			"d20_disorderly__and__offensive_conduct": 1135,
+			"a50_robbery": 95,
+			"lga_name11": "Port Phillip (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 173,
+			"lga_code": "25900",
+			"e20_breaches_of_orders": 309,
+			"total_division_a_offences": 1361,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7204"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 23,
+			"grand_total_offence_count": 360,
+			"b30_burglary_break__and__enter": 65,
+			"a20_assault__and__related_offences": 35,
+			"a30_sexual_offences": 26,
+			"d20_disorderly__and__offensive_conduct": 7,
+			"a50_robbery": null,
+			"lga_name11": "Pyrenees (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 8,
+			"lga_code": "25990",
+			"e20_breaches_of_orders": 16,
+			"total_division_a_offences": 75,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7205"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 3,
+			"grand_total_offence_count": 94,
+			"b30_burglary_break__and__enter": 22,
+			"a20_assault__and__related_offences": 2,
+			"a30_sexual_offences": 2,
+			"d20_disorderly__and__offensive_conduct": 2,
+			"a50_robbery": null,
+			"lga_name11": "Queenscliffe (B)",
+			"a70_stalking_harassment__and__threatening_behaviour": 1,
+			"lga_code": "26080",
+			"e20_breaches_of_orders": null,
+			"total_division_a_offences": 6,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7206"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 35,
+			"grand_total_offence_count": 1331,
+			"b30_burglary_break__and__enter": 190,
+			"a20_assault__and__related_offences": 103,
+			"a30_sexual_offences": 29,
+			"d20_disorderly__and__offensive_conduct": 62,
+			"a50_robbery": 2,
+			"lga_name11": "South Gippsland (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 45,
+			"lga_code": "26170",
+			"e20_breaches_of_orders": 130,
+			"total_division_a_offences": 204,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7207"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 17,
+			"grand_total_offence_count": 1075,
+			"b30_burglary_break__and__enter": 105,
+			"a20_assault__and__related_offences": 97,
+			"a30_sexual_offences": 69,
+			"d20_disorderly__and__offensive_conduct": 107,
+			"a50_robbery": 2,
+			"lga_name11": "Southern Grampians (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 20,
+			"lga_code": "26260",
+			"e20_breaches_of_orders": 51,
+			"total_division_a_offences": 209,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7208"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 172,
+			"grand_total_offence_count": 9270,
+			"b30_burglary_break__and__enter": 1122,
+			"a20_assault__and__related_offences": 557,
+			"a30_sexual_offences": 188,
+			"d20_disorderly__and__offensive_conduct": 614,
+			"a50_robbery": 53,
+			"lga_name11": "Stonnington (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 130,
+			"lga_code": "26350",
+			"e20_breaches_of_orders": 323,
+			"total_division_a_offences": 995,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7209"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 14,
+			"grand_total_offence_count": 529,
+			"b30_burglary_break__and__enter": 47,
+			"a20_assault__and__related_offences": 29,
+			"a30_sexual_offences": 22,
+			"d20_disorderly__and__offensive_conduct": 32,
+			"a50_robbery": null,
+			"lga_name11": "Strathbogie (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 22,
+			"lga_code": "26430",
+			"e20_breaches_of_orders": 14,
+			"total_division_a_offences": 81,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720a"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 29,
+			"grand_total_offence_count": 1195,
+			"b30_burglary_break__and__enter": 189,
+			"a20_assault__and__related_offences": 86,
+			"a30_sexual_offences": 39,
+			"d20_disorderly__and__offensive_conduct": 116,
+			"a50_robbery": null,
+			"lga_name11": "Surf Coast (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 20,
+			"lga_code": "26490",
+			"e20_breaches_of_orders": 34,
+			"total_division_a_offences": 157,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720b"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 58,
+			"grand_total_offence_count": 1721,
+			"b30_burglary_break__and__enter": 125,
+			"a20_assault__and__related_offences": 282,
+			"a30_sexual_offences": 38,
+			"d20_disorderly__and__offensive_conduct": 160,
+			"a50_robbery": 5,
+			"lga_name11": "Swan Hill (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 66,
+			"lga_code": "26610",
+			"e20_breaches_of_orders": 173,
+			"total_division_a_offences": 421,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720c"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 15,
+			"grand_total_offence_count": 265,
+			"b30_burglary_break__and__enter": 17,
+			"a20_assault__and__related_offences": 27,
+			"a30_sexual_offences": 4,
+			"d20_disorderly__and__offensive_conduct": 30,
+			"a50_robbery": null,
+			"lga_name11": "Towong (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 19,
+			"lga_code": "26670",
+			"e20_breaches_of_orders": 13,
+			"total_division_a_offences": 58,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720d"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 105,
+			"grand_total_offence_count": 2403,
+			"b30_burglary_break__and__enter": 144,
+			"a20_assault__and__related_offences": 225,
+			"a30_sexual_offences": 92,
+			"d20_disorderly__and__offensive_conduct": 325,
+			"a50_robbery": 4,
+			"lga_name11": "Wangaratta (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 77,
+			"lga_code": "26700",
+			"e20_breaches_of_orders": 180,
+			"total_division_a_offences": 432,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720e"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 54,
+			"grand_total_offence_count": 2410,
+			"b30_burglary_break__and__enter": 192,
+			"a20_assault__and__related_offences": 328,
+			"a30_sexual_offences": 78,
+			"d20_disorderly__and__offensive_conduct": 176,
+			"a50_robbery": 9,
+			"lga_name11": "Warrnambool (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 110,
+			"lga_code": "26730",
+			"e20_breaches_of_orders": 210,
+			"total_division_a_offences": 560,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_720f"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 96,
+			"grand_total_offence_count": 3908,
+			"b30_burglary_break__and__enter": 499,
+			"a20_assault__and__related_offences": 408,
+			"a30_sexual_offences": 97,
+			"d20_disorderly__and__offensive_conduct": 110,
+			"a50_robbery": 13,
+			"lga_name11": "Wellington (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 156,
+			"lga_code": "26810",
+			"e20_breaches_of_orders": 359,
+			"total_division_a_offences": 711,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7210"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 1,
+			"grand_total_offence_count": 156,
+			"b30_burglary_break__and__enter": 24,
+			"a20_assault__and__related_offences": 12,
+			"a30_sexual_offences": 6,
+			"d20_disorderly__and__offensive_conduct": 4,
+			"a50_robbery": null,
+			"lga_name11": "West Wimmera (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 4,
+			"lga_code": "26890",
+			"e20_breaches_of_orders": 7,
+			"total_division_a_offences": 23,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7211"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 121,
+			"grand_total_offence_count": 7128,
+			"b30_burglary_break__and__enter": 1054,
+			"a20_assault__and__related_offences": 444,
+			"a30_sexual_offences": 171,
+			"d20_disorderly__and__offensive_conduct": 228,
+			"a50_robbery": 72,
+			"lga_name11": "Whitehorse (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 120,
+			"lga_code": "26980",
+			"e20_breaches_of_orders": 154,
+			"total_division_a_offences": 868,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7212"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 296,
+			"grand_total_offence_count": 12128,
+			"b30_burglary_break__and__enter": 1463,
+			"a20_assault__and__related_offences": 1041,
+			"a30_sexual_offences": 146,
+			"d20_disorderly__and__offensive_conduct": 189,
+			"a50_robbery": 63,
+			"lga_name11": "Whittlesea (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 347,
+			"lga_code": "27070",
+			"e20_breaches_of_orders": 845,
+			"total_division_a_offences": 1763,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7213"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 71,
+			"grand_total_offence_count": 2816,
+			"b30_burglary_break__and__enter": 330,
+			"a20_assault__and__related_offences": 295,
+			"a30_sexual_offences": 87,
+			"d20_disorderly__and__offensive_conduct": 90,
+			"a50_robbery": 9,
+			"lga_name11": "Wodonga (RC)",
+			"a70_stalking_harassment__and__threatening_behaviour": 54,
+			"lga_code": "27170",
+			"e20_breaches_of_orders": 170,
+			"total_division_a_offences": 475,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7214"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 301,
+			"grand_total_offence_count": 12089,
+			"b30_burglary_break__and__enter": 1522,
+			"a20_assault__and__related_offences": 918,
+			"a30_sexual_offences": 178,
+			"d20_disorderly__and__offensive_conduct": 272,
+			"a50_robbery": 85,
+			"lga_name11": "Wyndham (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 190,
+			"lga_code": "27260",
+			"e20_breaches_of_orders": 611,
+			"total_division_a_offences": 1514,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7215"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 259,
+			"grand_total_offence_count": 10836,
+			"b30_burglary_break__and__enter": 1140,
+			"a20_assault__and__related_offences": 763,
+			"a30_sexual_offences": 111,
+			"d20_disorderly__and__offensive_conduct": 880,
+			"a50_robbery": 131,
+			"lga_name11": "Yarra (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 121,
+			"lga_code": "27350",
+			"e20_breaches_of_orders": 227,
+			"total_division_a_offences": 1204,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7216"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 161,
+			"grand_total_offence_count": 6293,
+			"b30_burglary_break__and__enter": 766,
+			"a20_assault__and__related_offences": 632,
+			"a30_sexual_offences": 238,
+			"d20_disorderly__and__offensive_conduct": 216,
+			"a50_robbery": 30,
+			"lga_name11": "Yarra Ranges (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 138,
+			"lga_code": "27450",
+			"e20_breaches_of_orders": 397,
+			"total_division_a_offences": 1133,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7217"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 8,
+			"grand_total_offence_count": 317,
+			"b30_burglary_break__and__enter": 28,
+			"a20_assault__and__related_offences": 39,
+			"a30_sexual_offences": 7,
+			"d20_disorderly__and__offensive_conduct": 22,
+			"a50_robbery": null,
+			"lga_name11": "Yarriambiack (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 8,
+			"lga_code": "27630",
+			"e20_breaches_of_orders": 21,
+			"total_division_a_offences": 64,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7218"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 56,
+			"grand_total_offence_count": 1403,
+			"b30_burglary_break__and__enter": 108,
+			"a20_assault__and__related_offences": 145,
+			"a30_sexual_offences": 29,
+			"d20_disorderly__and__offensive_conduct": 86,
+			"a50_robbery": 1,
+			"lga_name11": "Glenelg (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 20,
+			"lga_code": "22410",
+			"e20_breaches_of_orders": 119,
+			"total_division_a_offences": 214,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_7219"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 124,
+			"grand_total_offence_count": 5907,
+			"b30_burglary_break__and__enter": 828,
+			"a20_assault__and__related_offences": 379,
+			"a30_sexual_offences": 157,
+			"d20_disorderly__and__offensive_conduct": 203,
+			"a50_robbery": 42,
+			"lga_name11": "Glen Eira (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 110,
+			"lga_code": "22310",
+			"e20_breaches_of_orders": 267,
+			"total_division_a_offences": 711,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_721a"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 9,
+			"grand_total_offence_count": 480,
+			"b30_burglary_break__and__enter": 99,
+			"a20_assault__and__related_offences": 50,
+			"a30_sexual_offences": 31,
+			"d20_disorderly__and__offensive_conduct": 13,
+			"a50_robbery": null,
+			"lga_name11": "Golden Plains (S)",
+			"a70_stalking_harassment__and__threatening_behaviour": 7,
+			"lga_code": "22490",
+			"e20_breaches_of_orders": 12,
+			"total_division_a_offences": 101,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_721b"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 219,
+			"grand_total_offence_count": 8476,
+			"b30_burglary_break__and__enter": 537,
+			"a20_assault__and__related_offences": 775,
+			"a30_sexual_offences": 263,
+			"d20_disorderly__and__offensive_conduct": 545,
+			"a50_robbery": 23,
+			"lga_name11": "Greater Bendigo (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 218,
+			"lga_code": "22620",
+			"e20_breaches_of_orders": 1206,
+			"total_division_a_offences": 1355,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_721c"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 591,
+			"grand_total_offence_count": 15906,
+			"b30_burglary_break__and__enter": 1614,
+			"a20_assault__and__related_offences": 1480,
+			"a30_sexual_offences": 347,
+			"d20_disorderly__and__offensive_conduct": 919,
+			"a50_robbery": 118,
+			"lga_name11": "Greater Dandenong (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 312,
+			"lga_code": "22670",
+			"e20_breaches_of_orders": 1537,
+			"total_division_a_offences": 2429,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_721d"
+	}, {
+		"type": "Feature",
+		"properties": {
+			"d10_weapons__and__explosives_offences": 542,
+			"grand_total_offence_count": 16840,
+			"b30_burglary_break__and__enter": 2322,
+			"a20_assault__and__related_offences": 1432,
+			"a30_sexual_offences": 441,
+			"d20_disorderly__and__offensive_conduct": 977,
+			"a50_robbery": 63,
+			"lga_name11": "Greater Geelong (C)",
+			"a70_stalking_harassment__and__threatening_behaviour": 342,
+			"lga_code": "22750",
+			"e20_breaches_of_orders": 1095,
+			"total_division_a_offences": 2451,
+			"reference_period": "2013"
+		},
+		"id": "lga_vic_crime_stats_2008_2017.fid-33f230a3_16aaac23619_721e"
+	}]
+}
