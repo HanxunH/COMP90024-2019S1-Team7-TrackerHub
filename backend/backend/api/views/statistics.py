@@ -505,8 +505,15 @@ def statistics_track_get(request, user_id=None, number=100):
         try:
             current_db = tweet_couch_db.get_current_database()
             if not user_id:
-                tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
-                                         stale='ok', limit=100000)
+                if start_time and end_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
+                                             stale='ok', limit=100000)
+                elif start_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, stale='ok', limit=100000)
+                elif end_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', endkey=end_time, stale='ok', limit=100000)
+                else:
+                    tweets = current_db.view('statistics/time_geo_all_tags', stale='ok', limit=100000)
             else:
                 tweets = current_db.view('statistics/user_geo', key=user_id, stale='ok', limit=single)
             tweets = [tweet.value for tweet in tweets]
@@ -555,8 +562,6 @@ def statistics_track_get(request, user_id=None, number=100):
             # print(tweet)
             if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
                     end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
-                # print(parse_datetime(tweet['time']))
-                # print(parse_datetime(start_time))
                 continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
