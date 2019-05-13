@@ -4,19 +4,38 @@
     <!-- Map -->
     <div id="map_canvas" style="height: 100vh; width: 100%" ></div>
     <!-- Div on top of the map -->
-    <div id="onmap">    
+    <div id="onmap">
       <div class="container mt-3">
+         <h2>General Search</h2>
+        <div>
+          <button class="btn btn-dark" 
+            @click="mapBuildZone('/api/statistics/zone/')">Melbourne
+          </button>
+          <div class="divider"/>
+          <button class="btn btn-dark" 
+            @click="mapBuildZone('/api/statistics/vic/zone/')">VIC
+          </button>
+        </div>
+      </div>
+      <p></p>
+      <div></div>
+    </div>  
+    <div id="onmap2">    
+      <div class="container mt-3">
+        <p></p>
         <h2>User Track</h2>
         <p>Track user by user ID:</p>
         <input class="form-control" v-model="user_id" type="text" placeholder="Search..">
         <div id="myDIV" class="mt-3">
           <button class="btn btn-dark" :disabled="tags == null || tags == '' || user_id == ''" @click="mapBuildTrack()">Track</button>
         </div>
-        <p></p>
       </div> 
         <div class="container mt-3">
         <p>Track random number of users:</p>
         <input class="form-control" v-model="number" type="number" placeholder="Search..">
+        <br>
+        <p>Skip:</p>
+        <input class="form-control" v-model="skip" type="number" placeholder="Skip..">
         <div id="myDIV2" class="mt-3">
           <button class="btn btn-dark" :disabled="tags == null || tags == ''" @click="mapBuildTrackN()">Track</button>
         </div>
@@ -32,10 +51,10 @@
         <div class="col-lg-12"><Barchart :chartData="this.barDatacollection" :height="700" :width="2000" /></div>
       </div>
       <div class="row">
-        <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
-        <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
-        <div class="col-lg-3"><Linechart :data="this.lineData"/></div>
-        <div class="col-lg-3"><Piechart :data="this.pieData"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.machineDatacollection_lust"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.machineDatacollection_gluttony"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.textDatacollection"/></div>
+        <div class="col-lg-3"><Piechart :pieData="this.sentimentDatacollection"/></div>
       </div> 
     </div>  
 
@@ -63,14 +82,7 @@
             v-model="tags"
           />
         </div>
-        <div>
-          <button class="btn btn-dark" 
-            :disabled="tags == null || tags == '' ||
-            start_time.includes('NaN') || start_time == '' ||
-            end_time.includes('NaN') || end_time == ''" 
-            @click="mapBuildTime()">Search
-          </button>
-        </div>
+
         <div class="col-md-4" style="height: 4vh; margin-bottom: 1vh;">
           <flash-message transitionIn="animated swing"></flash-message>
         </div>
@@ -115,12 +127,19 @@ export default {
       barDataLabel: [],
       radarData: [],
       lineData: [],
+
+      machineDatacollection_lust: null,
+      machineDatacollection_gluttony: null,
+      textDatacollection:null,
+      sentimentDatacollection: null,
       barDatacollection: null,
+
       start_time: new Date().toString(),
       end_time: new Date().toString(),
       user_id: '',
       number: 1,
-      melb_geo: 'https://api.myjson.com/bins/udv2g',
+      skip: 0,
+      melb_geo: 'https://data.gov.au/geoserver/vic-local-government-areas-psma-administrative-boundaries/wfs?request=GetFeature&typeName=ckan_bdf92691_c6fe_42b9_a0e2_a4cd716fa811&outputFormat=json',
       tags: null,
       selections: [
         { key: 'lust', text: 'Lust', value: 'lust' },
@@ -128,19 +147,24 @@ export default {
         { key: 'text', text: 'Text', value: 'text' },
         { key: 'sentiment', text: 'Sentiment', value: 'sentiment' }
       ],
-
     }
   },
 
   mounted () {
     this.mapInit()
     this.mapBuild()
+    this.machineDatacollection_lust = {
+          labels: ['Teen','Big','Japanese','Nurse'],
+          datasets: [
+            {
+              label: 'Lust',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',4) ,
+              data: [1,2,3,4]
+            }
+          ]
+        }
   },
-
-  created: function(){
-
-  },
-
+  
   methods: {
     // ========================== Init Map ===================================================
     mapInit(){
@@ -151,7 +175,7 @@ export default {
         styles: mapStyle
       })  
     },
-    // ========================== Build Map ====================================================
+    // ========================== Build Map ==================================================
     mapBuild(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
@@ -172,7 +196,7 @@ export default {
       // set style for each region
       map.data.loadGeoJson(this.melb_geo)
       map.data.setStyle((feature) => {
-        let total = feature.getProperty('cartodb_id')
+        let total = feature.getProperty('total')
         let name = feature.getProperty('name')
         //let tags = feature.getProperty('tags')
         if (!this.barDataLabel.includes(name)){
@@ -180,10 +204,6 @@ export default {
           this.barData.push(total)
         }
        
-        // let details = feature.getProperty('detail')
-        // for (let detail in details) {
-        //   locations.push([detail.tag,detail.coordinates[0],detail.coordinates[1]]) 
-        // }
         let color = total > 30 ? 'white' : 'gray'
         return {
           fillColor: color,
@@ -196,12 +216,8 @@ export default {
         labels: this.barDataLabel,
         datasets: [
           {
-            label: 'Lust',
+            label: 'Total',
             backgroundColor: '#ff9900',
-            data: this.barData
-          }, {
-            label: 'Gluttony',
-            backgroundColor: '#DC143C',
             data: this.barData
           }
         ]
@@ -228,7 +244,7 @@ export default {
       }
 
       let icon3 = {
-        path: Const.svg_warth,
+        path: Const.svg_neutral,
         fillColor: '#ff9900',
         fillOpacity: 1,
         anchor: new google.maps.Point(250,250),
@@ -256,7 +272,7 @@ export default {
 
       let myFoodMark = {lat: -37.8036, lng: 144.9631}
       let myLustMark = {lat: -37.8136, lng: 144.9631}
-      let myWarthMark = {lat: -37.8036, lng: 144.9531}
+      let myNormalMark = {lat: -37.8036, lng: 144.9531}
       let myPositiveMark = {lat: -37.8136, lng: 144.9731}
       let myNegativeMark = {lat: -37.8236, lng: 144.9631}
 
@@ -277,10 +293,10 @@ export default {
       })
 
       let warthMark = new google.maps.Marker({
-        position: myWarthMark,
+        position: myNormalMark,
         map: map,
         animation: google.maps.Animation.BOUNCE,
-        title: 'Hello Warth!',
+        title: 'Hello Normal!',
         icon: icon3
       })
 
@@ -312,69 +328,67 @@ export default {
         infowindow.open(map, positiveMark)
       })
 
-      //======================== Setup each mark ==========================
-      /*
-      // set marks on the map
-      for (i = 0; i < locations.length; i++) {  
-        marker = new google.maps.Marker({
-          position: new google.maps.LatLng(locations[i][1], locations[i][2]), 
-          map: map,
-          visible: true, // or false. Whatever you need.
-          icon: locations[i][3],
-          zIndex: 10,
-          visible: false
-        });
-        // Open marker on mouseover
-        google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-          return function() {
-            infowindow.setContent(locations[i][0])
-            infowindow.open(map, marker)
-          }
-        })(marker, i))
-        markers.push(marker) // save all markers
-      }
-
-      // Change markers on zoom
-      google.maps.event.addListener(map, 'zoom_changed', function() {
-          var zoom = map.getZoom();
-          // iterate over markers and call setVisible
-          for (i = 0; i < locations.length; i++) {
-              markers[i].setVisible(zoom >= 15);
-          }
-      });
-      */
-
-      google.maps.event.addListener(map, 'zoom_changed', () => {
-        let zoom = map.getZoom()
-        // iterate over markers and call setVisible
-        lustMark.setVisible(zoom >= 15)
-      })
-
       // mouse click event: show grid info
       map.data.addListener('click', (event) => {
         // prepare data
         let name = event.feature.getProperty("name")
-        // let infoPieData = [] 
-        // let infoPieName = []
-        // let total = event.feature.getProperty("total")
-        // let tags = event.feature.getProperty("tag")
-        // for (let tag in tags) {
-        //    infoPieData.push(tag.count)
-        //    infoPieData.push(tag.name)
-        //}
+        let statistics = event.feature.getProperty("statistcs")
+ 
+        let infoPieDataSentiment = [] 
+        let infoPieNameSentiment = []
+        let infoPieData = []
+        let infoPieName = []
+        let temp = 'sentiment'
+
+        for (const [key, value] of Object.entries(statistics.sentiment)) {
+          infoPieNameSentiment.push(key)
+          infoPieDataSentiment.push(value)
+        }
+
+        for (const [key, value] of Object.entries(statistics)) {
+          if (key != temp){
+            for(const [inner_key, inner_value] of Object.entries(value)) {
+              infoPieName.push(inner_key)
+              infoPieData.push(inner_value)
+            }
+          }
+        }
+
         // set all chart data here
-        let data1 = 1, data2 = 2, data3 = 3, data4 = 4
-        let infoPieData = [data1, data2, data3, data4]
+        let pieDatacollection_sentiment = {
+          labels: infoPieNameSentiment,
+          datasets: [
+            {
+              label: 'Sentiment',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',infoPieDataSentiment.length) ,
+              data: infoPieDataSentiment
+            }
+          ]
+        }
+
+        let pieDatacollection = {
+          labels: infoPieName,
+          datasets: [
+            {
+              label: 'Sin',
+              backgroundColor: this.gradient('#F5F5F5','ff9900',infoPieData.length) ,
+              data: infoPieData
+            }
+          ]
+        }
+        
         // init infowindow with customized view
         let InfoWindow = Vue.extend(InfoWindowComponent)
-
+        
         // send data to the view
         let instance = new InfoWindow({
           propsData: {
             name,
-            infoPieData: infoPieData,
+            pieDatacollection_sentiment,
+            pieDatacollection
           }
         })
+        
         instance.$mount()
 
         infowindow.setContent(instance.$el)
@@ -396,46 +410,102 @@ export default {
       })
     },
 
-    // ====================== Get Map/Chart Data =====================
-    mapBuildTime() {
+    // ====================== Get Map Data ==================================================
+    mapBuildZone(zone) {
       this.visible = true
-      let sDate = new Date(this.start_time)
-      let eDate = new Date(this.end_time)
-      
-      let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
-          end_time = this.toISOLocal(eDate).replace(/T/g, " ")
-
-      if (start_time.includes('NaN') || end_time.includes('NaN'))
-        this.flash('Time must be selected', 'error')
-      else {  
-        let data = {
-          start_time,
-          end_time,
-          tags: this.tags,
-        }
-      
-        console.log(data)
-
-        this.$ajax({
-          url: `/api/statistics/time/`,
-          method: 'POST',
-          data: data
-        }).then(res => {
-            this.melb_geo = res.data.melb_geo,
-            this.visible = false,
-            console.log(this.melb_geo),
-            // re-render the map here
-            this.mapBuild()
-          })
-          .catch(error => {
-            this.visible = false,
-            this.flash(`${error}`, 'error'),
-            this.errored = true
-        })   
-      }  
+      this.$ajax({
+        url: zone,
+        method: 'GET',
+      }).then(res => {
+          this.melb_geo = res.data.url,
+          this.visible = false,
+          console.log(this.melb_geo),
+          // re-render the map here
+          this.flash('success', 'success',{timeout: 3000}),
+          this.mapBuild()
+        })
+        .catch(error => {
+          this.visible = false,
+          this.flash(`${error}`, 'error'),
+          this.errored = true
+      })    
     },
 
-    // ====================== Track 1 User by ID =====================
+    // ====================== Get Machine Learning Data =================================================
+    chartBuildMachine() {
+      this.visilbe = true
+      this.$ajax({
+        url: '/api/statistics/machine/',
+        method: 'GET',
+      }).then(res => {
+        console.log(res)
+        this.machineDatacollection_lust = {
+          labels: res.data,
+          datasets: [
+            {
+              label: 'Lust',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
+              data: res.data
+            }
+          ]
+        }
+        this.machineDatacollection_gluttony = {
+          labels: res.data,
+          datasets: [
+            {
+              label: 'Gluttony',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
+              data: res.data
+            }
+          ]
+        }
+        this.visible = false
+      })
+      .catch(error => {
+        this.visible = false,
+        this.flash(`${error}`, 'error'),
+        this.errored = true
+      }) 
+    },
+
+    // ====================== Get NLP Learning Data =================================================
+    chartBuildText() {
+      this.visilbe = true
+      this.$ajax({
+        url: '/api/statistics/text/',
+        method: 'GET',
+      }).then(res => {
+        console.log(res)
+        this.textDatacollection = {
+          labels: res.data,
+          datasets: [
+            {
+              label: 'Lust',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()) ,
+              data: res.data
+            }
+          ]
+        }
+        this.sentimentDatacollection = {
+          labels: res.data,
+          datasets: [
+            {
+              label: 'Sentiment',
+              backgroundColor: this.gradient('#F5F5F5','ff9900', res.data.length()),
+              data: res.data
+            }
+          ]
+        }
+        this.visible = false
+      })
+      .catch(error => {
+        this.visible = false,
+        this.flash(`${error}`, 'error'),
+        this.errored = true
+      }) 
+    },
+
+    // ====================== Track 1 User by ID =============================================
     mapBuildTrack(){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -449,9 +519,9 @@ export default {
       let path = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
-      
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
+      let noData = false
 
       if (start_time.includes('NaN') || end_time.includes('NaN'))
         start_time = end_time = null
@@ -462,7 +532,7 @@ export default {
         tags: this.tags,
         skip: 0,
         threshold: 0.9,
-        single: 50  
+        single: 20
       }
         
       console.log(data)
@@ -472,20 +542,33 @@ export default {
         method: 'POST',
         data: data
       }).then(res => {
+
         console.log(res.data)
+        
         if (Object.keys(res.data).length === 0)
           this.flash('no data match current query', 'error')
-        
+          noData = true
+
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
             lng: value[0].geo[0]
           }
-          let path = []
+          
           path.push(point)
+          let svg_icon = Const.svg_neutral
+
+          if (value[0].tags.sentiment){
+            if (value[0].tags.sentiment[0] == 'positive'){
+              svg_icon = Const.svg_positive
+            }
+            if (value[0].tags.sentiment[0] == 'negative'){
+              svg_icon = Const.svg_negative
+            }
+          }
 
           let icon = {
-            path: Const.svg_lust,
+            path: svg_icon,
             fillColor: '#ff9900',
             fillOpacity: 1,
             anchor: new google.maps.Point(250,250),
@@ -503,9 +586,9 @@ export default {
           let tag_content = ''
 
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
-            for (let m = 0; m < subTags.length;m ++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-            }
+            subTags.forEach(element => {
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${element}</button>`
+            })
           }
 
           marker.addListener('click', () => {
@@ -517,34 +600,44 @@ export default {
             infowindow.open(map, marker)
           })
 
-          for (let i = 1; i < value.length; i++) {
+          value.slice(1).forEach((track) => {
+            svg_icon = Const.svg_neutral
+            if (track.tags.sentiment){
+              if (track.tags.sentiment[0] == 'positive'){
+                svg_icon = Const.svg_positive
+              }
+              if (track.tags.sentiment[0] == 'negative'){
+                svg_icon = Const.svg_negative
+              }
+            }
+
             let icon_sm= {
-              path: Const.svg_lust,
+              path: svg_icon,
               fillColor: '#ff9900',
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
               strokeWeight: 0, 
-              scale: .03
+              scale: .05
             }
 
             point = {
-              lat: value[i].geo[1], 
-              lng: value[i].geo[0]
+              lat: track.geo[1], 
+              lng: track.geo[0]
             }
 
             let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time
+              title: track.time
             })
 
             tag_content = ''
 
-            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
-              for (let m = 0; m < subTags.length;m ++){
-                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-              }
+            for (const [mainTag, subTags] of Object.entries(track.tags)){
+              subTags.forEach(tag => {
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+              })
             }
 
             marker.addListener('click', () => {
@@ -557,7 +650,7 @@ export default {
             })
 
             path.push(point)
-          }
+          })
         }
       }).then(() => {
         let trackPath = new google.maps.Polyline({
@@ -567,7 +660,16 @@ export default {
           strokeOpacity: 1.0,
           strokeWeight: 2,
         })
+        google.maps.event.addListener(trackPath, 'mouseover', () => {
+          trackPath.setOptions({strokeWeight: 4})
+        })
+        google.maps.event.addListener(trackPath, 'mouseout', () => {
+          trackPath.setOptions({strokeWeight: 2})
+        })
         trackPath.setMap(map)
+        if (noData == false)
+          this.flash('tracking success', 'success',{timeout: 3000})
+          this.flash('tracking success', 'success',{timeout: 3000})
         this.visible = false
       }).catch(error => {
         this.flash(`${error}`, 'error'),
@@ -576,6 +678,7 @@ export default {
       })
     },
 
+    // ====================== Track random n users ===========================================
     mapBuildTrackN() {
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -590,6 +693,7 @@ export default {
       let colors = []
       let sDate = new Date(this.start_time)
       let eDate = new Date(this.end_time)
+      let noData = false
       
       let start_time = this.toISOLocal(sDate).replace(/T/g, " "),
           end_time = this.toISOLocal(eDate).replace(/T/g, " ")
@@ -601,9 +705,9 @@ export default {
         start_time: '2016-01-09 10:00:00+1000',
         end_time: '2016-10-09 10:00:00+1000',
         tags: this.tags,
-        skip: 0,
+        skip: parseInt(this.skip),
         threshold: 0.9,
-        single: 50  
+        single: 20  
       }
 
       console.log(data)
@@ -615,21 +719,32 @@ export default {
       }).then(res => {
         if (Object.keys(res.data).length === 0)
           this.flash('no data match current query', 'error')
+          noData = true
         
         console.log(res.data)
+
         for (const [key, value] of Object.entries(res.data)) {
           let point = {
             lat: value[0].geo[1], 
             lng: value[0].geo[0]
           }
-          console.log(point)
           let color = this.getRandomColor()
           let path = []
           path.push(point)
           colors.push(color)
+          let svg_icon = Const.svg_neutral
 
+          if (value[0].tags.sentiment){
+            if (value[0].tags.sentiment[0] == 'positive'){
+              svg_icon = Const.svg_positive
+            }
+            if (value[0].tags.sentiment[0] == 'negative'){
+              svg_icon = Const.svg_negative
+            }
+          }
+          
           let icon = {
-            path: Const.svg_lust,
+            path: svg_icon,
             fillColor: color,
             fillOpacity: 1,
             anchor: new google.maps.Point(250,250),
@@ -646,15 +761,11 @@ export default {
 
           let tag_content = ''
 
-          console.log(value[0].tags)
-
           for (const [mainTag, subTags] of Object.entries(value[0].tags)){
-            for (let m = 0; m < subTags.length;m ++){
-              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-            }
+            subTags.forEach(tag => {
+              tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+            })
           }
-
-          console.log(tag_content)
 
           marker.addListener('click', () => {
             let content = '<div id="content" style="min-width:150px;">'+
@@ -665,34 +776,44 @@ export default {
             infowindow.open(map, marker)
           })
 
-          for (let i = 1; i < value.length; i++) {
+          value.slice(1).forEach((track) => {
+            svg_icon = Const.svg_neutral
+            if (track.tags.sentiment){
+              if (track.tags.sentiment[0] == 'positive'){
+                svg_icon = Const.svg_positive
+              }
+              if (track.tags.sentiment[0] == 'negative'){
+                svg_icon = Const.svg_negative
+              }
+            }
+
             let icon_sm= {
-              path: Const.svg_lust,
+              path: svg_icon,
               fillColor: color,
               fillOpacity: 1,
               anchor: new google.maps.Point(250,250),
               strokeWeight: 0, 
-              scale: .03
+              scale: .05
             }
 
             point = {
-              lat: value[i].geo[1], 
-              lng: value[i].geo[0]
+              lat: track.geo[1], 
+              lng: track.geo[0]
             }
 
             let marker = new google.maps.Marker({
               position: point,
               map: map,
               icon: icon_sm,
-              title: value[i].time
+              title: track.time
             })
 
             let tag_content = ''
 
-            for (const [mainTag, subTags] of Object.entries(value[i].tags)){
-              for (let m = 0; m < subTags.length;m ++){
-                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${subTags[m]}</button>`
-              }
+            for (const [mainTag, subTags] of Object.entries(track.tags)){
+              subTags.forEach(tag => {
+                tag_content = tag_content + `<button class="btn btn-primary btn-dark">${tag}</button>`
+              })
             }
 
             marker.addListener('click', () => {
@@ -705,21 +826,29 @@ export default {
             })
 
             path.push(point)
-          }
+          })
           paths.push(path)
         }
       }).then(() => {
-        console.log(paths)
-        for (let j = 0; j < paths.length; j++) {
+        paths.forEach((path,j) => {
           let trackPath = new google.maps.Polyline({
-            path: paths[j],
+            path: path,
             geodesic: true,
             strokeColor: colors[j],
             strokeOpacity: 1.0,
             strokeWeight: 2,
           })
+          google.maps.event.addListener(trackPath, 'mouseover', () => {
+            trackPath.setOptions({strokeWeight: 4})
+          })
+          google.maps.event.addListener(trackPath, 'mouseout', () => {
+            trackPath.setOptions({strokeWeight: 2})
+          })
           trackPath.setMap(map)
-        }
+        })
+        if (noData == false)
+          this.flash(`${paths.length} users found`, 'success',{timeout: 3000})
+          this.flash(`${paths.length} users found`, 'success',{timeout: 3000})
         this.visible = false
       }).catch(error => {
         console.log(error)
@@ -729,6 +858,7 @@ export default {
       })
     },
 
+    // ====================== Time formatter =================================================
     toISOLocal(d) {
       let z = n => (n<10? '0':'')+n;
       let off = d.getTimezoneOffset();
@@ -740,6 +870,7 @@ export default {
             ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
     },
 
+    // ====================== Color generator ================================================
     getRandomColor() {
       const letters = '0123456789ABCDEF';
       let color = '#';
@@ -747,7 +878,35 @@ export default {
         color += letters[Math.floor(Math.random() * 16)];
       }
       return color;
-    }   
+    },
+
+    rgbToHex(r, g, b) {
+      var hex = ((r<<16) | (g<<8) | b).toString(16);
+      return "#" + new Array(Math.abs(hex.length-7)).join("0") + hex;
+    },
+
+    hexToRgb(hex) {
+      var rgb = [];
+      for(var i=1; i<7; i+=2){
+        rgb.push(parseInt("0x" + hex.slice(i,i+2)));
+      }
+      return rgb;
+    },
+
+    gradient (startColor,endColor,step) {
+      var sColor = this.hexToRgb(startColor),
+          eColor = this.hexToRgb(endColor);
+
+      var rStep = (eColor[0] - sColor[0]) / step,
+          gStep = (eColor[1] - sColor[1]) / step,
+          bStep = (eColor[2] - sColor[2]) / step;
+
+      var gradientColorArr = [];
+      for(var i=0;i<step;i++){
+          gradientColorArr.push(this.rgbToHex(parseInt(rStep*i+sColor[0]),parseInt(gStep*i+sColor[1]),parseInt(bStep*i+sColor[2])));
+      }
+      return gradientColorArr;
+    }
   }
 }
 </script>
@@ -756,6 +915,17 @@ export default {
 <style>
 @import '~bootstrap/dist/css/bootstrap.css';
 @import '~bootstrap-vue/dist/bootstrap-vue.css';
+#header #logo {
+  background: url("../assets/images/logo_premium.png") center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: transparent;
+  position: fixed;
+  width: 12em;
+  height: 6em;
+  top: 0;
+  left: 3em;
+}
 #gmap {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -773,11 +943,30 @@ export default {
   right: 20px; 
   z-index: 9999; 
   border-radius: 25px;
+  width: 240px;
+}
+#onmap2 {
+  background-color:#ff9900;
+  position: absolute; 
+  top: 250px; 
+  right: 20px; 
+  z-index: 9999; 
+  border-radius: 25px;
+  width: 240px;
 }
 a.anchor {
   display: block;
   position: relative;
   top: -6em;
   visibility: hidden;
+}
+.line{
+  height: 1em;
+  border-bottom: 2px solid rgb(44, 44, 44);
+}
+.divider{
+  width:2em;
+  height:auto;
+  display:inline-block;
 }
 </style>

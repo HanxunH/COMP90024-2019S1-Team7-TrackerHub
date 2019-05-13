@@ -1,9 +1,13 @@
 # coding: utf-8
+"""
+@Author: Lihuan Zhang
+
+This file including the views that used to return statistics results
+"""
 
 import logging
 import ujson
 import time
-from shapely.geometry import shape, point
 
 from django.http import HttpResponse, HttpResponseNotAllowed, HttpResponseBadRequest
 from django.views.decorators.http import require_http_methods
@@ -25,6 +29,9 @@ melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
 @require_http_methods(['POST', 'OPTIONS'])
 @check_api_key
 def statistics_time_router(request, *args, **kwargs):
+    """
+    TODO: Implement the function
+    """
     if request.method == 'POST':
         return statistics_time_get(request)
     elif request.method == 'OPTIONS':
@@ -35,6 +42,9 @@ def statistics_time_router(request, *args, **kwargs):
 @require_http_methods(['POST', 'OPTIONS'])
 @check_api_key
 def statistics_track_router(request, *args, **kwargs):
+    """
+    A router used to check the request is used to track random users or certain user
+    """
     user_id = None
     number = 100
     for arg in args:
@@ -52,6 +62,9 @@ def statistics_track_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def statistics_zone_router(request, *args, **kwargs):
+    """
+    A router used to control the permission
+    """
     for arg in args:
         if isinstance(arg, dict):
             zone = arg.get('zone', None)
@@ -64,6 +77,9 @@ def statistics_zone_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def statistics_zone_vic_router(request, *args, **kwargs):
+    """
+    A router used to control the permission
+    """
     for arg in args:
         if isinstance(arg, dict):
             zone = arg.get('zone', None)
@@ -76,19 +92,30 @@ def statistics_zone_vic_router(request, *args, **kwargs):
 @require_http_methods(['GET'])
 @check_api_key
 def statistics_machine_router(request, *args, **kwargs):
+    """
+    A router used to control the permission
+    """
     if request.method == 'GET':
         return statistics_machine_get(request)
     return HttpResponseNotAllowed()
 
+
 @require_http_methods(['GET'])
 @check_api_key
 def statistics_text_router(request, *args, **kwargs):
+    """
+    A router used to control the permission
+    """
     if request.method == 'GET':
         return statistics_text_get(request)
     return HttpResponseNotAllowed()
 
 
 def statistics_zone_get(request, zone=None):
+    """
+    Return the statistics results according to the zone of Melbourne
+    """
+
     start_timer = time.time()
 
     today = timezone.now().strftime('%Y-%m-%d')
@@ -97,10 +124,13 @@ def statistics_zone_get(request, zone=None):
     melb_json = ujson.load(open(BASE_DIR + '/backend/common/melb_geo.json'))
 
     try:
+        # Check if there is a cached results
         if json_storage_handler.find(json_name):
             timer = (time.time() - start_timer)
             influxdb_handler.make_point(key='api/statistics/zone/', method='GET', error='success', prefix='API',
                                         timer=timer)
+
+            # Return cached results directly
             resp = init_http_success()
             resp['data'].update(dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
             return make_json_response(HttpResponse, resp)
@@ -129,6 +159,7 @@ def statistics_zone_get(request, zone=None):
                     results[tweet.key[0]][tweet.key[1]].update({tweet.key[2].split('.')[1]: tweet.value})
                 continue
             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
+
     for result in results:
         total = 0
         for melb_zone in melb_json['features']:
@@ -144,6 +175,7 @@ def statistics_zone_get(request, zone=None):
                         total += results[result]['text'][item]
                 melb_zone['properties'].update(dict(statistcs=results[result], total=total))
 
+    # Upload the results to Nectar Object Storage as cache
     json_file = ujson.dumps(melb_json)
     try:
         json_storage_handler.upload(json_name, json_file)
@@ -159,6 +191,10 @@ def statistics_zone_get(request, zone=None):
 
 
 def statistics_zone_vic_get(request, zone=None):
+    """
+    Return the statistics results according to the zone of Victoria State
+    """
+
     start_timer = time.time()
 
     today = timezone.now().strftime('%Y-%m-%d')
@@ -167,10 +203,13 @@ def statistics_zone_vic_get(request, zone=None):
     vic_json = ujson.load(open(BASE_DIR + '/backend/common/vic_geo.json'))
 
     try:
+        # Check if there is a cached results
         if json_storage_handler.find(json_name):
             timer = (time.time() - start_timer)
             influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API',
                                         timer=timer)
+
+            # Return cached results directly
             resp = init_http_success()
             resp['data'].update(dict(
                 url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
@@ -217,6 +256,7 @@ def statistics_zone_vic_get(request, zone=None):
                 vic_zone['properties'].update(dict(name=result))
                 vic_zone['properties'].update(dict(statistcs=results[result], total=total))
 
+    # Upload the results to Nectar Object Storage as cache
     json_file = ujson.dumps(vic_json)
     try:
         json_storage_handler.upload(json_name, json_file)
@@ -233,12 +273,16 @@ def statistics_zone_vic_get(request, zone=None):
 
 
 def statistics_machine_get(request):
+    """
+    Return the statistics results of Machine Learning
+    """
     start_timer = time.time()
 
     today = timezone.now().strftime('%Y-%m-%d')
     json_name = 'machine\\{}.json'.format(today)
 
     try:
+        # Check if there is a cached results
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
 
@@ -277,6 +321,7 @@ def statistics_machine_get(request):
     gluttony = dict(key=gluttony.keys(), value=gluttony.values())
     results = dict(lust=lust, gluttony=gluttony)
 
+    # Upload the results to Nectar Object Storage as cache
     json_file = ujson.dumps(results)
     try:
         json_storage_handler.upload(json_name, json_file)
@@ -292,12 +337,17 @@ def statistics_machine_get(request):
 
 
 def statistics_text_get(request):
+    """
+    Return the statistics results for Natural Language Process
+    """
+
     start_timer = time.time()
 
     today = timezone.now().strftime('%Y-%m-%d')
     json_name = 'text\\{}.json'.format(today)
 
     try:
+        # Check if there is a cached results
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
 
@@ -327,12 +377,14 @@ def statistics_text_get(request):
             sentiment.update({result: results[result]})
         else:
             text.update({result: results[result]})
+
     sentiment = dict(sorted(sentiment.items(), key=lambda item: item[1], reverse=True))
     text = dict(sorted(text.items(), key=lambda item: item[1], reverse=True))
     sentiment = dict(key=sentiment.keys(), value=sentiment.values())
     text = dict(key=text.keys(), value=text.values())
     results = dict(text=text, sentiment=sentiment)
 
+    # Upload the results to Nectar Object Storage as cache
     json_file = ujson.dumps(results)
     try:
         json_storage_handler.upload(json_name, json_file)
@@ -348,16 +400,7 @@ def statistics_text_get(request):
 
 
 def statistics_time_get(request):
-    key = ['start_time', 'end_time', 'tags']
-    content = ujson.loads(request.body)
-    content = make_dict(key, content)
-
-    # print(melb_json)
-
-    if 'start_time' in content:
-        start_time = parse_datetime(content['start_time']).astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
-    if 'end_time' in content:
-        end_time = parse_datetime(content['end_time']).astimezone(timezone.utc).strftime('%Y-%m-%d %H:%M:%S%z')
+    pass
 
 
 def upload_statistics_file():
@@ -369,6 +412,10 @@ def down_statistics_file(request):
 
 
 def statistics_track_get(request, user_id=None, number=100):
+    """
+    This function is used to track one user of random user
+    """
+
     def process_tag(tags):
         result_tags = {}
         for tag in tags:
@@ -414,9 +461,11 @@ def statistics_track_get(request, user_id=None, number=100):
                                  None if not end_time else end_time.replace(' ', '-'), today)
 
     try:
+        # Check if there is a cached results
         result_file = json_storage_handler.download(json_name)
         results = ujson.load(result_file)
 
+        # Process the cached results to meet the input parameter requirement
         results = dict(tuple(results.items())[skip: skip + number])
         for user in results:
             new_tweet = []
@@ -448,6 +497,7 @@ def statistics_track_get(request, user_id=None, number=100):
     except Exception as e:
         pass
 
+    # Avoid possible query timeout
     while True:
         try:
             current_db = tweet_couch_db.get_current_database()
@@ -463,6 +513,7 @@ def statistics_track_get(request, user_id=None, number=100):
             logger.debug('Query Timeout %s' % e)
             influxdb_handler.make_point(key='api/statistics/track/:user_id/', method='GET', error=500, prefix='API')
             continue
+
     results = {}
     geo_exists = {}
     for tweet in tweets:
@@ -486,6 +537,7 @@ def statistics_track_get(request, user_id=None, number=100):
     for user in results:
         results[user].sort(key=lambda x: x.get('time'))
 
+    # Upload the origin query results to Nectar Object Storage as cache
     json_file = ujson.dumps(results)
     try:
         json_storage_handler.upload(json_name, json_file)
@@ -493,6 +545,7 @@ def statistics_track_get(request, user_id=None, number=100):
         json_storage_handler.reconnect()
         json_storage_handler.upload(json_name, json_file)
 
+    # Process the results according th input parameters
     results = dict(tuple(results.items())[skip: skip + number])
     for user in results:
         new_tweet = []

@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+"""
+@Author: Lihuan Zhang
+
+This handler is used to operate CouchDB
+"""
 
 import couchdb
 import logging
@@ -11,7 +16,9 @@ logger = logging.getLogger('django.debug')
 
 
 class CouchDbHandler(object):
-
+    """
+    This handler is used to communicate with couchdb server
+    """
     server = None
     database = dict()
     status = True
@@ -53,7 +60,9 @@ class CouchDbHandler(object):
 
 
 class CouchDBBalancer(object):
-
+    """
+    Distribute the access to different couchdb nodes
+    """
     servers = []
     databases = []
     domains = []
@@ -103,55 +112,7 @@ couch_db_banlancer.connect_database(COUCHDB_TWEET_DB)
 
 
 if __name__ == '__main__':
-
-    # mango = {
-    #     'selector': {
-    #         'geo': {
-    #             '$ne': []
-    #         }
-    #     },
-    #     'use_index': '_design/with_geo_and_tags',
-    # }
-    #
-    # couch_db = couch_db_banlancer.view()
-    # tweets = couch_db.view('with_geo_and_tags/with_geo_and_tags', stale='ok', limit=20)
-    #
-    # print(tweets)
-    # for tweet in tweets:
-    #     print(tweet)
-
-    # tweet_database = couch_db_handler.get_database(COUCHDB_TWEET_DB)
-    # index = tweet_database.index()
-    # index[None, 'datetime'] = [{'date': 'asc'}]
-    # list(index)
-
     tweet_database = couch_db_banlancer.get_current_database()
-    # tweet_database.compact()
-    # tweets = tweet_database.view('statistics/vic_zone_tags', stale='ok', group=True, group_level=4)
-    # results = dict()
-    # for tweet in tweets:
-    #     if tweet.key[0] not in results:
-    #         results.update({tweet.key[0]: {}})
-    #     if tweet.key[1] == 'food179':
-    #         tweet.key[1] = 'food'
-    #     if tweet.key[1] == 'nsfw':
-    #         tweet.key[1] = 'gluttony'
-    #     if tweet.key[1] not in results[tweet.key[0]]:
-    #         results[tweet.key[0]].update({tweet.key[1]: {}})
-    #     if 'sentiment' not in results[tweet.key[0]]:
-    #         results[tweet.key[0]].update(dict(sentiment={}))
-    #     if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
-    #         if 'sentiment.' in tweet.key[2]:
-    #             if tweet.key[2] not in results[tweet.key[0]]['sentiment']:
-    #                 results[tweet.key[0]]['sentiment'].update({tweet.key[2].split('.')[1]: tweet.value})
-    #             else:
-    #                 results[tweet.key[0]]['sentiment'][tweet.key[2]] += tweet.value
-    #             continue
-    #         if tweet.key[2] not in results[tweet.key[0]][tweet.key[1]]:
-    #             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
-    #         else:
-    #             results[tweet.key[0]][tweet.key[1]][tweet.key[2]] += tweet.value
-    # print(results)
     tweets = tweet_database.view('unlearning/zone', stale='ok', limit=200000)
     print(len(tweets))
 

@@ -7,6 +7,6 @@ RUN mkdir /workspace
 WORKDIR /workspace
 ADD . /workspace
 
-RUN python -V
+RUN pip install -r docker_requirements.txt
 
 CMD [ "python", "./stream_analyzer.py"]
