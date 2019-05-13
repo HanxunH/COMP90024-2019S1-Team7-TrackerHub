@@ -16,17 +16,29 @@
 
 ### Spider
 1. Apply for the Twitter Developer API
-2. Run the script regularly（30min?）
+2. Run the script continuously
    1. Grab data
    2. Data preprocessing
    3. Image preprocessing
    4. Save the image to Object Storage (call backend interface)
    5. Twitter content is stored in the first level of CouchDB (call backend interface)
 
+### Natural Language Processing
+1. Model and metrics: Wu-Palmer similarity, NLTK, Profanity, TextBlob
+   1. Implement Wu-Palmer similarity on Wordnet to identify the sexual-suggestion message in tweet text
+   2. Use Profanity package to identify the violent message in tweet text
+   3. Use TextBlob to identify the sentiment of the tweet text
+2. Run the script periodically (once per 30mins)
+   1. Grab data from backend
+   2. Tokenization of tweet text 
+   3. Implement three kinds of analytics on each tweet
+   4. Upload the result to the second level CouchDB (call backend interface)
+
+
 ### Machine Learning
 1. Select model: NSFW, Food Identification
 2. Train model
-3. Run the script regularly (30min?)
+3. Run the script periodically (once per 30mins)
    1. Scan the first level CouchDB (call backend interface)
    2. Retrive pictures from the back end
    3. Image Classification
