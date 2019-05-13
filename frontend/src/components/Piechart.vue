@@ -10,7 +10,6 @@ export default {
     'pieData'
   ],
   mounted () {
-    console.log(this.pieData)
     this.$nextTick(() => {
       // Overwriting base render method with actual data.
       this.renderChart(this.pieData,{
