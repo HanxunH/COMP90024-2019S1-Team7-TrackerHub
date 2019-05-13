@@ -146,7 +146,7 @@ export default {
         { key: 'gluttony', text: 'Gluttony', value: 'gluttony' },
         { key: 'text', text: 'Text', value: 'text' },
         { key: 'sentiment', text: 'Sentiment', value: 'sentiment' }
-      ],
+      ]
     }
   },
 
@@ -157,7 +157,7 @@ export default {
   },
   
   methods: {
-    // ========================== Init Map ===================================================
+    // ========================== Init Map ==================================================
     mapInit(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 13,
@@ -272,7 +272,8 @@ export default {
         infowindow.open(map, positiveMark)
       })
     },
-    // ========================== Build Map ==================================================
+
+    // ========================== Build Map =================================================
     mapBuild(){
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
         zoom: 12,
@@ -297,7 +298,7 @@ export default {
       map.data.setStyle((feature) => {
         let total = feature.getProperty('total')
         let name = feature.getProperty('name')
-        //let tags = feature.getProperty('tags')
+
         if (!this.barDataLabel.includes(name)){
           this.barDataLabel.push(name)
           this.barData.push(total)
@@ -440,7 +441,7 @@ export default {
       })    
     },
 
-    // ====================== Get Machine Learning Data =================================================
+    // ====================== Get Machine Learning Data =====================================
     chartBuildMachine() {
       this.visilbe = true
       this.$ajax({
@@ -476,7 +477,7 @@ export default {
       }) 
     },
 
-    // ====================== Get NLP Learning Data =================================================
+    // ====================== Get NLP Learning Data =========================================
     chartBuildText() {
       this.visilbe = true
       this.$ajax({
@@ -513,7 +514,7 @@ export default {
       }) 
     },
 
-    // ====================== Track 1 User by ID =============================================
+    // ====================== Track 1 User by ID ============================================
     mapBuildTrack(){
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -700,7 +701,7 @@ export default {
       })
     },
 
-    // ====================== Track random n users ===========================================
+    // ====================== Track random n users ==========================================
     mapBuildTrackN() {
       this.visible = true
       let map = new google.maps.Map(document.getElementById('map_canvas'), {
@@ -908,7 +909,7 @@ export default {
             ':' + z(d.getSeconds()) + sign + z(off/60|0) + z(off%60); 
     },
 
-    // ====================== Color generator ================================================
+    // ====================== Color generators ===============================================
     getRandomColor() {
       const letters = '0123456789ABCDEF';
       let color = '#';
