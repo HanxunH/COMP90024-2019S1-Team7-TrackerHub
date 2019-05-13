@@ -1,3 +1,0 @@
-2 tweets has been retrieved and waiting for analysis...
-2 tweets has been analyzed and updateed
-No new data!
