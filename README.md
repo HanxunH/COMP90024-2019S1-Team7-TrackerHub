@@ -32,9 +32,10 @@
    3. Image Classification
    4. Upload the result to the second level CouchDB (call backend interface)
 
-### Hadoop and Operation 
+### Deployment Operation 
 1. Ansible creates 4 hosts with one click
 2. Docker runs 3 CouchDB instances
+3. Ansible controls Docker-compose with services on each instances 
 
 ### Server Arrangement
 
