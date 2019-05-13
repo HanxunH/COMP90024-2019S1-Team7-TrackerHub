@@ -8,7 +8,7 @@
 3. Interface joint debugging
 
 ### BackEnd
-1. Django(8081) -> Nginx reverse proxy port 80 /api
+1. Django(8080) -> Nginx reverse proxy port 80 /api
 2. CouchDB related interface
 3. Object Storage interface
 4. Data query interface
@@ -65,9 +65,9 @@ Server3: 172.26.38.1
 Server4: 172.26.38.11
 
     MachineLearning/
-    Grafana/
-    InfluxDB/
-    Casvisor/
+    Grafana/ grafana/grafana:lastest
+    InfluxDB/ influxdb:lastest
+    cAdvisor/ google/cadvisor:lastest
 
 
    
