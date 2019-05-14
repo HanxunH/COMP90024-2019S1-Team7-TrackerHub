@@ -22,17 +22,18 @@
 #     - role: deploy-backend-and-spider
 #     - role: restart-docker-compose
 
-- hosts: instance3
-  vars_files:
-    - host_vars/remote_vars.yaml
-  gather_facts: true
-  roles:
-    - role: deploy-nlp
-    - role: restart-docker-compose
-
-# - hosts: instance4
+# - hosts: instance3
 #   vars_files:
 #     - host_vars/remote_vars.yaml
 #   gather_facts: true
 #   roles:
-#     - role: deploy-ml-server
+#     - role: deploy-nlp
+#     - role: restart-docker-compose
+
+- hosts: instance4
+  vars_files:
+    - host_vars/remote_vars.yaml
+  gather_facts: true
+  roles:
+    - role: deploy-ml-server
+    - role: restart-docker-compose
