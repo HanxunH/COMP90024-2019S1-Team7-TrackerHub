@@ -17,7 +17,7 @@ Part 3: https://youtu.be/pWH7eOh666s
 https://youtu.be/M5xhnEHwKNg
 
 ### PPT
-https://drive.google.com/file/u/1/d/1Pg8zSXxtOW1jBRYH-GVtV7BWFPFUUH0H/view?usp=sharing
+https://docs.google.com/presentation/d/1Qh8GSjCTdOJmY1ZWcf8TvxqVexH1DuxgqklMqmUXJvs/edit#slide=id.g5173a8b583_0_62
 
 ## Project Structure
 
