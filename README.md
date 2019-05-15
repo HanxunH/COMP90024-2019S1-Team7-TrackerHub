@@ -1,4 +1,11 @@
 # CCC Group 7 
+Team Members:
+
+Hanxun Huang - 975781  
+Haonan Chen - 930614  
+Lihuan Zhang - 945003  
+Xu Wang - 979895  
+Yang Xu - 961717  
 
 ## Project Structure
 
