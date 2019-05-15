@@ -7,6 +7,15 @@ Lihuan Zhang - 945003
 Xu Wang - 979895  
 Yang Xu - 961717  
 
+## Video links
+### Ansible
+Part 1: https://youtu.be/2shxCohju8Q  
+Part 2: https://youtu.be/JHfxmtzU_g4  
+Part 3: https://youtu.be/pWH7eOh666s  
+
+### Frontend presentation
+https://youtu.be/M5xhnEHwKNg
+
 ## Project Structure
 
 ### FrontEnd 
