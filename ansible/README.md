@@ -20,12 +20,18 @@ OGQzOTYwNmRhZjA2ZDY5
 ./launch-nectar-servers.sh
 ```
 
-### 3.Deploy Applications
+### 3.Install Environments
 
 * Network Penetration
 * Install docker
 * Pull source code
-* ~~deploy applications for each server~~
+
+```
+./install-environments.sh
+```
+
+### 4.Deploy Applications
+* deploy applications for each server
 
 ```
 ./deploy-applications.sh
