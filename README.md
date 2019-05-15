@@ -16,6 +16,9 @@ Part 3: https://youtu.be/pWH7eOh666s
 ### Frontend presentation
 https://youtu.be/M5xhnEHwKNg
 
+### PPT
+https://drive.google.com/file/u/1/d/1Pg8zSXxtOW1jBRYH-GVtV7BWFPFUUH0H/view?usp=sharing
+
 ## Project Structure
 
 ### FrontEnd 
