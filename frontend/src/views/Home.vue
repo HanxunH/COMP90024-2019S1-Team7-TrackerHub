@@ -20,7 +20,7 @@
         <p>Xu Wang - 979895</p>
         <p>Yang Xu- 961717</p>
         <p class="button premium" onclick="window.location.href='/map'">
-          <a>Go Premium</a>
+          <a id='premium'>Go Premium</a>
         </p>
       </div>
     </section>
@@ -36,3 +36,8 @@ export default {
 
 
 <style src="./../assets/styles/mystyles.css"></style>
+<style>
+#premium{
+  color: black;
+}
+</style>

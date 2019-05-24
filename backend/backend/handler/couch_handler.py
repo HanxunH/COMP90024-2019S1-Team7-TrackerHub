@@ -113,8 +113,9 @@ couch_db_banlancer.connect_database(COUCHDB_TWEET_DB)
 
 if __name__ == '__main__':
     tweet_database = couch_db_banlancer.get_current_database()
-    tweets = tweet_database.view('unlearning/zone', stale='ok', limit=200000)
-    print(len(tweets))
+    tweets = tweet_database.view('statistics/user_geo', key='Diond408', stale='ok', limit=200000)
+    for tweet in tweets:
+        print(tweet.value['date'])
 
 
 

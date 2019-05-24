@@ -241,7 +241,7 @@ def statistics_zone_vic_get(request, zone=None):
             results[tweet.key[0]][tweet.key[1]].update({tweet.key[2]: tweet.value})
 
     for result in results:
-        total=0
+        total = 0
         for vic_zone in vic_json['features']:
             if vic_zone['properties']['vic_lga__3'] == result:
                 if 'gluttony' in results[result]:
@@ -265,7 +265,8 @@ def statistics_zone_vic_get(request, zone=None):
         json_storage_handler.upload(json_name, json_file)
 
     timer = (time.time() - start_timer)
-    influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API', timer=timer)
+    influxdb_handler.make_point(key='api/statistics/zone/vic/', method='GET', error='success', prefix='API',
+                                timer=timer)
     resp = init_http_success()
     resp['data'].update(
         dict(url='http://172.26.38.1:8080/api/statistics/file/%s/' % json_name))
@@ -287,7 +288,8 @@ def statistics_machine_get(request):
         results = ujson.load(result_file)
 
         timer = (time.time() - start_timer)
-        influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API', timer=timer)
+        influxdb_handler.make_point(key='api/statistics/machine/', method='GET', error='success', prefix='API',
+                                    timer=timer)
         resp = init_http_success()
         resp['data'] = results
         return make_json_response(HttpResponse, resp)
@@ -352,7 +354,8 @@ def statistics_text_get(request):
         results = ujson.load(result_file)
 
         timer = (time.time() - start_timer)
-        influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API', timer=timer)
+        influxdb_handler.make_point(key='api/statistics/text/', method='GET', error='success', prefix='API',
+                                    timer=timer)
         resp = init_http_success()
         resp['data'] = results
         return make_json_response(HttpResponse, resp)
@@ -472,9 +475,9 @@ def statistics_track_get(request, user_id=None, number=100):
             for tweet in results[user]:
                 result_tag = {}
 
-                if user_id:
-                    if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                        continue
+                if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
+                        end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
+                    continue
                 for tag in tweet['tags']:
                     if tag in target_tag or tweet['tags'][tag] in target_tag:
                         result_tag.update({tag: tweet['tags'][tag]})
@@ -502,11 +505,17 @@ def statistics_track_get(request, user_id=None, number=100):
         try:
             current_db = tweet_couch_db.get_current_database()
             if not user_id:
-                tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
-                                         stale='ok', limit=100000)
+                if start_time and end_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, endkey=end_time,
+                                             stale='ok', limit=100000)
+                elif start_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', startkey=start_time, stale='ok', limit=100000)
+                elif end_time:
+                    tweets = current_db.view('statistics/time_geo_all_tags', endkey=end_time, stale='ok', limit=100000)
+                else:
+                    tweets = current_db.view('statistics/time_geo_all_tags', stale='ok', limit=100000)
             else:
-                tweets = current_db.view('statistics/user_geo', startkey=user_id, endkey=user_id, stale='ok',
-                                         limit=single)
+                tweets = current_db.view('statistics/user_geo', key=user_id, stale='ok', limit=single)
             tweets = [tweet.value for tweet in tweets]
             break
         except Exception as e:
@@ -521,7 +530,7 @@ def statistics_track_get(request, user_id=None, number=100):
         results.update({user: []}) if user not in results else None
         geo_exists.update({user: []}) if user not in geo_exists else None
 
-        if tweet.get('geo') not in geo_exists[user] and len(results[user]) < 150:
+        if user_id or (tweet.get('geo') not in geo_exists[user] and len(results[user]) < 150):
             geo_exists[user].append(tweet.get('geo'))
             results[user].append(dict(
                 time=parse_datetime(tweet.get('date')).astimezone(timezone.get_current_timezone()).strftime(
@@ -532,7 +541,6 @@ def statistics_track_get(request, user_id=None, number=100):
             ))
             if user_id:
                 results[user][-1].update(dict(text=tweet.get('text')))
-
     results = dict(sorted(results.items(), key=lambda item: len(item[1]), reverse=True))
     for user in results:
         results[user].sort(key=lambda x: x.get('time'))
@@ -551,10 +559,10 @@ def statistics_track_get(request, user_id=None, number=100):
         new_tweet = []
         for tweet in results[user]:
             result_tag = {}
-
-            if user_id:
-                if (start_time and tweet['time'] < start_time) or (end_time and tweet['time'] > end_time):
-                    continue
+            # print(tweet)
+            if user_id and ((start_time and parse_datetime(tweet['time']) < parse_datetime(start_time)) or (
+                    end_time and parse_datetime(tweet['time']) > parse_datetime(end_time))):
+                continue
             for tag in tweet['tags']:
                 if tag in target_tag or tweet['tags'][tag] in target_tag:
                     result_tag.update({tag: tweet['tags'][tag]})
