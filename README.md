@@ -1,11 +1,10 @@
 # CCC Group 7 
 Team Members:
-
-Hanxun Huang - 975781  
-Haonan Chen - 930614  
-Lihuan Zhang - 945003  
-Xu Wang - 979895  
-Yang Xu - 961717  
+* [Hanxun Huang - 975781](https://github.com/HanxunHuangLemonBear)
+* [Haonan Chen - 930614](https://github.com/seanmoore0707)
+* [Lihuan Zhang - 945003](https://github.com/LikwunCheung)
+* [Xu Wang - 979895](https://github.com/cn-wx)
+* [Yang Xu - 961717](https://github.com/EggTronic)
 
 ## Video links
 ### Ansible
