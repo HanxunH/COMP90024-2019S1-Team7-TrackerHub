@@ -3,7 +3,7 @@ certifi==2019.3.9
 chardet==3.0.4
 CouchDB==1.2
 debtcollector==1.21.0
-Django==2.2
+Django==2.2.24
 idna==2.8
 influxdb==5.2.2
 iso8601==0.1.12
