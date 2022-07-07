@@ -14,7 +14,7 @@
     "core-js": "^2.6.5",
     "jquery": "^3.4.0",
     "luxon": "^1.13.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-vue": "^0.8.1",
     "vue": "^2.6.6",
